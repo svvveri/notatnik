@@ -6,10 +6,15 @@ const CFG=window.NT_CONFIG||{};
 const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}};
 const DRIVE='https://www.googleapis.com/drive/v3',UP='https://www.googleapis.com/upload/drive/v3',SCOPE='https://www.googleapis.com/auth/drive.file';
 const MODE=CFG.clientId?'drive':'local';
+/* wersja układu danych: po zmianie nazwy folderu na !Teksty wyczyść zapamiętane stare identyfikatory (stary folder „Notatnik tekstów”) */
+if(ls('nt-schema')!=='3'){['nt-cache','nt-fid','nt-ver','nt-folder'].forEach(k=>ls(k,null));ls('nt-schema','3')}
 const Store={map:new Map(),tomb:{},fileId:ls('nt-fid'),ver:ls('nt-ver'),folder:ls('nt-folder'),listeners:new Set(),dirty:false,seq:0,syncing:false,needsAuth:false,timer:null};
 const $=s=>document.querySelector(s);
 
 /* ---- status ---- */
+function diag(t){const e=$('#diag');if(!e)return;e.hidden=!t;e.textContent=t||''}
+window.addEventListener('error',e=>diag('Błąd w aplikacji: '+(e.message||'nieznany')));
+window.addEventListener('unhandledrejection',e=>diag('Błąd w aplikacji: '+((e.reason&&e.reason.message)||e.reason||'nieznany')));
 function status(text,cls,click){const e=$('#sync');if(!e)return;e.textContent=text;e.className='syncp '+(cls||'');e.onclick=click||null;e.disabled=!click}
 
 /* ---- cache lokalny (praca offline) ---- */
@@ -35,7 +40,9 @@ const Auth={tok:null,exp:0,client:null,_res:null,_rej:null,
   request(prompt){return new Promise((res,rej)=>{
     if(!window.google||!google.accounts||!google.accounts.oauth2)return rej(new Error('Brak połączenia z Google (offline?)'));
     if(!this.client)this.client=google.accounts.oauth2.initTokenClient({client_id:CFG.clientId,scope:SCOPE,
-      callback:r=>{if(r.error){this._rej&&this._rej(r);return}this.tok=r.access_token;this.exp=Date.now()+(r.expires_in-60)*1000;ls('nt-tok',JSON.stringify({t:this.tok,exp:this.exp}));this._res&&this._res(this.tok)},
+      callback:r=>{if(r.error){this._rej&&this._rej(r);return}
+        if(google.accounts.oauth2.hasGrantedAllScopes&&!google.accounts.oauth2.hasGrantedAllScopes(r,SCOPE)){this._rej&&this._rej({error:'brak_uprawnien'});return}
+        this.tok=r.access_token;this.exp=Date.now()+(r.expires_in-60)*1000;ls('nt-tok',JSON.stringify({t:this.tok,exp:this.exp}));this._res&&this._res(this.tok)},
       error_callback:e=>this._rej&&this._rej(e)});
     this._res=res;this._rej=rej;this.client.requestAccessToken({prompt:prompt||''})})}};
 try{const s=JSON.parse(ls('nt-tok')||'null');if(s&&s.exp>Date.now()+60000){Auth.tok=s.t;Auth.exp=s.exp}}catch(e){}
@@ -44,12 +51,17 @@ async function gfetch(url,opt){opt=opt||{};if(!Auth.valid())throw authErr();
   const r=await fetch(url,{...opt,headers:{...(opt.headers||{}),Authorization:'Bearer '+Auth.tok}});
   if(r.status===401){Auth.tok=null;ls('nt-tok',null);throw authErr()}
   if(!r.ok){const tx=await r.text();throw new Error('Dysk '+r.status+': '+tx.slice(0,140))}return r}
+const BLAD={brak_uprawnien:'Nie zaznaczyłeś uprawnienia do plików na Dysku. Zaloguj ponownie i zostaw zaznaczone pole „Wyświetlaj i zarządzaj plikami utworzonymi przez tę aplikację”.',
+  popup_failed_to_open:'Przeglądarka zablokowała okienko logowania Google. Wyłącz blokowanie wyskakujących okien (iPhone: Ustawienia → Safari → Blokuj wyskakujące okna) i spróbuj ponownie.',
+  popup_closed:'Okienko logowania zostało zamknięte przed zakończeniem. Spróbuj jeszcze raz i dokończ logowanie.',
+  access_denied:'Google odmówiło dostępu. Sprawdź, czy logujesz się kontem dodanym jako użytkownik testowy (svvveri@gmail.com).'};
+function blad(e){const k=e&&(e.type||e.error);return BLAD[k]||('Nie udało się zalogować ('+(k||(e&&e.message)||'błąd')+').')}
 async function connect(){status('☁ łączę…','');
-  try{await Auth.request('');Store.needsAuth=false;hideLogin();await syncNow(true)}
-  catch(e){showLogin('Nie udało się zalogować ('+(e&&(e.type||e.error||e.message)||'błąd')+'). Spróbuj jeszcze raz.')}}
+  try{await Auth.request(Auth.neverOk?'consent':'');Auth.neverOk=false;Store.needsAuth=false;hideLogin();diag('');await syncNow(true)}
+  catch(e){Auth.neverOk=true;showLogin(blad(e));diag(blad(e));status('☁ połącz z Dyskiem','warn',connect)}}
 function showLogin(msg){const l=$('#login');if(l){l.hidden=false;const m=$('#loginMsg');if(m&&msg)m.textContent=msg}}
 function hideLogin(){const l=$('#login');if(l)l.hidden=true}
-function needLogin(){Store.needsAuth=true;status('☁ połącz z Dyskiem','warn',connect);if(!Store.map.size&&!Store.fileId)showLogin()}
+function needLogin(){Store.needsAuth=true;diag(Store.map.size?'':'Nie jesteś zalogowany do Dysku Google. Dotknij „☁ połącz z Dyskiem” po prawej, żeby zobaczyć teksty.');status('☁ połącz z Dyskiem','warn',connect);if(!Store.map.size&&!Store.fileId)showLogin()}
 
 /* ---- Dysk: folder i plik z tekstami ---- */
 async function ensureFolder(){if(Store.folder)return Store.folder;
@@ -84,9 +96,9 @@ async function syncNow(manual){
       if(Store.dirty||(Store.map.size&&remote.teksty&&remote.teksty.length!==Store.map.size)){await pushData()}else{Store.ver=f.version;ls('nt-ver',f.version)}
       if(changed){saveCache();emit()}
     }else{await createData();Store.dirty=false;saveCache()}
-    Store.needsAuth=false;status('☁ zapisano '+new Date().toLocaleTimeString('pl-PL',{hour:'2-digit',minute:'2-digit'}),'ok')
+    Store.needsAuth=false;status('☁ zapisano '+new Date().toLocaleTimeString('pl-PL',{hour:'2-digit',minute:'2-digit'}),'ok');diag(Store.map.size?'':'Połączono z Dyskiem, ale folder „!Teksty” jest pusty. Jeśli tu powinny być teksty, sprawdź, czy logujesz się tym samym kontem Google co na komputerze.')
   }catch(e){
-    if(e&&e.auth)needLogin();else status('☁ błąd, ponowię','warn',()=>syncNow(true));
+    if(e&&e.auth)needLogin();else{status('☁ błąd, ponowię','warn',()=>syncNow(true));diag('Błąd połączenia z Dyskiem: '+(e&&e.message||'nieznany')+'. Dotknij „☁ błąd” po prawej, żeby spróbować ponownie.')}
     console.error(e)
   }finally{Store.syncing=false}}
 function schedule(){clearTimeout(Store.timer);status('☁ czeka na zapis…','');Store.timer=setTimeout(()=>syncNow(),1500)}

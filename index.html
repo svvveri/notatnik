@@ -236,6 +236,7 @@ body[data-view="edit"] #fab{display:none}
 #login h2{margin:0;font:700 28px/1.15 var(--font-d);letter-spacing:-.4px}
 #login p{margin:0;color:var(--dim);font-size:15px;line-height:1.5}
 #loginBtn{padding:14px 22px;border-radius:14px;background:var(--acc-fill);color:var(--on-acc);font-weight:700;font-size:17px}
+.diag{margin:6px 0 10px;padding:10px 12px;border-radius:10px;background:var(--sel);color:var(--fg);font-size:14px;line-height:1.45}
 .aud{display:flex;align-items:center;gap:10px;padding:2px 0 4px}
 </style>
 </head><body>
@@ -247,6 +248,7 @@ body[data-view="edit"] #fab{display:none}
       <div class="cntRow"><span id="cnt">Wczytuję…</span><button id="sortBtn" class="sortp" type="button" title="Zmień sortowanie"></button><button id="sync" class="syncp" type="button" disabled></button></div>
       <label class="search"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg><input id="q" type="search" placeholder="Szukaj w tekstach i tagach" autocomplete="off" enterkeyhint="search" aria-label="Szukaj"></label>
       <div id="chips" aria-label="Filtr tagów"></div>
+      <div id="diag" class="diag" role="status" hidden></div>
     </header>
     <div id="notes" class="gut"><div class="state" id="loading">Wczytuję teksty…</div></div>
     <button id="fab" aria-label="Nowy tekst" title="Nowy tekst (⌘N)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.4 2.6a2 2 0 0 1 2.9 2.9L12 14.8l-3.8.9.9-3.8z"/></svg></button>
