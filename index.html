@@ -159,6 +159,11 @@ body[data-view="edit"] #fab{display:none}
 #rmodes button b{font-weight:400;color:var(--dim);margin-left:5px;font-variant-numeric:tabular-nums}
 #rmodes button.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
 #rmodes button.on b{color:inherit;opacity:.6}
+#selbar{position:sticky;z-index:3;display:flex;align-items:center;gap:8px;padding-top:7px;padding-bottom:7px;background:var(--bg);border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+#selbar[hidden]{display:none}#selw{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;color:var(--fg)}
+.rsec{margin:0 0 22px}.rsec h3{margin:6px 0 4px;font:700 19px/1.2 var(--font-d)}.rsec h3 span{font:400 13px var(--font);color:var(--dim);margin-left:8px}
+.ranch{display:flex;gap:6px;align-items:center;margin:6px 0 10px;color:var(--dim);font-size:13px}.ranch button{padding:3px 11px;border-radius:999px;border:1px solid var(--line);color:var(--acc);font-size:14px}
+.rc.rare{color:var(--dim);font-weight:400}.rc:not(.rare):not(.more){font-weight:600}
 #rsyl{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -2px 12px;padding:0 2px}
 #rsyl::-webkit-scrollbar{display:none}
 #rsyl:empty{display:none}
@@ -274,6 +279,7 @@ body[data-view="edit"] #fab{display:none}
         <button id="adBtn" class="pill ad" type="button" title="Zaznacz fragment: nawias = adlib. Dotknięcie w nawiasie go zdejmuje. Bez zaznaczenia: cały wers.">( ) adlib</button>
         <button id="rymBtn" class="pill ry" type="button" title="Rymy do zaznaczonego słowa albo końca wersu">Rymy</button>
       </div>
+      <div id="selbar" class="gut" hidden><span id="selw"></span><button id="selRy" class="pill ry" type="button">Rymy</button><button id="selAd" class="pill ad" type="button">( ) adlib</button><button id="selWall" class="pill" type="button">+ ściana</button></div>
       <div id="page" class="gut" hidden>
         <div id="date"></div>
         <input id="title" placeholder="Tytuł" spellcheck="false" autocomplete="off" enterkeyhint="next" aria-label="Tytuł">
@@ -459,6 +465,17 @@ function renderList(){
 function renderAll(){renderChips();renderList()}
 
 /* ---- edytor ---- */
+function swipeInit(){const sc=$('#scroll');let x0=0,y0=0,t0=0,ok=false;
+  const skip=el=>!!(el&&el.closest&&el.closest('#rmodes,#rsyl,.ranch,#tools,#selbar,#wallTa,#title,.partTxt,input'));
+  sc.addEventListener('touchstart',e=>{if(e.touches.length!==1){ok=false;return}const t=e.touches[0];x0=t.clientX;y0=t.clientY;t0=Date.now();
+    ok=!skip(e.target)&&x0>24&&x0<window.innerWidth-24},{passive:true});
+  sc.addEventListener('touchend',e=>{if(!ok||!cur)return;ok=false;const t=e.changedTouches[0],dx=t.clientX-x0,dy=t.clientY-y0;
+    if(Date.now()-t0>700||Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*2.2)return;
+    const b=$('#body');if(tab==='text'&&document.activeElement===b&&b.selectionEnd>b.selectionStart&&dx>0)return;
+    if(tab==='text'&&dx<0){if(sel.e>sel.s&&document.activeElement===b)rymyDlaMiejsca();else showTab('wall');slideIn('wall',1)}
+    else if(tab==='wall'&&dx>0){showTab('text');slideIn('page',-1)}},{passive:true});
+  sc.addEventListener('touchcancel',()=>{ok=false},{passive:true})}
+function slideIn(id,dir){const el=document.getElementById(id);if(!el||!el.animate)return;el.animate([{transform:`translateX(${dir*38}px)`,opacity:.2},{transform:'none',opacity:1}],{duration:220,easing:'cubic-bezier(.2,.8,.2,1)'})}
 function showTab(t){tab=t;const n=T.get(cur);
   $('#tabText').classList.toggle('on',t==='text');$('#tabWall').classList.toggle('on',t==='wall');
   $('#tabText').setAttribute('aria-selected',t==='text');$('#tabWall').setAttribute('aria-selected',t==='wall');
@@ -515,7 +532,11 @@ function refit(){const b=$('#body');b.style.height='auto';b.style.height=Math.ma
   $('#struct').querySelectorAll('button').forEach(e=>e.onclick=()=>{const el=$('#mirror').children[+e.dataset.i];if(!el)return;
     $('#scroll').scrollTop=$('#wrap').offsetTop+el.offsetTop-$('#tools').offsetHeight-10})}
 let sel={s:0,e:0},sheetRe=null;
-function trackSel(){const b=$('#body');if(document.activeElement===b)sel={s:b.selectionStart,e:b.selectionEnd}}
+function trackSel(){const b=$('#body');if(document.activeElement===b){sel={s:b.selectionStart,e:b.selectionEnd};selBar()}}
+function selBar(){const bar=$('#selbar'),b=$('#body');if(!bar||!cur)return;const t=b.value.slice(sel.s,sel.e).trim();
+  const ok=sel.e>sel.s&&t&&t.length<=40&&/[a-ząćęłńóśźż]/i.test(t)&&!t.includes('\n');
+  bar.hidden=!ok;if(ok){bar.style.top=($('#tools').offsetHeight||44)+'px';$('#selw').textContent='„'+t+'”'}}
+function selWord(){const b=$('#body');return b.value.slice(sel.s,sel.e).trim()}
 function toggleAdlib(){const b=$('#body');if(!cur)return;const old=b.value;let v=old,s=Math.min(sel.s,v.length),e=Math.min(sel.e,v.length);
   if(s===e){ // kursor: zdejmij nawias wokół kursora albo zrób adlib z całego wersu
     const ls=v.lastIndexOf('\n',s-1)+1;let le=v.indexOf('\n',s);if(le<0)le=v.length;
@@ -602,60 +623,83 @@ function sheetKey(){const n=T.get(cur);if(!n)return;
   $('#ok').onclick=()=>{n.klucz=root+' '+mode;touch(n);renderTools();renderList();closeSheet()}}
 
 /* ---- ściana rymów ---- */
-let DK=null,DKV=null,DKC=null,DK1=null,DA=null,dictTimer=null;
-let dictP=null;
-function ensureDict(){if(DK)return Promise.resolve();if(dictP)return dictP;
-  dictP=fetch('rym_slownik.txt').then(r=>r.text()).then(txt=>{const M=new Map(),V=new Map(),C=new Map(),O=new Map();
-    txt.split('\n').forEach(l=>{const i=l.indexOf('\t');if(i<0)return;const k=l.slice(0,i);M.set(k,l.slice(i+1).split(' '));
-      const v=k.replace(/[^aeiouyąę]/g,''),c=k.replace(/[aeiouyąę]/g,'');
-      (V.get(v)||V.set(v,[]).get(v)).push(k);(C.get(c)||C.set(c,[]).get(c)).push(k);
-      const t1=tailFrom(k,1);(O.get(t1)||O.set(t1,[]).get(t1)).push(k)});
-    DK=M;DKV=V;DKC=C;DK1=O}).catch(()=>{dictP=null});
-  return dictP}
+let dictTimer=null,IDX=null,FQ=null,FQK=null;const SH=new Map();
+/* słownik rymów ładowany na żądanie: pliki rym/v_<dwie ostatnie samogłoski>.txt (wszystkie formy SJP, od najczęstszych), rym/freq.txt (najczęstsze słowa) */
+const SKE={'ą':'1','ę':'2'},skelOf=t=>vowelsOf(t).map(c=>SKE[c]||c).join('');
+function loadIdx(){if(!IDX)IDX=fetch('rym/idx.json').then(r=>r.json()).catch(()=>{IDX=null;return null});return IDX}
+function loadShard(sk){if(!SH.has(sk))SH.set(sk,fetch('rym/v_'+sk+'.txt').then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>{const m=new Map();
+  t.split('\n').forEach(l=>{const i=l.indexOf('\t');if(i>0)m.set(l.slice(0,i),l.slice(i+1).split(' '))});return m}).catch(()=>{SH.delete(sk);return null}));return SH.get(sk)}
+function loadFreq(){if(!FQ)FQ=fetch('rym/freq.txt').then(r=>r.text()).then(t=>t.split('\n')).catch(()=>{FQ=null;return null});return FQ}
+function ensureDict(){return Promise.all([loadIdx(),loadFreq()])}
+const fastSyl=w=>{const a=w.match(/[aeiouyąęó]/g),b=w.match(/i[aeiouyąęó]/g);return Math.max(1,(a?a.length:0)-(b?b.length:0))};
 function ownRV(){if(rvStale||!RV){buildRV([...T.values()].map(n=>n.tytul+'\n'+n.tresc));rvStale=false}}
-const MODES=[['all','Wszystkie'],['dok','Dokładne'],['aso','Asonanse'],['spo','Spółgłoskowe'],['wie','Wielosylabowe'],['ali','Aliteracje']];
-const MOPIS={dok:'te same dźwięki od ostatnich samogłosek',aso:'te same samogłoski, inne spółgłoski',spo:'te same spółgłoski, inne samogłoski',wie:'końcówki wersów z Twoich tekstów',ali:'ten sam początek'};
-async function szukajRymow(raw){const q=String(raw).trim();if(!q){return}
-  await ensureDict();ownRV();
-  const base=findRhymes(q);if(!base){$('#rres').innerHTML='<div class="hint">Nie widzę tu samogłoski, więc nie ma z czym rymować.</div>';return}
-  const {k,out}=base,qws=wordsOf(q),qlast=qws[qws.length-1];
-  const own=new Set(),seen=new Set([qlast]);const R={dok:[],aso:[],spo:[],wie:[],ali:[]};
-  const push=(g,p,isOwn)=>{if(!p||seen.has(g+p))return;seen.add(g+p);if(g!=='wie'&&p.split(' ').pop()===qlast)return;R[g].push({p,own:!!isOwn})};
-  out.dok.forEach(c=>push('dok',c.p,1));out.aso.forEach(c=>push('aso',c.p,1));out.spo.forEach(c=>push('spo',c.p,1));out.wie.forEach(c=>push('wie',c.p,1));
-  if(DK){
-    if(vowelsOf(k.tail).length>=2)(DK.get(k.tail)||[]).forEach(w=>push('dok',w,0));
-    else{const ks=(DK1.get(k.tail)||[]).slice().sort((a,b)=>vowelsOf(a).length-vowelsOf(b).length||a.length-b.length);
-      for(const key of ks){(DK.get(key)||[]).slice(0,4).forEach(w=>push('dok',w,0));if(R.dok.length>=140)break}}
-    const sk=k.tail.replace(/[^aeiouyąę]/g,''),cs=k.tail.replace(/[aeiouyąę]/g,'');
-    const near=(DKV.get(sk)||[]).filter(x=>x!==k.tail).sort((a,b)=>sufLen([...b],[...k.tail])-sufLen([...a],[...k.tail]));
-    for(const key of near){(DK.get(key)||[]).slice(0,6).forEach(w=>push('aso',w,0));if(R.aso.length>=160)break}
-    if(cs&&cs.length>=2){for(const key of (DKC.get(cs)||[])){if(key===k.tail)continue;(DK.get(key)||[]).slice(0,5).forEach(w=>push('spo',w,0));if(R.spo.length>=120)break}}}
-  // aliteracje
-  const pre=/^[aeiouyąęó]/.test(qlast)?qlast.slice(0,1):qlast.slice(0,2);
-  if(RV)RV.filter(c=>c.src==='w'&&c.p!==qlast&&c.p.startsWith(pre)&&c.p.length>3).sort((a,b)=>b.n-a.n).slice(0,40).forEach(c=>push('ali',c.p,1));
-  if(DK){if(!DA)DA=[].concat(...DK.values());let c=0;for(const w of DA){if(w.length>3&&w.length<10&&w.startsWith(pre)&&!seen.has('ali'+w)){push('ali',w,0);if(++c>=70)break}}}
-  lastR={q,k,R};rmode='all';rsyl='all';pushRecent(q);drawRymy()}
-function drawRymy(){if(!lastR)return;const {q,k,R}=lastR;
-  const cnt=g=>R[g].length;
-  $('#rinfo').innerHTML=`<b>${esc(q)}</b> · wymowa <b>${esc(k.f)}</b> · rdzeń rymu <b>${esc(k.tail)}</b>`;
-  $('#rmodes').innerHTML=MODES.map(([id,l])=>`<button role="tab" class="${rmode===id?'on':''}" data-m="${id}">${l}<b>${id==='all'?'':cnt(id)}</b></button>`).join('');
-  $('#rmodes').querySelectorAll('button').forEach(b=>b.onclick=()=>{rmode=b.dataset.m;drawRymy()});
-  const gs=(rmode==='all'?['dok','aso','spo','wie','ali']:[rmode]);
-  const sylOf=c=>c.s!==undefined?c.s:(c.s=sylText(c.p)||1),bk=c=>Math.min(5,sylOf(c));
-  const bc={};gs.forEach(g=>R[g].forEach(c=>{bc[bk(c)]=(bc[bk(c)]||0)+1}));
-  const bks=[1,2,3,4,5].filter(b=>bc[b]);
-  $('#rsyl').innerHTML=bks.length>1?`<button data-s="all" class="${rsyl==='all'?'on':''}">Sylaby: wszystkie</button>`+bks.map(b=>`<button data-s="${b}" class="${rsyl===String(b)?'on':''}">${b===5?'5+':b} syl. · ${bc[b]}</button>`).join(''):'';
-  $('#rsyl').querySelectorAll('button').forEach(b=>b.onclick=()=>{rsyl=b.dataset.s;drawRymy()});
-  const sf=c=>rsyl==='all'||bk(c)===+rsyl;
+const MODES=[['all','Rymy'],['dok','Dokładne'],['spo','Spółgłoskowe'],['wie','Wielosylabowe'],['ali','Aliteracje']];
+const MOPIS={dok:'te same dźwięki od ostatnich samogłosek',spo:'te same spółgłoski, inne samogłoski',wie:'trzy i więcej zgodnych samogłosek od końca (oraz końcówki wersów z Twoich tekstów)',ali:'ten sam początek oraz ten sam układ samogłosek'};
+let rExp=new Set(),rBusy=0,FQS=null,FQR=null;
+const sylLabel=n=>n===1?'1 sylaba':(n>=2&&n<=4?n+' sylaby':n+' sylab');
+const trailOf=t=>t.replace(/^.*[aeiouyąę]/,''),stemOf=t=>t.slice(0,t.length-trailOf(t).length);
+async function szukajRymow(raw){const q=String(raw).trim();if(!q)return;const my=++rBusy;
+  ownRV();const base=findRhymes(q);if(!base){$('#rres').innerHTML='<div class="hint">Nie widzę tu samogłoski, więc nie ma z czym rymować.</div>';return}
+  $('#rres').innerHTML='<div class="hint">Szukam rymów…</div>';
+  const {k,out}=base,qws=wordsOf(q),qlast=qws[qws.length-1],nv=vowelsOf(k.tail).length,qtr=trailOf(k.tail);
+  const R={ry:[],bl:[],dok:[],spo:[],wie:[],ali:[],sal:[]},seen=new Set([qlast]);
+  const close=(key)=>{const t=trailOf(key);return !(t===qtr||(t&&qtr&&t[t.length-1]===qtr[qtr.length-1]))};
+  const add=(g,p,own,sl,i,ex)=>{if(!p||seen.has(g+p))return;if(g!=='wie'&&p.split(' ').pop()===qlast)return;seen.add(g+p);
+    const rk=FQR?FQR.get(p):undefined;R[g].push({p,own:!!own,sl,i,sc:(ex?1e7:0)+(rk===undefined?0:200000-Math.min(rk,200000))+sl*15000+(own?4000:0)-Math.min(i,2999)/10})};
+  out.dok.forEach(c=>{add('dok',c.p,1,k.tail.length,0,1);add('ry',c.p,1,k.tail.length,0,1)});
+  out.aso.forEach(c=>add(close(c.k.tail)?'bl':'ry',c.p,1,c.sim||0,0,0));
+  out.spo.forEach(c=>add('spo',c.p,1,0,0,0));out.wie.forEach(c=>add('wie',c.p,1,c.sl||0,0,0));
+  const [idx,fq]=await Promise.all([loadIdx(),loadFreq()]);let loadErr=!idx;
+  if(fq&&!FQR){FQR=new Map();for(let j=0;j<fq.length;j++)FQR.set(fq[j],j)}
+  if(idx){const lv=vowelsOf(k.tail),last=SKE[lv[lv.length-1]]||lv[lv.length-1];
+    const sks=nv>=2?[skelOf(k.tail)]:Object.keys(idx).filter(s=>s.endsWith(last));
+    const parts=await Promise.all(sks.map(loadShard));if(parts.some(x=>!x))loadErr=true;
+    const qv=vowelsOf(k.f);
+    parts.forEach(m=>{if(!m)return;for(const [key,ws] of m){const ex=nv>=2?key===k.tail:key.endsWith(k.tail),cl=close(key),sl=cl?sufLen(stemOf(key),stemOf(k.tail)):sufLen(key,k.tail);
+      if(cl&&nv<2&&sl<2)continue;
+      const lim=Math.min(ws.length,ex?4000:(sl>=2?1500:300));
+      for(let i=0;i<lim;i++){const w=ws[i];if(w===qlast)continue;
+        add(cl?'bl':'ry',w,0,sl,i,ex&&!cl);if(ex)add('dok',w,0,sl,i,1);
+        if(qv.length>=3&&fastSyl(w)>=3&&(ex||sl>=2)&&i<400){const wv=vowelsOf(fon(w));let m3=0;while(m3<wv.length&&m3<qv.length&&wv[wv.length-1-m3]===qv[qv.length-1-m3])m3++;if(m3>=3)add('wie',w,0,m3*10+sl,i,1)}}}})}
+  if(fq){if(!FQS)FQS=new Set(fq.slice(0,12000));
+    if(!FQK||FQK.nv!==nv){const A=new Array(fq.length),V=new Array(fq.length);for(let j=0;j<fq.length;j++){const f=fon(fq[j]);A[j]=tailFrom(f,nv>=2?2:1);V[j]=vowelsOf(f).join('')}A.nv=nv;A.V=V;FQK=A}
+    const cs=k.tail.replace(/[aeiouyąę]/g,''),sv=vowelsOf(k.tail).join('');
+    if(cs.length>=2)for(let j=0;j<fq.length&&R.spo.length<500;j++){const t=FQK[j];if(t&&t!==k.tail&&t.replace(/[aeiouyąę]/g,'')===cs&&vowelsOf(t).join('')!==sv&&fq[j].length>2)add('spo',fq[j],0,0,j,0)}
+    // aliteracje: ten sam początek oraz samogłoskowe (ten sam układ samogłosek)
+    const pre=/^[aeiouyąęó]/.test(qlast)?qlast.slice(0,1):qlast.slice(0,2),qvs=vowelsOf(fon(qlast)).join('');
+    if(RV)RV.filter(c=>c.src==='w'&&c.p!==qlast&&c.p.startsWith(pre)&&c.p.length>3).sort((a,b)=>b.n-a.n).slice(0,40).forEach(c=>add('ali',c.p,1,0,0,0));
+    for(let j=0;j<fq.length;j++){const w=fq[j];if(w===qlast||w.length<3)continue;
+      if(R.ali.length<400&&w.startsWith(pre)&&w.length>3)add('ali',w,0,0,j,0);
+      if(R.sal.length<400){const v=FQK.V[j],n=Math.min(v.length,qvs.length);if(n&&v.slice(0,n)===qvs.slice(0,n)&&(v.length>=qvs.length||v.length>=1)&&v.length<=qvs.length+1)add('sal',w,0,0,j,0)}}}
+  if(my!==rBusy)return;
+  for(const g in R){R[g].sort((a,b)=>b.sc-a.sc||a.p.length-b.p.length);R[g].forEach(c=>{c.s=fastSyl(c.p.replace(/ /g,''));c.b=!FQS||FQS.has(c.p)||c.own})}
+  lastR={q,k,R,loadErr};rmode='all';rsyl='all';rExp=new Set();pushRecent(q);drawRymy()}
+function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
+  $('#rinfo').innerHTML=`<b>${esc(q)}</b> · wymowa <b>${esc(k.f)}</b> · rdzeń rymu <b>${esc(k.tail)}</b>`+(loadErr?'<br><span style="color:var(--danger)">Nie udało się pobrać części słownika (brak sieci?). Pokazuję to, co jest w pamięci.</span>':'');
+  const cnt={all:R.ry.length+R.bl.length,dok:R.dok.length,spo:R.spo.length,wie:R.wie.length,ali:R.ali.length+R.sal.length};
+  $('#rmodes').innerHTML=MODES.map(([id,l])=>`<button role="tab" class="${rmode===id?'on':''}" data-m="${id}">${l}<b>${cnt[id]}</b></button>`).join('');
+  $('#rmodes').querySelectorAll('button').forEach(b=>b.onclick=()=>{rmode=b.dataset.m;rsyl='all';rExp=new Set();drawRymy()});
   const n=T.get(cur),wall=(n&&n.sciana||'').toLowerCase();
-  const groups=gs.filter(g=>R[g].some(sf));
-  $('#rres').innerHTML=groups.length?groups.map(g=>{
-    const all=R[g].filter(sf),lim=rmode==='all'?24:90,items=all.slice(0,lim);
-    return `<div class="rg"><h4>${MODES.find(m=>m[0]===g)[1]}<span>${MOPIS[g]}</span></h4><div class="rcs">`+
-      items.map(c=>`<button class="rc ${wall.includes(c.p.toLowerCase())?'added':''}" data-p="${esc(c.p)}">${esc(c.p)}${c.own?'<i>●</i>':''}</button>`).join('')+
-      (all.length>lim?`<button class="rc more" data-m="${g}">+${all.length-lim} więcej</button>`:'')+`</div></div>`}).join('')
-    :'<div class="hint">Nic nie znalazłam w tym rodzaju. Spróbuj innej zakładki albo innej liczby sylab.</div>';
-  $('#rres').querySelectorAll('.rc').forEach(b=>b.onclick=()=>{if(b.dataset.m){rmode=b.dataset.m;drawRymy();return}wordCard(b.dataset.p)})}
+  const chip=c=>`<button class="rc ${wall.includes(c.p.toLowerCase())?'added':''} ${c.b?'':'rare'}" data-p="${esc(c.p)}">${esc(c.p)}${c.own?'<i>●</i>':''}</button>`;
+  const sec=(sk,title,desc,items)=>{if(!items.length)return '';
+    const by={};items.forEach(c=>{const s=Math.min(7,c.s);(by[s]=by[s]||[]).push(c)});const ss=Object.keys(by).map(Number).sort((a,b)=>a-b);
+    return `<div class="rsec"><h3>${title}<span>${items.length}${items.length>=400?'+':''} wyników</span></h3>${desc?`<div class="hint">${desc}</div>`:''}
+      <div class="ranch"><span>sylaby:</span>${ss.map(s=>`<button data-go="g-${sk}-${s}">${s===7?'7+':s}</button>`).join('')}</div>`+
+      ss.map(s=>{const all=by[s],key=sk+s,lim=rExp.has(key)?1000:48;
+        return `<div class="rg" id="g-${sk}-${s}"><h4>${sylLabel(s)}${s===7?'+':''}<span>${all.length}</span></h4><div class="rcs">`+all.slice(0,lim).map(chip).join('')+
+        (all.length>lim?`<button class="rc more" data-x="${key}">więcej…</button>`:'')+`</div></div>`}).join('')+'</div>'};
+  let html='';
+  if(rmode==='all'){$('#rsyl').innerHTML='';
+    html=sec('ry','Rymy','',R.ry)+sec('bl','Bliskie rymy','',R.bl);
+    if(!html)html='<div class="hint">Nic nie znalazłam. Zerknij do zakładek Spółgłoskowe i Aliteracje.</div>'}
+  else if(rmode==='ali'){$('#rsyl').innerHTML='';
+    html=sec('al','Aliteracje',MOPIS.ali,R.ali)+sec('sa','Samogłoskowe aliteracje','ten sam układ samogłosek, inne spółgłoski',R.sal);
+    if(!html)html='<div class="hint">Brak aliteracji.</div>'}
+  else{$('#rsyl').innerHTML='';
+    html=sec('m',MODES.find(m=>m[0]===rmode)[1],MOPIS[rmode],R[rmode])||'<div class="hint">Nic nie znalazłam w tym rodzaju.</div>'}
+  $('#rres').innerHTML=html;
+  $('#rres').querySelectorAll('.rc').forEach(b=>b.onclick=()=>{if(b.dataset.x){rExp.add(b.dataset.x);drawRymy();return}wordCard(b.dataset.p)});
+  $('#rres').querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{const e=document.getElementById(b.dataset.go);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})})}
 function addToWall(p){const n=T.get(cur);if(!n)return;const ta=$('#wallTa'),v=ta.value;
   ta.value=!v.trim()?p:(/\n$/.test(v)?v+p:v+', '+p);n.sciana=ta.value;touch(n);wallFit()}
 function wallFit(){const t=$('#wallTa');t.style.height='auto';t.style.height=Math.max(t.scrollHeight,200)+'px'}
@@ -827,9 +871,14 @@ function wire(){
   $('#impFile').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const n=window.NT.importJSON(await f.text());$('#exMsg')&&($('#exMsg').textContent=n<0?'To nie jest poprawny plik .json.':'Zaimportowano: '+n+' tekstów.')};
   $('#recFile').onchange=async e=>{const fs=[...e.target.files];e.target.value='';for(const f of fs){const d=await new Promise(r=>{const u=URL.createObjectURL(f),au=new Audio();au.preload='metadata';au.onloadedmetadata=()=>{r(au.duration);URL.revokeObjectURL(u)};au.onerror=()=>{r(0);URL.revokeObjectURL(u)};au.src=u});
     await saveAudio(f,isFinite(d)?d:0,f.name.replace(/\.[^.]+$/,''))}};
+  swipeInit();
   $('#tabText').onclick=()=>showTab('text');$('#tabWall').onclick=()=>showTab('wall');
   $('#bpmBtn').onclick=sheetBpm;$('#keyBtn').onclick=sheetKey;$('#rymBtn').onclick=rymyDlaMiejsca;
   $('#rForm').onsubmit=e=>{e.preventDefault();szukajRymow($('#rq').value);$('#rq').blur()};
+  ['selRy','selAd','selWall'].forEach(id=>{const e=$('#'+id);e.addEventListener('pointerdown',ev=>ev.preventDefault());e.addEventListener('mousedown',ev=>ev.preventDefault())});
+  $('#selRy').onclick=()=>{$('#selbar').hidden=true;rymyDlaMiejsca()};
+  $('#selAd').onclick=()=>{toggleAdlib();selBar()};
+  $('#selWall').onclick=()=>{const w=selWord();if(!w||!cur)return;addToWall(w);const e=$('#selWall');e.textContent='✓ dodano';setTimeout(()=>{e.textContent='+ ściana'},1200)};
   const ab=$('#adBtn');ab.addEventListener('pointerdown',e=>e.preventDefault());ab.addEventListener('mousedown',e=>e.preventDefault());ab.onclick=toggleAdlib;
   const rb=$('#rymBtn');rb.addEventListener('pointerdown',e=>e.preventDefault());rb.addEventListener('mousedown',e=>e.preventDefault());
   document.addEventListener('selectionchange',trackSel);['select','keyup','pointerup','input','focus'].forEach(t=>$('#body').addEventListener(t,trackSel));

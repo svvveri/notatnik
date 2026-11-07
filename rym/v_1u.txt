@@ -1,0 +1,98 @@
+ąbku	gołąbku ząbku rąbku dąbku głąbku urąbku wrąbku obrąbku bezrąbku jarząbku jastrząbku świerząbku
+ąbkuf	ząbków gołąbków rąbków obrąbków jarząbków dąbków głąbków urąbków wrąbków otrąbków bezrąbków jastrząbków świerząbków
+ąbkuj	rąbkuj ząbkuj gołąbkuj
+ąblu	bąblu
+ąbluf	bąblów
+ąbluj	bąbluj
+ąbru	cząbru
+ąbruf	cząbrów dąbrów
+ąbsku	dąbsku kodrąbsku niedąbsku niekodrąbsku
+ąbu	rąbu ziąbu sosrąbu
+ąbuf	głąbów rąbów ziąbów sosrąbów
+ąbuj	urąbuj wrąbuj zrąbuj narąbuj obrąbuj odrąbuj otrąbuj wyrąbuj zarąbuj nadrąbuj podrąbuj pozrąbuj rozrąbuj wytrąbuj poodrąbuj powyrąbuj pozarąbuj przerąbuj poprzerąbuj
+ącku	kącku łącku niekącku niełącku grzmiącku dębowołącku niegrzmiącku niedębowołącku
+ącu	miesiącu tysiącu gorącu brzdącu zającu
+ącuf	brzdąców zająców miesiąców gorąców
+ączku	pączku pajączku zajączku bączku strączku ramiączku tysiączku miesiączku strzemiączku ciemiączku sączku obłączku pałączku kabłączku minipączku
+ączkuf	pączków tysiączków bączków zajączków pajączków sączków strączków obłączków pałączków kabłączków miesiączków minipączków
+ączkuj	gorączkuj zaobrączkuj pączkuj sączkuj obrączkuj wypączkuj wysączkuj zajączkuj rozsączkuj zgorączkuj miesiączkuj pogorączkuj poobrączkuj pozajączkuj zagorączkuj rozgorączkuj
+ączu	łączu pnączu złączu przesączu przyłączu kłączu podłączu półzłączu telełączu eurozłączu hiperłączu szybkozłączu
+ączuf	pnączów przesączów
+ączuś	pączuś rączuś
+ączńu	łączniu
+ądcuf	zarządców rządców rozrządców współrządców wielkorządców
+ądku	porządku rozsądku żołądku przylądku prządku rządku nieporządku obrządku łabądku nierozsądku sądku gądku wielbłądku praporządku przedżołądku
+ądkuf	porządków żołądków obrządków rządków nieporządków przylądków gądków sądków prządków łabądków rozsądków wielbłądków nierozsądków praporządków przedżołądków
+ądkuj	uporządkuj podporządkuj porządkuj żołądkuj przyporządkuj poporządkuj
+ądru	jądru antyjądru hiperjądru
+ądruj	mądruj plądruj splądruj poplądruj
+ądu	sądu rządu prądu zarządu wyglądu lądu przeglądu osądu wglądu samorządu poglądu podglądu nierządu narządu rozrządu przyrządu trądu samosądu przesądu światopoglądu swądu oglądu świądu pądu uwiądu bezrządu przeciwprądu grądu wiądu strądu doglądu pralądu bioprądu ekoprądu antyrządu fotoprądu przedsądu quasisądu supersądu mikroprądu niedoprądu superrządu termoprądu współprądu współrządu
+ąduf	rządów poglądów narządów sądów przyrządów wielbłądów osądów przesądów prądów lądów zarządów przeglądów samosądów wyglądów samorządów podglądów wglądów światopoglądów pądów grądów swądów trądów wiądów oglądów strądów urządów uwiądów świądów doglądów pralądów bezrządów bioprądów ekoprądów nierządów rozrządów antyrządów fotoprądów przedsądów quasisądów supersądów mikroprądów niedoprądów superrządów termoprądów współprądów współrządów wielkorządów przeciwprądów
+ąduj	ląduj wyląduj zląduj przyląduj międzyląduj oprzyrząduj
+ąduł	wądół
+ądzku	irządzku cielądzku goniądzku grudziądzku nieirządzku niecielądzku niegoniądzku niegrudziądzku
+ądztwu	wielkorządztwu
+ądzu	mosiądzu pieniądzu wrzeciądzu quasipieniądzu
+ądzuf	mosiądzów wrzeciądzów
+ądzuj	mosiądzuj
+ądłu	żądłu
+ądźu	śródlądziu
+ądżu	najądrzu przyjądrzu śródjądrzu przedjądrzu
+ąflu	fąflu
+ąfluf	fąflów
+ąfruf	fąfrów
+ągruf	wągrów
+ągu	ciągu pociągu przeciągu dziwolągu posągu lachociągu rurociągu wyciągu wciągu korkociągu gazociągu wodociągu zaciągu drągu naciągu taśmociągu pstrągu ropociągu uciągu sągu osiągu obciągu dziabągu podciągu naftociągu otągu siągu spągu urągu morągu wasągu ściągu dociągu fasiągu odciągu raciągu szelągu rozciągu szelbągu zaprzągu zawciągu linociągu parociągu rybociągu szelbiągu grubociągu krwiściągu małpidrągu paszociągu przeprzągu wielociągu węglociągu ślinociągu ciepłociągu lutniociągu miazgociągu strunociągu tarczociągu przeciwciągu okoniopstrągu retrodziwolągu
+ąguf	pociągów dziwolągów wyciągów posągów wodociągów pstrągów przeciągów rurociągów lachociągów osiągów ciągów gazociągów drągów sągów naciągów korkociągów szelągów zaciągów ropociągów otągów siągów spągów urągów morągów uciągów wasągów wciągów ściągów dociągów fasiągów obciągów odciągów raciągów dziabągów podciągów rozciągów szelbągów zaprzągów zawciągów linociągów parociągów rybociągów szelbiągów grubociągów krwiściągów małpidrągów naftociągów paszociągów przeprzągów taśmociągów wielociągów węglociągów ślinociągów ciepłociągów lutniociągów miazgociągów strunociągów tarczociągów przeciwciągów okoniopstrągów retrodziwolągów
+ąguj	wodociąguj
+ąhu	rząchu pieniąchu
+ąhuf	pieniąchów wąchów rząchów
+ąhuj	obwąchuj zwąchuj dowąchuj wywąchuj wtrząchuj przewąchuj wytrząchuj
+ąku	pająku strąku bąku pąku pałąku kabłąku obłąku wsiąku półbąku podsiąku przesiąku
+ąkuf	pająków bąków pąków strąków obłąków pałąków wsiąków kabłąków półbąków podsiąków przesiąków
+ąkuj	odbąkuj pobąkuj wybąkuj wyjąkuj zająkuj wysiąkuj odkrząkuj pobrząkuj przebąkuj wybrząkuj odchrząkuj pobrzdąkuj pochrząkuj przybłąkuj wybrzdąkuj rozchrząkuj
+ąpcu	skąpcu
+ąpcuf	skąpców
+ąpju	żąpiu krąpiu rząpiu pąpiu
+ąpjuf	żąpiów rząpiów
+ąpsku	skąpsku nieskąpsku
+ąpstwu	skąpstwu
+ąsku	kąsku śląsku kląsku ksiąsku morąsku połąsku elbląsku libiąsku lubiąsku raciąsku nieśląsku nieksiąsku niemorąsku niepołąsku trzyciąsku dolnośląsku górnośląsku nieelbląsku nielibiąsku nielubiąsku nieraciąsku nietrzyciąsku niedolnośląsku niegórnośląsku południowogórnośląsku niepołudniowogórnośląsku
+ąskuf	kąsków kląsków
+ąstkuj	piąstkuj wypiąstkuj
+ąstwu	domokrąstwu
+ąsu	wstrząsu oczopląsu elektrowstrząsu pąsu dąsu przekąsu pląsu wytrząsu nurzypląsu mikrowstrząsu
+ąsuf	wąsów wstrząsów elektrowstrząsów dąsów pląsów gołowąsów mikrowstrząsów pąsów fokowąsów przekąsów wytrząsów białowąsów oczopląsów krótkowąsów nurzypląsów
+ąsuj	wykąsuj przekąsuj
+ąszczu	gąszczu chrząszczu chrabąszczu
+ąszczuf	gąszczów chrząszczów chrabąszczów
+ąsłu	dziąsłu przewiąsłu
+ątku	początku majątku piątku wyjątku zakątku wątku wrzątku zwierzątku dzieciątku kaczątku zawiniątku książątku kątku lwiątku szczątku zaczątku kurczątku pisklątku przyjątku tygrysiątku cielątku kociątku małpiątku dziewczątku niewiniątku prątku użątku bożątku jeżątku mulątku orlątku oślątku psiątku splątku wziątku zdjątku świątku żyjątku bydlątku chomątku foczątku gąsiątku gęsiątku karłątku kipiątku koźlątku lisiątku misiątku mysiątku myślątku paniątku pawiątku pysiątku rysiątku łosiątku żmijątku bawolątku córczątku diablątku gorylątku głupiątku jagniątku kawalątku kurwiątku mopsiątku prosiątku ptaszątku rozprątku sarniątku smoczątku sroczątku słoniątku trusiątku wilczątku wroniątku wróblątku wydrzątku źrebiątku żubrzątku żółwiątku chudziątku chuściątku chłopiątku cyganiątku dziesiątku gołębiątku indyczątku mapeciątku niebożątku pacholątku piersiątku strusiątku żyrafiątku bocianiątku borsuczątku gawroniątku kangurzątku kobieciątku królewiątku kukułczątku niemowlątku prapoczątku prazaczątku szczeniątku łabędziątku antypoczątku jaskółczątku pelikaniątku skowroniątku makroszczątku szympansiątku wielorybiątku dziewczyniątku hipopotamiątku wielbłądziątku cyberzwierzątku niedźwiedziątku
+ątkuf	szczątków wyjątków początków zakątków wątków majątków dziesiątków piątków prątków zaczątków prapoczątków kątków użątków splątków wrzątków wziątków świątków karłątków kipiątków kawalątków rozprątków prazaczątków antypoczątków makroszczątków
+ątkuj	zapoczątkuj zdziesiątkuj wątkuj prątkuj zwątkuj powątkuj początkuj dziesiątkuj przedziesiątkuj
+ątpjuf	wątpiów
+ątru	piątru
+ątrup	wątrób
+ątu	mątu oplątu strątu chomątu kołomątu srożyplątu ciernioplątu
+ątuf	kątów trójkątów wątów prostokątów czworokątów sześciokątów zakątów ośmiokątów wielokątów mątów oplątów strątów dwukątów kołomątów ostrokątów pięciokątów srożyplątów siedmiokątów ciernioplątów dwunastokątów jedenastokątów piętnastokątów szesnastokątów trzynastokątów czternastokątów dwudziestokątów dziesięciokątów dziewięciokątów osiemnastokątów siedemnastokątów
+ątuj	wplątuj rozplątuj zaprzątuj oplątuj splątuj uplątuj doplątuj odplątuj wyplątuj zaplątuj pooplątuj powplątuj trójkątuj powyplątuj pozaplątuj przyplątuj
+ątłuss	wątłusz
+ąwus	wąwóz półwąwóz
+ązku	związku obowiązku zawiązku azozwiązku neozwiązku homozwiązku nitrozwiązku pseudozwiązku wszechzwiązku nitrozozwiązku
+ązkuf	obowiązków związków zawiązków azozwiązków neozwiązków homozwiązków nitrozwiązków pseudozwiązków wszechzwiązków nitrozozwiązków
+ązu	brązu wiązu uwiązu konowiązu przewiązu fosforobrązu
+ązuf	wiązów brązów uwiązów zbrązów odbrązów motowązów konowiązów przewiązów fosforobrązów
+ązuj	przywiązuj rozwiązuj nawiązuj związuj odwiązuj zawiązuj zobowiązuj przewiązuj porozwiązuj brązuj owiązuj uwiązuj wwiązuj zbrązuj dowiązuj obwiązuj wywiązuj nadwiązuj obowiązuj podwiązuj pouwiązuj pozwiązuj ponawiązuj poobwiązuj poodwiązuj pozawiązuj poobowiązuj popodwiązuj poprzewiązuj poprzywiązuj
+ąću	prąciu
+ąśu	porząsiu rąsiu
+ążcuf	domokrążców
+ążku	drążku krążku posążku zalążku pieniążku wielokrążku ciążku prążku wasążku pociążku pstrążku szelążku półkrążku rzęsokrążku
+ążkuf	krążków pieniążków prążków drążków cążków posążków zalążków wielokrążków ciążków obcążków wasążków pociążków pstrążków szelążków półkrążków rzęsokrążków
+ążkuj	drążkuj krążkuj prążkuj
+ążlu	drążlu
+ążpujść	zamążpójść
+ąższu	miąższu
+ąższuf	miąższów
+ążu	dylążu
+ążuf	dylążów
+ążńu	sążniu
