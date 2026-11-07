@@ -160,6 +160,7 @@ body[data-view="edit"] #fab{display:none}
 #rmodes button.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
 #rmodes button.on b{color:inherit;opacity:.6}
 #scroll{touch-action:pan-y}
+.lnkbtn{display:block;text-align:center;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--chip);color:var(--acc);font-weight:600;text-decoration:none}
 .wcard{margin:0 0 14px;padding:12px 12px 6px;border-radius:14px;background:var(--bg);border:1px solid var(--line)}.wcard h4{margin:0 0 8px;font:700 15px var(--font-d)}
 .wrow{display:flex;flex-direction:column;gap:2px;padding:7px 0;border-top:1px solid var(--line)}.wrow:first-of-type{border-top:0}.wrow b{font-size:15px}.wrow span{font-size:13.5px;color:var(--dim)}.wrow i{font-style:normal;color:var(--acc)}
 .wline{padding:10px 12px;border-radius:12px;background:var(--chip);font-size:17px;line-height:1.4;margin:0 0 6px}code{font-family:ui-monospace,monospace;background:var(--chip);padding:1px 6px;border-radius:6px}
@@ -218,9 +219,9 @@ body[data-view="edit"] #fab{display:none}
 #mirror .vw.sm.va{background:hsl(50 95% 55% / .30)}#mirror .vw.sm.ve{background:hsl(125 62% 50% / .28)}#mirror .vw.sm.vi{background:hsl(0 0% 62% / .30)}#mirror .vw.sm.vo{background:hsl(2 78% 58% / .30)}#mirror .vw.sm.vu{background:hsl(212 82% 60% / .30)}
 #mirror .vw{border-radius:3px}
 #mirror .va{background:hsl(50 95% 55% / .50)}#mirror .ve{background:hsl(125 62% 50% / .45)}#mirror .vi{background:hsl(0 0% 62% / .42)}#mirror .vo{background:hsl(2 78% 58% / .48)}#mirror .vu{background:hsl(212 82% 60% / .48)}
-#mirror .rh{border-radius:5px;background:hsl(var(--rc) 62% 52% / .30);box-shadow:0 0 0 1.5px hsl(var(--rc) 62% 52% / .30)}
+#mirror .rh{border-radius:4px;background:hsl(var(--rc) 70% 52% / .38);box-shadow:0 0 0 1.5px hsl(var(--rc) 70% 52% / .38)}
 #mirror .rh.as{background:hsl(var(--rc) 62% 52% / .15);box-shadow:0 0 0 1.5px hsl(var(--rc) 62% 52% / .15)}
-.rh0{--rc:152}.rh1{--rc:188}.rh2{--rc:285}.rh3{--rc:330}.rh4{--rc:22}.rh5{--rc:100}.rh6{--rc:252}.rh7{--rc:350}
+.rh0{--rc:152}.rh1{--rc:212}.rh2{--rc:52}.rh3{--rc:318}.rh4{--rc:28}.rh5{--rc:0}.rh6{--rc:176}.rh7{--rc:268}.rh8{--rc:96}.rh9{--rc:345}
 #verseBtns{position:absolute;inset:0;pointer-events:none;z-index:2}
 .vbtn{position:absolute;left:calc(100% - 30px);width:30px;height:30px;margin-top:-4px;border-radius:50%;pointer-events:auto;color:var(--faint);font-size:12px;line-height:1;display:grid;place-items:center;opacity:.55}.vbtn:active{background:var(--acc-fill);color:var(--on-acc);opacity:1}
 #mirror .ml.od{color:var(--dim);font-style:italic}#mirror .ml.od.first{border-top:1px dashed var(--line);margin-top:6px;padding-top:6px}
@@ -586,7 +587,7 @@ function rhymeSyl(lines,odAt){const secs=[];let cur=[];
   secs.forEach(S=>{const SY=S.map(i=>{const l=lines[i],pr=pairsOf(l),re=/[a-ząćęłńóśźżéèäöü']+/gi;let m;const words=[];
       while((m=re.exec(l))){const st=m.index;if(pr.some(([a,z])=>st>=a&&st<=z))continue;const ss=vowSyl(m[0].toLowerCase());if(ss.length)words.push({st,ss})}
       const syl=[];words.forEach((wd,wi)=>wd.ss.forEach((x,k)=>syl.push({s:wd.st+x.s,e:wd.st+x.e,c:x.c,t:l.slice(wd.st+x.s,wd.st+x.e).toLowerCase(),fin:wi===words.length-1&&k===wd.ss.length-1})));return {i,syl}});
-    const mark=SY.map(x=>new Set());
+    const mark=SY.map(x=>new Set()),uf=new Map();const fnd=x=>{while(uf.has(x)&&uf.get(x)!==x){uf.set(x,uf.get(uf.get(x)));x=uf.get(x)}return x};const uni=(a,b)=>{if(!uf.has(a))uf.set(a,a);if(!uf.has(b))uf.set(b,b);uf.set(fnd(a),fnd(b))};
     for(let p=0;p<SY.length;p++)for(let q=p;q<=Math.min(p+4,SY.length-1);q++){
       const A=SY[p].syl,B=SY[q].syl,n=A.length,m=B.length;if(!n||!m)continue;
       const D=Array.from({length:n+1},()=>new Array(m+1).fill(0));
@@ -596,11 +597,11 @@ function rhymeSyl(lines,odAt){const secs=[];let cur=[];
         let strong=0,full=0,same=true;for(let k=0;k<L;k++){if(rimeOf(A[ai+k].t)===rimeOf(B[bi+k].t))strong++;if(A[ai+k].t===B[bi+k].t){if(!STOPS.has(A[ai+k].t))full++}else same=false}
         if(same)continue;const fa=A[a].fin&&B[b].fin;
         const ok=L>=3?(strong>=L-1&&(full>=1||fa)):L===2?((strong===2&&full>=1)||(fa&&strong>=1)):(fa&&strong===1&&rimeOf(A[a].t).length>=2);
-        if(ok)for(let k=0;k<L;k++){mark[p].add(ai+k);mark[q].add(bi+k)}}}
-    SY.forEach((x,k)=>{if(!mark[k].size)return;out.set(x.i,[...mark[k]].sort((a,b)=>a-b).map(j=>({s:x.syl[j].s,e:x.syl[j].e,c:x.syl[j].c})))})});
+        if(ok){const f0=p+':'+ai;for(let k=0;k<L;k++){mark[p].add(ai+k);mark[q].add(bi+k);uni(f0,p+':'+(ai+k));uni(f0,q+':'+(bi+k))}}}}
+    const col=new Map();let gn=0;SY.forEach((x,k)=>{if(!mark[k].size)return;out.set(x.i,[...mark[k]].sort((a,b)=>a-b).map(j=>{const r=fnd(k+':'+j);if(!col.has(r))col.set(r,gn++);return {s:x.syl[j].s,e:x.syl[j].e,c:x.syl[j].c,g:col.get(r)}}))})});
   return out}
 function rhTxt(line,seg,list,mode){
-  if(mode==='smart')return (list&&list.length)?rhTxtG(line,seg,list,t=>`vw sm v${t.c}`):seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:esc(x.t)).join('');
+  if(mode==='smart')return (list&&list.length)?rhTxtG(line,seg,list,t=>`rh rh${t.g%10} ex`):seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:esc(x.t)).join('');
   if(mode==='all')return seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:vowHtml(x.t)).join('');
   if(!list||!list.length)return seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:esc(x.t)).join('');
   return rhTxtG(line,seg,list)}
@@ -839,10 +840,10 @@ function pomGet(w){const key='nt-pom1:'+w.toLowerCase();if(POM.has(key))return P
   POM.set(key,p);p.catch(()=>POM.delete(key));return p}
 function drawPomysly(q){const box=$('#rres');const w=q.trim();
   const cats=`<div class="pomcats" id="pomCats">${POMK.map(([id,l])=>`<button data-c="${id}" class="${pomCat===id?'on':''}">${l}</button>`).join('')}</div>`;
-  const body=o=>{const L=(t,a)=>Array.isArray(a)&&a.length?`<div class="rsec"><h3>${t}<span>${a.length}</span></h3><div class="rcs">${a.map(x=>`<button class="rc" data-p="${esc(String(x))}">${esc(String(x))}</button>`).join('')}</div></div>`:'';
+  const body=o=>{const mj=(pomCat==='sto'||pomCat==='sz')?`<div class="shBtns"><a class="lnkbtn" href="${mjUrl(w)}" target="_blank" rel="noopener">„${esc(w)}” na miejski.pl ↗</a></div>`:'';const L=(t,a)=>Array.isArray(a)&&a.length?`<div class="rsec"><h3>${t}<span>${a.length}</span></h3><div class="rcs">${a.map(x=>`<button class="rc" data-p="${esc(String(x))}">${esc(String(x))}</button>`).join('')}</div></div>`:'';
     return pomCat==='syn'?L('Synonimy',o.synonimy)+L('Antonimy',o.antonimy)+L('Skojarzenia słowne',o.skojarzenia):
       pomCat==='wto'?L('Wyrażenia oznaczające to samo',o.wyrazenia_to_samo):pomCat==='wz'?L('Wyrażenia z tymi słowami',o.wyrazenia_z):
-      pomCat==='sto'?L('Slang oznaczający to samo',o.slang_to_samo):L('Slang z tymi słowami',o.slang_z)};
+      pomCat==='sto'?L('Slang oznaczający to samo',o.slang_to_samo)+mj:L('Slang z tymi słowami',o.slang_z)+mj};
   const wire=()=>{box.querySelectorAll('#pomCats button').forEach(b=>b.onclick=()=>{pomCat=b.dataset.c;ls('nt-pomcat',pomCat);drawPomysly(q)});
     box.querySelectorAll('.rc').forEach(b=>b.onclick=()=>wordCard(b.dataset.p))};
   if(!w){box.innerHTML=cats+'<div class="hint">Wpisz słowo.</div>';wire();return}
@@ -1185,11 +1186,13 @@ function usage(p){const ws=wordsOf(p),out=[];
     const lw=wordsOf(l);if(ws.length===1?lw.includes(ws[0]):l.toLowerCase().includes(p.toLowerCase()))out.push({t:n.tytul||'Bez tytułu',l})}if(out.length>=8)break}
   return out}
 function hl(l,p){const e=esc(l);try{return e.replace(new RegExp('('+p.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<b>$1</b>')}catch(_){return e}}
+const mjUrl=p=>'https://www.miejski.pl/slowo-'+encodeURIComponent(p.trim()).replace(/%20/g,'+');
 function wordCard(p){const k=rkey(p),ex=usage(p);
   openSheet(`<div class="shHead"><h3>${esc(p)}</h3><button class="x" id="x" aria-label="Zamknij">×</button></div>
   <div class="wc">wymowa <b>${esc(k?k.f:'')}</b> · ${sylText(p)} sylab</div>
   ${ex.length?`<div class="wh">W Twoich tekstach</div><div id="exList">`+ex.map(e=>`<div class="ex"><span>${esc(e.t)}</span>${hl(e.l,p)}</div>`).join('')+'</div>':'<p class="hint">Jeszcze nie użyłeś tego słowa w żadnym tekście.</p>'}
-  <div class="shBtns"><button id="wcR">Rymy do tego</button><button class="pri" id="wcA">+ Na ścianę</button></div>`);
+  <div class="shBtns"><button id="wcR">Rymy do tego</button><button class="pri" id="wcA">+ Na ścianę</button></div>
+  <div class="shBtns"><a class="lnkbtn" href="${mjUrl(p)}" target="_blank" rel="noopener">Slang: sprawdź na miejski.pl ↗</a></div>`);
   $('#x').onclick=closeSheet;$('#wcA').onclick=()=>{addToWall(p);closeSheet();drawRymy()};
   $('#wcR').onclick=()=>{closeSheet();$('#rq').value=p;szukajRymow(p)}}
 
