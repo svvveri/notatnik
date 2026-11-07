@@ -645,9 +645,10 @@ function refit(){const b=$('#body');b.style.height='auto';b.style.height=Math.ma
     if(kd==='cm')return `<div class="ml cm">${esc(l)}</div>`;
     if(kd==='st'){odN++;return `<div class="ml st">${esc(l)}<i>odrzut</i></div>`}
     const p=parseLine(l);
-    if(p.hasMain){wers++;syl+=p.main;sec.n++;verses.push({idx,no:sec.n,sec:sec.name})}
+    const isV=p.hasMain||p.ad>0;   // wers złożony wyłącznie z adlibu też jest wersem
+    if(isV){wers++;syl+=p.hasMain?p.main:p.ad;sec.n++;verses.push({idx,no:sec.n,sec:sec.name})}
     adSyl+=p.ad;
-    const no=(VS.nums&&p.hasMain)?`<span class="no">${sec.n}</span>`:'';
+    const no=(VS.nums&&isV)?`<span class="no">${sec.n}</span>`:'';
     const txt=rhTxt(l,p.seg,RC.get(idx),VS.rhm);
     const cnt=(p.hasMain||p.ad)?`<i>${p.hasMain?p.main:''}${p.ad?`<em>+${p.ad}</em>`:''}</i>`:'';
     return `<div class="ml">${no}${txt||'&nbsp;'}${cnt}</div>`}).join('');
@@ -945,7 +946,7 @@ const ONOM=/\b(bum|bam|buch|trach|brzdęk|puf|pif|paf|bzz+|brr+|chlup|plusk|kap-
 const OXY=/(zimn\w+ ogni\w+|żyw\w+ trup\w*|głośn\w+ cisz\w+|słodk\w+ gorycz\w*|ciepł\w+ lod\w+|gorąc\w+ lód|biał\w+ kruk\w*|otwart\w+ tajemnic\w+|spiesz się powoli|żyjąc umieram|ciemność widoma)/i;
 const FRAZ=['czarna owca','gruba ryba','zimna krew','wziąć nogi za pas','zbić z pantałyku','pięta achillesa','syzyfowa praca','stajnia augiasza','nić ariadny','umywać ręce','krokodyle łzy','sądny dzień','rzeź niewiniątek','trąba jerychońska','poszło jak z płatka','makiem zasiał','kropla w morzu','bułka z masłem','złapać byka za rogi','wiercić dziurę w brzuchu','nie ma róży bez kolców','ani be ani me','jak kamień w wodę','co nagle to po diable','kula u nogi','pod włos','w czepku urodzony','z drzewa spadł','tkwić w martwym punkcie','wyjść na prostą','rzucić na głęboką wodę','siedzieć jak na szpilkach','mieć muchy w nosie','nosić wodę','wilk w owczej skórze','gdzie diabeł mówi dobranoc','coś jak z bicza trzasnął','z głową w chmurach','bić pianę','mieć nosa','dostać kosza','pójść z torbami','biały kruk','spaść z nieba','lać wodę','łapać za słowa','dwa grzyby w barszcz','kto pod kim dołki kopie','nie ruszać z miejsca','po trupach do celu','ręka rękę myje','cisza przed burzą','jak z nut','zęby zjeść na czymś','pod górkę','czarno na białym','na łeb na szyję','od a do z','słowo się rzekło','jak grom z jasnego nieba'];
 function warLinie(){const b=$('#body').value.split('\n');const OD=findOdrzut(b),od=OD?OD.at:1e9;return b.map((t,i)=>{if(i>=od)return {i,t,lab:false,skip:true,ws:[],last:''};const lab=isLabel(t),cm=/^\s*(#|\/\/)/.test(t)||/^\s*https?:/i.test(t),st=/^-[^\s-]/.test(t);const p=parseLine(t);
-  const main=p.seg.filter(x=>!x.ad).map(x=>x.t).join(' ');const ws=wordsOf(main);return {i,t,lab,skip:lab||cm||st||!t.trim(),ws,last:ws[ws.length-1]||''}})}
+  const main=p.seg.filter(x=>!x.ad).map(x=>x.t).join(' ');const ws=wordsOf(main);return {i,t,lab,skip:lab||cm||st||!t.trim(),ws,adv:!ws.length&&p.ad>0,last:ws[ws.length-1]||''}})}
 function warRhyme(a,b){if(!a||!b||a===b)return a===b&&a?'dokładny':null;const ka=rkey(a),kb=rkey(b);if(!ka||!kb)return null;
   if(ka.tail===kb.tail)return 'dokładny';const ta=ka.tail,tb=kb.tail;
   if(skelOf(ta)===skelOf(tb)&&(trailOf(ta).slice(-1)===trailOf(tb).slice(-1)||(!trailOf(ta)&&!trailOf(tb))))return 'asonans';
@@ -989,9 +990,9 @@ function warAnaliza(){const L=warLinie(),out=[],strophes=[];let cur=[];
   return out}
 const TYP={refren:8,hook:8,chorus:8,zwrotka:16,verse:16,bridge:4,'pre-hook':4,prehook:4,przedrefren:4};
 function warStruct(){const L=warLinie(),out=[];let cur={name:'Początek',v:[]};
-  L.forEach(l=>{if(l.lab){if(cur.v.length||cur.name!=='Początek')out.push(cur);cur={name:labName(l.t),v:[]};return}if(!l.skip&&l.ws.length)cur.v.push(l)});if(cur.v.length||out.length===0)out.push(cur);
-  return out.filter(x=>x.v.length).map(x=>{const sy=x.v.map(l=>sylText(l.t)),av=sy.reduce((a,b)=>a+b,0)/sy.length;let letters=[],n=0;
-    x.v.forEach((l,i)=>{let g=null;for(let j=i-1;j>=0;j--){if(warRhyme(x.v[j].last,l.last)){g=letters[j];break}}letters.push(g||String.fromCharCode(97+(n++%26)))});
+  L.forEach(l=>{if(l.lab){if(cur.v.length||cur.name!=='Początek')out.push(cur);cur={name:labName(l.t),v:[]};return}if(!l.skip&&(l.ws.length||l.adv))cur.v.push(l)});if(cur.v.length||out.length===0)out.push(cur);
+  return out.filter(x=>x.v.length).map(x=>{const sy=x.v.map(l=>l.ws.length?sylText(l.t):parseLine(l.t).ad),av=sy.reduce((a,b)=>a+b,0)/sy.length;let letters=[],n=0;
+    x.v.forEach((l,i)=>{let g=null;for(let j=i-1;j>=0;j--){if(l.last&&x.v[j].last&&warRhyme(x.v[j].last,l.last)){g=letters[j];break}}letters.push(g||String.fromCharCode(97+(n++%26)))});
     const key=x.name.toLowerCase().split(/\s+/)[0].replace(/[:\d]/g,'');return {name:x.name,n:x.v.length,av,sch:letters.join('').slice(0,24),typ:TYP[key]}})}
 function warFigChip(f){return SRODKI[f]?SRODKI[f].n:f}
 function sheetWarsztat(){const n=T.get(cur);if(!n)return;const R=warAnaliza(),st=warStruct();const by={};R.filter(r=>r.f!=='rym').forEach(r=>(by[r.f]=by[r.f]||[]).push(r));
@@ -1007,7 +1008,7 @@ function sheetWarsztat(){const n=T.get(cur);if(!n)return;const R=warAnaliza(),st
   $('#sheet').querySelectorAll('.wr[data-l]').forEach(r=>r.onclick=()=>warGoto(+r.dataset.l))}
 function warGoto(ln){const b=$('#body'),L=b.value.split('\n');let s=0;for(let i=0;i<ln-1;i++)s+=L[i].length+1;closeSheet();showTab('text');b.focus();try{b.setSelectionRange(s,s+(L[ln-1]||'').length)}catch(_){}sel={s,e:s+(L[ln-1]||'').length}}
 function sheetWers(idx,ai){const L=warLinie(),l=L[idx];if(!l)return;const R=warAnaliza().filter(r=>r.lines.includes(idx+1));
-  let secName='Początek',no=0;for(let i=0;i<=idx;i++){if(L[i].lab){secName=labName(L[i].t);no=0}else if(!L[i].skip&&L[i].ws.length)no++}
+  let secName='Początek',no=0;for(let i=0;i<=idx;i++){if(L[i].lab){secName=labName(L[i].t);no=0}else if(!L[i].skip&&(L[i].ws.length||L[i].adv))no++}
   const rh=R.filter(r=>r.f==='rym'&&r.lines.length===2),fg=R.filter(r=>r.f!=='rym'&&r.f!=='bialy'),sc=R.filter(r=>r.f==='rym'&&r.lines.length===1);
   const last=l.last,figs=['epitet','porownanie','hiperbola','oksymoron','metafora','inwersja','anafora','onomatopeja','aliteracja','ironia','antyteza'];
   openSheet(`<div class="shHead"><h3>Wers ${no} · ${esc(secName)}</h3><button class="x" id="x" aria-label="Zamknij">×</button></div><div class="warbody">
