@@ -636,7 +636,7 @@ function loadFreq(){if(!FQ)FQ=fetch('rym/freq.txt').then(r=>r.text()).then(t=>t.
 function ensureDict(){return Promise.all([loadIdx(),loadFreq()])}
 const fastSyl=w=>{const a=w.match(/[aeiouyąęó]/g),b=w.match(/i[aeiouyąęó]/g);return Math.max(1,(a?a.length:0)-(b?b.length:0))};
 function ownRV(){if(rvStale||!RV){buildRV([...T.values()].map(n=>n.tytul+'\n'+n.tresc));rvStale=false}}
-const MODES=[['all','Rymy'],['ide','Idealne'],['dok','Dokładne'],['spo','Spółgłoskowe'],['wie','Wielosylabowe'],['ali','Aliteracje'],['lin','Twoje linie'],['kon','Konteksty']];
+const MODES=[['all','Rymy'],['pom','Pomysły'],['ide','Idealne'],['dok','Dokładne'],['spo','Spółgłoskowe'],['wie','Wielosylabowe'],['ali','Aliteracje'],['lin','Twoje linie'],['kon','Konteksty']];
 const MOPIS={ide:'wszystkie sylaby się zgadzają: słowo identyczne od pierwszej samogłoski, tyle samo sylab (np. ludzie – udzie)',dok:'te same dźwięki od ostatnich samogłosek',spo:'te same spółgłoski, inne samogłoski',wie:'trzy i więcej zgodnych samogłosek od końca (oraz końcówki wersów z Twoich tekstów)',ali:'ten sam początek oraz ten sam układ samogłosek'};
 let rExp=new Set(),rBusy=0,FQS=null,FQR=null;
 const sylLabel=n=>n===1?'1 sylaba':(n>=2&&n<=4?n+' sylaby':n+' sylab');
@@ -679,6 +679,30 @@ async function szukajRymow(raw){const q=String(raw).trim();if(!q)return;const my
   if(my!==rBusy)return;
   for(const g in R){R[g].sort((a,b)=>b.sc-a.sc||a.p.length-b.p.length);R[g].forEach(c=>{c.s=fastSyl(c.p.replace(/ /g,''));c.b=!FQS||FQS.has(c.p)||c.own})}
   lastR={q,k,R,loadErr};rmode='all';rsyl='all';rExp=new Set();pushRecent(q);drawRymy()}
+const POMK=[['syn','Synonimy i inne skojarzenia słowne'],['wto','Wyrażenia oznaczające to samo'],['wz','Wyrażenia z tymi słowami'],['sto','Slang oznaczający to samo'],['sz','Slang z tymi słowami']];
+let pomCat=ls('nt-pomcat')||'syn';const POM=new Map();
+function pomGet(w){const key='nt-pom1:'+w.toLowerCase();if(POM.has(key))return POM.get(key);
+  try{const c=localStorage.getItem(key);if(c){const j=JSON.parse(c);POM.set(key,Promise.resolve(j));return POM.get(key)}}catch(_){}
+  const k=ls('nt-akey');if(!k)return Promise.reject(new Error('nokey'));
+  const p=fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-haiku-5-5',max_tokens:2200,system:'Jesteś słownikiem pomysłów dla polskiego tekściarza (rap i pop). Odpowiadasz wyłącznie poprawnym JSON-em, bez komentarzy i bez bloków kodu. Używasz naturalnej, współczesnej polszczyzny, także potocznej i ulicznej.',
+      messages:[{role:'user',content:'Słowo lub fraza: "'+w+'". Zwróć obiekt JSON z kluczami (każdy to tablica 12-30 krótkich ciągów): "synonimy", "antonimy", "skojarzenia" (skojarzenia słowne), "wyrazenia_to_samo" (wyrażenia i frazy o tym samym znaczeniu), "wyrazenia_z" (znane wyrażenia, przysłowia i frazy zawierające to słowo), "slang_to_samo" (slang i potoczne określenia o tym samym znaczeniu), "slang_z" (slangowe frazy zawierające to słowo).'}]})
+  }).then(r=>r.json().then(j=>{if(!r.ok)throw new Error((j.error&&j.error.message)||('HTTP '+r.status));return j})).then(j=>{
+    let t=(j.content||[]).map(x=>x.text||'').join('').trim().replace(/^```(?:json)?/,'').replace(/```$/,'').trim();const o=JSON.parse(t);
+    try{localStorage.setItem(key,JSON.stringify(o))}catch(_){}return o});
+  POM.set(key,p);p.catch(()=>POM.delete(key));return p}
+function drawPomysly(q){const box=$('#rres');const w=q.trim();
+  const cats=`<div class="seg wide" id="pomCats" style="flex-wrap:wrap;gap:6px;margin-bottom:12px">${POMK.map(([id,l])=>`<button data-c="${id}" class="${pomCat===id?'on':''}">${l}</button>`).join('')}</div>`;
+  const body=o=>{const L=(t,a)=>Array.isArray(a)&&a.length?`<div class="rsec"><h3>${t}<span>${a.length}</span></h3><div class="rcs">${a.map(x=>`<button class="rc" data-p="${esc(String(x))}">${esc(String(x))}</button>`).join('')}</div></div>`:'';
+    return pomCat==='syn'?L('Synonimy',o.synonimy)+L('Antonimy',o.antonimy)+L('Skojarzenia słowne',o.skojarzenia):
+      pomCat==='wto'?L('Wyrażenia oznaczające to samo',o.wyrazenia_to_samo):pomCat==='wz'?L('Wyrażenia z tymi słowami',o.wyrazenia_z):
+      pomCat==='sto'?L('Slang oznaczający to samo',o.slang_to_samo):L('Slang z tymi słowami',o.slang_z)};
+  const wire=()=>{box.querySelectorAll('#pomCats button').forEach(b=>b.onclick=()=>{pomCat=b.dataset.c;ls('nt-pomcat',pomCat);drawPomysly(q)});
+    box.querySelectorAll('.rc').forEach(b=>b.onclick=()=>wordCard(b.dataset.p))};
+  if(!w){box.innerHTML=cats+'<div class="hint">Wpisz słowo.</div>';wire();return}
+  if(!ls('nt-akey')){box.innerHTML=cats+'<div class="hint">Pomysły generuje model Claude. Wpisz swój klucz API w menu (⋯ → Klucz API Claude), a pojawią się synonimy, wyrażenia i slang do „'+esc(w)+'”.</div>';wire();return}
+  box.innerHTML=cats+'<div class="hint">Szukam pomysłów do „'+esc(w)+'”…</div>';wire();
+  pomGet(w).then(o=>{if(lastR&&lastR.q===q&&rmode==='pom'){box.innerHTML=cats+(body(o)||'<div class="hint">Brak wyników.</div>');wire()}}).catch(e=>{if(lastR&&lastR.q===q&&rmode==='pom'){box.innerHTML=cats+'<div class="hint" style="color:var(--danger)">Nie udało się pobrać pomysłów ('+esc(e.message||'błąd')+').</div>';wire()}})}
 function ownLines(k,qlast){const has=[],rh=[],bef=new Map(),aft=new Map(),near=new Map();const inc=(m,w)=>m.set(w,(m.get(w)||0)+1);
   const sk=skelOf(k.tail);
   for(const n of T.values()){for(const l of n.tresc.split('\n')){if(!l.trim()||isLabel(l)||/^\s*(#|\/\/|https?:)/.test(l))continue;
@@ -691,8 +715,8 @@ function ownLines(k,qlast){const has=[],rh=[],bef=new Map(),aft=new Map(),near=n
 function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
   $('#rinfo').innerHTML=`<b>${esc(q)}</b> · wymowa <b>${esc(k.f)}</b> · rdzeń rymu <b>${esc(k.tail)}</b>`+(loadErr?'<br><span style="color:var(--danger)">Nie udało się pobrać części słownika (brak sieci?). Pokazuję to, co jest w pamięci.</span>':'');
   if(!lastR.OL)lastR.OL=ownLines(k,wordsOf(q).slice(-1)[0]||'');const OL=lastR.OL;
-  const cnt={all:R.ry.length+R.bl.length,ide:R.ide.length,dok:R.dok.length,spo:R.spo.length,wie:R.wie.length,ali:R.ali.length+R.sal.length,lin:OL.has.length+OL.rh.length,kon:OL.bef.length+OL.aft.length};
-  $('#rmodes').innerHTML=MODES.map(([id,l])=>`<button role="tab" class="${rmode===id?'on':''}" data-m="${id}">${l}<b>${cnt[id]}</b></button>`).join('');
+  const cnt={all:R.ry.length+R.bl.length,ide:R.ide.length,dok:R.dok.length,spo:R.spo.length,wie:R.wie.length,ali:R.ali.length+R.sal.length,pom:0,lin:OL.has.length+OL.rh.length,kon:OL.bef.length+OL.aft.length};
+  $('#rmodes').innerHTML=MODES.map(([id,l])=>`<button role="tab" class="${rmode===id?'on':''}" data-m="${id}">${l}${id==='pom'?'':`<b>${cnt[id]}</b>`}</button>`).join('');
   $('#rmodes').querySelectorAll('button').forEach(b=>b.onclick=()=>{rmode=b.dataset.m;rsyl='all';rExp=new Set();drawRymy()});
   const n=T.get(cur),wall=(n&&n.sciana||'').toLowerCase();
   const chip=c=>`<button class="rc ${wall.includes(c.p.toLowerCase())?'added':''} ${c.b?'':'rare'}" data-p="${esc(c.p)}">${esc(c.p)}${c.own?'<i>●</i>':''}</button>`;
@@ -710,6 +734,7 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
   else if(rmode==='ali'){$('#rsyl').innerHTML='';
     html=sec('al','Aliteracje',MOPIS.ali,R.ali)+sec('sa','Samogłoskowe aliteracje','ten sam układ samogłosek, inne spółgłoski',R.sal);
     if(!html)html='<div class="hint">Brak aliteracji.</div>'}
+  else if(rmode==='pom'){$('#rsyl').innerHTML='';drawPomysly(q);return}
   else if(rmode==='lin'){$('#rsyl').innerHTML='';const qw=wordsOf(q).slice(-1)[0]||'';
     const ln=a=>a.map(x=>`<div class="ln" data-id="${esc(x.n.id)}"><div>${hl(x.l,qw)}</div><span>${esc(x.n.tytul||'Bez tytułu')}</span></div>`).join('');
     html=(OL.has.length?`<div class="rsec"><h3>Linie ze słowem „${esc(qw)}”<span>${OL.has.length}</span></h3>${ln(OL.has)}</div>`:'')+
@@ -755,11 +780,13 @@ function sheetMore(){const n=T.get(cur);if(!n)return;
   <div class="row"><span>Rozmiar</span><input type="range" id="fsR" min="14" max="26" step="1" value="${VS.fs}" aria-label="Rozmiar tekstu"><span id="fsV">${VS.fs}</span></div>
   <div class="seg wide" id="ffSeg"><button data-f="sys" class="${VS.ff==='sys'?'on':''}">System</button><button data-f="serif" class="${VS.ff==='serif'?'on':''}">Szeryfowy</button><button data-f="mono" class="${VS.ff==='mono'?'on':''}">Mono</button></div>
   ${sw('swNums',VS.nums,'Numery linii')}${sw('swSyl',VS.syl,'Liczniki sylab przy wersach')}
+  <div class="row" style="flex-wrap:wrap"><span>Klucz API Claude (zakładka Pomysły)</span><input type="password" id="akey" autocomplete="off" placeholder="sk-ant-…" value="${esc(ls('nt-akey')||'')}" style="flex:1 1 100%;margin-top:6px;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--chip)"><div class="hint" style="flex:1 1 100%">Zostaje tylko w tej przeglądarce na telefonie. Bez niego zakładka Pomysły nie działa.</div></div>
   <div class="shBtns"><button id="impBtn">Importuj z pliku (.json)</button><button id="syncBtn">Synchronizuj teraz</button></div>
   <div class="shBtns"><button id="exOne">Zapisz ten tekst (.txt)</button><button id="exAll">Kopia wszystkich (.json)</button></div>
   <div class="hint" id="exMsg"></div>
   <div class="shBtns"><button class="danger" id="delBtn">Usuń ten tekst</button></div>`);
   $('#x').onclick=closeSheet;
+  $('#akey').onchange=e=>{ls('nt-akey',e.target.value.trim())};
   $('#fsR').oninput=e=>{VS.fs=+e.target.value;$('#fsV').textContent=VS.fs;ls('nt-fs',VS.fs);applyView()};
   $('#ffSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{VS.ff=b.dataset.f;ls('nt-ff',VS.ff);$('#ffSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));applyView()});
   const tog=(id,k,key)=>$(id).onclick=()=>{VS[k]=!VS[k];ls(key,VS[k]?'1':'0');$(id).classList.toggle('on',VS[k]);$(id).setAttribute('aria-checked',VS[k]);applyView()};
