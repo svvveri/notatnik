@@ -215,6 +215,8 @@ body[data-view="edit"] #fab{display:none}
 #keyGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 #keyGrid button{padding:12px 0;border-radius:11px;background:var(--chip);font-size:16px;font-weight:600}
 #keyGrid button.on{background:var(--acc-fill);color:var(--on-acc)}
+#mirror .vw{border-radius:3px}
+#mirror .va{background:hsl(50 95% 55% / .50)}#mirror .ve{background:hsl(125 62% 50% / .45)}#mirror .vi{background:hsl(0 0% 62% / .42)}#mirror .vo{background:hsl(2 78% 58% / .48)}#mirror .vu{background:hsl(212 82% 60% / .48)}
 #mirror .rh{border-radius:5px;background:hsl(var(--rc) 62% 52% / .30);box-shadow:0 0 0 1.5px hsl(var(--rc) 62% 52% / .30)}
 #mirror .rh.as{background:hsl(var(--rc) 62% 52% / .15);box-shadow:0 0 0 1.5px hsl(var(--rc) 62% 52% / .15)}
 .rh0{--rc:152}.rh1{--rc:188}.rh2{--rc:285}.rh3{--rc:330}.rh4{--rc:22}.rh5{--rc:100}.rh6{--rc:252}.rh7{--rc:350}
@@ -552,7 +554,32 @@ function rhyColors(lines,odAt){const secs=[];let cur=[];
     toks.forEach(t=>{if(t.last&&t.c===undefined&&t.r){const ak=skelOf(t.r.tail)+'|'+trailOf(t.r.tail).slice(-1);if(akc.has(ak))put(t,akc.get(ak),'as')}});
     asn.forEach(g=>{const f=g.filter(t=>t.c===undefined);if(f.length<2||new Set(f.map(t=>t.w)).size<2)return;const c=ci++%8;f.forEach(t=>put(t,c,'as'))})});
   out.forEach(a=>a.sort((x,y)=>x.s-y.s));return out}
-function rhTxt(line,seg,list){if(!list||!list.length)return seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:esc(x.t)).join('');
+/* tryb "samogłoski": każda sylaba dostaje kolor swojej samogłoski (a żółty, e zielony, i/y szary, o czerwony, u niebieski), więc rymy wielosylabowe widać jako te same ciągi kolorów */
+const VOWC={a:'a',e:'e',ę:'e',i:'i',y:'i',o:'o',ą:'o',u:'u',ó:'u'};
+const ONS=/^(?:[pbtdkgfw][rlł]|[kgpbf]ł|w[nlrł]|[sz][pktfwbdgmnłćś]|ś[cmlnp]|zd|zg|zb|zw|st[rw]|sp[rł]|sk[rł]|ps|pt|tw|dw|mn|ts|[sz]?[kg]n|ch[rł]|sz[ctpkwmnł]|cz[wr]|rz[ew])$/;
+function vowSyl(w){const V='aeiouyąęó',n=w.length,nuc=[];
+  for(let i=0;i<n;i++){const c=w[i];if(!V.includes(c))continue;
+    if(c==='i'&&i+1<n&&V.includes(w[i+1]))continue; // i palatalizujące (dzie, cia)
+    if(c==='u'&&i>0&&(w[i-1]==='a'||w[i-1]==='e')&&!V.includes(w[i+1]||'x'))continue; // dyftong au/eu na końcu: część poprzedniej
+    if(c==='u'&&i>0&&(w[i-1]==='a'||w[i-1]==='e'))continue;
+    nuc.push(i)}
+  if(!nuc.length)return [];
+  const bnd=[0];
+  for(let k=0;k+1<nuc.length;k++){const a=nuc[k]+1,b=nuc[k+1];let cl=w.slice(a,b);
+    // i palatalne przed następną samogłoską należy do jej początku
+    let lead=0;if(b-1>=a&&w[b-1]==='i'&&V.includes(w[b]||'x'))cl=w.slice(a,b-1);
+    const u=cl.match(/dź|dż|dz|sz|cz|rz|ch|./g)||[];let at;
+    if(u.length<=1)at=a;else if(ONS.test(u.join('')))at=a;else at=a+u[0].length;
+    bnd.push(at)}
+  bnd.push(n);
+  return nuc.map((p,k)=>({s:bnd[k],e:bnd[k+1],c:VOWC[w[p]]||'a'}))}
+function vowWord(w){const sy=vowSyl(w.toLowerCase());if(!sy.length)return esc(w);let h='',p=0;for(const x of sy){if(x.s>p)h+=esc(w.slice(p,x.s));h+=`<span class="vw v${x.c}">${esc(w.slice(x.s,x.e))}</span>`;p=x.e}return h+(p<w.length?esc(w.slice(p)):'')}
+function vowHtml(t){return t.split(/([a-ząćęłńóśźżéèäöü']+)/gi).map((x,i)=>i%2?vowWord(x):esc(x)).join('')}
+function rhTxt(line,seg,list,mode){
+  if(mode==='vow')return seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:vowHtml(x.t)).join('');
+  if(!list||!list.length)return seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:esc(x.t)).join('');
+  return rhTxtG(line,seg,list)}
+function rhTxtG(line,seg,list){if(!list||!list.length)return seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:esc(x.t)).join('');
   let pos=0,h='';
   for(const x of seg){const st=pos,en=pos+x.t.length;pos=en;
     if(x.ad){h+=`<span class="ad">${esc(x.t)}</span>`;continue}
@@ -578,7 +605,7 @@ function findOdrzut(lines){
   return null}
 function refit(){const b=$('#body');b.style.height='auto';b.style.height=Math.max(b.scrollHeight,Math.round(window.innerHeight*.46))+'px';
   const n=T.get(cur);const lines=b.value.split('\n');let wers=0,syl=0,adSyl=0,odN=0;
-  const OD=findOdrzut(lines),odAt=OD?OD.at:-1;const RC=VS.rh?rhyColors(lines,odAt):new Map();
+  const OD=findOdrzut(lines),odAt=OD?OD.at:-1;const RC=VS.rhm==='grp'?rhyColors(lines,odAt):new Map();
   const secs=[{name:'Początek',idx:0,n:0,implicit:true}];let sec=secs[0];const verses=[];
   const kind=l=>isLabel(l)?'lab':(/^\s*(#|\/\/)/.test(l)||/^\s*https?:\/\/\S+\s*$/i.test(l))?'cm':/^-[^\s-]/.test(l)?'st':'';
   $('#mirror').innerHTML=lines.map((l,idx)=>{
@@ -592,7 +619,7 @@ function refit(){const b=$('#body');b.style.height='auto';b.style.height=Math.ma
     if(p.hasMain){wers++;syl+=p.main;sec.n++;verses.push({idx,no:sec.n,sec:sec.name})}
     adSyl+=p.ad;
     const no=(VS.nums&&p.hasMain)?`<span class="no">${sec.n}</span>`:'';
-    const txt=rhTxt(l,p.seg,RC.get(idx));
+    const txt=rhTxt(l,p.seg,RC.get(idx),VS.rhm);
     const cnt=(p.hasMain||p.ad)?`<i>${p.hasMain?p.main:''}${p.ad?`<em>+${p.ad}</em>`:''}</i>`:'';
     return `<div class="ml">${no}${txt||'&nbsp;'}${cnt}</div>`}).join('');
   const takt=n&&n.bpm?` · <span class="fl">takt ${(240/n.bpm).toFixed(1).replace('.',',')} s</span>`:'';
@@ -980,7 +1007,7 @@ function rymyDlaMiejsca(){const b=$('#body');if(!cur)return;
   showTab('wall');$('#rq').value=q;if(q)szukajRymow(q);else $('#rq').focus()}
 
 /* ---- widok, cofnij, ulubione ---- */
-const VS={rh:ls('nt-rh')!=='0',fs:+(ls('nt-fs')||17),ff:ls('nt-ff')||'sys',nums:ls('nt-nums')==='1',syl:ls('nt-syl')!=='0'};
+const VS={rhm:ls('nt-rhm')||'vow',fs:+(ls('nt-fs')||17),ff:ls('nt-ff')||'sys',nums:ls('nt-nums')==='1',syl:ls('nt-syl')!=='0'};
 const FF={sys:'var(--font)',serif:'ui-serif,"New York",Georgia,serif',mono:'ui-monospace,"SF Mono",Menlo,monospace'};
 function applyView(){const r=document.documentElement.style;r.setProperty('--fs',VS.fs+'px');r.setProperty('--ff',FF[VS.ff]||FF.sys);
   $('#wrap').classList.toggle('nums',VS.nums);$('#wrap').classList.toggle('nocount',!VS.syl);if(cur&&tab==='text')refit();if(cur&&tab==='wall')wallFit()}
@@ -1000,7 +1027,7 @@ function sheetMore(){const n=T.get(cur);if(!n)return;
   openSheet(`<div class="shHead"><h3>Widok i eksport</h3><button class="x" id="x" aria-label="Zamknij">×</button></div>
   <div class="row"><span>Rozmiar</span><input type="range" id="fsR" min="14" max="26" step="1" value="${VS.fs}" aria-label="Rozmiar tekstu"><span id="fsV">${VS.fs}</span></div>
   <div class="seg wide" id="ffSeg"><button data-f="sys" class="${VS.ff==='sys'?'on':''}">System</button><button data-f="serif" class="${VS.ff==='serif'?'on':''}">Szeryfowy</button><button data-f="mono" class="${VS.ff==='mono'?'on':''}">Mono</button></div>
-  ${sw('swRh',VS.rh,'Podświetlaj rymy w tekście')}${sw('swNums',VS.nums,'Numery wersów (w sekcji)')}${sw('swSyl',VS.syl,'Liczniki sylab przy wersach')}
+  <div class="row"><span>Kolorowanie rymów</span></div><div class="seg wide" id="rhSeg"><button data-r="vow" class="${VS.rhm==='vow'?'on':''}">Samogłoski</button><button data-r="grp" class="${VS.rhm==='grp'?'on':''}">Grupy rymów</button><button data-r="off" class="${VS.rhm==='off'?'on':''}">Wył.</button></div>${sw('swNums',VS.nums,'Numery wersów (w sekcji)')}${sw('swSyl',VS.syl,'Liczniki sylab przy wersach')}
   <div class="row" style="flex-wrap:wrap"><span>Klucz API Claude (zakładka Pomysły)</span><input type="password" id="akey" autocomplete="off" placeholder="sk-ant-…" value="${esc(ls('nt-akey')||'')}" style="flex:1 1 100%;margin-top:6px;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--chip)"><div class="hint" style="flex:1 1 100%">Zostaje tylko w tej przeglądarce na telefonie. Bez niego zakładka Pomysły nie działa.</div></div>
   <div class="shBtns"><button id="impBtn">Importuj z pliku (.json)</button><button id="syncBtn">Synchronizuj teraz</button></div>
   <div class="shBtns"><button id="exOne">Zapisz ten tekst (.txt)</button><button id="exAll">Kopia wszystkich (.json)</button></div>
@@ -1011,7 +1038,7 @@ function sheetMore(){const n=T.get(cur);if(!n)return;
   $('#fsR').oninput=e=>{VS.fs=+e.target.value;$('#fsV').textContent=VS.fs;ls('nt-fs',VS.fs);applyView()};
   $('#ffSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{VS.ff=b.dataset.f;ls('nt-ff',VS.ff);$('#ffSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));applyView()});
   const tog=(id,k,key)=>$(id).onclick=()=>{VS[k]=!VS[k];ls(key,VS[k]?'1':'0');$(id).classList.toggle('on',VS[k]);$(id).setAttribute('aria-checked',VS[k]);applyView()};
-  tog('#swNums','nums','nt-nums');tog('#swRh','rh','nt-rh');tog('#swSyl','syl','nt-syl');
+  tog('#swNums','nums','nt-nums');$('#rhSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{VS.rhm=b.dataset.r;ls('nt-rhm',VS.rhm);$('#rhSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));applyView()});tog('#swSyl','syl','nt-syl');
   $('#exOne').onclick=async()=>{$('#exMsg').textContent=await zapisz(slug(n.tytul)+'.txt',(n.tytul||'')+'\n\n'+n.tresc+(n.sciana?'\n\n--- ściana rymów ---\n'+n.sciana:'')+'\n')};
   $('#exAll').onclick=async()=>{const all=[...T.values()].map(({id,tytul,tresc,tagi,bpm,klucz,sciana,gwiazdka,utworzono,zmieniono})=>({id,tytul,tresc,tagi,bpm,klucz,sciana,gwiazdka,utworzono,zmieniono}));
     $('#exMsg').textContent=await zapisz('notatnik-tekstow-kopia.json',JSON.stringify({teksty:all},null,1))};
