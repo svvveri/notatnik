@@ -633,6 +633,9 @@ const SKE={'ą':'1','ę':'2'},skelOf=t=>vowelsOf(t).map(c=>SKE[c]||c).join('');
 function loadIdx(){if(!IDX)IDX=fetch('rym/idx.json').then(r=>r.json()).catch(()=>{IDX=null;return null});return IDX}
 function loadShard(sk){if(!SH.has(sk))SH.set(sk,fetch('rym/v_'+sk+'.txt').then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>{const m=new Map();
   t.split('\n').forEach(l=>{const i=l.indexOf('\t');if(i>0)m.set(l.slice(0,i),l.slice(i+1).split(' '))});return m}).catch(()=>{SH.delete(sk);return null}));return SH.get(sk)}
+let SLP=null;
+function loadSlang(){if(!SLP)SLP=fetch('rym/slang.txt').then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>{const bySk=new Map();
+  t.split('\n').forEach(w=>{if(!w)return;const f=fon(w);if(!vowelsOf(f).length)return;const tl=tailFrom(f,2),sk=skelOf(tl);let m=bySk.get(sk);if(!m)bySk.set(sk,m=new Map());(m.get(tl)||m.set(tl,[]).get(tl)).push(w)});return bySk}).catch(()=>{SLP=null;return null});return SLP}
 function loadFreq(){if(!FQ)FQ=fetch('rym/freq.txt').then(r=>r.text()).then(t=>t.split('\n')).catch(()=>{FQ=null;return null});return FQ}
 function ensureDict(){return Promise.all([loadIdx(),loadFreq()])}
 const fastSyl=w=>{const a=w.match(/[aeiouyąęó]/g),b=w.match(/i[aeiouyąęó]/g);return Math.max(1,(a?a.length:0)-(b?b.length:0))};
@@ -650,12 +653,12 @@ async function szukajRymow(raw){const q=String(raw).trim();if(!q)return;const my
   const qf=fon(qlast),fv=f=>{const m=f.search(/[aeiouyąę]/);return m<0?f:f.slice(m)},qI=fv(qf),qN=vowelsOf(qf).length;
   const ideal=w=>{const f=fon(w);return vowelsOf(f).length===qN&&fv(f)===qI};
   const close=(key)=>{const t=trailOf(key);return !(t===qtr||(t&&qtr&&t[t.length-1]===qtr[qtr.length-1]))};
-  const add=(g,p,own,sl,i,ex)=>{if(!p||seen.has(g+p))return;if(g!=='wie'&&p.split(' ').pop()===qlast)return;seen.add(g+p);
-    const rk=FQR?FQR.get(p):undefined;R[g].push({p,own:!!own,sl,i,sc:(ex?1e7:0)+(rk===undefined?0:200000-Math.min(rk,200000))+sl*15000+(own?4000:0)-Math.min(i,2999)/10})};
+  const add=(g,p,own,sl,i,ex,sg)=>{if(!p||seen.has(g+p))return;if(g!=='wie'&&p.split(' ').pop()===qlast)return;seen.add(g+p);
+    const rk=FQR?FQR.get(p):undefined;R[g].push({p,own:!!own,sg:!!sg,sl,i,sc:(ex?1e7:0)+(sg?190000:rk===undefined?0:200000-Math.min(rk,200000))+sl*15000+(own?4000:0)-Math.min(i,2999)/10})};
   out.dok.forEach(c=>{add('dok',c.p,1,k.tail.length,0,1);add('ry',c.p,1,k.tail.length,0,1);if(!c.p.includes(' ')&&ideal(c.p))add('ide',c.p,1,k.tail.length,0,1)});
   out.aso.forEach(c=>add(close(c.k.tail)?'bl':'ry',c.p,1,c.sim||0,0,0));
   out.spo.forEach(c=>add('spo',c.p,1,0,0,0));out.wie.forEach(c=>add('wie',c.p,1,c.sl||0,0,0));
-  const [idx,fq]=await Promise.all([loadIdx(),loadFreq()]);let loadErr=!idx;
+  const [idx,fq,slg]=await Promise.all([loadIdx(),loadFreq(),loadSlang()]);let loadErr=!idx;
   if(fq&&!FQR){FQR=new Map();for(let j=0;j<fq.length;j++)FQR.set(fq[j],j)}
   if(idx){const lv=vowelsOf(k.tail),last=SKE[lv[lv.length-1]]||lv[lv.length-1];
     const sks=nv>=2?[skelOf(k.tail)]:Object.keys(idx).filter(s=>s.endsWith(last));
@@ -667,6 +670,11 @@ async function szukajRymow(raw){const q=String(raw).trim();if(!q)return;const my
       for(let i=0;i<lim;i++){const w=ws[i];if(w===qlast)continue;
         add(cl?'bl':'ry',w,0,sl,i,ex&&!cl);if(ex){add('dok',w,0,sl,i,1);if(ideal(w))add('ide',w,0,sl,i,1)}
         if(qv.length>=3&&fastSyl(w)>=3&&(ex||sl>=2)&&i<400){const wv=vowelsOf(fon(w));let m3=0;while(m3<wv.length&&m3<qv.length&&wv[wv.length-1-m3]===qv[qv.length-1-m3])m3++;if(m3>=3)add('wie',w,0,m3*10+sl,i,1)}}}})}
+  if(slg){const lv=vowelsOf(k.tail),last=SKE[lv[lv.length-1]]||lv[lv.length-1];
+    const sks=nv>=2?[skelOf(k.tail)]:[...slg.keys()].filter(x=>x.endsWith(last));
+    for(const sk of sks){const m=slg.get(sk);if(!m)continue;for(const [key,ws] of m){
+      const ex=nv>=2?key===k.tail:key.endsWith(k.tail),cl=close(key),sl=cl?sufLen(stemOf(key),stemOf(k.tail)):sufLen(key,k.tail);if(cl&&nv<2&&sl<2)continue;
+      ws.forEach((w,i)=>{if(w===qlast)return;add(cl?'bl':'ry',w,0,sl,i,ex&&!cl,1);if(ex){add('dok',w,0,sl,i,1,1);if(ideal(w))add('ide',w,0,sl,i,1,1)}})}}}
   if(fq){if(!FQS)FQS=new Set(fq.slice(0,12000));
     if(!FQK||FQK.nv!==nv){const A=new Array(fq.length),V=new Array(fq.length);for(let j=0;j<fq.length;j++){const f=fon(fq[j]);A[j]=tailFrom(f,nv>=2?2:1);V[j]=vowelsOf(f).join('')}A.nv=nv;A.V=V;FQK=A}
     const cs=k.tail.replace(/[aeiouyąę]/g,''),sv=vowelsOf(k.tail).join('');
@@ -737,7 +745,7 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
   $('#rmodes').innerHTML=MODES.map(([id,l])=>`<button role="tab" class="${rmode===id?'on':''}" data-m="${id}">${l}${id==='pom'?'':`<b>${cnt[id]}</b>`}</button>`).join('');
   $('#rmodes').querySelectorAll('button').forEach(b=>b.onclick=()=>{rmode=b.dataset.m;rsyl='all';rExp=new Set();drawRymy()});
   const n=T.get(cur),wall=(n&&n.sciana||'').toLowerCase();
-  const chip=c=>`<button class="rc ${wall.includes(c.p.toLowerCase())?'added':''} ${c.b?'':'rare'}" data-p="${esc(c.p)}">${esc(c.p)}${c.own?'<i>●</i>':''}</button>`;
+  const chip=c=>`<button class="rc ${wall.includes(c.p.toLowerCase())?'added':''} ${c.b?'':'rare'}" data-p="${esc(c.p)}">${esc(c.p)}${c.own?'<i>●</i>':''}${c.sg?'<i title="slang">◆</i>':''}</button>`;
   const sec=(sk,title,desc,items)=>{if(!items.length)return '';
     const by={};items.forEach(c=>{const s=Math.min(7,c.s);(by[s]=by[s]||[]).push(c)});const ss=Object.keys(by).map(Number).sort((a,b)=>a-b);
     return `<div class="rsec"><h3>${title}<span>${items.length}${items.length>=400?'+':''} wyników</span></h3>${desc?`<div class="hint">${desc}</div>`:''}

@@ -1,0 +1,5026 @@
+0	Maria Konopnicka	A co wam śpiewać
+1	A cóż z tą Dzieciną…	A cóż z tą Dzieciną będziem czynili,
+2	Juliusz Słowacki	A jednak ja nie wątpię — bo się pora zbliża…
+3	Kazimierz Przerwa-Tetmajer	A kiedy będziesz…
+4	Joanna Mueller	Somnambóle fantomowe
+5	Tristan Derème	[Ach! rzucić sieci zdarte…]
+6	Horacy	Pieśń II, 3 (Aequam memento rebus in arduis…)
+7	Horacy	Pieśń I, 30 (O Venus regina Cnidi Paphique…)
+8	Jan Kasprowicz	Akordy jesienne
+9	Miłosz Biedrzycki	Akslop
+a	Karol Bołoz Antoniewicz	An Frau Caroline Pichler
+b	Julisz Słowacki	Anioł ognisty — mój anioł lewy…
+c	Autor nieznany	Anioł pasterzom mówił
+d	Juliusz Słowacki	Anioły stoją na rodzinnych polach…
+e	Antanas Baranauskas	Anykščių šilelis
+f	Karol Bołoz Antoniewicz	Burza
+g	Karol Bołoz Antoniewicz	Dobranoc
+h	Karol Bołoz Antoniewicz	[Gdzie bluszcz po zimnym grobie się wije…]
+i	Karol Bołoz Antoniewicz	Głos rospaczy
+j	Karol Bołoz Antoniewicz	Grób
+k	Karol Bołoz Antoniewicz	Jesień
+l	Karol Bołoz Antoniewicz	[Lecz jakże próżne są wszystkie nadzieje!…]
+m	Karol Bołoz Antoniewicz	[Lecz próżna nadzieja, i martwe życzenia…]
+n	Karol Bołoz Antoniewicz	Łzy
+o	Karol Bołoz Antoniewicz	Miłość
+p	Karol Bołoz Antoniewicz	Noc
+q	Karol Bołoz Antoniewicz	Odpowiedź opatrzności
+r	Karol Bołoz Antoniewicz	Oko
+s	Karol Bołoz Antoniewicz	Pielgrzym
+t	Karol Bołoz Antoniewicz	Ranek
+u	Karol Bołoz Antoniewicz	Sen
+v	Karol Bołoz Antoniewicz	To ona
+w	Karol Bołoz Antoniewicz	Ucieczka
+x	Karol Bołoz Antoniewicz	Wizyta
+y	Karol Bołoz Antoniewicz	Współczucie
+z	Karol Bołoz Antoniewicz	Wstęp
+10	Karol Bołoz Antoniewicz	Żeglarz
+11	Karol Bołoz Antoniewicz	Życie
+12	Joanna Mueller	Somnambóle fantomowe
+13	Adam Asnyk	A Sonnet (One Heart)
+14	Adam Asnyk	Adamowi Pługowi
+15	Adam Asnyk	Apostrofa
+16	Adam Asnyk	Bez odpowiedzi
+17	Adam Asnyk	Bezimiennemu
+18	Adam Asnyk	Bolesławowi Prusowi
+19	Adam Asnyk	Choć pól i łąk
+1a	Adam Asnyk	[Czego ci trzeba dziś, posępny tłumie…]
+1b	Adam Asnyk	Do Sokołów
+1c	Adam Asnyk	Dwa sonety
+1d	Adam Asnyk	Dwie fazy
+1e	Adam Asnyk	Dzień wczorajszy
+1f	Adam Asnyk	Fale
+1g	Adam Asnyk	Fantazya ludów
+1h	Adam Asnyk	Fresk pompejański
+1i	Adam Asnyk	Gałązka jaśminu
+1j	Adam Asnyk	Głos wołający na puszczy
+1k	Adam Asnyk	Herakles
+1l	Adam Asnyk	Historyczna nowa szkoła
+1m	Adam Asnyk	J. I. Kraszewskiemu
+1n	Adam Asnyk	J. Kollarowi
+1o	Adam Asnyk	[Jednego serca…]
+1p	Adam Asnyk	Juliuszowi Mien
+1q	Adam Asnyk	[Kiedym cię żegnał…]
+1r	Adam Asnyk	Krąg przemian
+1s	Adam Asnyk	Memnon
+1t	Adam Asnyk	[Miejmy nadzieję!]
+1u	Adam Asnyk	Młodości sen
+1v	Adam Asnyk	Morskie oko
+1w	Adam Asnyk	Myśli ulotne
+1x	Adam Asnyk	Nad głębiami
+1y	Adam Asnyk	Nad głębiami
+1z	Adam Asnyk	Nad głębiami
+20	Adam Asnyk	Nad głębiami
+21	Adam Asnyk	Nad głębiami
+22	Adam Asnyk	Nad głębiami
+23	Adam Asnyk	Nad głębiami
+24	Adam Asnyk	Nad głębiami
+25	Adam Asnyk	Nad głębiami
+26	Adam Asnyk	Nad głębiami
+27	Adam Asnyk	Nad głębiami
+28	Adam Asnyk	Nad głębiami
+29	Adam Asnyk	Nad głębiami
+2a	Adam Asnyk	Nad głębiami
+2b	Adam Asnyk	Nad głębiami
+2c	Adam Asnyk	Nad głębiami
+2d	Adam Asnyk	Nad głębiami
+2e	Adam Asnyk	Nad głębiami
+2f	Adam Asnyk	Nad głębiami
+2g	Adam Asnyk	Nad głębiami
+2h	Adam Asnyk	Nad głębiami
+2i	Adam Asnyk	Nad głębiami
+2j	Adam Asnyk	Nad głębiami
+2k	Adam Asnyk	Nad głębiami
+2l	Adam Asnyk	Nad głębiami
+2m	Adam Asnyk	Nad głębiami
+2n	Adam Asnyk	Nad głębiami
+2o	Adam Asnyk	Nad głębiami
+2p	Adam Asnyk	Nad głębiami
+2q	Adam Asnyk	Nad głębiami
+2r	Adam Asnyk	Nad głębiami
+2s	Adam Asnyk	Nad głębiami
+2t	Adam Asnyk	Nad głębiami
+2u	Adam Asnyk	No, Nothing Happened There
+2v	Adam Asnyk	Oh, Void Complaints
+2w	Adam Asnyk	To the Young
+2x	Adam Asnyk	Ze sceny świata
+2y	Adam Asnyk	Ze sceny świata
+2z	Adam Asnyk	Ze sceny świata
+30	Adam Asnyk	Ze sceny świata
+31	Adam Asnyk	Ze sceny świata
+32	Adam Asnyk	V
+33	Adam Asnyk	Ze sceny świata
+34	Adam Asnyk	Ze sceny świata
+35	Adam Asnyk	Ze sceny świata
+36	Adam Asnyk	Ze sceny świata
+37	Adam Asnyk	Ze sceny świata
+38	Adam Asnyk	Ze sceny świata
+39	Louis le Cardonnel	Asyż
+3a	Joanna Mueller	Somnambóle fantomowe
+3b	Autorka nieznana	Żydówki
+3c	Krzysztof Kamil Baczyński	[Motto]
+3d	Krzysztof Kamil Baczyński	[Ach, umieram, umieram…]
+3e	Krzysztof Kamil Baczyński	Ad Aristum Fuscum
+3f	Krzysztof Kamil Baczyński	Bajka
+3g	Krzysztof Kamil Baczyński	Ballada morska
+3h	Krzysztof Kamil Baczyński	Ballada o rzece
+3i	Krzysztof Kamil Baczyński	Ballada o trzech królach
+3j	Krzysztof Kamil Baczyński	Ballada zimowa
+3k	Krzysztof Kamil Baczyński	Bez imienia
+3l	Krzysztof Kamil Baczyński	Biała magia
+3m	Krzysztof Kamil Baczyński	Bohater
+3n	Krzysztof Kamil Baczyński	[Byłeś jak wielkie, stare drzewo…]
+3o	Krzysztof Kamil Baczyński	Ci ludzie
+3p	Krzysztof Kamil Baczyński	Ciało
+3q	Krzysztof Kamil Baczyński	Ciemna miłość
+3r	Krzysztof Kamil Baczyński	Co jest we mnie
+3s	Krzysztof Kamil Baczyński	Czart
+3t	Krzysztof Kamil Baczyński	Deszcze
+3u	Krzysztof Kamil Baczyński	Do Matki Boskiej
+3v	Krzysztof Kamil Baczyński	Do przyjaciela
+3w	Krzysztof Kamil Baczyński	[Dokąd to jeszcze?]
+3x	Krzysztof Kamil Baczyński	Dwie miłości
+3y	Krzysztof Kamil Baczyński	[Dymy, wysokie sztandary…]
+3z	Krzysztof Kamil Baczyński	Dzieło dla rąk
+40	Krzysztof Kamil Baczyński	Dzień sądu
+41	Krzysztof Kamil Baczyński	Elegia (Mokre gałęzie świerków…)
+42	Krzysztof Kamil Baczyński	Elegia o… [chłopcu polskim]
+43	Krzysztof Kamil Baczyński	Elegia (Obłoki lotne, żagle uniesień…)
+44	Krzysztof Kamil Baczyński	Elegia (To odwaga — życie wzdycha tak ciężko…)
+45	Krzysztof Kamil Baczyński	Erotyk
+46	Krzysztof Kamil Baczyński	[Gdy broń dymiącą z dłoni wyjmę…]
+47	Krzysztof Kamil Baczyński	[Gdy za powietrza zasłoną…]
+48	Krzysztof Kamil Baczyński	Groteska
+49	Krzysztof Kamil Baczyński	Hallelujah
+4a	Krzysztof Kamil Baczyński	Hellada
+4b	Krzysztof Kamil Baczyński	Historia
+4c	Krzysztof Kamil Baczyński	[Jerzy! Mój przyjacielu, zanim się sprowadzisz…]
+4d	Krzysztof Kamil Baczyński	Jesienny spacer poetów
+4e	Krzysztof Kamil Baczyński	Juwenilia II
+4f	Krzysztof Kamil Baczyński	Juwenilia II
+4g	Krzysztof Kamil Baczyński	Juwenilia II
+4h	Krzysztof Kamil Baczyński	Juwenilia II
+4i	Krzysztof Kamil Baczyński	Juwenilia II
+4j	Krzysztof Kamil Baczyński	Juwenilia II
+4k	Krzysztof Kamil Baczyński	Juwenilia II
+4l	Krzysztof Kamil Baczyński	Juwenilia II
+4m	Krzysztof Kamil Baczyński	Juwenilia II
+4n	Krzysztof Kamil Baczyński	Juwenilia II
+4o	Krzysztof Kamil Baczyński	Juwenilia II
+4p	Krzysztof Kamil Baczyński	Juwenilia II
+4q	Krzysztof Kamil Baczyński	Juwenilia II
+4r	Krzysztof Kamil Baczyński	Juwenilia II
+4s	Krzysztof Kamil Baczyński	Juwenilia II
+4t	Krzysztof Kamil Baczyński	Juwenilia II
+4u	Krzysztof Kamil Baczyński	Juwenilia II
+4v	Krzysztof Kamil Baczyński	Juwenilia II
+4w	Krzysztof Kamil Baczyński	Juwenilia II
+4x	Krzysztof Kamil Baczyński	Juwenilia II
+4y	Krzysztof Kamil Baczyński	Juwenilia II
+4z	Krzysztof Kamil Baczyński	Juwenilia II
+50	Krzysztof Kamil Baczyński	Juwenilia II
+51	Krzysztof Kamil Baczyński	Juwenilia II
+52	Krzysztof Kamil Baczyński	Juwenilia II
+53	Krzysztof Kamil Baczyński	Juwenilia II
+54	Krzysztof Kamil Baczyński	Juwenilia II
+55	Krzysztof Kamil Baczyński	Juwenilia II
+56	Krzysztof Kamil Baczyński	Juwenilia II
+57	Krzysztof Kamil Baczyński	Juwenilia II
+58	Krzysztof Kamil Baczyński	Juwenilia II
+59	Krzysztof Kamil Baczyński	Kolęda
+5a	Krzysztof Kamil Baczyński	Kołysanka
+5b	Krzysztof Kamil Baczyński	Krajobraz zimowy
+5c	Krzysztof Kamil Baczyński	Krzyż
+5d	Krzysztof Kamil Baczyński	[Książka leżała na stole…]
+5e	Krzysztof Kamil Baczyński	[Których nam nikt nie wynagrodzi…]
+5f	Krzysztof Kamil Baczyński	Labirynt
+5g	Krzysztof Kamil Baczyński	Legenda
+5h	Krzysztof Kamil Baczyński	Lodowisko
+5i	Krzysztof Kamil Baczyński	Łowy
+5j	Krzysztof Kamil Baczyński	Madrygał
+5k	Krzysztof Kamil Baczyński	Magia
+5l	Krzysztof Kamil Baczyński	Mazowsze
+5m	Krzysztof Kamil Baczyński	Miłość
+5n	Krzysztof Kamil Baczyński	Miserere
+5o	Krzysztof Kamil Baczyński	Młot
+5p	Krzysztof Kamil Baczyński	Moce
+5q	Krzysztof Kamil Baczyński	Modlitwa do Bogarodzicy
+5r	Krzysztof Kamil Baczyński	Modlitwa II
+5s	Krzysztof Kamil Baczyński	Narodziny Boga
+5t	Krzysztof Kamil Baczyński	Narzeczona
+5u	Krzysztof Kamil Baczyński	[Nie stój u ciemnych świata wód…]
+5v	Krzysztof Kamil Baczyński	[Nie to, co mi się śniło…]
+5w	Krzysztof Kamil Baczyński	[Nie wstydź się tych przelotów…]
+5x	Krzysztof Kamil Baczyński	[Niebo złote ci otworzę…]
+5y	Krzysztof Kamil Baczyński	[Noc zielona była…]
+5z	Krzysztof Kamil Baczyński	Noc
+60	Krzysztof Kamil Baczyński	[O miasto, miasto — Jeruzalem żalu…]
+61	Krzysztof Kamil Baczyński	O mój ty smutku cichy
+62	Krzysztof Kamil Baczyński	O muzie
+63	Krzysztof Kamil Baczyński	[O wielkie niebo świata…]
+64	Krzysztof Kamil Baczyński	O wolność
+65	Krzysztof Kamil Baczyński	Obozy
+66	Krzysztof Kamil Baczyński	Oddech wiosenny
+67	Krzysztof Kamil Baczyński	[Oddycha miasto ciemne długimi wiekami…]
+68	Krzysztof Kamil Baczyński	Okręty zimowe
+69	Krzysztof Kamil Baczyński	Olbrzym w lesie
+6a	Krzysztof Kamil Baczyński	Orfeusz w lesie
+6b	Krzysztof Kamil Baczyński	Otwarcie przemian
+6c	Krzysztof Kamil Baczyński	Pamiąteczki
+6d	Krzysztof Kamil Baczyński	Pieśń o ciemności
+6e	Krzysztof Kamil Baczyński	Pieśń o klęsce
+6f	Krzysztof Kamil Baczyński	Pioseneczka
+6g	Krzysztof Kamil Baczyński	Piosenka księżyca
+6h	Krzysztof Kamil Baczyński	Piosenka śnieżna żołnierza
+6i	Krzysztof Kamil Baczyński	Piosenka (Upływa lęku biały jeleń…)
+6j	Krzysztof Kamil Baczyński	Piosenka
+6k	Krzysztof Kamil Baczyński	[Pod nieba dłoniastą palmą nie daj mi chodzić samotnie…]
+6l	Krzysztof Kamil Baczyński	Podróż w naturę
+6m	Krzysztof Kamil Baczyński	Cień z obozu
+6n	Krzysztof Kamil Baczyński	Do Pana Józefa
+6o	Krzysztof Kamil Baczyński	Pokolenie (Do palców przymarzły struny)
+6p	Krzysztof Kamil Baczyński	Pokolenie (Wiatr drzewa spienia…)
+6q	Krzysztof Kamil Baczyński	Polacy
+6r	Krzysztof Kamil Baczyński	Poległym
+6s	Krzysztof Kamil Baczyński	Pożegnanie żałosnego strzelca
+6t	Krzysztof Kamil Baczyński	Pragnienia
+6u	Krzysztof Kamil Baczyński	Promienie
+6v	Krzysztof Kamil Baczyński	Prymityw
+6w	Krzysztof Kamil Baczyński	Przypowieść
+6x	Krzysztof Kamil Baczyński	Psalm 2. O krzyżu
+6y	Krzysztof Kamil Baczyński	Psalm 3. O łasce
+6z	Krzysztof Kamil Baczyński	Psalm 4
+70	Krzysztof Kamil Baczyński	Rodzicom
+71	Krzysztof Kamil Baczyński	Romantyczność
+72	Krzysztof Kamil Baczyński	Rorate Coeli
+73	Krzysztof Kamil Baczyński	Róża świata
+74	Krzysztof Kamil Baczyński	Rycerz
+75	Krzysztof Kamil Baczyński	Rzeczy niepokój
+76	Krzysztof Kamil Baczyński	Rzeka
+77	Krzysztof Kamil Baczyński	Sen
+78	Krzysztof Kamil Baczyński	1942, 1943, 1944
+79	Krzysztof Kamil Baczyński	Serce jak obłok
+7a	Krzysztof Kamil Baczyński	Serce
+7b	Krzysztof Kamil Baczyński	[Śnieg jak wieko żelazne…]
+7c	Krzysztof Kamil Baczyński	Śpiew do snu
+7d	Krzysztof Kamil Baczyński	Śpiew na wiosnę
+7e	Krzysztof Kamil Baczyński	Spojrzenie
+7f	Krzysztof Kamil Baczyński	[Stąd: niebo jest duże jak niebo południa…]
+7g	Krzysztof Kamil Baczyński	„Stare miasto”
+7h	Krzysztof Kamil Baczyński	Starość
+7i	Krzysztof Kamil Baczyński	Sur le pont d'Avignon
+7j	Krzysztof Kamil Baczyński	[Świat — kryształowa kula…]
+7k	Krzysztof Kamil Baczyński	Świat sen
+7l	Krzysztof Kamil Baczyński	Święto umarłych
+7m	Krzysztof Kamil Baczyński	Świętość
+7n	Krzysztof Kamil Baczyński	Swoboda
+7o	Krzysztof Kamil Baczyński	Juwenilia II
+7p	Krzysztof Kamil Baczyński	Tego dnia
+7q	Krzysztof Kamil Baczyński	Ten czas
+7r	Krzysztof Kamil Baczyński	Teologia
+7s	Krzysztof Kamil Baczyński	Trofea
+7t	Krzysztof Kamil Baczyński	[Ty jesteś moje imię i w kształcie, i w przyczynie]
+7u	Krzysztof Kamil Baczyński	[Tych miłości, które z nami…]
+7v	Krzysztof Kamil Baczyński	U niebios rozkwitających
+7w	Krzysztof Kamil Baczyński	Ugory
+7x	Krzysztof Kamil Baczyński	[W każdej przemianie podobna kręgowi czasu…]
+7y	Krzysztof Kamil Baczyński	[W takiej ciszy słyszała, jak na godzin stopnie…]
+7z	Krzysztof Kamil Baczyński	W żalu najczystszym
+80	Krzysztof Kamil Baczyński	Warszawa
+81	Krzysztof Kamil Baczyński	Wesele poety
+82	Krzysztof Kamil Baczyński	Westchnienie
+83	Krzysztof Kamil Baczyński	Wiatr
+84	Krzysztof Kamil Baczyński	Wieczory
+85	Krzysztof Kamil Baczyński	Wiersz o cierpieniu
+86	Krzysztof Kamil Baczyński	Wigilia
+87	Krzysztof Kamil Baczyński	Wina
+88	Krzysztof Kamil Baczyński	Wizerunek
+89	Krzysztof Kamil Baczyński	Wróble
+8a	Krzysztof Kamil Baczyński	Wspomnienie
+8b	Krzysztof Kamil Baczyński	Wybór
+8c	Krzysztof Kamil Baczyński	Wyroki
+8d	Krzysztof Kamil Baczyński	Z głową na karabinie
+8e	Krzysztof Kamil Baczyński	Z lasu
+8f	Krzysztof Kamil Baczyński	Z nocy
+8g	Krzysztof Kamil Baczyński	Z szopką
+8h	Krzysztof Kamil Baczyński	Z wiatrem
+8i	Krzysztof Kamil Baczyński	Żal
+8j	Krzysztof Kamil Baczyński	[Ziemia jak ognia słup…]
+8k	Krzysztof Kamil Baczyński	Ziemia
+8l	Krzysztof Kamil Baczyński	Zjawy
+8m	Krzysztof Kamil Baczyński	Zwycięzcy
+8n	Krzysztof Kamil Baczyński	[Żyjemy na dnie ciała…]
+8o	Maria Konopnicka	Bajka o świerszczu
+8p	Józef Czechowicz	ballada z tamtej strony
+8q	Józef Czechowicz	ballada z tamtej strony
+8r	Józef Czechowicz	ballada z tamtej strony
+8s	Józef Czechowicz	ballada z tamtej strony
+8t	Józef Czechowicz	ballada z tamtej strony
+8u	Józef Czechowicz	ballada z tamtej strony
+8v	Józef Czechowicz	ballada z tamtej strony
+8w	Józef Czechowicz	ballada z tamtej strony
+8x	Józef Czechowicz	ballada z tamtej strony
+8y	Józef Czechowicz	ballada z tamtej strony
+8z	Józef Czechowicz	ballada z tamtej strony
+90	Józef Czechowicz	ballada z tamtej strony
+91	Józef Czechowicz	ballada z tamtej strony
+92	Józef Czechowicz	ballada z tamtej strony
+93	Józef Czechowicz	ballada z tamtej strony
+94	Józef Czechowicz	ballada z tamtej strony
+95	Józef Czechowicz	ballada z tamtej strony
+96	Józef Czechowicz	ballada z tamtej strony
+97	Józef Czechowicz	ballada z tamtej strony
+98	Józef Czechowicz	ballada z tamtej strony
+99	Józef Czechowicz	ballada z tamtej strony
+9a	Józef Czechowicz	ballada z tamtej strony
+9b	Józef Czechowicz	ballada z tamtej strony
+9c	Józef Czechowicz	ballada z tamtej strony
+9d	Józef Czechowicz	ballada z tamtej strony
+9e	Adam Mickiewicz	Ballady i romanse
+9f	Adam Mickiewicz	Ballady i romanse
+9g	Adam Mickiewicz	Ballady i romanse
+9h	Adam Mickiewicz	Ballady i romanse
+9i	Adam Mickiewicz	Ballady i romanse
+9j	Adam Mickiewicz	Ballady i romanse
+9k	Adam Mickiewicz	Ballady i romanse
+9l	Adam Mickiewicz	Ballady i romanse
+9m	Adam Mickiewicz	To lubię
+9n	Théodore de Banville	[Snycerzu, szukaj bacznie…]
+9o	Juliusz Słowacki	Baranki moje…
+9p	Justyna Bargielska	Dwa fiaty
+9q	Justyna Bargielska	Dwa fiaty
+9r	Justyna Bargielska	Dwa fiaty
+9s	Justyna Bargielska	Dwa fiaty
+9t	Justyna Bargielska	Dwa fiaty
+9u	Justyna Bargielska	Dwa fiaty
+9v	Justyna Bargielska	Dwa fiaty
+9w	Justyna Bargielska	Dwa fiaty
+9x	Justyna Bargielska	Dwa fiaty
+9y	Justyna Bargielska	Dwa fiaty
+9z	Justyna Bargielska	Dwa fiaty
+a0	Justyna Bargielska	Dwa fiaty
+a1	Justyna Bargielska	Dwa fiaty
+a2	Justyna Bargielska	Dwa fiaty
+a3	Justyna Bargielska	Dwa fiaty
+a4	Justyna Bargielska	Dwa fiaty
+a5	Justyna Bargielska	Dwa fiaty
+a6	Justyna Bargielska	Dwa fiaty
+a7	Justyna Bargielska	Dwa fiaty
+a8	Justyna Bargielska	Dwa fiaty
+a9	Justyna Bargielska	Dwa fiaty
+aa	Justyna Bargielska	Dwa fiaty
+ab	Justyna Bargielska	Dwa fiaty
+ac	Justyna Bargielska	Dwa fiaty
+ad	Justyna Bargielska	Dwa fiaty
+ae	Justyna Bargielska	Dwa fiaty
+af	Justyna Bargielska	Dwa fiaty
+ag	Justyna Bargielska	Dwa fiaty
+ah	Justyna Bargielska	Dwa fiaty
+ai	Justyna Bargielska	Dwa fiaty
+aj	Justyna Bargielska	Dwa fiaty
+ak	Justyna Bargielska	Dwa fiaty
+al	Justyna Bargielska	Dwa fiaty
+am	Marceli Skałkowski	[Bartoszu, Bartoszu…]
+an	Henry Bataille	Wieczory
+ao	Cyprian Kamil Norwid	Bema pamięci żałobny-rapsod
+ap	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+aq	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+ar	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+as	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+at	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+au	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+av	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+aw	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+ax	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+ay	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+az	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+b0	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+b1	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+b2	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+b3	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+b4	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+b5	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+b6	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+b7	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+b8	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+b9	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+ba	Czy pisarzom burczy w brzuchu?	Paweł Beręsewicz
+bb	Jean-Marc Bernard	De profundis
+bc	Aloysius Bertrand	Blask księżyca
+bd	Aloysius Bertrand	Do P. Davida, snycerza posągów
+be	Aloysius Bertrand	Harlem
+bf	Aloysius Bertrand	Moje ustronie
+bg	Aloysius Bertrand	Październik
+bh	Aloysius Bertrand	Pięć palców dłoni
+bi	Aloysius Bertrand	Skarbo
+bj	Miłosz Biedrzycki	*
+bk	Miłosz Biedrzycki	*
+bl	Miłosz Biedrzycki	*
+bm	Miłosz Biedrzycki	*
+bn	Miłosz Biedrzycki	*
+bo	Miłosz Biedrzycki	*
+bp	Miłosz Biedrzycki	*
+bq	Miłosz Biedrzycki	*
+br	Miłosz Biedrzycki	*
+bs	Miłosz Biedrzycki	*
+bt	Miłosz Biedrzycki	*
+bu	Miłosz Biedrzycki	*
+bv	Miłosz Biedrzycki	*
+bw	Miłosz Biedrzycki	*
+bx	Miłosz Biedrzycki	*
+by	Miłosz Biedrzycki	*
+bz	Miłosz Biedrzycki	*
+c0	Miłosz Biedrzycki	*
+c1	Miłosz Biedrzycki	*
+c2	Miłosz Biedrzycki	*
+c3	Miłosz Biedrzycki	*
+c4	Miłosz Biedrzycki	*
+c5	Miłosz Biedrzycki	*
+c6	Miłosz Biedrzycki	*
+c7	Miłosz Biedrzycki	*
+c8	Miłosz Biedrzycki	*
+c9	Miłosz Biedrzycki	*
+ca	Miłosz Biedrzycki	*
+cb	Miłosz Biedrzycki	*
+cc	Miłosz Biedrzycki	*
+cd	Karol Bołoz Antoniewicz	Bielany
+ce	Dominik Bielicki	2004/2005
+cf	Dominik Bielicki	Bezdroża rozwoju
+cg	Dominik Bielicki	Coś w zaroślach
+ch	Dominik Bielicki	Dobrze po
+ci	Dominik Bielicki	Ekspedientki
+cj	Dominik Bielecki	Empatie
+ck	Dominik Bielecki	Faktura tła
+cl	Dominik Bielicki	Filk forever
+cm	Dominik Bielecki	Głęboko w sercu mym…
+cn	Dominik Bielicki	Gruba tańczy
+co	Dominik Bielicki	Gulasz
+cp	Dominik Bielicki	Kilimandżaro
+cq	Dominik Bielicki	Kilka poręcznych zgryzot
+cr	Dominik Bielicki	Klepsydra
+cs	Dominik Bielicki	Lato Kamili
+ct	Dominik Bielicki	Meblościanka
+cu	Dominik Bielicki	Minerał
+cv	Dominik Bielecki	Moja pierwsza syrenka
+cw	Dominik Bielecki	Mop
+cx	Dominik Bielicki	Na debecie
+cy	Dominik Bielicki	Nieutulenie
+cz	Dominik Bielicki	Palce Łużyna
+d0	Dominik Bielicki	Pierwszy przyjaciel
+d1	Dominik Bielecki	Piko
+d2	Dominik Bielicki	Poczytalność
+d3	Dominik Bielicki	Pod każdym pozorem
+d4	Dominik Bielicki	Rząd dusz
+d5	Dominik Bielicki	Stare szmaty
+d6	Dominik Bielecki	Stawiennictwo
+d7	Dominik Bielicki	Ta jedna jedyna
+d8	Dominik Bielicki	Taki ładny a brzydki
+d9	Dominik Bielecki	***
+da	Dominik Bielicki	Uzmysłowienie
+db	Dominik Bielicki	W stronę kranu
+dc	Dominik Bielecki	Warszawa wolna od narkotyków
+dd	Dominik Bielecki	Wiersz dla Johna Nasha
+de	Dominik Bielicki	Więźli się, wyplata…
+df	Dominik Bielecki	Wykroczenie
+dg	Dominik Bielicki	Życie z cieniem
+dh	Dominik Bielicki	Gruba tańczy
+di	Rudolf G. Binding	Sen
+dj	Józef Birkenmajer	Wycieczka
+dk	Józef Birkenmajer	Wycieczka
+dl	Józef Birkenmajer	Wycieczka
+dm	Józef Birkenmajer	Wycieczka
+dn	Józef Birkenmajer	Wycieczka
+do	Józef Birkenmajer	Wycieczka
+dp	Józef Birkenmajer	Wycieczka
+dq	Józef Birkenmajer	Wycieczka
+dr	Józef Birkenmajer	Wycieczka
+ds	Hela Blumengraber	Do profesorów
+dt	Hela Blumengraber	Mojej matce!
+du	Juliusz Słowacki	Bo mię matka moja miła…
+dv	Juliusz Słowacki	Bo to jest wieszcza najjaśniejsza chwała…
+dw	Bogurodzica	ISBN 978-83-288-6605-8
+dx	Teresa Bogusławska	17.X.
+dy	Teresa Bogusławska	Jakże tu można zasnąć?
+dz	Teresa Bogusławska	Ktoś Ty?
+e0	Teresa Bogusławska	Warszawie
+e1	Teresa Bogusławska	*** [Wiozą ich często…]
+e2	Wacław Bojarski	Modlitwa o koniec wojny
+e3	Dante Alighieri	Boska komedia
+e4	Dante Alighieri	Boska komedia
+e5	Dante Alighieri	Boska komedia
+e6	Dante Alighieri	Boska komedia
+e7	Tadeusz Boy-Żeleński	Bajczeki Józia
+e8	Tadeusz Boy-Żeleński	Kaprys
+e9	Tadeusz Boy-Żeleński	Modlitwa estety
+ea	Tadeusz Boy-Żeleński	Pobudka grunwaldzka
+eb	Alojzy Feliński	Antoni Gorecki
+ec	Maria Konopnicka	Boży dzwonek
+ed	Bracia, patrzcie jeno…	Bracia, patrzcie jeno, jak niebo goreje!
+ee	Wincenty Pol	Bracia! Rocznica, więc po zwyczaju
+ef	Pola Braun	Curik a hejm
+eg	Pola Braun	List do Warszawy
+eh	Pola Braun	Matka
+ei	Pola Braun	Powszedni dzień
+ej	Mieczysław Braun	Przemysły
+ek	Mieczysław Braun	Przemysły
+el	Mieczysław Braun	Przemysły
+em	Mieczysław Braun	Przemysły
+en	Mieczysław Braun	Przemysły
+eo	Mieczysław Braun	Przemysły
+ep	Mieczysław Braun	Przemysły
+eq	Mieczysław Braun	Przemysły
+er	Mieczysław Braun	Przemysły
+es	Mieczysław Braun	Przemysły
+et	Mieczysław Braun	Przemysły
+eu	Mieczysław Braun	Przemysły
+ev	Mieczysław Braun	Przemysły
+ew	Mieczysław Braun	Przemysły
+ex	Mieczysław Braun	Przemysły
+ey	Mieczysław Braun	Przemysły
+ez	Mieczysław Braun	Przemysły
+f0	Mieczysław Braun	Przemysły
+f1	Mieczysław Braun	Przemysły
+f2	Mieczysław Braun	Przemysły
+f3	Mieczysław Braun	Przemysły
+f4	Mieczysław Braun	Przemysły
+f5	Mieczysław Braun	Przemysły
+f6	Mieczysław Braun	Przemysły
+f7	Mieczysław Braun	Przemysły
+f8	Mieczysław Braun	Przemysły
+f9	Mieczysław Braun	Przemysły
+fa	Mieczysław Braun	Przemysły
+fb	Mieczysław Braun	Przemysły
+fc	Mieczysław Braun	Przemysły
+fd	Mieczysław Braun	Przemysły
+fe	Mieczysław Braun	Przemysły
+ff	Mieczysław Braun	Przemysły
+fg	Mieczysław Braun	Przemysły
+fh	Mieczysław Braun	Przemysły
+fi	Mieczysław Braun	Przemysły
+fj	Pola Braun	Przeprowadzka
+fk	Pola Braun	Wytwórnia blondynek
+fl	Pola Braun	Żyd
+fm	Anatole le Braz	Kołysanka
+fn	Anatole le Braz	Monna Kerywel
+fo	Wanda Ewa Brzeska	Gdyby
+fp	Wanda Ewa Brzeska	Niech nam się zdaje…
+fq	Wanda Ewa Brzeska	„Niech nam się zdaje… ”
+fr	Wanda Ewa Brzeska	Pasaż
+fs	Wanda Ewa Brzeska	Pochwała Niemca
+ft	Wanda Ewa Brzeska	Ślepego króla litościwa córka
+fu	Wanda Ewa Brzeska	Świat im się przeinaczył
+fv	Wanda Ewa Brzeska	Szyby ze starych sztychów
+fw	Wanda Ewa Brzeska	To było dobre miejsce
+fx	Wanda Ewa Brzeska	Tylko tamten strzał z karabinu
+fy	Wanda Ewa Brzeska	W Wielkim Tygodniu
+fz	Wanda Ewa Brzeska	Wrosłam w podłogę przy oknie
+g0	Wanda Ewa Brzeska	Wyrzut sumienia
+g1	Wojciech Brzoska	modlitwa dziękczynna
+g2	Wojciech Brzoska	modlitwa godna polecenia
+g3	Wojciech Brzoska	modlitwa na odejście
+g4	Wojciech Brzoska	modlitwa o niebo lub piekło
+g5	Wojciech Brzoska	modlitwa od święta
+g6	Wojciech Brzoska	modlitwa poprzez żaluzje
+g7	Wojciech Brzoska	modlitwa trumienna
+g8	Wojciech Brzoska	modlitwa w pańskiej intencji
+g9	Wojciech Brzoska	modlitwa w pańskiej służbie
+ga	Wojciech Brzoska	modlitwa wigilijna
+gb	Wojciech Brzoska	modlitwa z domu matki
+gc	Wojciech Brzoska	modlitwa z domu ojca
+gd	Wojciech Brzoska	modlitwa z domu syna
+ge	Wojciech Brzoska	modlitwa z dziesięciu koron
+gf	Wojciech Brzoska	modlitwa z grzechu
+gg	Wojciech Brzoska	modlitwa z obrazu
+gh	Wojciech Brzoska	modlitwa z offu
+gi	Wojciech Brzoska	modlitwa z okien
+gj	Wojciech Brzoska	modlitwa z opóźnieniem
+gk	Wojciech Brzoska	modlitwa z pielgrzymki anno domini 1990
+gl	Wojciech Brzoska	modlitwa z początku
+gm	Wojciech Brzoska	modlitwa z powietrza
+gn	Wojciech Brzoska	modlitwa z przekazu
+go	Wojciech Brzoska	modlitwa z sądu
+gp	Wojciech Brzoska	modlitwa z sieci
+gq	Wojciech Brzoska	modlitwa z tęsknoty
+gr	Wojciech Brzoska	modlitwa z trzech miast
+gs	Wojciech Brzoska	modlitwa z wody
+gt	Wojciech Brzoska	modlitwa z zeszłego wieku
+gu	Wojciech Brzoska	modlitwa ze śladów
+gv	Wojciech Brzoska	modlitwa ze wschodu
+gw	Wojciech Brzoska	modlitwa ze wspólnego pokoju
+gx	Wojciech Brzoska	modlitwa ze zgliszczy
+gy	Władysław Bukowiński	Ad patres
+gz	Władysław Bukowiński	Na greckiej fali
+h0	Władysław Bukowiński	Przy księżycu
+h1	Władysław Bukowiński	Zbudź się!
+h2	Maria Konopnicka	Burek i Janka
+h3	Charles Guérin	[Bursztyn, żyto dojrzałe…]
+h4	Bruno Jasieński	But w butonierce
+h5	Bruno Jasieński	But w butonierce
+h6	Bruno Jasieński	But w butonierce
+h7	Bruno Jasieński	But w butonierce
+h8	Bruno Jasieński	But w butonierce
+h9	Bruno Jasieński	But w butonierce
+ha	Bruno Jasieński	But w butonierce
+hb	Bruno Jasieński	But w butonierce
+hc	Bruno Jasieński	But w butonierce
+hd	Bruno Jasieński	But w butonierce
+he	Bruno Jasieński	But w butonierce
+hf	Bruno Jasieński	But w butonierce
+hg	Bruno Jasieński	But w butonierce
+hh	Bruno Jasieński	But w butonierce
+hi	Bruno Jasieński	But w butonierce
+hj	Bruno Jasieński	But w butonierce
+hk	Bruno Jasieński	But w butonierce
+hl	Bruno Jasieński	But w butonierce
+hm	Bruno Jasieński	But w butonierce
+hn	Bruno Jasieński	But w butonierce
+ho	Bruno Jasieński	But w butonierce
+hp	Bruno Jasieński	But w butonierce
+hq	Bruno Jasieński	But w butonierce
+hr	Bruno Jasieński	But w butonierce
+hs	Bruno Jasieński	But w butonierce
+ht	Był to Berko sławny Żyd	Był to Berko, sławny Żyd!
+hu	*** [Była sobie raz Elżunia…]	Była sobie raz Elżunia,
+hv	Kazimierz Przerwa-Tetmajer	Byłbym cię oddał…
+hw	George Gordon Byron	Don Juan
+hx	Bywaj dziewczę zdrowe…	Bywaj dziewczę zdrowe, ojczyzna mnie woła!
+hy	Maria Konopnicka	Choinka w lesie
+hz	Juliusz Słowacki	Chór duchów izraelskich
+i0	Maria Konopnicka	Chrystus i dzieci
+i1	Joseph Mohr	Cicha noc
+i2	Maria Konopnicka	Cichy wieczór
+i3	Maria Konopnicka	Co dzieci widziały w drodze
+i4	Maria Konopnicka	Co gołąbki widzą
+i5	Maria Konopnicka	Co ja wyczytam w książeczce
+i6	Maria Konopnicka	Co Janek zrobił
+i7	Maria Konopnicka	Co mówi zegar
+i8	Maria Konopnicka	Co mówią drzewa?
+i9	Maria Konopnicka	Co robią ptaszki
+ia	Maria Konopnicka	Co słonko widziało
+ib	Maria Konopnicka	Co Staś pisze?
+ic	Maria Konopnicka	Co Staś widział w polu?
+id	Juliusz Słowacki	Córka Cerery
+ie	Cyprian Kamil Norwid	Coś ty Atenom zrobił, Sokratesie
+if	Jan Andrzej Morsztyn	Cuda miłości
+ig	Jan Andrzej Morsztyn	Cuda miłości
+ih	Łaja Cudna	Dziewczynka z chlebem
+ii	Charles Baudelaire	Cudzoziemiec
+ij	Maria Cyranowicz	dokument 0.0
+ik	Maria Cyranowicz	dokument 0.1
+il	Maria Cyranowicz	dokument 0.10
+im	Maria Cyranowicz	dokument 0.11
+in	Maria Cyranowicz	dokument 0.12
+io	Maria Cyranowicz	dokument 0.13
+ip	Maria Cyranowicz	dokument 0.15
+iq	Maria Cyranowicz	dokument 0.17
+ir	Maria Cyranowicz	dokument 0.18
+is	Maria Cyranowicz	dokument 0.19
+it	Maria Cyranowicz	dokument 0.2
+iu	Maria Cyranowicz	dokument 0.20
+iv	Maria Cyranowicz	dokument 0.21
+iw	Maria Cyranowicz	dokument 0.22
+ix	Maria Cyranowicz	dokument 0.23
+iy	Maria Cyranowicz	dokument 0.24
+iz	Maria Cyranowicz	dokument 0.25
+j0	Maria Cyranowicz	dokument 0.26
+j1	Maria Cyranowicz	dokument 0.27
+j2	Maria Cyranowicz	dokument 0.28
+j3	Maria Cyranowicz	dokument 0.29
+j4	Maria Cyranowicz	dokument 0.3
+j5	Maria Cyrawnowicz	dokument 0.30
+j6	Maria Cyranowicz	dokument 0.4
+j7	Maria Cyranowicz	dokument 0.5
+j8	Maria Cyranowicz	dokument 0.6
+j9	Maria Cyranowicz	dokument 0.7
+ja	Maria Cyranowicz	dokument 0.8
+jb	Maria Cyranowicz	dokument 0.9
+jc	Maria Cyranowicz	rondo Prawa praw
+jd	Maria Cyranowicz	zajadle
+je	Konstanty Gaszyński	Czarna sukienka
+jf	Adam Mickiewicz	Czaty
+jg	Max Dauthendey	[Czerw drzewa zwiędłe toczy…]
+jh	Charles Baudelaire	Człowiek i morze
+ji	Maria Konopnicka	Czytanie
+jj	Juliusz Słowacki	Dajcie mi tylko jednę ziemi milę…
+jk	Maria Konopnicka	Damnata
+jl	Maria Konopnicka	Damnata
+jm	Maria Konopnicka	Damnata
+jn	Maria Konopnicka	Damnata
+jo	Maria Konopnicka	Damnata
+jp	Maria Konopnicka	Damnata
+jq	Maria Konopnicka	Damnata
+jr	Maria Konopnicka	Damnata
+js	Maria Konopnicka	Damnata
+jt	Maria Konopnicka	Damnata
+ju	Maria Konopnicka	Damnata
+jv	Maria Konopnicka	Damnata
+jw	Maria Konopnicka	Damnata
+jx	Maria Konopnicka	Damnata
+jy	Maria Konopnicka	Damnata
+jz	Maria Konopnicka	Damnata
+k0	Maria Konopnicka	Damnata
+k1	Maria Konopnicka	Damnata
+k2	Maria Konopnicka	Damnata
+k3	Maria Konopnicka	Damnata
+k4	Maria Konopnicka	Damnata
+k5	Maria Konopnicka	Damnata
+k6	Maria Konopnicka	Damnata
+k7	Maria Konopnicka	Damnata
+k8	Maria Konopnicka	Damnata
+k9	Maria Konopnicka	Damnata
+ka	Maria Konopnicka	Damnata
+kb	Maria Konopnicka	Damnata
+kc	Maria Konopnicka	Damnata
+kd	Maria Konopnicka	Damnata
+ke	Gustaw Daniłowski	Od mroków nocy do białego ranku…
+kf	Gustaw Daniłowski	Sonet
+kg	Gustaw Daniłowski	Świat
+kh	Adam Asnyk	Daremne żale
+ki	Zdzisław Dębicki	Nad morzem
+kj	Zdzisław Dębicki	Płacz skrzypiec
+kk	Zdzisław Dębicki	W lesie
+kl	Zdzisław Dębicki	Wizja
+km	Maria Konopnicka	Derkacz
+kn	Maria Konopnicka	Deszczyk
+ko	Maria Konopnicka	Didko
+kp	Maria Konopnicka	Dla kogo kwiaty
+kq	Bartosz Dłubała	***
+kr	Mikołaj Sęp Szarzyński	Do Anusie
+ks	Mikołaj Sęp Szarzyński	Do Anusie
+kt	Mikołaj Sęp Szarzyński	Do Anusie
+ku	Horacy	Pieśń III, 25 (Quo me, Bacche, rapis tui…)
+kv	Anatole France	Do Charles'a Maurras'a
+kw	Horacy	Pieśń I, 23 (Vitas hinnuleo me similis, Chloe…)
+kx	Horacy	Pieśń II, 20 (Non usitata nec tenui ferar…)
+ky	Horacy	Pieśń II, 3 (Aequam memento rebus in arduis…)
+kz	Horacy	Pieśń II, 13 (Ille et nefasto te posuit die…)
+l0	Juliusz Słowacki	Do Franciszka Szemiotha
+l1	Juliusz Słowacki	Do Hr. Gustawa Ol[izara] podziękowanie za wystrzyżynkę z gwiazdeczką i Krzemieńcem
+l2	Franciszek Karpiński	Do Justyny
+l3	Franciszek Karpiński	Do Justyny
+l4	Mikołaj Sęp Szarzyński	Do Kasie
+l5	Mikołaj Sęp Szarzyński	Do Kasie
+l6	Mikołaj Sęp Szarzyński	Do Kasie
+l7	Mikołaj Sęp Szarzyński	Do Kasie
+l8	Horacy	Pieśń I, 11 (Tu ne quaesieris, scire nefas…)
+l9	Horacy	Pieśń II, 10 (Rectius vives, Licini, neque altum…)
+la	Juliusz Słowacki	Do Ludwiki Bobrówny
+lb	Maria Konopnicka	Do mamy
+lc	Horacy	Pieśń IV, 7 (Diffugere nives redeunt iam gramina campis…)
+ld	Juliusz Słowacki	Do Matki
+le	Juliusz Słowacki	Do Matki
+lf	Horacy	Pieśń III, 30 (Exegi monumentum aere perennius…)
+lg	Adam Asnyk	Do młodych
+lh	Jan Andrzej Morsztyn	Do motyla
+li	Kazimierz Przerwa-Tetmajer	Do Nieznajomej
+lj	Juliusz Słowacki	Do pani Joanny Bobrowej
+lk	Juliusz Słowacki	Do pastereczki siedzącej na Druidów kamieniach w Pornic nad oceanem
+ll	Horacy	Pieśń II, 7 (O saepe mecum tempus in ultimum…)
+lm	Horacy	Pieśń II, 14 (Eheu fugaces, Postume, Postume…)
+ln	Horacy	Pieśń I, 14 (O navis, referent in mare te novi…)
+lo	Jan Andrzej Morsztyn	Do swoich książek
+lp	Jan Andrzej Morsztyn	Do swoich książek
+lq	Horacy	Pieśń I, 9 (Vides ut alta stet nive candidum…)
+lr	Juliusz Słowacki	Do Teofila Januszewskiego
+ls	Jan Andrzej Morsztyn	Do trupa
+lt	Mikołaj Sęp Szarzyński	Do Zosie
+lu	Mikołaj Sęp Szarzyński	Do Zosie
+lv	Juliusz Słowacki	Do Zygmunta
+lw	Miłosz Biedrzycki	***
+lx	Maria Konopnicka	Dożynki
+ly	Detlev Von Liliencron	Dreszcz Acherontu
+lz	Maria Konopnicka	Druciarczyk
+m0	Jerzy Liebert	Druga ojczyzna
+m1	Jerzy Liebert	Druga ojczyzna
+m2	Jerzy Liebert	Druga ojczyzna
+m3	Jerzy Liebert	Druga ojczyzna
+m4	Jerzy Liebert	Druga ojczyzna
+m5	Jerzy Liebert	Druga ojczyzna
+m6	Jerzy Liebert	Druga ojczyzna
+m7	Jerzy Liebert	Druga ojczyzna
+m8	Jerzy Liebert	Druga ojczyzna
+m9	Jerzy Liebert	Druga ojczyzna
+ma	Jerzy Liebert	Druga ojczyzna
+mb	Jerzy Liebert	Druga ojczyzna
+mc	Jerzy Liebert	Druga ojczyzna
+md	Jerzy Liebert	Druga ojczyzna
+me	Jerzy Liebert	Druga ojczyzna
+mf	Jerzy Liebert	Druga ojczyzna
+mg	Jerzy Liebert	Druga ojczyzna
+mh	Jerzy Liebert	Druga ojczyzna
+mi	Jerzy Liebert	Druga ojczyzna
+mj	Jerzy Liebert	Druga ojczyzna
+mk	Jerzy Liebert	Druga ojczyzna
+ml	Jerzy Liebert	Druga ojczyzna
+mm	Elżbieta Drużbacka	Wiersze światowe
+mn	Elżbieta Drużbacka	Wiersze światowe
+mo	Elżbieta Drużbacka	Wiersze światowe
+mp	Elżbieta Drużbacka	Wiersze światowe
+mq	Elżbieta Drużbacka	Wiersze światowe
+mr	Elżbieta Drużbacka	Wiersze światowe
+ms	Elżbieta Drużbacka	Wiersze światowe
+mt	Elżbieta Drużbacka	Wiersze światowe
+mu	Elżbieta Drużbacka	Wiersze światowe
+mv	Elżbieta Drużbacka	Wiersze światowe
+mw	Elżbieta Drużbacka	Wiersze światowe
+mx	Elżbieta Drużbacka	Wiersze światowe
+my	Elżbieta Drużbacka	Wiersze światowe
+mz	Elżbieta Drużbacka	Wiersze światowe
+n0	Elżbieta Drużbacka	Wiersze światowe
+n1	Stefan George	[Duch twój, gdy dzisiaj…]
+n2	Julisz Słowacki	Duma o Wacławie Rzewuskim
+n3	Otto zur Linde	Dusza moja tęsknicą
+n4	Juliusz Słowacki	Dusza się moja zamyśla głęboko…
+n5	Maria Konopnicka	Dwór Zosi
+n6	Kazimierz Przerwa-Tetmajer	Dyskobol
+n7	Józef Ignacy Kraszewski	Dziad i baba
+n8	Maria Konopnicka	Dziadek (Oj ten mały Żuczek…)
+n9	Maria Konopnicka	Dziadek przyjdzie
+na	Adam Mickiewicz	Dziadów części III Ustęp
+nb	Maria Konopnicka	Dzieci na wsi i w mieście
+nc	Paul Heyse	Dziecię wieszczek
+nd	Bolesław Leśmian	Dziejba leśna
+ne	Bolesław Leśmian	Dziejba leśna
+nf	Bolesław Leśmian	Dziejba leśna
+ng	Bolesław Leśmian	Dziejba leśna
+nh	Bolesław Leśmian	Dziejba leśna
+ni	Bolesław Leśmian	Dziejba leśna
+nj	Bolesław Leśmian	Dziejba leśna
+nk	Bolesław Leśmian	Dziejba leśna
+nl	Bolesław Leśmian	Dziejba leśna
+nm	Bolesław Leśmian	Dziejba leśna
+nn	Bolesław Leśmian	Dziejba leśna
+no	Bolesław Leśmian	Dziejba leśna
+np	Bolesław Leśmian	Dziejba leśna
+nq	Bolesław Leśmian	Dziejba leśna
+nr	Bolesław Leśmian	Dziejba leśna
+ns	Bolesław Leśmian	Dziejba leśna
+nt	Bolesław Leśmian	Dziejba leśna
+nu	Bolesław Leśmian	Dziejba leśna
+nv	Bolesław Leśmian	Dziejba leśna
+nw	Bolesław Leśmian	Dziejba leśna
+nx	Bolesław Leśmian	Dziejba leśna
+ny	Bolesław Leśmian	Dziejba leśna
+nz	Bolesław Leśmian	Dziejba leśna
+o0	Bolesław Leśmian	Dziejba leśna
+o1	Bolesław Leśmian	Dziejba leśna
+o2	Bolesław Leśmian	Dziejba leśna
+o3	Bolesław Leśmian	Dziejba leśna
+o4	Bolesław Leśmian	Dziejba leśna
+o5	Bolesław Leśmian	Dziejba leśna
+o6	Bolesław Leśmian	Dziejba leśna
+o7	Bolesław Leśmian	Dziejba leśna
+o8	Bolesław Leśmian	Dziejba leśna
+o9	Bolesław Leśmian	Dziejba leśna
+oa	Bolesław Leśmian	Dziejba leśna
+ob	Bolesław Leśmian	Dziejba leśna
+oc	Bolesław Leśmian	Dziejba leśna
+od	Bolesław Leśmian	Dziejba leśna
+oe	Bolesław Leśmian	Dziejba leśna
+of	Bolesław Leśmian	Dziejba leśna
+og	Józef Czechowicz	dzień jak co dzień
+oh	Józef Czechowicz	dzień jak codzień
+oi	Józef Czechowicz	dzien jak co dzien
+oj	Józef Czechowicz	dzień jak co dzień
+ok	Józef Czechowicz	dzien jak co dzien
+ol	Józef Czechowicz	dzien jak co dzien
+om	Józef Czechowicz	dzien jak co dzien
+on	Józef Czechowicz	dzien jak co dzien
+oo	Józef Czechowicz	dzien jak co dzien
+op	Józef Czechowicz	dzien jak co dzien
+oq	Józef Czechowicz	dzien jak co dzien
+or	Józef Czechowicz	dzien jak co dzien
+os	Józef Czechowicz	dzień jak co dzień
+ot	Józef Czechowicz	dzien jak co dzien
+ou	Józef Czechowicz	dzien jak co dzien
+ov	Józef Czechowicz	dzien jak co dzien
+ow	Józef Czechowicz	dzien jak co dzien
+ox	Józef Czechowicz	dzien jak co dzien
+oy	Józef Czechowicz	dzien jak co dzien
+oz	Józef Czechowicz	dzien jak co dzien
+p0	Józef Czechowicz	dzien jak co dzien
+p1	Józef Czechowicz	dzien jak co dzien
+p2	Józef Czechowicz	dzien jak co dzien
+p3	Józef Czechowicz	dzień jak codzień
+p4	Józef Czechowicz	dzień jak codzień
+p5	Józef Czechowicz	dzień jak codzień
+p6	Józef Czechowicz	dzień jak codzień
+p7	Józef Czechowicz	dzień jak codzień
+p8	Dzisiaj w Betlejem…	Dzisiaj w Betlejem, dzisiaj w Betlejem wesoła nowina,
+p9	Gustaw Ehrenberg	Dźwięki minionych lat
+pa	Gustaw Ehrenberg	Dźwięki minionych lat
+pb	Gustaw Ehrenberg	Dźwięki minionych lat
+pc	Gustaw Ehrenberg	Dźwięki minionych lat
+pd	Gustaw Ehrenberg	Dźwięki minionych lat
+pe	Gustaw Ehrenberg	Dźwięki minionych lat
+pf	Gustaw Ehrenberg	Dźwięki minionych lat
+pg	Gustaw Ehrenberg	Dźwięki minionych lat
+ph	Gustaw Ehrenberg	Dźwięki minionych lat
+pi	Gustaw Ehrenberg	Dźwięki minionych lat
+pj	Gustaw Ehrenberg	Dźwięki minionych lat
+pk	Gustaw Ehrenberg	Dźwięki minionych lat
+pl	Gustaw Ehrenberg	Dźwięki minionych lat
+pm	Gustaw Ehrenberg	Dźwięki minionych lat
+pn	Gustaw Ehrenberg	Dźwięki minionych lat
+po	Gustaw Ehrenberg	Dźwięki minionych lat
+pp	Gustaw Ehrenberg	Dźwięki minionych lat
+pq	Gustaw Ehrenberg	Dźwięki minionych lat
+pr	Gustaw Ehrenberg	Dźwięki minionych lat
+ps	Gustaw Ehrenberg	Dźwięki minionych lat
+pt	Gustaw Ehrenberg	Dźwięki minionych lat
+pu	Gustaw Ehrenberg	Dźwięki minionych lat
+pv	Gustaw Ehrenberg	Dźwięki minionych lat
+pw	Gustaw Ehrenberg	Dźwięki minionych lat
+px	Gustaw Ehrenberg	Dźwięki minionych lat
+py	Gustaw Ehrenberg	Dźwięki minionych lat
+pz	Gustaw Ehrenberg	Dźwięki minionych lat
+q0	Gustaw Ehrenberg	Dźwięki minionych lat
+q1	Gustaw Ehrenberg	Dźwięki minionych lat
+q2	Gustaw Ehrenberg	Dźwięki minionych lat
+q3	Gustaw Ehrenberg	Dźwięki minionych lat
+q4	Kazimierz Przerwa-Tetmajer	Ekstaza
+q5	Kazimierz Przerwa-Tetmajer	Elegia na śmierć Czarnego Zawiszy
+q6	Marceline Desbordes-Valmore	Elegia
+q7	Max Elskamp	Dla ucha
+q8	Kazimierz Przerwa-Tetmajer	Eviva l'arte!
+q9	Adam Mickiewicz	Farys
+qa	Julia Fiedorczuk	Tlen
+qb	Julia Fiedorczuk	Tlen
+qc	Julia Fiedorczuk	Tlen
+qd	Julia Fiedorczuk	Tlen
+qe	Julia Fiedorczuk	Tlen
+qf	Julia Fiedorczuk	Tlen
+qg	Julia Fiedorczuk	Tlen
+qh	Julia Fiedorczuk	Tlen
+qi	Julia Fiedorczuk	Tlen
+qj	Julia Fiedorczuk	Tlen
+qk	Julia Fiedorczuk	Tlen
+ql	Julia Fiedorczuk	Tlen
+qm	Julia Fiedorczuk	Tlen
+qn	Julia Fiedorczuk	Tlen
+qo	Julia Fiedorczuk	Tlen
+qp	Julia Fiedorczuk	Tlen
+qq	Julia Fiedorczuk	Tlen
+qr	Julia Fiedorczuk	Tlen
+qs	Julia Fiedorczuk	Tlen
+qt	Julia Fiedorczuk	Tlen
+qu	Julia Fiedorczuk	Tlen
+qv	Julia Fiedorczuk	Tlen
+qw	Julia Fiedorczuk	Tlen
+qx	Julia Fiedorczuk	Tlen
+qy	Julia Fiedorczuk	Tlen
+qz	Julia Fiedorczuk	Tlen
+r0	Julia Fiedorczuk	Tlen
+r1	Maria Konopnicka	Filuś, Miluś i Kizia: wesołe kotki
+r2	Maria Konopnicka	Filuś-śmiałek
+r3	Anne Finch	Splin
+r4	Anne Finch	Wprowadzenie
+r5	Maria Konopnicka	Flisak
+r6	Melania Fogelbaum	[Trzewie trawią próżnię…]
+r7	Melania Fogelbaum	[W skorupach ruder…]
+r8	Melania Fogelbaum	Wieczór wiosenny
+r9	Darek Foks	Wiersze o fryzjerach
+ra	Darek Foks	Wiersze o fryzjerach
+rb	Darek Foks	Wiersze o fryzjerach
+rc	Darek Foks	Wiersze o fryzjerach
+rd	Darek Foks	Wiersze o fryzjerach
+re	Darek Foks	Wiersze o fryzjerach
+rf	Darek Foks	Wiersze o fryzjerach
+rg	Darek Foks	Wiersze o fryzjerach
+rh	Darek Foks	Wiersze o fryzjerach
+ri	Darek Foks	Wiersze o fryzjerach
+rj	Darek Foks	Wiersze o fryzjerach
+rk	Darek Foks	Wiersze o fryzjerach
+rl	Darek Foks	Wiersze o fryzjerach
+rm	Darek Foks	Wiersze o fryzjerach
+rn	Darek Foks	Wiersze o fryzjerach
+ro	Darek Foks	Wiersze o fryzjerach
+rp	Darek Foks	Wiersze o fryzjerach
+rq	Darek Foks	Wiersze o fryzjerach
+rr	Darek Foks	Wiersze o fryzjerach
+rs	Darek Foks	Wiersze o fryzjerach
+rt	Darek Foks	Wiersze o fryzjerach
+ru	Darek Foks	Sprawa Szatowa
+rv	Darek Foks	Wiersze o fryzjerach
+rw	Darek Foks	Wiersze o fryzjerach
+rx	Darek Foks	Wiersze o fryzjerach
+ry	Darek Foks	Wiersze o fryzjerach
+rz	Darek Foks	Wiersze o fryzjerach
+s0	Darek Foks	Wiersze o fryzjerach
+s1	Darek Foks	Wiersze o fryzjerach
+s2	Darek Foks	Wiersze o fryzjerach
+s3	Darek Foks	Wiersze o fryzjerach
+s4	Darek Foks	Wiersze o fryzjerach
+s5	Cyprian Kamil Norwid	Fortepian Chopina
+s6	Agnieszka Frączek	Biedronka
+s7	Agnieszka Frączek	Hipopotam
+s8	Agnieszka Frączek	Kogut
+s9	Agnieszka Frączek	Kotek
+sa	Agnieszka Frączek	Koza
+sb	Agnieszka Frączek	Krowa
+sc	Agnieszka Frączek	Lew
+sd	Agnieszka Frączek	Miś
+se	Agnieszka Frączek	Owca
+sf	Agnieszka Frączek	Pająk
+sg	Agnieszka Frączek	Pies
+sh	Agnieszka Frączek	Prosiaczek
+si	Agnieszka Frączek	Ślimak
+sj	Agnieszka Frączek	Słoń
+sk	Agnieszka Frączek	Struś
+sl	Agnieszka Frączek	Wielbłąd
+sm	Agnieszka Frączek	Wiewiórka
+sn	Agnieszka Frączek	Wilk
+so	Agnieszka Frączek	Zajączek
+sp	Agnieszka Frączek	Zebra
+sq	Agnieszka Frączek	Żółw Wiercipięta
+sr	Agnieszka Frączek	Żyrafa
+ss	Kazimierz Przerwa-Tetmajer	Fragment z «Fantazji»
+st	Fryderyk Hölderlin	Fragment
+su	Jan Kochanowski	Pieśń
+sv	Jan Kochanowski	Pieśń I
+sw	Jan Kochanowski	Pieśń II
+sx	Jan Kochanowski	Pieśń III
+sy	Jan Kochanowski	Pieśń IV
+sz	Jan Kochanowski	Pieśń IX
+t0	Jan Kochanowski	Pieśń V
+t1	Jan Kochanowski	Pieśń VI
+t2	Jan Kochanowski	Pieśń VII
+t3	Jan Kochanowski	Pieśń VIII
+t4	Jan Kochanowski	Pieśń X
+t5	Jan Kochanowski	Pieśń XI
+t6	Mikołaj Sęp Szarzyński	Frasunk do Kasie
+t7	Mikołaj Sęp Szarzyński	Fraszka do Anusie
+t8	Mikołaj Sęp Szarzyński	Fraszka do Kasie
+t9	Mikołaj Sęp Szarzyński	Fraszka do Zosie
+ta	Mikołaj Sęp Szarzyński	Fraszka do Zosie
+tb	Mikołaj Sęp Szarzyński	Fraszka o Anusi i o Kasi
+tc	Jan Kochanowski	Fraszki
+td	Jan Kochanowski	Fraszki, Fraszki dodane
+te	Jan Kochanowski	Fraszki, Fraszki dodane
+tf	Jan Kochanowski	Fraszki, Fraszki dodane
+tg	Jan Kochanowski	Fraszki, Fraszki dodane
+th	Jan Kochanowski	Fraszki, Fraszki dodane
+ti	Jan Kochanowski	Fraszki, Fraszki dodane
+tj	Jan Kochanowski	Fraszki, Księgi pierwsze
+tk	Jan Kochanowski	Fraszki, Księgi pierwsze
+tl	Jan Kochanowski	Fraszki, Księgi pierwsze
+tm	Jan Kochanowski	Fraszki, Księgi pierwsze
+tn	Jan Kochanowski	Fraszki, Księgi pierwsze
+to	Jan Kochanowski	Fraszki, Księgi pierwsze
+tp	Jan Kochanowski	Fraszki, Księgi pierwsze
+tq	Jan Kochanowski	Fraszki, Księgi pierwsze
+tr	Jan Kochanowski	Fraszki, Księgi pierwsze
+ts	Jan Kochanowski	Fraszki, Księgi pierwsze
+tt	Jan Kochanowski	Fraszki, Księgi pierwsze
+tu	Jan Kochanowski	Fraszki, Księgi pierwsze
+tv	Jan Kochanowski	Fraszki, Księgi wtóre
+tw	Jan Kochanowski	Fraszki, Księgi pierwsze
+tx	Jan Kochanowski	Fraszki, Księgi pierwsze
+ty	Jan Kochanowski	Fraszki, Księgi pierwsze
+tz	Jan Kochanowski	Fraszki, Księgi pierwsze
+u0	Jan Kochanowski	Fraszki, Księgi pierwsze
+u1	Jan Kochanowski	Fraszki, Księgi pierwsze
+u2	Jan Kochanowski	Fraszki, Księgi pierwsze
+u3	Jan Kochanowski	Fraszki, Księgi pierwsze
+u4	Jan Kochanowski	Fraszki, Księgi pierwsze
+u5	Jan Kochanowski	Fraszki, Księgi pierwsze
+u6	Jan Kochanowski	Fraszki, Księgi pierwsze
+u7	Jan Kochanowski	Fraszki, Księgi pierwsze
+u8	Jan Kochanowski	Fraszki, Księgi pierwsze
+u9	Jan Kochanowski	Fraszki, Księgi pierwsze
+ua	Jan Kochanowski	Fraszki, Księgi pierwsze
+ub	Jan Kochanowski	Fraszki, Księgi pierwsze
+uc	Jan Kochanowski	Fraszki, Księgi pierwsze
+ud	Jan Kochanowski	Fraszki, Księgi pierwsze
+ue	Jan Kochanowski	Fraszki, Księgi pierwsze
+uf	Jan Kochanowski	Fraszki, Księgi pierwsze
+ug	Jan Kochanowski	Fraszki, Księgi pierwsze
+uh	Jan Kochanowski	Fraszki, Księgi pierwsze
+ui	Jan Kochanowski	Fraszki, Księgi pierwsze
+uj	Jan Kochanowski	Fraszki, Księgi pierwsze
+uk	Jan Kochanowski	Fraszki, Księgi pierwsze
+ul	Jan Kochanowski	Fraszki, Księgi pierwsze
+um	Jan Kochanowski	Fraszki, Księgi pierwsze
+un	Jan Kochanowski	Fraszki, Księgi pierwsze
+uo	Jan Kochanowski	Fraszki, Księgi pierwsze
+up	Jan Kochanowski	Fraszki, Księgi pierwsze
+uq	Jan Kochanowski	Fraszki, Księgi pierwsze
+ur	Jan Kochanowski	Fraszki, Księgi pierwsze
+us	Jan Kochanowski	Fraszki, Księgi pierwsze
+ut	Jan Kochanowski	Fraszki, Księgi pierwsze
+uu	Jan Kochanowski	Fraszki, Księgi pierwsze
+uv	Jan Kochanowski	Fraszki, Księgi pierwsze
+uw	Jan Kochanowski	Fraszki, Księgi pierwsze
+ux	Jan Kochanowski	Fraszki, Księgi pierwsze
+uy	Jan Kochanowski	Fraszki, Księgi pierwsze
+uz	Jan Kochanowski	Fraszki, Księgi pierwsze
+v0	Jan Kochanowski	Fraszki, Księgi pierwsze
+v1	Jan Kochanowski	Fraszki, Księgi pierwsze
+v2	Jan Kochanowski	Fraszki, Księgi pierwsze
+v3	Jan Kochanowski	Fraszki, Księgi pierwsze
+v4	Jan Kochanowski	Fraszki, Księgi pierwsze
+v5	Jan Kochanowski	Fraszki, Księgi pierwsze
+v6	Jan Kochanowski	Fraszki, Księgi pierwsze
+v7	Jan Kochanowski	Fraszki, Księgi pierwsze
+v8	Jan Kochanowski	Fraszki, Księgi pierwsze
+v9	Jan Kochanowski	Fraszki, Księgi pierwsze
+va	Jan Kochanowski	Fraszki, Księgi pierwsze
+vb	Jan Kochanowski	Fraszki, Księgi pierwsze
+vc	Jan Kochanowski	Fraszki, Księgi pierwsze
+vd	Jan Kochanowski	Fraszki, Księgi pierwsze
+ve	Jan Kochanowski	Fraszki, Księgi pierwsze
+vf	Jan Kochanowski	Fraszki, Księgi pierwsze
+vg	Jan Kochanowski	Fraszki, Księgi pierwsze
+vh	Jan Kochanowski	Fraszki, Księgi pierwsze
+vi	Jan Kochanowski	Fraszki, Księgi pierwsze
+vj	Jan Kochanowski	Fraszki, Księgi pierwsze
+vk	Jan Kochanowski	Fraszki, Księgi pierwsze
+vl	Jan Kochanowski	Fraszki, Księgi pierwsze
+vm	Jan Kochanowski	Fraszki, Księgi pierwsze
+vn	Jan Kochanowski	Fraszki, Księgi pierwsze
+vo	Jan Kochanowski	Fraszki, Księgi pierwsze
+vp	Jan Kochanowski	Fraszki, Księgi pierwsze
+vq	Jan Kochanowski	Fraszki, Księgi pierwsze
+vr	Jan Kochanowski	Fraszki, Księgi pierwsze
+vs	Jan Kochanowski	Fraszki, Księgi pierwsze
+vt	Jan Kochanowski	Fraszki, Księgi pierwsze
+vu	Jan Kochanowski	Fraszki, Księgi pierwsze
+vv	Jan Kochanowski	Fraszki, Księgi pierwsze
+vw	Jan Kochanowski	Fraszki, Księgi pierwsze
+vx	Jan Kochanowski	Fraszki, Księgi pierwsze
+vy	Jan Kochanowski	Fraszki, Księgi pierwsze
+vz	Jan Kochanowski	Fraszki, Księgi pierwsze
+w0	Jan Kochanowski	Fraszki, Księgi pierwsze
+w1	Jan Kochanowski	Fraszki, Księgi pierwsze
+w2	Jan Kochanowski	Fraszki, Księgi pierwsze
+w3	Jan Kochanowski	Fraszki, Księgi pierwsze
+w4	Jan Kochanowski	Fraszki, Księgi pierwsze
+w5	Jan Kochanowski	Fraszki, Księgi pierwsze
+w6	Jan Kochanowski	Fraszki, Księgi pierwsze
+w7	Jan Kochanowski	Fraszki, Księgi pierwsze
+w8	Jan Kochanowski	Fraszki, Księgi pierwsze
+w9	Jan Kochanowski	Fraszki, Księgi pierwsze
+wa	Jan Kochanowski	Fraszki, Księgi pierwsze
+wb	Jan Kochanowski	Fraszki, Księgi pierwsze
+wc	Jan Kochanowski	Fraszki, Księgi trzecie
+wd	Jan Kochanowski	Fraszki, Księgi wtóre
+we	Jan Kochanowski	Fraszki, Księgi trzecie
+wf	Jan Kochanowski	Fraszki, Księgi trzecie
+wg	Jan Kochanowski	Fraszki, Księgi trzecie
+wh	Jan Kochanowski	Fraszki, Księgi trzecie
+wi	Jan Kochanowski	Fraszki, Księgi trzecie
+wj	Jan Kochanowski	Fraszki, Księgi trzecie
+wk	Jan Kochanowski	Fraszki, Księgi trzecie
+wl	Jan Kochanowski	Fraszki, Księgi trzecie
+wm	Jan Kochanowski	Fraszki, Księgi trzecie
+wn	Jan Kochanowski	Fraszki, Księgi trzecie
+wo	Jan Kochanowski	Fraszki, Księgi trzecie
+wp	Jan Kochanowski	Fraszki, Księgi trzecie
+wq	Jan Kochanowski	Fraszki, Księgi trzecie
+wr	Jan Kochanowski	Fraszki, Księgi trzecie
+ws	Jan Kochanowski	Fraszki, Księgi trzecie
+wt	Jan Kochanowski	Fraszki, Księgi trzecie
+wu	Jan Kochanowski	Fraszki, Księgi trzecie
+wv	Jan Kochanowski	Fraszki, Księgi trzecie
+ww	Jan Kochanowski	Fraszki, Księgi trzecie
+wx	Jan Kochanowski	Fraszki, Księgi trzecie
+wy	Jan Kochanowski	Fraszki, Księgi trzecie
+wz	Jan Kochanowski	Fraszki, Księgi trzecie
+x0	Jan Kochanowski	Fraszki, Księgi trzecie
+x1	Jan Kochanowski	Fraszki, Księgi trzecie
+x2	Jan Kochanowski	Fraszki, Księgi trzecie
+x3	Jan Kochanowski	Fraszki, Księgi trzecie
+x4	Jan Kochanowski	Fraszki, Księgi trzecie
+x5	Jan Kochanowski	Fraszki, Księgi trzecie
+x6	Jan Kochanowski	Fraszki, Księgi trzecie
+x7	Jan Kochanowski	Fraszki, Księgi trzecie
+x8	Jan Kochanowski	Fraszki, Księgi trzecie
+x9	Jan Kochanowski	Fraszki, Księgi trzecie
+xa	Jan Kochanowski	Fraszki, Księgi trzecie
+xb	Jan Kochanowski	Fraszki, Księgi trzecie
+xc	Jan Kochanowski	Fraszki, Księgi trzecie
+xd	Jan Kochanowski	Fraszki, Księgi trzecie
+xe	Jan Kochanowski	Fraszki, Księgi trzecie
+xf	Jan Kochanowski	Fraszki, Księgi trzecie
+xg	Jan Kochanowski	Fraszki, Księgi trzecie
+xh	Jan Kochanowski	Fraszki, Księgi trzecie
+xi	Jan Kochanowski	Fraszki, Księgi trzecie
+xj	Jan Kochanowski	Fraszki, Księgi trzecie
+xk	Jan Kochanowski	Fraszki, Księgi trzecie
+xl	Jan Kochanowski	Fraszki, Księgi trzecie
+xm	Jan Kochanowski	Fraszki, Księgi trzecie
+xn	Jan Kochanowski	Fraszki, Księgi trzecie
+xo	Jan Kochanowski	Fraszki, Księgi trzecie
+xp	Jan Kochanowski	Fraszki, Księgi trzecie
+xq	Jan Kochanowski	Fraszki, Księgi trzecie
+xr	Jan Kochanowski	Fraszki, Księgi trzecie
+xs	Jan Kochanowski	Fraszki, Księgi trzecie
+xt	Jan Kochanowski	Fraszki, Księgi trzecie
+xu	Jan Kochanowski	Fraszki, Księgi trzecie
+xv	Jan Kochanowski	Fraszki, Księgi trzecie
+xw	Jan Kochanowski	Fraszki, Księgi trzecie
+xx	Jan Kochanowski	Fraszki, Księgi trzecie
+xy	Jan Kochanowski	Fraszki, Księgi trzecie
+xz	Jan Kochanowski	Fraszki, Księgi trzecie
+y0	Jan Kochanowski	Fraszki, Księgi trzecie
+y1	Jan Kochanowski	Fraszki, Księgi trzecie
+y2	Jan Kochanowski	Fraszki, Księgi trzecie
+y3	Jan Kochanowski	Fraszki, Księgi trzecie
+y4	Jan Kochanowski	Fraszki, Księgi trzecie
+y5	Jan Kochanowski	Fraszki, Księgi trzecie
+y6	Jan Kochanowski	Fraszki, Księgi trzecie
+y7	Jan Kochanowski	Fraszki, Księgi trzecie
+y8	Jan Kochanowski	Fraszki, Księgi trzecie
+y9	Jan Kochanowski	Fraszki, Księgi trzecie
+ya	Jan Kochanowski	Fraszki, Księgi trzecie
+yb	Jan Kochanowski	Fraszki, Księgi trzecie
+yc	Jan Kochanowski	Fraszki, Księgi trzecie
+yd	Jan Kochanowski	Fraszki, Księgi trzecie
+ye	Jan Kochanowski	Fraszki, Księgi trzecie
+yf	Jan Kochanowski	Fraszki, Księgi trzecie
+yg	Jan Kochanowski	Fraszki, Księgi trzecie
+yh	Jan Kochanowski	Fraszki, Księgi trzecie
+yi	Jan Kochanowski	Fraszki, Księgi trzecie
+yj	Jan Kochanowski	Fraszki, Księgi trzecie
+yk	Jan Kochanowski	Fraszki, Księgi trzecie
+yl	Jan Kochanowski	Fraszki, Księgi trzecie
+ym	Jan Kochanowski	Fraszki, Księgi trzecie
+yn	Jan Kochanowski	Fraszki, Księgi trzecie
+yo	Jan Kochanowski	Fraszki, Księgi trzecie
+yp	Jan Kochanowski	Fraszki, Księgi trzecie
+yq	Jan Kochanowski	Fraszki, Księgi wtóre
+yr	Jan Kochanowski	Fraszki, Księgi wtóre
+ys	Jan Kochanowski	Fraszki, Księgi wtóre
+yt	Jan Kochanowski	Fraszki, Księgi wtóre
+yu	Jan Kochanowski	Fraszki, Księgi wtóre
+yv	Jan Kochanowski	Fraszki, Księgi wtóre
+yw	Jan Kochanowski	Fraszki, Księgi wtóre
+yx	Jan Kochanowski	Fraszki, Księgi wtóre
+yy	Jan Kochanowski	Fraszki, Księgi wtóre
+yz	Jan Kochanowski	Fraszki, Księgi wtóre
+z0	Jan Kochanowski	Fraszki, Księgi wtóre
+z1	Jan Kochanowski	Fraszki, Księgi wtóre
+z2	Jan Kochanowski	Fraszki, Księgi wtóre
+z3	Jan Kochanowski	Fraszki, Księgi wtóre
+z4	Jan Kochanowski	Fraszki, Księgi wtóre
+z5	Jan Kochanowski	Fraszki, Księgi wtóre
+z6	Jan Kochanowski	Fraszki, Księgi wtóre
+z7	Jan Kochanowski	Fraszki, Księgi wtóre
+z8	Jan Kochanowski	Fraszki, Księgi wtóre
+z9	Jan Kochanowski	Fraszki, Księgi wtóre
+za	Jan Kochanowski	Fraszki, Księgi wtóre
+zb	Jan Kochanowski	Fraszki, Księgi wtóre
+zc	Jan Kochanowski	Fraszki, Księgi wtóre
+zd	Jan Kochanowski	Fraszki, Księgi wtóre
+ze	Jan Kochanowski	Fraszki, Księgi wtóre
+zf	Jan Kochanowski	Fraszki, Księgi wtóre
+zg	Jan Kochanowski	Fraszki, Księgi wtóre
+zh	Jan Kochanowski	Fraszki, Księgi wtóre
+zi	Jan Kochanowski	Fraszki, Księgi wtóre
+zj	Jan Kochanowski	Fraszki, Księgi wtóre
+zk	Jan Kochanowski	Fraszki, Księgi wtóre
+zl	Jan Kochanowski	Fraszki, Księgi wtóre
+zm	Jan Kochanowski	Fraszki, Księgi wtóre
+zn	Jan Kochanowski	Fraszki, Księgi wtóre
+zo	Jan Kochanowski	Fraszki, Księgi wtóre
+zp	Jan Kochanowski	Fraszki, Księgi wtóre
+zq	Jan Kochanowski	Fraszki, Księgi wtóre
+zr	Jan Kochanowski	Fraszki, Księgi wtóre
+zs	Jan Kochanowski	Fraszki, Księgi wtóre
+zt	Jan Kochanowski	Fraszki, Księgi wtóre
+zu	Jan Kochanowski	Fraszki, Księgi wtóre
+zv	Jan Kochanowski	Fraszki, Księgi wtóre
+zw	Jan Kochanowski	Fraszki, Księgi wtóre
+zx	Jan Kochanowski	Fraszki, Księgi wtóre
+zy	Jan Kochanowski	Fraszki, Księgi wtóre
+zz	Jan Kochanowski	Fraszki, Księgi wtóre
+100	Jan Kochanowski	Fraszki, Księgi wtóre
+101	Jan Kochanowski	Fraszki, Księgi wtóre
+102	Jan Kochanowski	Fraszki, Księgi wtóre
+103	Jan Kochanowski	Fraszki, Księgi wtóre
+104	Jan Kochanowski	Fraszki, Księgi wtóre
+105	Jan Kochanowski	Fraszki, Księgi wtóre
+106	Jan Kochanowski	Fraszki, Księgi wtóre
+107	Jan Kochanowski	Fraszki, Księgi wtóre
+108	Jan Kochanowski	Fraszki, Księgi wtóre
+109	Jan Kochanowski	Fraszki, Księgi wtóre
+10a	Jan Kochanowski	Fraszki, Księgi wtóre
+10b	Jan Kochanowski	Fraszki, Księgi wtóre
+10c	Jan Kochanowski	Fraszki, Księgi wtóre
+10d	Jan Kochanowski	Fraszki, Księgi wtóre
+10e	Jan Kochanowski	Fraszki, Księgi wtóre
+10f	Jan Kochanowski	Fraszki, Księgi wtóre
+10g	Jan Kochanowski	Fraszki, Księgi wtóre
+10h	Jan Kochanowski	Fraszki, Księgi wtóre
+10i	Jan Kochanowski	Fraszki, Księgi wtóre
+10j	Jan Kochanowski	Fraszki, Księgi wtóre
+10k	Jan Kochanowski	Fraszki, Księgi wtóre
+10l	Jan Kochanowski	Fraszki, Księgi wtóre
+10m	Jan Kochanowski	Fraszki, Księgi wtóre
+10n	Jan Kochanowski	Fraszki, Księgi wtóre
+10o	Jan Kochanowski	Fraszki, Księgi wtóre
+10p	Jan Kochanowski	Fraszki, Księgi wtóre
+10q	Jan Kochanowski	Fraszki, Księgi wtóre
+10r	Jan Kochanowski	Fraszki, Księgi wtóre
+10s	Jan Kochanowski	Fraszki, Księgi wtóre
+10t	Jan Kochanowski	Fraszki, Księgi wtóre
+10u	Jan Kochanowski	Fraszki, Księgi wtóre
+10v	Jan Kochanowski	Fraszki, Księgi wtóre
+10w	Jan Kochanowski	Fraszki, Księgi wtóre
+10x	Jan Kochanowski	Fraszki, Księgi wtóre
+10y	Jan Kochanowski	Fraszki, Księgi wtóre
+10z	Jan Kochanowski	Fraszki, Księgi wtóre
+110	Jan Kochanowski	Fraszki, Księgi wtóre
+111	Jan Kochanowski	Fraszki, Księgi wtóre
+112	Jan Kochanowski	Fraszki, Księgi wtóre
+113	Jan Kochanowski	Fraszki, Księgi wtóre
+114	Jan Kochanowski	Fraszki, Księgi wtóre
+115	Jan Kochanowski	Fraszki, Księgi wtóre
+116	Jan Kochanowski	Fraszki, Księgi wtóre
+117	Jan Kochanowski	Fraszki, Księgi wtóre
+118	Jan Kochanowski	Fraszki, Księgi wtóre
+119	Jan Kochanowski	Fraszki, Księgi wtóre
+11a	Jan Kochanowski	Fraszki, Księgi wtóre
+11b	Jan Kochanowski	Fraszki, Księgi wtóre
+11c	Jan Kochanowski	Fraszki, Księgi wtóre
+11d	Jan Kochanowski	Fraszki, Księgi wtóre
+11e	Jan Kochanowski	Fraszki, Księgi wtóre
+11f	Jan Kochanowski	Fraszki, Księgi wtóre
+11g	Jan Kochanowski	Fraszki, Księgi wtóre
+11h	Jan Kochanowski	Fraszki, Księgi wtóre
+11i	Jan Kochanowski	Fraszki, Księgi wtóre
+11j	Jan Kochanowski	Fraszki, Księgi wtóre
+11k	Jan Kochanowski	Fraszki, Księgi wtóre
+11l	Jan Kochanowski	Fraszki, Księgi wtóre
+11m	Jan Kochanowski	Fraszki, Księgi wtóre
+11n	Jan Kochanowski	Fraszki, Księgi wtóre
+11o	Jan Kochanowski	Fraszki, Księgi wtóre
+11p	Jan Kochanowski	Fraszki, Księgi wtóre
+11q	Louis le Cardonnel	Gaj święcony
+11r	Tadeusz Gajcy	1942. Noc wigilijna
+11s	Tadeusz Gajcy	Ballada o stajence
+11t	Tadeusz Gajcy	Betlejem
+11u	Tadeusz Gajcy	Chwila biblijna
+11v	Tadeusz Gajcy	Czarne okna
+11w	Tadeusz Gajcy	Czas
+11x	Tadeusz Gajcy	Do potomnego
+11y	Tadeusz Gajcy	Do zmarłej
+11z	Tadeusz Gajcy	Droga tajemnic
+120	Tadeusz Gajcy	Epitafium
+121	Tadeusz Gajcy	Temu, który przyjdzie
+122	Tadeusz Gajcy	Groteska bardzo smutna
+123	Tadeusz Gajcy	*** [Jestem tutaj, ot, niedbały]
+124	Tadeusz Gajcy	Kantyczka wołania pełna
+125	Tadeusz Gajcy	Kolęda
+126	Tadeusz Gajcy	Legenda o Homerze
+127	Tadeusz Gajcy	Miłość bez jutra
+128	Tadeusz Gajcy	Modlitwa za rzeczy
+129	Tadeusz Gajcy	Moja mała
+12a	Tadeusz Gajcy	Na progu
+12b	Tadeusz Gajcy	Noc
+12c	Tadeusz Gajcy	Nowo narodzonemu
+12d	Tadeusz Gajcy	Opowieść z innego świata
+12e	Tadeusz Gajcy	Po raz pierwszy modlitwa
+12f	Tadeusz Gajcy	Poemat letargiczny
+12g	Tadeusz Gajcy	Portret
+12h	Tadeusz Gajcy	Przesłanie
+12i	Tadeusz Gajcy	Schodząc
+12j	Tadeusz Gajcy	Śpiew murów
+12k	Tadeusz Gajcy	Stygmat
+12l	Tadeusz Gajcy	Trójgłos
+12m	Tadeusz Gajcy	Uderzenie
+12n	Tadeusz Gajcy	Ukochanej
+12o	Tadeusz Gajcy	Wczorajszemu
+12p	Tadeusz Gajcy	Wezwanie
+12q	Tadeusz Gajcy	Widma
+12r	Tadeusz Gajcy	Wiersz o szukaniu
+12s	Tadeusz Gajcy	Wizja skąpa
+12t	Tadeusz Gajcy	Wstecz
+12u	Tadeusz Gajcy	Z dna
+12v	Tadeusz Gajcy	Żegnając się z matką
+12w	Konstanty Ildefons Gałczyński	Ars poetica
+12x	Konstanty Ildefons Gałczyński	Bal u Salomona
+12y	Konstanty Ildefons Gałczyński	Ballada o samotnej pompie
+12z	Konstanty Ildefons Gałczyński	Ballada o trzęsących się portkach
+130	Konstanty Ildefons Gałczyński	Buty szewca Szymona
+131	Konstanty Ildefons Gałczyński	Chryzostoma Bulwiecia
+132	Konstanty Ildefons Gałczyński	Dlaczego ogórek nie śpiewa
+133	Konstanty Ildefons Gałczyński	Dwa paszkwile na Kociubińską Hermenegildę
+134	Konstanty Ildefons Gałczyński	Dzikie wino
+135	Konstanty Ildefons Gałczyński	Fałszywy adres
+136	Konstanty Ildefons Gałczyński	Farlandia
+137	Konstanty Ildefons Gałczyński	Kolczyki Izoldy
+138	Konstanty Ildefons Gałczyński	Kronika olsztyńska
+139	Konstanty Ildefons Gałczyński	Liryka, liryka,
+13a	Konstanty Ildefons Gałczyński	Małe kina
+13b	Konstanty Ildefons Gałczyński	Matka Boska Stalagów
+13c	Konstanty Ildefons Gałczyński	Muzie nóżki całuję
+13d	Konstanty Ildefons Gałczyński	Na dziwny a niespodziewany odjazd
+13e	Konstanty Ildefons Gałczyński	O mej poezji
+13f	Konstanty Ildefons Gałczyński	O naszym gospodarstwie
+13g	Konstanty Ildefons Gałczyński	O wróbelku
+13h	Konstaty Ildefons Gałczyński	Ofiara świerzopa
+13i	Konstanty Ildefons Gałczyński	Pieśń o żołnierzach z Westerplatte
+13j	Konstanty Ildefons Gałczyński	Pomnik studenta
+13k	Konstanty Ildefons Gałczyński	Prośba o wyspy szczęśliwe
+13l	Konstanty Ildefons Gałczyński	Satyra na bożą krówkę
+13m	Konstanty Ildefons Gałczyński	Serwus, madonna
+13n	Konstanty Ildefons Gałczyński	Skumbrie w tomacie
+13o	Konstanty Ildefons Gałczyński	Śmierć poety
+13p	Konstanty Ildefons Gałczyński	Spotkanie z matką
+13q	Konstanty Ildefons Gałczyński	Ulica szarlatanów
+13r	Konstanty Ildefons Gałczyński	Wizyta
+13s	Konstanty Ildefons Gałczyński	Zaczarowana dorożka
+13t	Maria Konopnicka	Gąsior do Filipka
+13u	Maria Konopnicka	Gąski
+13v	Rudolf G. Binding	Gaśnięcie
+13w	Juliusz Słowacki	Gdy noc głęboka wszystko uśpi i oniemi…
+13x	Gdy się Chrystus rodzi…	Gdy się Chrystus rodzi i na świat przychodzi,
+13y	Gdy śliczna Panna…	Gdy śliczna Panna Syna kołysała,
+13z	Kazimierz Przerwa-Tetmajer	Geniusze
+140	Maria Konopnicka	Gęsiarek sierota
+141	Zuzanna Ginczanka	Ballada o Żydziaku
+142	Zuzanna Ginczanka	O centaurach
+143	Zuzanna Ginczanka	O centaurach
+144	Zuzanna Ginczanka	O centaurach
+145	Zuzanna Ginczanka	O centaurach
+146	Zuzanna Ginczanka	Futro
+147	Zuzanna Ginczanka	Zabobon
+148	Zuzanna Ginczanka	Maj 1939
+149	Zuzanna Ginczanka	Mętne historie
+14a	Zuzanna Ginczanka	Na zdarzenie z życia prywatnego
+14b	Zuzanna Ginczanka	O centaurach
+14c	Zuzanna Ginczanka	O centaurach
+14d	Zuzanna Ginczanka	O centaurach
+14e	Zuzanna Ginczanka	Panteistyczne
+14f	Zuzanna Ginczanka	Połów
+14g	Zuzanna Ginczanka	Powrót
+14h	Zuzanna Ginczanka	O centaurach
+14i	Zuzanna Ginczanka	Przebudzenie
+14j	Zuzanna Ginczanka	[Non omnis moriar…]
+14k	Zuzanna Ginczanka	Przypadek
+14l	Zuzanna Ginczanka	Pycha
+14m	Zuzanna Ginczanka	Rozbrat z przedwiośniem
+14n	Zuzanna Ginczanka	Rozmówka o przyszłości
+14o	Zuzanna Ginczanka	Rozprawa
+14p	Zuzanna Ginczanka	Świętokradztwo
+14q	Zuzanna Ginczanka	To jedno
+14r	Zuzanna Ginczanka	O centaurach
+14s	Zuzanna Ginczanka	O centaurach
+14t	Zuzanna Ginczanka	O centaurach
+14u	Zuzanna Ginczanka	O centaurach
+14v	Zuzanna Ginczanka	O centaurach
+14w	Juliusz Słowacki	Godzina myśli
+14x	Irena Goldblum	Piosenka Żydów o getcie
+14y	Lidia Goldszlag	Żydówka
+14z	Wiktoras Gomulickis	Troškimas
+150	Autor nieznany	Gore gwiazda Jezusowi
+151	Maria Konopnicka	Gosposia
+152	Maria Konopnicka	Gra w lisa
+153	Juliusz Słowacki	Grób Agamemnona
+154	Kazimierz Przerwa-Tetmajer	Grób poety
+155	Maria Grossek-Korycka	Noc
+156	Maria Grossek-Korycka	Obrońca
+157	Henryk Zbierzchowski	Impresye
+158	Mariusz Grzebalski	Drugie dotknięcie
+159	Mariusz Grzebalski	Drugie dotknięcie
+15a	Mariusz Grzebalski	Drugie dotknięcie
+15b	Mariusz Grzebalski	Drugie dotknięcie
+15c	Mariusz Grzebalski	Drugie dotknięcie
+15d	Mariusz Grzebalski	Drugie dotknięcie
+15e	Mariusz Grzebalski	Drugie dotknięcie
+15f	Mariusz Grzebalski	Drugie dotknięcie
+15g	Mariusz Grzebalski	Drugie dotknięcie
+15h	Mariusz Grzebalski	Drugie dotknięcie
+15i	Mariusz Grzebalski	Drugie dotknięcie
+15j	Mariusz Grzebalski	Drugie dotknięcie
+15k	Mariusz Grzebalski	Drugie dotknięcie
+15l	Mariusz Grzebalski	Drugie dotknięcie
+15m	Mariusz Grzebalski	Drugie dotknięcie
+15n	Mariusz Grzebalski	Drugie dotknięcie
+15o	Mariusz Grzebalski	Drugie dotknięcie
+15p	Mariusz Grzebalski	Drugie dotknięcie
+15q	Mariusz Grzebalski	Drugie dotknięcie
+15r	Mariusz Grzebalski	Drugie dotknięcie
+15s	Mariusz Grzebalski	Drugie dotknięcie
+15t	Mariusz Grzebalski	Drugie dotknięcie
+15u	Mariusz Grzebalski	Drugie dotknięcie
+15v	Mariusz Grzebalski	Drugie dotknięcie
+15w	Mariusz Grzebalski	Drugie dotknięcie
+15x	Mariusz Grzebalski	Drugie dotknięcie
+15y	Mariusz Grzebalski	Drugie dotknięcie
+15z	Mariusz Grzebalski	Drugie dotknięcie
+160	Mariusz Grzebalski	Drugie dotknięcie
+161	Mariusz Grzebalski	Drugie dotknięcie
+162	Mariusz Grzebalski	Drugie dotknięcie
+163	Mariusz Grzebalski	Drugie dotknięcie
+164	Mariusz Grzebalski	Drugie dotknięcie
+165	Mariusz Grzebalski	Drugie dotknięcie
+166	Mariusz Grzebalski	Drugie dotknięcie
+167	Mariusz Grzebalski	Drugie dotknięcie
+168	Mariusz Grzebalski	Drugie dotknięcie
+169	Mariusz Grzebalski	Drugie dotknięcie
+16a	Mariusz Grzebalski	Drugie dotknięcie
+16b	Mariusz Grzebalski	Drugie dotknięcie
+16c	Wioletta Grzegorzewska	Orinoko
+16d	Wioletta Grzegorzewska	Orinoko
+16e	Wioletta Grzegorzewska	Orinoko
+16f	Wioletta Grzegorzewska	Orinoko
+16g	Wioletta Grzegorzewska	Orinoko
+16h	Wioletta Grzegorzewska	Orinoko
+16i	Wioletta Grzegorzewska	Orinoko
+16j	Wioletta Grzegorzewska	Orinoko
+16k	Wioletta Grzegorzewska	Orinoko
+16l	Wioletta Grzegorzewska	Orinoko
+16m	Wioletta Grzegorzewska	Orinoko
+16n	Wioletta Grzegorzewska	Orinoko
+16o	Wioletta Grzegorzewska	Orinoko
+16p	Wioletta Grzegorzewska	Orinoko
+16q	Wioletta Grzegorzewska	Orinoko
+16r	Wioletta Grzegorzewska	Orinoko
+16s	Wioletta Grzegorzewska	Orinoko
+16t	Wioletta Grzegorzewska	Orinoko
+16u	Wioletta Grzegorzewska	Orinoko
+16v	Wioletta Grzegorzewska	Orinoko
+16w	Wioletta Grzegorzewska	Orinoko
+16x	Wioletta Grzegorzewska	Orinoko
+16y	Wioletta Grzegorzewska	Orinoko
+16z	Wioletta Grzegorzewska	Orinoko
+170	Wioletta Grzegorzewska	Orinoko
+171	Wioletta Grzegorzewska	Orinoko
+172	Wioletta Grzegorzewska	Orinoko
+173	Wioletta Grzegorzewska	Orinoko
+174	Wioletta Grzegorzewska	Orinoko
+175	Wioletta Grzegorzewska	Orinoko
+176	Wioletta Grzegorzewska	Orinoko
+177	Wioletta Grzegorzewska	Orinoko
+178	Wioletta Grzegorzewska	Orinoko
+179	Wioletta Grzegorzewska	Orinoko
+17a	Wioletta Grzegorzewska	Orinoko
+17b	Wioletta Grzegorzewska	Orinoko
+17c	Maria Konopnicka	Grzyby
+17d	Charles Guérin	Wpatruj się co wieczora…
+17e	Jerzy Liebert	I
+17f	Jerzy Liebert	I
+17g	Jerzy Liebert	I
+17h	Jerzy Liebert	I
+17i	Jerzy Liebert	I
+17j	Jerzy Liebert	I
+17k	Jerzy Liebert	I
+17l	Jerzy Liebert	I
+17m	Jerzy Liebert	I
+17n	Jerzy Liebert	II
+17o	Jerzy Liebert	II
+17p	Jerzy Liebert	II
+17q	Jerzy Liebert	II
+17r	Jerzy Liebert	II
+17s	Jerzy Liebert	II
+17t	Jerzy Liebert	II
+17u	Jerzy Liebert	II
+17v	Jerzy Liebert	II
+17w	Jerzy Liebert	II
+17x	Jerzy Liebert	II
+17y	Jerzy Liebert	III
+17z	Jerzy Liebert	III
+180	Jerzy Liebert	III
+181	Jerzy Liebert	III
+182	Jerzy Liebert	III
+183	Jerzy Liebert	III
+184	Jerzy Liebert	III
+185	Jerzy Liebert	III
+186	Jerzy Liebert	III
+187	Jerzy Liebert	III
+188	Jerzy Liebert	III
+189	Jerzy Liebert	III
+18a	Jerzy Liebert	III
+18b	Jerzy Liebert	IV
+18c	Jerzy Liebert	IV
+18d	Jerzy Liebert	IV
+18e	Jerzy Liebert	IV
+18f	Jerzy Liebert	VI
+18g	Jerzy Liebert	IV
+18h	Jerzy Liebert	IV
+18i	Jerzy Liebert	IV
+18j	Jerzy Liebert	IV
+18k	Gustaitis Motiejus	Krymo sonetai
+18l	Motiejus Gustaitis	Krymo sonetai
+18m	Heinrich Heine	Dysputa
+18n	Hej, w dzień narodzenia…	Hej, w dzień narodzenia Syna Jedynego,
+18o	Heinrich Hoffmann	Złota różdżka
+18p	Heinrich Hoffmann	Złota różdżka
+18q	Heinrich Hoffmann	Złota różdżka
+18r	Heinrich Hoffmann	Złota różdżka
+18s	Heinrich Hoffmann	Złota różdżka
+18t	Heinrich Hoffmann	Złota różdżka
+18u	Heinrich Hoffmann	Złota różdżka
+18v	Heinrich Hoffmann	Złota różdżka
+18w	Miłosz Biedrzycki	Hołd
+18x	Tadeusz Hollender	Blaski guberni
+18y	Tadeusz Hollender	Uśmiech Warszawy
+18z	Tadeusz Hollender	Warszawa 1942
+190	Tadeusz Hollender	Warszawa
+191	Horacy	Ars poetica
+192	Horacy	Pieśń I, 1
+193	Horacy	Pieśń I, 11 (Tu ne quaesieris, scire nefas…)
+194	Horacy	Pieśń I, 14 (O navis, referent in mare te novi…)
+195	Horacy	Pieśń I, 22 (Dulce ridenem Lalagen amabo…)
+196	Horacy	Pieśń I, 23 (Vitas hinnuleo me similis, Chloe…)
+197	Horacy	Pieśń I, 23 (Vitas hinnuleo me similis Chloe…)
+198	Horacy	Pieśń I, 23 (Vitas hinnuleo me similis, Chloe…)
+199	Horacy	Pieśń I, 38 (Persicos odi, puer, apparatus…)
+19a	Horacy	Pieśń I, 5 (Quis multa gracilis te, puer…)
+19b	Horacy	Pieśń I, 9 (Vides ut alta stet nive candidum)
+19c	Horacy	Pieśń II, 14 (Eheu fugaces, Postume, Postume…)
+19d	Horacy	Pieśń II, 20 (Non usitata nec tenui ferar…)
+19e	Horacy	Pieśń II, 20 (Non usitata nec tenui ferar…)
+19f	Horacy	Pieśń II, 7 (O saepe mecum tempus in ultimum…)
+19g	Horacy	Pieśń II, 7 (O saepe mecum tempus in ultimum…)
+19h	Horacy	Pieśń III, 1 (Odi profanum vulgus et arceo…)
+19i	Horacy	Pieśń III, 21 (O nata mecum consule Manlio…)
+19j	Horacy	Pieśń III, 26 (Vixi duellis nuper idoneus…)
+19k	Horacy	Pieśń III, 30 (Exegi monumentum aere perennius…)
+19l	Horacy	Satyra I, 9 (Ibam forte Via Sacra…)
+19m	Julisz Słowacki	Hymn
+19n	Ignacy Krasicki	Hymn do miłości ojczyzny
+19o	Kazimierz Przerwa-Tetmajer	Hymn do miłości
+19p	Kazimierz Przerwa-Tetmajer	Hymn do Nirwany
+19q	Juliusz Słowacki	Hymn o zachodzie słońca na morzu
+19r	Jan Kasprowicz	Hymny
+19s	Jan Kasprowicz	Hymny
+19t	Jan Kasprowicz	Hymny
+19u	Jan Kasprowicz	Hymny
+19v	Jan Kasprowicz	Hymny
+19w	Jan Kasprowicz	Hymny
+19x	Jan Kasprowicz	Hymny
+19y	Jan Kasprowicz	Hymny
+19z	Juliusz Słowacki	I wstał Anhelli z grobu — za nim wszystkie duchy…
+1a0	Otto zur Linde	Idź cicho twą drogą, idź niemo przez świat
+1a1	Idzie stary wiarus	(Na nutę: Hej kolęda, kolęda)
+1a2	Idzie żołnierz borem, lasem	Idzie żołnierz borem, lasem,
+1a3	Henryk Zbierzchowski	Impresye
+1a4	Henryk Zbierzchowski	Impresye
+1a5	Henryk Zbierzchowski	Impresye
+1a6	Henryk Zbierzchowski	Impresye
+1a7	Henryk Zbierzchowski	Impresye
+1a8	Henryk Zbierzchowski	Impresye
+1a9	Henryk Zbierzchowski	Impresye
+1aa	Henryk Zbierzchowski	Impresye
+1ab	Henryk Zbierzchowski	Impresye
+1ac	Henryk Zbierzchowski	Impresye
+1ad	Henryk Zbierzchowski	Impresye
+1ae	Henryk Zbierzchowski	Impresye
+1af	Henryk Zbierzchowski	Impresye
+1ag	Henryk Zbierzchowski	Impresye
+1ah	Henryk Zbierzchowski	Impresye
+1ai	Henryk Zbierzchowski	Impresye
+1aj	Henryk Zbierzchowski	Impresye
+1ak	Henryk Zbierzchowski	Impresye
+1al	Henryk Zbierzchowski	Impresye
+1am	Henryk Zbierzchowski	Impresye
+1an	Henryk Zbierzchowski	Impresye
+1ao	Henryk Zbierzchowski	Impresye
+1ap	Henryk Zbierzchowski	Impresye
+1aq	Henryk Zbierzchowski	Impresye
+1ar	Henryk Zbierzchowski	Impresye
+1as	Henryk Zbierzchowski	Impresye
+1at	Henryk Zbierzchowski	Impresye
+1au	Henryk Zbierzchowski	Impresye
+1av	Henryk Zbierzchowski	Impresye
+1aw	Tadeusz Miciński	In loco tormentorum
+1ax	Hugo von Hofmannsthal	In memoriam Böcklina
+1ay	Hugo von Hofmannsthal	In memoriam trzech wielkich aktorów
+1az	Maria Konopnicka	Jabłonka
+1b0	Max Jacob	Aluzje romantyczne do wtorku zapustnego
+1b1	Max Jacob	Atlantyda
+1b2	Max Jacob	Do mojego szwagra
+1b3	Max Jacob	Jak Maria Magdalena
+1b4	Max Jacob	Już dość astrologii
+1b5	Max Jacob	Malachity
+1b6	Max Jacob	[O sera okruchy lis kruka uprasza…]
+1b7	Max Jacob	Postaci z maskarady
+1b8	Max Jacob	Powołanie — wołanie
+1b9	Max Jacob	Quimper
+1ba	Max Jacob	[Rojenie dziwne, być może…]
+1bb	Max Jacob	Rzut perspektywy
+1bc	Max Jacob	Skargi nicponia
+1bd	Max Jacob	Skargi więźnia
+1be	Max Jacob	Stadło artystów bez boga
+1bf	Max Jacob	Tysiąc ubolewań
+1bg	Max Jacob	[Więcej, niźli jeż biały…]
+1bh	Max Jacob	Ziemia zroszona
+1bi	Maria Konopnicka	Jak Mańcia czyta książeczkę
+1bj	Maria Konopnicka	Jak się dzieci chwalą
+1bk	Maria Konopnicka	Jak się zowie
+1bl	Maria Konopnicka	Jak szła Wisła do morza
+1bm	Maria Konopnicka	Jak to będzie?
+1bn	Maria Konopnicka	Jak to w naszym dworze
+1bo	Maria Konopnicka	Jałmużna myśli
+1bp	Francis Jammes	Śnieg spadnie…
+1bq	Juliusz Słowacki	Jan Bielecki
+1br	Maria Konopnicka	Janek wybiera się w drogę
+1bs	Pjotr Janicki	Nadal aksamit: liryki
+1bt	Pjotr Janicki	Nadal aksamit: liryki
+1bu	Pjotr Janicki	Nadal aksamit: liryki
+1bv	Pjotr Janicki	Nadal aksamit: liryki
+1bw	Pjotr Janicki	Nadal aksamit: liryki
+1bx	Pjotr Janicki	Nadal aksamit: liryki
+1by	Pjotr Janicki	Nadal aksamit: liryki
+1bz	Pjotr Janicki	Nadal aksamit: liryki
+1c0	Pjotr Janicki	Nadal aksamit: liryki
+1c1	Pjotr Janicki	Nadal aksamit: liryki
+1c2	Pjotr Janicki	Nadal aksamit: liryki
+1c3	Pjotr Janicki	Nadal aksamit: liryki
+1c4	Pjotr Janicki	Nadal aksamit: liryki
+1c5	Pjotr Janicki	Nadal aksamit: liryki
+1c6	Pjotr Janicki	Nadal aksamit: liryki
+1c7	Pjotr Janicki	Nadal aksamit: liryki
+1c8	Pjotr Janicki	Nadal aksamit: liryki
+1c9	Pjotr Janicki	Nadal aksamit: liryki
+1ca	Pjotr Janicki	Nadal aksamit: liryki
+1cb	Pjotr Janicki	Nadal aksamit: liryki
+1cc	Pjotr Janicki	Nadal aksamit
+1cd	Pjotr Janicki	Nadal aksamit: liryki
+1ce	Pjotr Janicki	Nadal aksamit: liryki
+1cf	Pjotr Janicki	Nadal aksamit: liryki
+1cg	Pjotr Janicki	Nadal aksamit: liryki
+1ch	Jerzy Jarniewicz	Bajpasy Pinocheta
+1ci	Jerzy Jarniewicz	Będzie wiosna
+1cj	Jerzy Jarniewicz	Białe czarne
+1ck	Jerzy Jarniewicz	Biały kwadrat na białym
+1cl	Jerzy Jarniewicz	Bieżnia
+1cm	Jerzy Jarniewicz	Cztery krótkie wiersze dla Doroty Nieznalskiej
+1cn	Jerzy Jarniewicz	Do dali i do bliży
+1co	Jerzy Jarniewicz	Fetysz
+1cp	Jerzy Jarniewicz	Free Tibet
+1cq	Jerzy Jarniewicz	Gryps
+1cr	Jerzy Jarniewicz	Jaszczurka
+1cs	Jerzy Jarniewicz	Katalog
+1ct	Jerzy Jarniewicz	Kotlisko
+1cu	Jerzy Jarniewicz	Krótka historia WKP(b)
+1cv	Jerzy Jarniewicz	Makijaż
+1cw	Jerzy Jarniewicz	Makijaż
+1cx	Jerzy Jarniewicz	Makijaż
+1cy	Jerzy Jarniewicz	Makijaż
+1cz	Jerzy Jarniewicz	Mokry parkiet
+1d0	Jerzy Jarniewicz	Na wiatr
+1d1	Jerzy Jarniewicz	Na wprost
+1d2	Jerzy Jarniewicz	Najlepsze westerny są czarno-białe
+1d3	Jerzy Jarniewicz	Osiemdziesiąty szósty
+1d4	Jerzy Jarniewicz	Pantograf
+1d5	Jerzy Jarniewicz	Prosty wiersz o miłości
+1d6	Jerzy Jarniewicz	Przedwiośnie
+1d7	Jerzy Jarniewicz	Shopping and Fucking
+1d8	Jerzy Jarniewicz	Skąd dzwonisz?
+1d9	Jerzy Jarniewicz	Skręty
+1da	Jerzy Jarniewicz	Trądzik
+1db	Jerzy Jarniewicz	Tu jesteś
+1dc	Jerzy Jarniewicz	W samo południe
+1dd	Jerzy Jarniewicz	Z Ksiąg Królewskich
+1de	Jerzy Jarniewicz	Za plecami
+1df	Jerzy Jarniewicz	Zapis
+1dg	Jerzy Jarniewicz	Zimna geografia
+1dh	Jerzy Jarniewicz	Zstąpienie
+1di	Jerzy Jarniewicz	Makijaż
+1dj	Maria Konopnicka	Jasio śpioszek
+1dk	Maria Konopnicka	Jaskółeczka (Jaskółeczko. Jaskółeczko…)
+1dl	Maria Konopnicka	Jaskółeczka (Wstańcie dzieci, wstańcie dzieci…)
+1dm	Maria Konopnicka	Jaskółka (Czarna jaskółeczka…)
+1dn	Maria Konopnicka	Jaskółka (Jaskółeczka do nas wraca…)
+1do	Max Elskamp	Jasna niedziela
+1dp	Maria Konopnicka	Jesienią
+1dq	Ludwik Ksawery Pomian-Łubiński	Jeszcze jeden mazur dzisiaj…
+1dr	Stefan Witwicki	Jeszcze Polska nie zginęła…
+1ds	Jeszcześ Polsko nie zginęła	«Jeszcześ Polsko nie zginęła»
+1dt	Juliusz Słowacki	Jeżeli ci Pan nie zbuduje domu…
+1du	Jezus malusieńki	Jezus malusieńki leży nagusieńki:
+1dv	Joanna Mueller	Somnambóle fantomowe
+1dw	Klemensas Junoša	Motinai
+1dx	Kazimierz Przerwa-Tetmajer	Już nie wiem, co poza mną było…
+1dy	Adam Kaczanowski	anioł 2003/
+1dz	Adam Kaczanowski	Bordeaux/
+1e0	Adam Kaczanowski	calle Juan Alvarez Mendiazabal
+1e1	Adam Kaczanowski	czy mamy już wszystko/
+1e2	Adam Kaczanowski	daliśmy kanibalom w kość/
+1e3	Adam Kaczanowski	…/
+1e4	Adam Kaczanowski	Ezop by się uśmiał/
+1e5	Adam Kaczanowski	gra w marynarza/
+1e6	Adam Kaczanowski	Krzysztof Kolumb nie lubi swojej pracy/
+1e7	Adam Kaczanowski	kuchnia/
+1e8	Adam Kaczanowski	łazienka
+1e9	Adam Kaczanowski	łóżko
+1ea	Adam Kaczanowski	…/
+1eb	Adam Kaczanowski	nowe guru mojej matki
+1ec	Adam Kaczanowski	…
+1ed	Adam Kaczanowski	pytasz, czy ja kiedykolwiek płaczę/
+1ee	Adam Kaczanowski	schody/
+1ef	Adam Kaczanowski	Stany
+1eg	Adam Kaczanowski	super/
+1eh	Adam Kaczanowski	szybko/
+1ei	Adam Kaczanowski	teraz/
+1ej	Adam Kaczanowski	…/
+1ek	Adam Kaczanowski	wrestling/
+1el	Adam Kaczanowski	wyspy kanaryjskie/
+1em	Adam Kaczanowski	zoo
+1en	Adam Kaczanowski	Stany
+1eo	Gustave Kahn	Śpiewaj wolno…
+1ep	Józef Czechowicz	Kamień
+1eq	Józef Czechowicz	Kamień
+1er	Józef Czechowicz	Kamień
+1es	Józef Czechowicz	Kamień
+1et	Józef Czechowicz	Kamień
+1eu	Józef Czechowicz	Kamień
+1ev	Józef Czechowicz	Kamień
+1ew	Józef Czechowicz	Kamień
+1ex	Józef Czechowicz	Kamień
+1ey	Józef Czechowicz	Kamień
+1ez	Józef Czechowicz	Kamień
+1f0	Jozef Czechowicz	Kamień
+1f1	Jaś Kapela	Chujowo, ale stabilnie
+1f2	Jaś Kapela	Ciemno i zimno
+1f3	Jaś Kapela	Jak zostałem wojownikiem MDMA
+1f4	Jaś Kapela	Jeszcze jeden wiersz o wojnie
+1f5	Jaś Kapela	Kolęda graniczna
+1f6	Jaś Kapela	Lubię kiełbasę
+1f7	Jaś Kapela	Ptaki kontra ludzie
+1f8	Jaś Kapela	Światło
+1f9	Jaś Kapela	To jednak jest już wojna
+1fa	Jaś Kapela	Trudne siedzenie
+1fb	Franciszek Karpiński	Do Justyny
+1fc	Franciszek Karpiński	When God Is Born, No Power Prevails
+1fd	Jan Kasprowicz	Bądź pozdrowiona!
+1fe	Jan Kasprowicz	Odi profanum volgus
+1ff	Jan Kasprowicz	Powiadają, że w nas nie ma…
+1fg	Jan Kasprowicz	Siądź na kamieniu
+1fh	Jan Kasprowicz	Stary, czarny krzyż
+1fi	Jan Kasprowicz	Welcome My Beloved Mountains
+1fj	Aleksandra Kasprzak	badania terenowe nad polskim seksem
+1fk	Aleksandra Kasprzak	Niebezpieczeństwo jedzenia w miejscach publicznych i prywatnych
+1fl	Władysław Bełza	Katechizm polskiego dziecka
+1fm	Władysław Bełza	Katechizm polskiego dziecka
+1fn	Władysław Bełza	Czym będę?
+1fo	Władysław Bełza	Katechizm polskiego dziecka
+1fp	Władysław Bełza	Katechizm polskiego dziecka
+1fq	Władysław Bełza	Katechizm polskiego dziecka
+1fr	Władysław Bełza	Katechizm polskiego dziecka
+1fs	Władysław Bełza	Katechizm polskiego dziecka
+1ft	Władysław Bełza	Katechizm polskiego dziecka
+1fu	Władysław Bełza	Katechizm polskiego dziecka
+1fv	Władysław Bełza	Katechizm polskiego dziecka
+1fw	Władysław Bełza	Katechizm polskiego dziecka
+1fx	Władysław Bełza	Katechizm polskiego dziecka
+1fy	Władysław Bełza	Katechizm polskiego dziecka
+1fz	Władysław Bełza	Katechizm polskiego dziecka
+1g0	Maria Konopnicka	Każdy domku swego strzeże
+1g1	Bożena Keff	Nie jest gotowy
+1g2	Bożena Keff	Nie jest gotowy
+1g3	Bożena Keff	Nie jest gotowy
+1g4	Bożena Keff	Nie jest gotowy
+1g5	Bożena Keff	Nie jest gotowy
+1g6	Bożena Keff	Nie jest gotowy
+1g7	Bożena Keff	Nie jest gotowy
+1g8	Bożena Keff	Nie jest gotowy
+1g9	Bożena Keff	Nie jest gotowy
+1ga	Bożena Keff	Nie jest gotowy
+1gb	Bożena Keff	Nie jest gotowy
+1gc	Bożena Keff	Nie jest gotowy
+1gd	Bożena Keff	Nie jest gotowy
+1ge	Bożena Keff	Nie jest gotowy
+1gf	Bożena Keff	Nie jest gotowy
+1gg	Bożena Keff	Nie jest gotowy
+1gh	Bożena Keff	Jasne, cholerny trupie
+1gi	Bożena Keff	Nie jest gotowy
+1gj	Bożena Keff	Nie jest gotowy
+1gk	Bożena Keff	Nie jest gotowy
+1gl	Bożena Keff	Nie jest gotowy
+1gm	Bożena Keff	Nie jest gotowy
+1gn	Bożena Keff	Nie jest gotowy
+1go	Bożena Keff	Nie jest gotowy
+1gp	Bożena Keff	Nie jest gotowy
+1gq	Bożena Keff	Nie jest gotowy
+1gr	Bożena Keff	Nie jest gotowy
+1gs	Bożena Keff	Nie jest gotowy
+1gt	Bożena Keff	Nie jest gotowy
+1gu	Bożena Keff	Nie jest gotowy
+1gv	Bożena Keff	Nie jest gotowy
+1gw	Bożena Keff	Nie jest gotowy
+1gx	Bożena Keff	Nie jest gotowy
+1gy	Bożena Keff	Nie jest gotowy
+1gz	Bożena Keff	Nie jest gotowy
+1h0	Bożena Keff	Nie jest gotowy
+1h1	Bożena Keff	Nie jest gotowy
+1h2	Bożena Keff	Sen o znaczeniu snów
+1h3	Bożena Keff	Nie jest gotowy
+1h4	Bożena Keff	Nie jest gotowy
+1h5	Bożena Keff	Nie jest gotowy
+1h6	Bożena Keff	Nie jest gotowy
+1h7	Bożena Keff	Nie jest gotowy
+1h8	Bożena Keff	Nie jest gotowy
+1h9	Bożena Keff	Nie jest gotowy
+1ha	Bożena Keff	Nie jest gotowy
+1hb	Bożena Keff	Nie jest gotowy
+1hc	Bożena Keff	Nie jest gotowy
+1hd	Bożena Keff	Nie jest gotowy
+1he	Bożena Keff	Nie jest gotowy
+1hf	Bożena Keff	Nie jest gotowy
+1hg	Bożena Keff	Nie jest gotowy
+1hh	Juliusz Słowacki	Kiedy prawdziwie Polacy powstaną…
+1hi	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1hj	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1hk	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1hl	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1hm	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1hn	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1ho	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1hp	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1hq	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1hr	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1hs	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1ht	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1hu	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1hv	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1hw	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1hx	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1hy	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1hz	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1i0	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1i1	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1i2	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1i3	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1i4	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1i5	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1i6	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1i7	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1i8	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1i9	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1ia	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1ib	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1ic	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1id	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1ie	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1if	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1ig	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1ih	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1ii	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1ij	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1ik	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1il	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1im	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1in	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1io	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1ip	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1iq	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1ir	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1is	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1it	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1iu	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1iv	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1iw	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1ix	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1iy	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1iz	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1j0	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1j1	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1j2	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1j3	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1j4	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1j5	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1j6	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1j7	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1j8	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1j9	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1ja	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1jb	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1jc	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1jd	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1je	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1jf	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1jg	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1jh	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1ji	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1jj	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1jk	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1jl	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1jm	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1jn	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1jo	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1jp	Jarosław Klejnocki	Elegia na śmierć szczegółów. Wiersze wybrane
+1jq	Barbara Klicka	Ablucja motywu
+1jr	Barbara Klicka	Cekiny
+1js	Barbara Klicka	Cold wave
+1jt	Barbara Klicka	Dobytek
+1ju	Barbara Klicka	Fikcjonariusz
+1jv	Barbara Klicka	Góra wody
+1jw	Barbara Klicka	Kochany
+1jx	Barbara Klicka	Locus focus
+1jy	Barbara Klicka	Manewry
+1jz	Barbara Klicka	Opis z natury
+1k0	Barbara Klicka	Osobliwość
+1k1	Barbara Klicka	Przekrój strzałkowy
+1k2	Barbara Klicka	Przeprawa
+1k3	Barbara Klicka	Alfaville
+1k4	Barbara Klicka	Prząśniczki
+1k5	Barbara Klicka	Sieć czwarta
+1k6	Barbara Klicka	Scena w muszli
+1k7	Barbara Klicka	Skalowanie
+1k8	Barbara Klicka	Śluza
+1k9	Barbara Klicka	Sue Ryder od skweru
+1ka	Barbara Klicka	Sypkie lustra
+1kb	Barbara Klicka	Te pędy
+1kc	Barbara Klicka	Terytorium powiernicze
+1kd	Barbara Klicka	Wielkanoc
+1ke	Barbara Klicka	Wielokrotnie
+1kf	Barbara Klicka	Wszelki wypadek
+1kg	Barbara Klicka	Zakrętka ósma
+1kh	Barbara Klicka	Zakrętka szósta
+1ki	Barbara Klicka	Zator
+1kj	Barbara Klicka	Żegnaj, laleczko
+1kk	Barbara Klicka	Zero mapy
+1kl	Jan Kochanowski	God's Plaything Man
+1km	Jan Kochanowski	On Health
+1kn	Jan Kochanowski	Song XXV
+1ko	Maria Konopnicka	Kolędnicy
+1kp	Jerzy Liebert	Kołysanka jodłowa
+1kq	Jerzy Liebert	Kołysanka jodłowa
+1kr	Jerzy Liebert	Kołysanka jodłowa
+1ks	Jerzy Liebert	Kołysanka jodłowa
+1kt	Jerzy Liebert	Kołysanka jodłowa
+1ku	Jerzy Liebert	Kołysanka jodłowa
+1kv	Jerzy Liebert	Kołysanka jodłowa
+1kw	Jerzy Liebert	Kołysanka jodłowa
+1kx	Jerzy Liebert	Kołysanka jodłowa
+1ky	Jerzy Liebert	Kołysanka jodłowa
+1kz	Jerzy Liebert	Kołysanka jodłowa
+1l0	Jerzy Liebert	Kołysanka jodłowa
+1l1	Jerzy Liebert	Kołysanka jodłowa
+1l2	Jerzy Liebert	Kołysanka jodłowa
+1l3	Jerzy Liebert	Kołysanka jodłowa
+1l4	Jerzy Liebert	Kołysanka jodłowa
+1l5	Jerzy Liebert	Kołysanka jodłowa
+1l6	Jerzy Liebert	Kołysanka jodłowa
+1l7	Jerzy Liebert	Kołysanka jodłowa
+1l8	Jerzy Liebert	Kołysanka jodłowa
+1l9	Jerzy Liebert	Kołysanka jodłowa
+1la	Jerzy Liebert	Kołysanka jodłowa
+1lb	Jerzy Liebert	Kołysanka jodłowa
+1lc	Jerzy Liebert	Kołysanka jodłowa
+1ld	Jerzy Liebert	Kołysanka jodłowa
+1le	Jerzy Liebert	Kołysanka jodłowa
+1lf	Jerzy Liebert	Kołysanka jodłowa
+1lg	Jerzy Liebert	Kołysanka jodłowa
+1lh	Maria Konopnicka	Komedia przy myciu
+1li	Kazimierz Przerwa-Tetmajer	Koniec wieku XIX
+1lj	Maria Konopnicka	Ach, ta przecudna, cicha łąka…
+1lk	Maria Konopnicka	Bocian
+1ll	Maria Konopnicka	Choinka
+1lm	Maria Konopnicka	Czcigodnemu J. I. Kraszewskiemu
+1ln	Maria Konopnicka	Damnata
+1lo	Maria Konopnicka	Damnata
+1lp	Maria Konopnicka	Damnata
+1lq	Maria Konopnicka	Dobranoc
+1lr	Maria Konopnicka	Dzień dobry
+1ls	Maria Konopnicka	Gwiazdka
+1lt	Marija Konopnicka	[Joja karan pats karalius…]
+1lu	Maria Konopnicka	Mały trębacz
+1lv	Maria Konopnicka	Miraże
+1lw	Maria Konopnicka	Na fujarce
+1lx	Maria Konopnicka	Na łące
+1ly	Maria Konopnicka	Na obczyźnie
+1lz	Maria Konopnicka	O co się modlić
+1m0	Maria Konopnicka	Owczarek
+1m1	Maria Konopnicka	Piast
+1m2	Maria Konopnicka	Pifuś-Malarz
+1m3	Maria Konopnicka	Podmuchy wiosny
+1m4	Maria Konopnicka	Poranek
+1m5	Maria Konopnicka	Pszczoły
+1m6	Maria Konopnicka	Rada
+1m7	Maria Konopnicka	Sanna
+1m8	Maria Konopnicka	Sierotki (Mamo droga! Mamo miła!)
+1m9	Maria Konopnicka	Sieroto!
+1ma	Maria Konopnicka	Skowronek
+1mb	Maria Konopnicka	Ślizgawka
+1mc	Maria Konopnicka	Sny
+1md	Maria Konopnicka	Sobótka
+1me	Maria Konopnicka	Sokół
+1mf	Maria Konopnicka	Szkolne przygody Pimpusia Sadełko
+1mg	Maria Konopnicka	Taniec
+1mh	Maria Konopnicka	Tęcza
+1mi	Maria Konopnicka	Tekst do mszy śpiewanej
+1mj	Maria Konopnicka	W lesie
+1mk	Maria Konopnicka	W polu (Pójdziemy w pole, w ranny czas…)
+1ml	Maria Konopnicka	Wiatr
+1mm	Maria Konopnicka	Wielkanoc
+1mn	Maria Konopnicka	Wierzba
+1mo	Maria Konopnicka	Zajączek
+1mp	Maria Konopnicka	Zielone Świątki
+1mq	Maria Konopnicka	Żniwa
+1mr	Szczepan Kopyt	sale sale sale
+1ms	Szczepan Kopyt	sale sale sale
+1mt	Szczepan Kopyt	sale sale sale
+1mu	Szczepan Kopyt	sale sale sale
+1mv	Szczepan Kopyt	sale sale sale
+1mw	Szczepan Kopyt	sale sale sale
+1mx	Szczepan Kopyt	sale sale sale
+1my	Szczepan Kopyt	sale sale sale
+1mz	Szczepan Kopyt	sale sale sale
+1n0	Szczepan Kopyt	sale sale sale
+1n1	Szczepan Kopyt	sale sale sale
+1n2	Szczepan Kopyt	sale sale sale
+1n3	Szczepan Kopyt	sale sale sale
+1n4	Szczepan Kopyt	sale sale sale
+1n5	Szczepan Kopyt	sale sale sale
+1n6	Szczepan Kopyt	sale sale sale
+1n7	Szczepan Kopyt	sale sale sale
+1n8	Szczepan Kopyt	sale sale sale
+1n9	Szczepan Kopyt	sale sale sale
+1na	Stanisław Korab-Brzozowski	Anioł Pański
+1nb	Stanisław Korab-Brzozowski	Barwy, głosy, wonie
+1nc	Stanisław Korab-Brzozowski	Kwiaty
+1nd	Stanisław Korab-Brzozowski	Lilia
+1ne	Stanisław Korab-Brzozowski	O przyjdź!
+1nf	Stanisław Korab-Brzozowski	Pod baldachimem drzew
+1ng	Stanisław Korab-Brzozowski	Próżnia
+1nh	Stanisław Korab-Brzozowski	Prządka
+1ni	Stanisław Korab-Brzozowski	Ukrzyżowanie
+1nj	Wincenty Korab-Brzozowski	Która przyjdzie
+1nk	Wincenty Korab-Brzozowski	Powinowactwo cieni i kwiatów o zmierzchu
+1nl	Julian Kornhauser	Zjadacze kartofli
+1nm	Julian Kornhauser	Zjadacze kartofli
+1nn	Julian Kornhauser	Zjadacze kartofli
+1no	Julian Kornhauser	Zjadacze kartofli
+1np	Julian Kornhauser	Cel
+1nq	Julian Kornhauser	Zjadacze kartofli
+1nr	Julian Kornhauser	Co za rumor?
+1ns	Julian Kornhauser	Zjadacze kartofli
+1nt	Julian Kornhauser	Droga
+1nu	Julian Kornhauser	Zjadacze kartofli
+1nv	Julian Kornhauser	Zjadacze kartofli
+1nw	Julian Kornhauser	Zjadacze kartofli
+1nx	Julian Kornhauser	Gwiazdka
+1ny	Julian Kornhauser	Zjadacze kartofli
+1nz	Julian Kornhauser	Zjadacze kartofli
+1o0	Julian Kornhauser	Koperta
+1o1	Julian Kornhauser	Zjadacze kartofli
+1o2	Julian Kornhauser	Krzątanina
+1o3	Julian Kornhauser	Zjadacze kartofli
+1o4	Julian Kornhauser	Zjadacze kartofli
+1o5	Julian Kornhauser	Zjadacze kartofli
+1o6	Julian Kornhauser	Liść
+1o7	Julian Kornhauser	Marsz
+1o8	Julian Kornhauser	Zjadacze kartofli
+1o9	Julian Kornhauser	Zjadacze kartofli
+1oa	Julian Kornhauser	Most
+1ob	Julian Kornhauser	Nic się nie kończy
+1oc	Julian Kornhauser	Zjadacze kartofli
+1od	Julian Kornhauser	Noc
+1oe	Julian Kornhauser	Zjadacze kartofli
+1of	Julian Kornhauser	Zjadacze kartofli
+1og	Julian Kornhauser	Zjadacze kartofli
+1oh	Julian Kornhauser	Zjadacze kartofli
+1oi	Julian Kornhauser	Zjadacze kartofli
+1oj	Julian Kornhauser	Zjadacze kartofli
+1ok	Julian Kornhauser	Zjadacze kartofli
+1ol	Julian Kornhauser	Zjadacze kartofli
+1om	Julian Kornhauser	Pięć paluszków
+1on	Julian Kornhauser	Piórka
+1oo	Julian Kornhauser	Zjadacze kartofli
+1op	Julian Kornhauser	Potoczek
+1oq	Julian Kornhauser	Zjadacze kartofli
+1or	Julian Kornhauser	Zjadacze kartofli
+1os	Julian Kornhauser	Zjadacze kartofli
+1ot	Julian Kornhauser	Zjadacze kartofli
+1ou	Julian Kornhauser	Zjadacze kartofli
+1ov	Julian Kornhauser	Zjadacze kartofli
+1ow	Julian Kornhauser	Zjadacze kartofli
+1ox	Julian Kornhauser	Zjadacze kartofli
+1oy	Julian Kornhauser	Rzeka
+1oz	Julian Kornhauser	Światło
+1p0	Julian Kornhauser	Szklaneczka
+1p1	Julian Kornhauser	Szukanka
+1p2	Julian Kornhauser	Zjadacze kartofli
+1p3	Julian Kornhauser	Tyle rzeczy niezwykłych
+1p4	Julian Kornhauser	Zjadacze kartofli
+1p5	Julian Kornhauser	Zjadacze kartofli
+1p6	Julian Kornhauser	Wiatr
+1p7	Julian Kornhauser	Zjadacze kartofli
+1p8	Julian Kornhauser	Zjadacze kartofli
+1p9	Julian Kornhauser	Zjadacze kartofli
+1pa	Julian Kornhauser	Zjadacze kartofli
+1pb	Julian Kornhauser	Zjadacze kartofli
+1pc	Julian Kornhauser	Zagadka
+1pd	Julian Kornhauser	Zapach
+1pe	Julian Kornhauser	Zapamiętać
+1pf	Julian Kornhauser	Zjadacze kartofli
+1pg	Wincenty Korotyński	Czem chata bogata, tem rada
+1ph	Wincenty Korotyński	Czem chata bogata, tem rada
+1pi	Wincenty Korotyński	Czem chata bogata, tem rada
+1pj	Wincenty Korotyński	Czem chata bogata, tem rada
+1pk	Wincenty Korotyński	Czem chata bogata, tem rada
+1pl	Wincenty Korotyński	Czem chata bogata, tem rada
+1pm	Wincenty Korotyński	Czem chata bogata, tem rada
+1pn	Wincenty Korotyński	Czem chata bogata, tem rada
+1po	Wincenty Korotyński	Czem chata bogata, tem rada
+1pp	Wincenty Korotyński	Czem chata bogata, tem rada
+1pq	Wincenty Korotyński	Czem chata bogata, tem rada
+1pr	Wincenty Korotyński	Czem chata bogata, tem rada
+1ps	Wincenty Korotyński	Czem chata bogata, tem rada
+1pt	Wincenty Korotyński	Czem chata bogata, tem rada
+1pu	Wincenty Korotyński	Czem chata bogata, tem rada
+1pv	Wincenty Korotyński	Czem chata bogata, tem rada
+1pw	Wincenty Korotyński	Czem chata bogata, tem rada
+1px	Wincenty Korotyński	Czem chata bogata, tem rada
+1py	Wincenty Korotyński	Czem chata bogata, tem rada
+1pz	Wincenty Korotyński	Czem chata bogata, tem rada
+1q0	Karol Arnold Kortum	Jobsjada
+1q1	Maria Konopnicka	Kosiarze
+1q2	Maria Konopnicka	Kotek Psotek
+1q3	Paweł Kozioł	Arteria
+1q4	Paweł Kozioł	CD
+1q5	Paweł Kozioł	Ciało
+1q6	Paweł Kozioł	Cierpliwie
+1q7	Paweł Kozioł	Ciszą i wierszem
+1q8	Paweł Kozioł	Co powiedzą
+1q9	Paweł Kozioł	Czytającej
+1qa	Paweł Kozioł	Deszcz
+1qb	Paweł Kozioł	Drzwi
+1qc	Paweł Kozioł	Iluminacja
+1qd	Paweł Kozioł	Jeśli rachunek
+1qe	Paweł Kozioł	Jeśli szukałem
+1qf	Paweł Kozioł	Jeżeli
+1qg	Paweł Kozioł	Kim zaś byłaś
+1qh	Paweł Kozioł	Miasteczko Blizno
+1qi	Paweł Kozioł	Miasteczko gdyby twoje ściany były
+1qj	Paweł Kozioł	Obcych języków uczymy się od przekleństw
+1qk	Paweł Kozioł	Obsiadają nas lustra
+1ql	Paweł Kozioł	Odkąd twój język
+1qm	Paweł Kozioł	Peregrynacja na dzień 1 listopada 2002 i na grób dziadka, malarza czerwonych obrazów
+1qn	Paweł Kozioł	Pisz
+1qo	Paweł Kozioł	Ponieważ napisano
+1qp	Paweł Kozioł	Śpiączka
+1qq	Paweł Kozioł	Tak jak mój smutek
+1qr	Paweł Kozioł	Ty moja droga
+1qs	Paweł Kozioł	Wiersz winien
+1qt	Paweł Kozioł	Wino
+1qu	Paweł Kozioł	Wpatrzeni
+1qv	Paweł Kozioł	Z tamtych wakacji
+1qw	Paweł Kozioł	Zamknąć
+1qx	Paweł Kozioł	Zatrzasnąć się
+1qy	Paweł Kozioł	Czarne kwiaty dla wszystkich
+1qz	Krystyna Krahelska	*** [Hej, chłopcy, bagnet na broń!]
+1r0	Krystyna Krahelska	Kołysanka
+1r1	Krystyna Krahelska	Modlitwa
+1r2	Krystyna Krahelska	*** [Niebo jest nad nami…]
+1r3	Krystyna Krahelska	O wojence
+1r4	Krystyna Krahelska	Wiosna zawiedzionych
+1r5	Zygmunt Krasiński	Psalm dobrej woli
+1r6	Zygmunt Krasiński	Psalm miłości
+1r7	Zygmunt Krasiński	Psalm nadziei
+1r8	Zygmunt Krasiński	Psalm wiary
+1r9	Zygmunt Krasiński	Psalm żalu
+1ra	Juliusz Słowacki	Król-Duch
+1rb	Carl Spitteler	Król jeno
+1rc	Mira Król	.Kambium.
+1rd	Mira Król	.kolektyw.
+1re	Artur Oppman	Kronika Mieszczańska
+1rf	Otto zur Linde	Krzewom nad moją drogą
+1rg	Cyprian Kamil Norwid	Krzyż i dziecko
+1rh	Juliusz Krzyżewski	W odwrocie
+1ri	Maria Konopnicka	Książeczka
+1rj	Kazimierz Przerwa-Tetmajer	Któż nam powróci…
+1rk	Vincas Kudirka	Laisvos valandos
+1rl	Vincas Kudirka	Laisvos valandos
+1rm	Vincas Kudirka	Laisvos valandos
+1rn	Vincas Kudirka	Laisvos valandos
+1ro	Vincas Kudirka	Laisvos valandos
+1rp	Vincas Kudirka	Laisvos valandos
+1rq	Vincas Kudirka	Laisvos valandos
+1rr	Vincas Kudirka	Laisvos valandos
+1rs	Vincas Kudirka	Laisvos valandos
+1rt	Vincas Kudirka	Laisvos valandos
+1ru	Vincas Kudirka	Laisvos valandos
+1rv	Vincas Kudirka	Laisvos valandos
+1rw	Vincas Kudirka	Lietuvos tilto atsiminimai
+1rx	Maria Konopnicka	Kujawiak
+1ry	Maria Konopnicka	Kukułeczka
+1rz	Julisz Słowacki	Kulik
+1s0	Maria Konopnicka	Kurpik
+1s1	Charles Baudelaire	Kwiaty zła
+1s2	Charles Baudelaire	Kwiaty zła
+1s3	Charles Baudelaire	Kwiaty zła
+1s4	Charles Baudelaire	Kwiaty zła
+1s5	Charles Baudelaire	Kwiaty zła
+1s6	Charles Baudelaire	Kwiaty zła
+1s7	Charles Baudelaire	Kwiaty zła
+1s8	Charles Baudelaire	Kwiaty zła
+1s9	Charles Baudelaire	Kwiaty zła
+1sa	Charles Baudelaire	Kwiaty zła
+1sb	Charles Baudelaire	Kwiaty zła
+1sc	Charles Baudelaire	Kwiaty zła
+1sd	Charles Baudelaire	Kwiaty zła
+1se	Charles Baudelaire	Kwiaty zła
+1sf	Charles Baudelaire	Kwiaty zła
+1sg	Charles Baudelaire	Kwiaty zła
+1sh	Charles Baudelaire	Kwiaty zła
+1si	Charles Baudelaire	Kwiaty zła
+1sj	Charles Baudelaire	Kwiaty zła
+1sk	Charles Baudelaire	Kwiaty zła
+1sl	Charles Baudelaire	Kwiaty zła
+1sm	Charles Baudelaire	Kwiaty zła
+1sn	Charles Baudelaire	Kwiaty zła
+1so	Charles Baudelaire	Kwiaty zła
+1sp	Charles Baudelaire	Kwiaty zła
+1sq	Charles Baudelaire	Kwiaty zła
+1sr	Charles Baudelaire	Kwiaty zła
+1ss	Charles Baudelaire	Kwiaty zła
+1st	Charles Baudelaire	Kwiaty zła
+1su	Charles Baudelaire	Kwiaty zła
+1sv	Charles Baudelaire	Kwiaty zła
+1sw	Charles Baudelaire	Kwiaty zła
+1sx	Charles Baudelaire	Kwiaty zła
+1sy	Charles Baudelaire	Kwiaty zła
+1sz	Charles Baudelaire	Kwiaty zła
+1t0	Charles Baudelaire	Kwiaty zła
+1t1	Charles Baudelaire	Kwiaty zła
+1t2	Charles Baudelaire	Kwiaty zła
+1t3	Charles Baudelaire	Kwiaty zła
+1t4	Charles Baudelaire	Kwiaty zła
+1t5	Charles Baudelaire	Kwiaty zła
+1t6	Charles Baudelaire	Kwiaty zła
+1t7	Charles Baudelaire	Kwiaty zła
+1t8	Charles Baudelaire	Kwiaty zła
+1t9	Charles Baudelaire	Kwiaty zła
+1ta	Charles Baudelaire	Kwiaty zła
+1tb	Charles Baudelaire	Kwiaty zła
+1tc	Charles Baudelaire	Kwiaty zła
+1td	Charles Baudelaire	Kwiaty zła
+1te	Charles Baudelaire	Kwiaty zła
+1tf	Charles Baudelaire	Kwiaty zła
+1tg	Charles Baudelaire	Kwiaty zła
+1th	Charles Baudelaire	Kwiaty zła
+1ti	Charles Baudelaire	Kwiaty zła
+1tj	Charles Baudelaire	Kwiaty zła
+1tk	Charles Baudelaire	Kwiaty zła
+1tl	Charles Baudelaire	Kwiaty zła
+1tm	Charles Baudelaire	Kwiaty zła
+1tn	Charles Baudelaire	Kwiaty zła
+1to	Charles Baudelaire	Kwiaty zła
+1tp	Charles Baudelaire	Kwiaty zła
+1tq	Charles Baudelaire	Kwiaty zła
+1tr	Charles Baudelaire	Kwiaty zła
+1ts	Bolesław Leśmian	Łąka
+1tt	Bolesław Leśmian	Łąka
+1tu	Bolesław Leśmian	Łąka
+1tv	Bolesław Leśmian	Łąka
+1tw	Bolesław Leśmian	Łąka
+1tx	Bolesław Leśmian	Łąka
+1ty	Bolesław Leśmian	Łąka
+1tz	Bolesław Leśmian	Łąka
+1u0	Bolesław Leśmian	Łąka
+1u1	Bolesław Leśmian	Łąka
+1u2	Bolesław Leśmian	Łąka
+1u3	Bolesław Leśmian	Łąka
+1u4	Bolesław Leśmian	Łąka
+1u5	Bolesław Leśmian	Łąka
+1u6	Bolesław Leśmian	Łąka
+1u7	Bolesław Leśmian	Łąka
+1u8	Bolesław Leśmian	Łąka
+1u9	Bolesław Leśmian	Łąka
+1ua	Bolesław Leśmian	Łąka
+1ub	Bolesław Leśmian	Łąka
+1uc	Bolesław Leśmian	Łąka
+1ud	Bolesław Leśmian	Łąka
+1ue	Bolesław Leśmian	Łąka
+1uf	Bolesław Leśmian	Łąka
+1ug	Bolesław Leśmian	Łąka
+1uh	Bolesław Leśmian	Łąka
+1ui	Bolesław Leśmian	Łąka
+1uj	Juliusz Słowacki	Lambro
+1uk	Lament świętokrzyski	ISBN 978-83-288-5857-2
+1ul	Jan Kochanowski	Laments
+1um	Jan Kochanowski	Laments
+1un	Jan Kochanowski	Laments
+1uo	Jan Kochanowski	Laments
+1up	Jan Kochanowski	Laments
+1uq	Jan Kochanowski	Laments
+1ur	Jan Kochanowski	Laments
+1us	Jan Kochanowski	Laments
+1ut	Jan Kochanowski	Laments
+1uu	Jan Kochanowski	Laments
+1uv	Jan Kochanowski	Laments
+1uw	Jan Kochanowski	Laments
+1ux	Jan Kochanowski	Laments
+1uy	Jan Kochanowski	Laments
+1uz	Jan Kochanowski	Laments
+1v0	Jan Kochanowski	Laments
+1v1	Jan Kochanowski	Laments
+1v2	Jan Kochanowski	Laments
+1v3	Jan Kochanowski	Laments
+1v4	Jan Kochanowski	Laments
+1v5	Antoni Lange	Na Świtezi
+1v6	Antoni Lange	Rym
+1v7	Antoni Lange	Sonety wedyckie
+1v8	Antoni Lange	Sonety wedyckie
+1v9	Antoni Lange	Sonety wedyckie
+1va	Antoni Lange	Sonety wedyckie
+1vb	Antoni Lange	Sonety wedyckie
+1vc	Antoni Lange	Sonety wedyckie
+1vd	Antoni Lange	Sonety wedyckie
+1ve	Antoni Lange	Swemu pokoleniu
+1vf	Antoni Lange	Z rozmyślań
+1vg	Cyprian Kamil Norwid	Larwa
+1vh	Stefan George	[Łaskawi jako książęta…]
+1vi	Franciszek Karpiński	Laura i Filon
+1vj	Henryka Łazowertówna	Ballada o paczce
+1vk	Henryka Łazowertówna	Mały szmugler
+1vl	Wincenty Pol	[Leci liście z drzewa…]
+1vm	Kazimierz Przerwa-Tetmajer	Leda
+1vn	Legenda o św. Aleksym	Vita sancti Allexii rikmice
+1vo	Jan Lemański	Lis i gęś
+1vp	Jan Lemański	Nokturn
+1vq	Jan Lemański	Polonez
+1vr	Jan Lemański	Z Nowenny
+1vs	Charles Van Lerberghe	Deszcz letni
+1vt	Charles Van Lerberghe	Oto jest pierwszy ranek świata
+1vu	Леся Українка	„Була весна весела, щедра, мила…”
+1vv	Łesia Ukrainka	„Chciałabym się pieśnią stać…”
+1vw	Łesia Ukrainka	„Cicha noc była czarownicą…”
+1vx	Леся Українка	„Дивлюсь я на ясниї зорі…”
+1vy	Леся Українка	„До музи”
+1vz	Łesia Ukrainka	Do muzy
+1w0	Леся Українка	„Горить моє серце, його запалила…”
+1w1	Леся Українка	„Хотіла б я піснею стати…”
+1w2	Леся Українка	„Не співайте мені сеї пісні…”
+1w3	Леся Українка	„Нічка тиха і темна була…”
+1w4	Łesia Ukrainka	„Nie śpiewajcie mi tej pieśni…”
+1w5	Łesia Ukrainka	„Nocka ciemna była i cicha…”
+1w6	Леся Українка	Перемога
+1w7	Łesia Ukrainka	„Płonie moje serce, które zapaliła…”
+1w8	Łesia Ukrainka	„Spoglądam na jasne gwiazdy…”
+1w9	Łesia Ukrainka	„Stanęłam, by słyszeć głos wiosny”
+1wa	Леся Українка	„Стояла я і слухала веснý…”
+1wb	Леся Українка	„То була тиха ніч чарівниця…”
+1wc	Леся Українка	„У чорную хмару зібралася туга моя…”
+1wd	Łesia Ukrainka	„W czarną chmurę się skłębiły wszystkie moje smutki…”
+1we	Леся Українка	„Знов весна і знов надії…”
+1wf	Łesia Ukrainka	„Znowu wiosna, znów nadzieje…”
+1wg	Łesia Ukrainka	Zwycięstwo
+1wh	Bolesław Leśmian	Łąka
+1wi	Bolesław Leśmian	Łąka
+1wj	Bolesław Leśmian	Łąka
+1wk	Bolesław Leśmian	Łąka
+1wl	Bolesław Leśmian	Łąka
+1wm	Bolesław Leśmian	Łąka
+1wn	Bolesław Leśmian	Łąka
+1wo	Bolesław Leśmian	Łąka
+1wp	Bolesław Leśmian	Łąka
+1wq	Bolesław Leśmian	Łąka
+1wr	Bolesław Leśmian	Łąka
+1ws	Bolesław Leśmian	Łąka
+1wt	Bolesław Leśmian	Łąka
+1wu	Bolesław Leśmian	Łąka
+1wv	Bolesław Leśmian	Łąka
+1ww	Bolesław Leśmian	Łąka
+1wx	Bolesław Leśmian	Łąka
+1wy	Bolesław Leśmian	Łąka
+1wz	Bolesław Leśmian	Łąka
+1x0	Bolesław Leśmian	Łąka
+1x1	Bolesław Leśmian	Łąka
+1x2	Bolesław Leśmian	Łąka
+1x3	Bolesław Leśmian	Łąka
+1x4	Bolesław Leśmian	Łąka
+1x5	Bolesław Leśmian	Łąka
+1x6	Bolesław Leśmian	Łąka
+1x7	Bolesław Leśmian	Łąka
+1x8	Bolesław Leśmian	Łąka
+1x9	Bolesław Leśmian	Łąka
+1xa	Bolesław Leśmian	Łąka
+1xb	Bolesław Leśmian	Łąka
+1xc	Bolesław Leśmian	Łąka
+1xd	Bolesław Leśmian	Łąka
+1xe	Bolesław Leśmian	Łąka
+1xf	Bolesław Leśmian	Łąka
+1xg	Bolesław Leśmian	Łąka
+1xh	Bolesław Leśmian	Łąka
+1xi	Bolesław Leśmian	Łąka
+1xj	Bolesław Leśmian	Łąka
+1xk	Bolesław Leśmian	Łąka
+1xl	Bolesław Leśmian	Łąka
+1xm	Bolesław Leśmian	Łąka
+1xn	Bolesław Leśmian	Łąka
+1xo	Bolesław Leśmian	Łąka
+1xp	Bolesław Leśmian	Łąka
+1xq	Bolesław Leśmian	Łąka
+1xr	Bolesław Leśmian	Łąka
+1xs	Bolesław Leśmian	Łąka
+1xt	Bolesław Leśmian	Łąka
+1xu	Bolesław Leśmian	Łąka
+1xv	Bolesław Leśmian	Łąka
+1xw	Bolesław Leśmian	Łąka
+1xx	Bolesław Leśmian	Łąka
+1xy	Bolesław Leśmian	Łąka
+1xz	Bolesław Leśmian	Łąka
+1y0	Bolesław Leśmian	Łąka
+1y1	Bolesław Leśmian	Łąka
+1y2	Bolesław Leśmian	Łąka
+1y3	Bolesław Leśmian	Łąka
+1y4	Bolesław Leśmian	Łąka
+1y5	Bolesław Leśmian	Łąka
+1y6	Bolesław Leśmian	Łąka
+1y7	Edward Leszczyński	Drgające wiosny tętno…
+1y8	Edward Leszczyński	Elegia
+1y9	Edward Leszczyński	Kabaret szalony
+1ya	Edward Leszczyński	Niańka
+1yb	Edward Leszczyński	Powrotne fale
+1yc	Edward Leszczyński	Przeszłość mówi
+1yd	Edward Leszczyński	W nocy
+1ye	Stefan Leszno „Orzeł”	Warszawo! Warszawo!
+1yf	Aleksandra Lipińska	Karton
+1yg	Elżbieta Lipińska	Ahaswer osiadły
+1yh	Elżbieta Lipińska	Czas zawsze wygrywa
+1yi	Elżbieta Lipińska	historia
+1yj	Elżbieta Lipińska	Kamienie
+1yk	Elżbieta Lipińska	Klamra
+1yl	Elżbieta Lipińska	Milczenie
+1ym	Elżbieta Lipińska	***
+1yn	Elżbieta Lipińska	Patchwork
+1yo	Elżbieta Lipinska	Per adulti
+1yp	Elżbieta Lipińska	Pożegnanie z czerwienią
+1yq	Elżbieta Lipińska	Przepisywanie
+1yr	Elżbieta Lipińska	Sól ziemi
+1ys	Elżbieta Lipińska	Stacje
+1yt	Elżbieta Lipińska	Sztuka magika
+1yu	Elżbieta Lipińska	Tam i z powrotem
+1yv	Elżbieta Lipińska	Wołomin 1935
+1yw	Elżbieta Lipińska	Wygnanie
+1yx	Elżbieta Lipińska	Wyrwana kartka
+1yy	Elżbieta Lipińska	Kamienie
+1yz	Jarosław Lipszyc	apokalipsa przymierza
+1z0	Jarosław Lipszyc	dionizos się wiesza
+1z1	Jarosław Lipszyc	Dokumentnie
+1z2	Jarosław Lipszyc	Etiuda okolicznościowa na ścięcie księżyca
+1z3	Jarosław Lipszyc	głód
+1z4	Jarosław Lipszyc	dodatek nadzwyczajny
+1z5	Jarosław Lipszyc	Memorandum
+1z6	Jarosław Lipszyc	narzędzia
+1z7	Jarosław Lipszyc	***
+1z8	Jarosław Lipszyc	***
+1z9	Jarosław Lipszyc	Papieros
+1za	Jarosław Lipszyc	pobudka
+1zb	Jarosław Lipszyc	***
+1zc	Jarosław Lipszyc	rodzę
+1zd	Jarosław Lipszyc	Rozbite Rozdziały
+1ze	Jarosław Lipszyc	Rozwodzić
+1zf	Jarosław Lipszyc	Spać
+1zg	Jarosław Lipszyc	świadectwo dojrzałości
+1zh	Jarosław Lipszyc	***
+1zi	Jarosław Lipszyc	wypadek
+1zj	Jarosław Lipszyc	złoża
+1zk	Jarosław Lipszyc	dyptyk obłędny
+1zl	Jarosław Lipszyc	gruz
+1zm	Jarosław Lipszyc	jałowe obroty
+1zn	Jarosław Lipszyc	jedyne wyjście
+1zo	Jarosław Lipszyc	kamera obskóra
+1zp	Jarosław Lipszyc	***
+1zq	Jarosław Lipszyc	kineret
+1zr	Jarosław Lipszyc	miłosny akt analogii
+1zs	Jarosław Lipszyc	obrona cywilna
+1zt	Jarosław Lipszyc	obroty jałowe
+1zu	Jarosław Lipszyc	rozpocząć akcję asenizacyjną
+1zv	Jarosław Lipszyc	się
+1zw	Jarosław Lipszyc	słowa które się mówi cicho
+1zx	Jarosław Lipszyc	słowa na zamówienie
+1zy	Jarosław Lipszyc	słowotok
+1zz	Jarosław Lipszyc	słuchaj
+200	Jarosław Lipszyc	***
+201	Jarosław Lipszyc	***
+202	Jarosław Lipszyc	w kwestii smaku raz jeszcze
+203	Adam Mickiewicz	Liryki lozańskie
+204	Adam Mickiewicz	Liryki lozańskie
+205	Adam Mickiewicz	Liryki lozańskie
+206	Adam Mickiewicz	Liryki lozańskie
+207	Adam Mickiewicz	Liryki lozańskie
+208	Adam Mickiewicz	Liryki lozańskie
+209	Adam Mickiewicz	Liryki lozańskie
+20a	Adam Mickiewicz	Liryki lozańskie
+20b	Adam Mickiewicz	Liryki lozańskie
+20c	Adam Mickiewicz	Liryki lozańskie
+20d	Adam Mickiewicz	Liryki lozańskie
+20e	Adam Mickiewicz	Liryki lozańskie
+20f	Adam Mickiewicz	Liryki lozańskie
+20g	Horacy	Ars poetica
+20h	Kazimierz Przerwa-Tetmajer	List Hanusi
+20i	Maria Konopnicka	List motylka
+20j	Juliusz Słowacki	Los mię już żaden nie może zatrwożyć…
+20k	Pierre Louÿs	Piosenka (Dziewczyno-dziw!…)
+20l	Julius Hart	(Lśniąco w luny się kołyszę…)
+20m	Rudolf G. Binding	Lśnienie jesienne
+20n	Kazimierz Przerwa-Tetmajer	Lubię, kiedy kobieta…
+20o	Kazimierz Przerwa-Tetmajer	Ludzie miotają się, dręczą, cierpią…
+20p	Rudolf G. Binding	Łuk miłości
+20q	Lulajże, Jezuniu…	Lulajże, Jezuniu, moja perełko,
+20r	Stefan George	Lutnista
+20s	Adam M-ski	Nie módlcie się!
+20t	Maria Konopnicka	Maciuś
+20u	Maria Konopnicka	Magdusia i pieski
+20v	Maria Konopnicka	Maik (Co tu gwaru! Co tu krzyku!)
+20w	Maria Konopnicka	Maik (Na ganku, we dworze…)
+20x	Maironis	Jaunoji Lietuva
+20y	Maironis	Tarp skausmų į garbę
+20z	Karol Maliszewski	Albo albo
+210	Karol Maliszewski	Apel poległych
+211	Karol Maliszewski	Będę przebywał jeszcze wtedy w Polsce
+212	Karol Maliszewski	Bez światła
+213	Karol Maliszewski	Bez tytułu
+214	Karol Maliszewski	***
+215	Karol Maliszewski	Ciepły grudzień
+216	Karol Maliszewski	Co do cholery (lata osiemdziesiąte)
+217	Karol Maliszewski	Dopisek po latach
+218	Karol Maliszewski	Drohobycz
+219	Karol Maliszewski	Głuchy czerwiec
+21a	Karol Maliszewski	Góry, gorączka
+21b	Jacek Gutorow	Karol Maliszewski: Być pędem wiersza
+21c	Karol Maliszewski	I aż do bólu. Ciemność
+21d	Karol Maliszewski	Inwazja
+21e	Karol Maliszewski	***
+21f	Karol Maliszewski	Jak księżyc
+21g	Karol Maliszewski	Jak u nas w południe
+21h	Karol Maliszewski	Jesteśmy
+21i	Karol Maliszewski	Kartka z Broumowa albo ćwiczenia w ironii
+21j	Karol Maliszewski	Kościół w Drogosławiu
+21k	Karol Maliszewski	Kwaśny luty
+21l	Karol Maliszewski	Liryka lokalna
+21m	Karol Maliszewski	List czytelnika z Wałbrzyskiego
+21n	Karol Maliszewski	Lot
+21o	Karol Maliszewski	Ludzie po drugiej stronie
+21p	Karol Maliszewski	Wysiadłem, usiadłem
+21q	Karol Maliszewski	Napełnili przydeptali
+21r	Karol Maliszewski	Nawet tu, w wojsku
+21s	Karol Maliszewski	Nie inaczej
+21t	Karol Maliszewski	Nie pytaj więcej kim czym
+21u	Karol Maliszewski	Oda
+21v	Karol Maliszewski	Odkopcie go
+21w	Karol Maliszewski	Okolice Barda (Wartha)
+21x	Karol Maliszewski	Ostatni wiersz dla matki
+21y	Karol Maliszewski	Październik
+21z	Karol Maliszewski	Piosenka z końca lutego
+220	Karol Maliszewski	Pod twoją obronę
+221	Karol Maliszewski	Podobna trasa
+222	Karol Maliszewski	Poeci doskonale wierni
+223	Karol Maliszewski	Poeta. maszyna.
+224	Karol Maliszewski	Potrawy pośmiertne;
+225	Karol Maliszewski	Prosta historia
+226	Karol Maliszewski	Przez Słupiec płynie rzeka Dzik
+227	Karol Maliszewski	Ręka natrafia na radio
+228	Karol Maliszewski	Requiem
+229	Karol Maliszewski	Rocznik sześćdziesiąty grzebie w papierach
+22a	Karol Maliszewski	Rondo
+22b	Karol Maliszewski	***
+22c	Karol Maliszewski	Sens (Ostrołęka)
+22d	Karol Maliszewski	Sierpień
+22e	Karol Maliszewski	Stara Niemka
+22f	Karol Maliszewski	Tren
+22g	Karol Maliszewski	W górę rzeki
+22h	Karol Maliszewski	***
+22i	Karol Maliszewski	Warszawa
+22j	Karol Maliszewski	Według legendy
+22k	Karol Maliszewski	Wielkanoc
+22l	Karol Maliszewski	Wielki post
+22m	Karol Maliszewski	Wiersz dla zmotoryzowanych
+22n	Karol Maliszewski	Woda z pól
+22o	Karol Maliszewski	***
+22p	Karol Maliszewski	Wstyd. Miasteczko górnicze czeka swego końca
+22q	Karol Maliszewski	Z pamiętnika powołanych na wiosnę
+22r	Karol Maliszewski	Zakwitnie kij w twej ręce
+22s	Karol Maliszewski	Zapowiedź
+22t	Karol Maliszewski	Zdania na wypadek śmierci
+22u	Karol Maliszewski	***
+22v	Karol Maliszewski	Zimny styczeń
+22w	Karol Maliszewski	Zdania na wypadek
+22x	Stéphane Mallarmé	Dreszcze zimy
+22y	Stéphane Mallarmé	Kwiaty
+22z	Stéphane Mallarmé	Wachlarz panny Mallarmé
+230	Stéphane Mallarmé	Westchnienie
+231	Stéphane Mallarmé	Zjawa
+232	Renata Marciniak	Mord o świcie
+233	Detlev von Liliencron	Marcowy dzień
+234	Antoni Malczewski	Maria
+235	Antoni Malczewski	Maria
+236	Antoni Malczewski	Maria
+237	Franciszek Karpiński	Marsz ślubny
+238	Władysław Anczyc	Marsz strzelców
+239	Maria Konopnicka	Marzenie chłopca
+23a	Kazimierz Przerwa-Tetmajer	Mastodonty
+23b	Mazur z 1831 roku	Naród polski sławny, mężny, śmiały!
+23c	Józef Wybicki	Mazurek Dąbrowskiego
+23d	Mazurek młodzieży	Jeszcze Polska nie zginęła,
+23e	Franciszek Karpiński	Mazurek
+23f	Mędrcy świata…	Mędrcy świata, monarchowie,
+23g	Kazimierz Przerwa-Tetmajer	Melodia mgieł nocnych
+23h	Wojciech Mencel	Księga miraży
+23i	Stuart Merrill	Dobry deszcz
+23j	Tadeusz Miciński	Ananke
+23k	Tadeusz Miciński	Bądź zdrowa!…
+23l	Tadeusz Miciński	Duch mój zamieszkał…
+23m	Tadeusz Miciński	Już świt
+23n	Tadeusz Miciński	Lucifer
+23o	Tadeusz Miciński	Noc majowa
+23p	Tadeusz Miciński	Nokturn
+23q	Tadeusz Miciński	Płyną ciche, srebrne łzy…
+23r	Tadeusz Miciński	Poją mnie wrzosy…
+23s	Tadeusz Miciński	Rycz burzo!…
+23t	Tadeusz Miciński	Serenada
+23u	Tadeusz Miciński	Strach
+23v	Tadeusz Miciński	Tak jestem smętny…
+23w	Adomas Mickevičius	Krymo sonetai
+23x	Adomas Mickevičius	Krymo sonetai
+23y	Adomas Mickevičius	Krymo sonetai
+23z	Adomas Mickevičius	Krymo sonetai
+240	Adomas Mickevičius	Krymo sonetai
+241	Adomas Mickevičius	Krimo sonetai
+242	Adomas Mickevičius	Krymo sonetai
+243	Adomas Mickevičius	Krymo sonetai
+244	Adomas Mickevičius	Krymo sonetai
+245	Adomas Mickevičius	Krymo sonetai
+246	Adomas Mickevičius	Krymo sonetai
+247	Adomas Mickevičius	Krymo sonetai
+248	Adomas Mickevičius	Krymo sonetai
+249	Adomas Mickevičius	Krymo sonetai
+24a	Adomas Mickevičius	Krymo sonetai
+24b	Adomas Mickevičius	Krimo sonetai
+24c	Adomas Mickevičius	Krymo sonetai
+24d	Adomas Mickevičius	Krymo sonetai
+24e	Adomas Mickevičius	Krymo sonetai
+24f	Adomas Mickevičius	Nemunui
+24g	Adomas Mickevičius	Ponia Tvardauskienė
+24h	Adomas Mickevičius	Vilija
+24i	Adomas Mickevičius	Baltas karžygys
+24j	Adam Mickiewicz	Do przyjaciół
+24k	Adam Mickiewicz	Kurhanek Maryli
+24l	Adam Mickiewicz	Pierwiosnek
+24m	Adam Mickiewicz	Do D… D…
+24n	Adam Mickiewicz	Do Joachima Lelewela
+24o	Adam Mickiewicz	Do Maryi Łempickiej
+24p	Adam Mickiewicz	Do Maryi Szymanowskiej
+24q	Adam Mickiewicz	Do matki Polki
+24r	Adam Mickiewicz	Do mojego Cicerone
+24s	Adam Mickiewicz	Do*** na Alpach w Splügen 1829
+24t	Adam Mickiewicz	Ballady i romanse
+24u	Adam Mickiewicz	Kochanek duchów
+24v	Adam Mickiewicz	Sen
+24w	Adam Mickiewicz	The Tempest
+24x	Adam Mickiewicz	To My Cicerone
+24y	Adam Mickiewicz	To*** Upon the Alps in Splügen 1829
+24z	Adam Mickiewicz	Uncertainty
+250	Adam Mickiewicz	Zaloty
+251	Adam Asnyk	Między nami nic nie było
+252	Tristan Derème	[Między siebie a życie…]
+253	Pokrewne	Krystyna Miłobędzka
+254	Pokrewne	Krystyna Miłobędzka
+255	Pokrewne	Krystyna Miłobędzka
+256	Pokrewne	Krystyna Miłobędzka
+257	Pokrewne	Krystyna Miłobędzka
+258	Pokrewne	Krystyna Miłobędzka
+259	Pokrewne	Krystyna Miłobędzka
+25a	Pokrewne	Krystyna Miłobędzka
+25b	Pokrewne	Krystyna Miłobędzka
+25c	Pokrewne	Krystyna Miłobędzka
+25d	Pokrewne	Krystyna Miłobędzka
+25e	Pokrewne	Krystyna Miłobędzka
+25f	Pokrewne	Krystyna Miłobędzka
+25g	Pokrewne	Krystyna Miłobędzka
+25h	Pokrewne	Krystyna Miłobędzka
+25i	Pokrewne	Krystyna Miłobędzka
+25j	Pokrewne	Krystyna Miłobędzka
+25k	Pokrewne	Krystyna Miłobędzka
+25l	Pokrewne	Krystyna Miłobędzka
+25m	Pokrewne	Krystyna Miłobędzka
+25n	Pokrewne	Krystyna Miłobędzka
+25o	Pokrewne	Krystyna Miłobędzka
+25p	Pokrewne	Krystyna Miłobędzka
+25q	Pokrewne	Krystyna Miłobędzka
+25r	Pokrewne	Krystyna Miłobędzka
+25s	Pokrewne	Krystyna Miłobędzka
+25t	Pokrewne	Krystyna Miłobędzka
+25u	Pokrewne	Krystyna Miłobędzka
+25v	Pokrewne	Krystyna Miłobędzka
+25w	Pokrewne	Krystyna Miłobędzka
+25x	Pokrewne	Krystyna Miłobędzka
+25y	Pokrewne	Krystyna Miłobędzka
+25z	Pokrewne	Krystyna Miłobędzka
+260	Pokrewne	Krystyna Miłobędzka
+261	Pokrewne	Krystyna Miłobędzka
+262	Pokrewne	Krystyna Miłobędzka
+263	Pokrewne	Krystyna Miłobędzka
+264	Pokrewne	Krystyna Miłobędzka
+265	Pokrewne	Krystyna Miłobędzka
+266	Pokrewne	Krystyna Miłobędzka
+267	Pokrewne	Krystyna Miłobędzka
+268	Pokrewne	Krystyna Miłobędzka
+269	Pokrewne	Krystyna Miłobędzka
+26a	Pokrewne	Krystyna Miłobędzka
+26b	Pokrewne	Krystyna Miłobędzka
+26c	Pokrewne	Krystyna Miłobędzka
+26d	Pokrewne	Krystyna Miłobędzka
+26e	Pokrewne	Krystyna Miłobędzka
+26f	Pokrewne	Krystyna Miłobędzka
+26g	Pokrewne	Krystyna Miłobędzka
+26h	Pokrewne	Krystyna Miłobędzka
+26i	Pokrewne	Krystyna Miłobędzka
+26j	Stefan George	[Miłość godnym nie nazwie…]
+26k	Łesia Ukrainka	Miniona wiosna
+26l	Franciszek Mirandola	Nim minie czar
+26m	Franciszek Mirandola	Nokturn
+26n	Franciszek Mirandola	Palma
+26o	Teofil Lenartowicz	Mizerna, cicha…
+26p	Maria Konopnicka	Młocka
+26q	Juliusz Słowacki	Mnich
+26r	Henryk Zbierzchowski	Impresye
+26s	Juliusz Słowacki	Mój Adamito — widzisz, jak to trudne…
+26t	Cyprian Kamil Norwid	Moja ojczyzna
+26u	Cyprian Kamil Norwid	Moja piosnka
+26v	Jean Moréas	[Bluszcze! Jakimi zwisacie wdziękiem…]
+26w	Jean Moréas	Dobre wróżki…
+26x	Jean Moréas	[Gwałcąc nagle tych dżdżystych dni…]
+26y	Jean Moréas	[Kiedyż wreszcie, rzuciwszy wszystkie zbędne troski…]
+26z	Jean Moréas	[Lubię, srebrny księżycu…]
+270	Jean Moréas	[Lubo jest słuchać wikli…]
+271	Jean Moréas	Młoda dziewczyna mówi
+272	Jean Moréas	Niech precz rzucą te lilie…
+273	Jean Moréas	[Obłoki, ukąpane w jasnej dnia pogodzie…]
+274	Jean Moréas	[Róże, które kochałem…]
+275	Jean Moréas	[Samotny, zadumany…]
+276	Jan Andrzej Morsztyn	Fickle
+277	Jan Andrzej Morsztyn	To a Corpse
+278	Maria Konopnicka	Muchy samochwały
+279	Joanna Mueller	Somnambóle fantomowe
+27a	Joanna Mueller	Somnambóle fantomowe
+27b	Joanna Mueller	Somnambóle fantomowe
+27c	Joanna Mueller	Somnambóle fantomowe
+27d	Joanna Mueller	Somnambóle fantomowe
+27e	Joanna Mueller	Somnambóle fantomowe
+27f	Joanna Mueller	Somnambóle fantomowe
+27g	Joanna Mueller	Somnambóle fantomowe
+27h	Joanna Mueller	Somnambóle fantomowe
+27i	Joanna Mueller	Somnambóle fantomowe
+27j	Joanna Mueller	Somnambóle fantomowe
+27k	Joanna Mueller	Somnambóle fantomowe
+27l	Joanna Mueller	Somnambóle
+27m	Joanna Mueller	Somnambóle fantomowe
+27n	Joanna Mueller	Somnambóle fantomowe
+27o	Joanna Mueller	Somnambóle fantomowe
+27p	Joanna Mueller	Somnambóle fantomowe
+27q	Joanna Mueller	Somnambóle fantomowe
+27r	Joanna Mueller	Somnambóle fantomowe
+27s	Joanna Mueller	Somnambóle fantomowe
+27t	Joanna Mueller	Somnambóle fantomowe
+27u	Joanna Mueller	Somnambóle fantomowe
+27v	Joanna Mueller	Somnambóle fantomowe
+27w	Kazimierz Przerwa-Tetmajer	Na Anioł Pański
+27x	Maria Konopnicka	Na co dzwonki dzwonią
+27y	Juliusz Słowacki	Na drzewie zawisł wąż…
+27z	Jan Andrzej Morsztyn	Na krzyżyk na piersiach jednej panny
+280	Maria Konopnicka	Na mrozie
+281	Maria Konopnicka	Na opiece wierzby
+282	Maria Konopnicka	Na pastwisku
+283	Maria Konopnicka	Na polu
+284	Tristan Derème	[Na skraju łączki mokrej…]
+285	Juliusz Słowacki	Na sprowadzenie prochów Napoleona
+286	Edmund Wasilewski	[Na Wawel, na Wawel…]
+287	Maria Konopnicka	Na zasadzce
+288	Jan Andrzej Morsztyn	Na zegarek ciekący
+289	Daniel Naborowski	Do Aleksandry
+28a	Daniel Naborowski	Do Anny
+28b	Daniel Naborowski	Do Księcia Imci Krzysztofa Radziwiłła, wojewody wileńskiego i hetmana wielkiego W. K. L.
+28c	Daniel Naborowski	Do Seweryna
+28d	Daniel Naborowski	Do tejże
+28e	Daniel Naborowski	Krótkość żywota
+28f	Daniel Naborowski	Łazarz do bogacza
+28g	Daniel Naborowski	Marność sławy
+28h	Daniel Naborowski	Marność
+28i	Daniel Naborowski	Na oczy królewny angielskiej, która była za Fryderykiem, falcgrafem reńskim, obranym królem czeskim
+28j	Daniel Naborowski	Na toż
+28k	Daniel Naborowski	Nagrobek Jerzemu Hołowni, słudze i towarzyszowi husarskiemu tegoż Księcia, podczas pogromu rokoszanów zabitemu
+28l	Daniel Naborowski	O Karmanowskim do księcia Radziwiłła
+28m	Daniel Naborowski	Usiłowanie
+28n	Daniel Naborowski	Vanity
+28o	Daniel Naborowski	Zła żona
+28p	Daniel Naborowski	Zwada Marsa z Kupidynem
+28q	Jan Kasprowicz	Nad przepaściami
+28r	Jan Kasprowicz	Nad przepaściami
+28s	Jan Kasprowicz	Nad przepaściami
+28t	Maria Konopnicka	Nad rzeką
+28u	Jan Andrzej Morsztyn	Nadgrobek Perlisi
+28v	Tadeusz Nalepiński	Chrzest
+28w	Tadeusz Nalepiński	Miłość
+28x	Tadeusz Nalepiński	Z pomroku czarnych nocy chust…
+28y	Bolesław Leśmian	Napój cienisty
+28z	Bolesław Leśmian	Napój cienisty
+290	Bolesław Leśmian	Napój cienisty
+291	Bolesław Leśmian	Napój cienisty
+292	Bolesław Leśmian	Napój cienisty
+293	Bolesław Leśmian	Napój cienisty
+294	Bolesław Leśmian	Napój cienisty
+295	Bolesław Leśmian	Napój cienisty
+296	Bolesław Leśmian	Napój cienisty
+297	Bolesław Leśmian	Napój cienisty
+298	Bolesław Leśmian	Napój cienisty
+299	Bolesław Leśmian	Napój cienisty
+29a	Bolesław Leśmian	Napój cienisty
+29b	Bolesław Leśmian	Napój cienisty
+29c	Bolesław Leśmian	Napój cienisty
+29d	Bolesław Leśmian	Napój cienisty
+29e	Bolesław Leśmian	Napój cienisty
+29f	Bolesław Leśmian	Napój cienisty
+29g	Bolesław Leśmian	Napój cienisty
+29h	Bolesław Leśmian	Napój cienisty
+29i	Bolesław Leśmian	Napój cienisty
+29j	Bolesław Leśmian	Napój cienisty
+29k	Bolesław Leśmian	Napój cienisty
+29l	Bolesław Leśmian	Napój cienisty
+29m	Bolesław Leśmian	Napój cienisty
+29n	Bolesław Leśmian	Napój cienisty
+29o	Bolesław Leśmian	Napój cienisty
+29p	Bolesław Leśmian	Napój cienisty
+29q	Bolesław Leśmian	Napój cienisty
+29r	Bolesław Leśmian	Napój cienisty
+29s	Bolesław Leśmian	Napój cienisty
+29t	Bolesław Leśmian	Napój cienisty
+29u	Bolesław Leśmian	Napój cienisty
+29v	Bolesław Leśmian	Napój cienisty
+29w	Bolesław Leśmian	Napój cienisty
+29x	Bolesław Leśmian	Napój cienisty
+29y	Bolesław Leśmian	Napój cienisty
+29z	Bolesław Leśmian	Napój cienisty
+2a0	Bolesław Leśmian	Napój cienisty
+2a1	Bolesław Leśmian	Napój cienisty
+2a2	Bolesław Leśmian	Napój cienisty
+2a3	Bolesław Leśmian	Napój cienisty
+2a4	Bolesław Leśmian	Napój cienisty
+2a5	Bolesław Leśmian	Napój cienisty
+2a6	Bolesław Leśmian	Napój cienisty
+2a7	Bolesław Leśmian	Napój cienisty
+2a8	Bolesław Leśmian	Napój cienisty
+2a9	Bolesław Leśmian	Napój cienisty
+2aa	Bolesław Leśmian	Napój cienisty
+2ab	Bolesław Leśmian	Napój cienisty
+2ac	Bolesław Leśmian	Napój cienisty
+2ad	Bolesław Leśmian	Napój cienisty
+2ae	Bolesław Leśmian	Napój cienisty
+2af	Bolesław Leśmian	Napój cienisty
+2ag	Bolesław Leśmian	Napój cienisty
+2ah	Bolesław Leśmian	Napój cienisty
+2ai	Bolesław Leśmian	Napój cienisty
+2aj	Bolesław Leśmian	Napój cienisty
+2ak	Bolesław Leśmian	Napój cienisty
+2al	Bolesław Leśmian	Napój cienisty
+2am	Bolesław Leśmian	Napój cienisty
+2an	Bolesław Leśmian	Napój cienisty
+2ao	Bolesław Leśmian	Napój cienisty
+2ap	Bolesław Leśmian	Napój cienisty
+2aq	Bolesław Leśmian	Napój cienisty
+2ar	Bolesław Leśmian	Napój cienisty
+2as	Bolesław Leśmian	Napój cienisty
+2at	Bolesław Leśmian	Napój cienisty
+2au	Bolesław Leśmian	Napój cienisty
+2av	Bolesław Leśmian	Napój cienisty
+2aw	Bolesław Leśmian	Napój cienisty
+2ax	Bolesław Leśmian	Napój cienisty
+2ay	Bolesław Leśmian	Napój cienisty
+2az	Bolesław Leśmian	Napój cienisty
+2b0	Bolesław Leśmian	Napój cienisty
+2b1	Bolesław Leśmian	Napój cienisty
+2b2	Bolesław Leśmian	Napój cienisty
+2b3	Bolesław Leśmian	Napój cienisty
+2b4	Bolesław Leśmian	Napój cienisty
+2b5	Bolesław Leśmian	Napój cienisty
+2b6	Bolesław Leśmian	Napój cienisty
+2b7	Bolesław Leśmian	Napój cienisty
+2b8	Bolesław Leśmian	Napój cienisty
+2b9	Bolesław Leśmian	Napój cienisty
+2ba	Bolesław Leśmian	Napój cienisty
+2bb	Bolesław Leśmian	Napój cienisty
+2bc	Bolesław Leśmian	Napój cienisty
+2bd	Bolesław Leśmian	Napój cienisty
+2be	Bolesław Leśmian	Napój cienisty
+2bf	Bolesław Leśmian	Napój cienisty
+2bg	Bolesław Leśmian	Napój cienisty
+2bh	Bolesław Leśmian	Napój cienisty
+2bi	Bolesław Leśmian	Napój cienisty
+2bj	Bolesław Leśmian	Napój cienisty
+2bk	Bolesław Leśmian	Napój cienisty
+2bl	Bolesław Leśmian	Napój cienisty
+2bm	Bolesław Leśmian	Napój cienisty
+2bn	Bolesław Leśmian	Napój cienisty
+2bo	Bolesław Leśmian	Napój cienisty
+2bp	Bolesław Leśmian	Napój cienisty
+2bq	Bolesław Leśmian	Napój cienisty
+2br	Bolesław Leśmian	Napój cienisty
+2bs	Bolesław Leśmian	Napój cienisty
+2bt	Bolesław Leśmian	Napój cienisty
+2bu	Bolesław Leśmian	Napój cienisty
+2bv	Bolesław Leśmian	Napój cienisty
+2bw	Bolesław Leśmian	Napój cienisty
+2bx	Bolesław Leśmian	Napój cienisty
+2by	Bolesław Leśmian	Napój cienisty
+2bz	Bolesław Leśmian	Napój cienisty
+2c0	Bolesław Leśmian	Napój cienisty
+2c1	Juliusz Słowacki	Narodzie mój…
+2c2	Kazimierz Przerwa-Tetmajer	Narodziny Afrodyty
+2c3	Kazimierz Przerwa-Tetmajer	Narodziny wiosny
+2c4	Maria Konopnicka	Nasz domek kochany
+2c5	Maria Konopnicka	Nasz domek
+2c6	Maria Konopnicka	Nasz koniczek
+2c7	Maria Konopnicka	Nasz świat
+2c8	Maria Konopnicka	Nasz wąsatek
+2c9	Maria Konopnicka	Nasza czarna jaskółeczka
+2ca	Maria Konopnicka	Nasza Hania
+2cb	Maria Konopnicka	Nasza książeczka
+2cc	Maria Konopnicka	Nasze kwiaty
+2cd	Józef Czechowicz	nic więcej
+2ce	Józef Czechowicz	nic więcej
+2cf	Józef Czechowicz	nic więcej
+2cg	Józef Czechowicz	nic więcej
+2ch	Józef Czechowicz	nic więcej
+2ci	Józef Czechowicz	nic więcej
+2cj	Józef Czechowicz	nic więcej
+2ck	Józef Czechowicz	nic więcej
+2cl	Józef Czechowicz	nic więcej
+2cm	Józef Czechowicz	nic więcej
+2cn	Józef Czechowicz	nic więcej
+2co	Józef Czechowicz	nic więcej
+2cp	Józef Czechowicz	nic więcej
+2cq	Józef Czechowicz	nic więcej
+2cr	Józef Czechowicz	nic więcej
+2cs	Józef Czechowicz	nic więcej
+2ct	Józef Czechowicz	nic więcej
+2cu	Józef Czechowicz	nic więcej
+2cv	Józef Czechowicz	nic więcej
+2cw	Józef Czechowicz	nic więcej
+2cx	Kazimierz Przerwa-Tetmajer	Nie wierzę w nic…
+2cy	Juliusz Słowacki	Niedawno jeszcze — kiedym spoczywał uśpiony…
+2cz	Juliusz Słowacki	Niedawno jeszcze wasze mogiły…
+2d0	Andrzej Niemojewski	Branka
+2d1	Andrzej Niemojewski	Kiedy kłamią
+2d2	Andrzej Niemojewski	Morituris
+2d3	Andrzej Niemojewski	Turystka
+2d4	Jan Andrzej Morsztyn	Niestatek
+2d5	Jan Andrzej Morsztyn	Niestatek
+2d6	Kazimierz Przerwa-Tetmajer	Niewierny
+2d7	Maria Konopnicka	Niezabudka
+2d8	Bolesław Leśmian	Nieznana podróż Sindbada Żeglarza
+2d9	Autorka nieznana	W godzinę śmierci
+2da	Guillaume Apollinaire	[Nim próg przestąpiłem celi…]
+2db	Ferdinand Avenarius	Noc była
+2dc	Oskar Loerke	Nocą letnią
+2dd	Cyprian Kamil Norwid	Aerumnarum plenus
+2de	Cyprian Kamil Norwid	Białe kwiaty
+2df	Cyprian Kamil Norwid	Bohater
+2dg	Cyprian Kamil Norwid	Buntowniki,
+2dh	Cyprian Kamil Norwid	Centaury
+2di	Cyprian Kamil Norwid	Cenzor-krytyk
+2dj	Cyprian Kamil Norwid	Ciemność
+2dk	Cyprian Kamil Norwid	Czasy
+2dl	Cyprian Kamil Norwid	Czułość
+2dm	Cyprian Kamil Norwid	[Daj mi wstążkę błękitną…]
+2dn	Cyprian Kamil Norwid	Do spółczesnych
+2do	Cyprian Kamil Norwid	Epos — Nasza
+2dp	Cyprian Kamil Norwid	Fraszka (!) [I]
+2dq	Cyprian Kamil Norwid	Fraszka (!) [II]
+2dr	Cyprian Kamil Norwid	Historyk
+2ds	Cyprian Kamil Norwid	In Verona
+2dt	Cyprian Kamil Norwid	Moja piosnka (I)
+2du	Cyprian Kamil Norwid	My Little Song (II)
+2dv	Cyprian Kamil Norwid	Nad grobem Julii Capuletti w Weronie
+2dw	Cyprian Kamil Norwid	Nerwy
+2dx	Cyprian Kamil Norwid	Pielgrzym
+2dy	Cyprian Kamil Norwid	[Powiedz im, że duch odbrzmiał
+2dz	Cyprian Kamil Norwid	Święty-pokój
+2e0	Cyprian Kamil Norwid	Żydowie polscy
+2e1	Klara Nowakowska	Niska rozdzielczość
+2e2	Klara Nowakowska	Niska rozdzielczość
+2e3	Klara Nowakowska	Ciąg
+2e4	Klara Nowakowska	Niska rozdzielczość
+2e5	Klara Nowakowska	Niska rozdzielczość
+2e6	Klara Nowakowska	Niska rozdzielczość
+2e7	Klara Nowakowska	Niska rozdzielczość
+2e8	Klara Nowakowska	Niska rozdzielczość
+2e9	Klara Nowakowska	Niska rozdzielczość
+2ea	Klara Nowakowska	Niska rozdzielczość
+2eb	Klara Nowakowska	Niska rozdzielczość
+2ec	Klara Nowakowska	Niska rozdzielczość
+2ed	Klara Nowakowska	Niska rozdzielczość
+2ee	Klara Nowakowska	Niska rozdzielczość
+2ef	Klara Nowakowska	Niska rozdzielczość
+2eg	Klara Nowakowska	Niska rozdzielczość
+2eh	Klara Nowakowska	Niska rozdzielczość
+2ei	Klara Nowakowska	Niska rozdzielczość
+2ej	Klara Nowakowska	Niska rozdzielczość
+2ek	Klara Nowakowska	Niska rozdzielczość
+2el	Klara Nowakowska	Niska rozdzielczość
+2em	Klara Nowakowska	Niska rozdzielczość
+2en	Klara Nowakowska	Niska rozdzielczość
+2eo	Klara Nowakowska	Niska rozdzielczość
+2ep	Klara Nowakowska	Niska rozdzielczość
+2eq	Klara Nowakowska	Niska rozdzielczość
+2er	Klara Nowakowska	Niska rozdzielczość
+2es	Klara Nowakowska	Niska rozdzielczość
+2et	Klara Nowakowska	Niska rozdzielczość
+2eu	Klara Nowakowska	Niska rozdzielczość
+2ev	Klara Nowakowska	Niska rozdzielczość
+2ew	Klara Nowakowska	Niska rozdzielczość
+2ex	Klara Nowakowska	Niska rozdzielczość
+2ey	Franciszek Nowicki	Apoteoza
+2ez	Franciszek Nowicki	Echa górskie
+2f0	Franciszek Nowicki	Morskie Oko
+2f1	Franciszek Nowicki	Rzym słowiański
+2f2	Franciszek Nowicki	Tatry
+2f3	Detlev von Liliencron	Nuda
+2f4	Józef Czechowicz	nuta człowiecza
+2f5	Józef Czechowicz	nuta człowiecza
+2f6	Józef Czechowicz	nuta człowiecza
+2f7	Józef Czechowicz	nuta człowiecza
+2f8	Józef Czechowicz	nuta człowiecza
+2f9	Józef Czechowicz	nuta człowiecza
+2fa	Józef Czechowicz	nuta człowiecza
+2fb	Józef Czechowicz	nuta człowiecza
+2fc	Józef Czechowicz	nuta człowiecza
+2fd	Józef Czechowicz	nuta człowiecza
+2fe	Józef Czechowicz	nuta człowiecza
+2ff	Józef Czechowicz	nuta człowiecza
+2fg	Józef Czechowicz	nuta człowiecza
+2fh	Józef Czechowicz	nuta człowiecza
+2fi	Józef Czechowicz	nuta człowiecza
+2fj	Józef Czechowicz	nuta człowiecza
+2fk	Józef Czechowicz	nuta człowiecza
+2fl	Józef Czechowicz	nuta człowiecza
+2fm	Józef Czechowicz	nuta człowiecza
+2fn	Józef Czechowicz	nuta człowiecza
+2fo	Józef Czechowicz	nuta człowiecza
+2fp	Józef Czechowicz	nuta człowiecza
+2fq	Józef Czechowicz	nuta człowiecza
+2fr	Józef Czechowicz	nuta człowiecza
+2fs	Józef Czechowicz	nuta człowiecza
+2ft	Maria Konopnicka	O czem ptaszek śpiewa
+2fu	Guillaume Apollinaire	[O, jak się trapię…]
+2fv	Maria Konopnicka	O Janku Wędrowniczku
+2fw	Maria Konopnicka	O Lodniku
+2fx	Juliusz Słowacki	O! nieszczęśliwa! o! uciemiężona…
+2fy	Juliusz Słowacki	O Polsko moja! Tyś pierwsza światu…
+2fz	Horacy	Pieśń III, 1 (Odi profanum vulgus et arceo…)
+2g0	Kazimierz Przerwa-Tetmajer	O sonecie
+2g1	Max Dauthendey	[Oczarowały noce letnie…]
+2g2	Bolesław Leśmian	Poematy zazdrosne
+2g3	Adam Mickiewicz	Oda do młodości
+2g4	Juliusz Słowacki	Oda do wolności
+2g5	August von Platen	Oda III
+2g6	August von Platen	Oda IV
+2g7	August von Platen	Oda VII
+2g8	August von Platen	Oda XXI
+2g9	August von Platen	Oda XXVII
+2ga	Maria Konopnicka	Odlot
+2gb	Juliusz Słowacki	Odpowiedź na „Psalmy przyszłości”
+2gc	Juliusz Słowacki	Odpowiedź na „Psalmy przyszłości”
+2gd	Bolesław Leśmian	Poematy zazdrosne
+2ge	Maria Konopnicka	Ogródek
+2gf	Oj Maluśki, Maluśki…	Oj Maluśki, Maluśki, Maluśki
+2gg	Carl Spitteler	Ojciec
+2gh	Tristan Derème	[Ongi śpiewałem…]
+2gi	Léon Deubel	Opuszczenie
+2gj	Władysław Orkan	Droga
+2gk	Władysław Orkan	O ziemio nędzy…
+2gl	Władysław Orkan	Pochwała życia
+2gm	Władysław Orkan	Prosta odpowiedź
+2gn	Ludovico Ariosto	Orland szalony
+2go	Ludovico Ariosto	Orland szalony
+2gp	Ludovico Ariosto	Orland szalony
+2gq	Maria Konopnicka	Orzeszki
+2gr	Cyprian Kamil Norwid	Ostatni despotyzm
+2gs	Juliusz Słowacki	Ostatnie wspomnienie
+2gt	Bronisława Ostrowska	Bogdajem
+2gu	Bronisława Ostrowska	Długi, przerwany pereł sznur
+2gv	Bronisława Ostrowska	Menuet
+2gw	Bronisława Ostrowska	Obłąkana
+2gx	Bronisława Ostrowska	Szum fali
+2gy	Bronisława Ostrowska	W starym parku
+2gz	Bronisława Ostrowska	Wizja
+2h0	Juliusz Słowacki	Oto Bóg, który łona tajemnic odmyka…
+2h1	Owidiusz	O kosmetyce twarzy kobiecej
+2h2	Maria Konopnicka	Pacierz dzieci
+2h3	Maria Pawlikowska-Jasnorzewska	Miłość
+2h4	Fryderyk Hölderlin	Pamiątka
+2h5	Kazimierz Przerwa-Tetmajer	Pamięć — to cmentarz…
+2h6	Maria Konopnicka	Pan doktór
+2h7	Maria Konopnicka	Pan Franciszek
+2h8	Maria Konopnicka	Pan Zielonka
+2h9	Adam Mickiewicz	Panicz i dziewczyna
+2ha	Maria Konopnicka	Panienka
+2hb	Maria Konopnicka	Panna Micia na osiołku
+2hc	Mikołaj Sęp Szarzyński	Pannie Jadwidze Tarłównie (potym wojewodzinej ruskiej) kwoli
+2hd	Bolesław Leśmian	Poematy zazdrosne
+2he	Joanna Papuzińska	Śpiące wierszyki
+2hf	Joanna Papuzińska	Śpiące wierszyki
+2hg	Joanna Papuzińska	Śpiące wierszyki
+2hh	Joanna Papuzińska	Śpiące wierszyki
+2hi	Joanna Papuzińska	Śpiące wierszyki
+2hj	Joanna Papuzińska	Śpiące wierszyki
+2hk	Joanna Papuzińska	Śpiące wierszyki
+2hl	Joanna Papuzińska	Śpiące wierszyki
+2hm	Joanna Papuzińska	Śpiące wierszyki
+2hn	Joanna Papuzińska	Śpiące wierszyki
+2ho	Joanna Papuzińska	Śpiące wierszyki
+2hp	Joanna Papuzińska	Śpiące wierszyki
+2hq	Joanna Papuzińska	Śpiące wierszyki
+2hr	Maria Konopnicka	Parasol
+2hs	Kazimierz Przerwa-Tetmajer	Parodia życia
+2ht	Julisz Słowacki	Paryż
+2hu	Edward Pasewicz	Dolna Wilda
+2hv	Edward Pasewicz	Dolna Wilda
+2hw	Edward Pasewicz	Dolna Wilda
+2hx	Edward Pasewicz	Dolna Wilda
+2hy	Edward Pasewicz	Dolna Wilda
+2hz	Edward Pasewicz	Dolna Wilda
+2i0	Edward Pasewicz	Dolna Wilda
+2i1	Edward Pasewicz	Dolna Wilda
+2i2	Edward Pasewicz	Dolna Wilda
+2i3	Edward Pasewicz	Dolna Wilda
+2i4	Edward Pasewicz	Dolna Wilda
+2i5	Edward Pasewicz	Dolna Wilda
+2i6	Edward Pasewicz	Dolna Wilda
+2i7	Edward Pasewicz	Dolna Wilda
+2i8	Edward Pasewicz	Dolna Wilda
+2i9	Edward Pasewicz	Dolna Wilda
+2ia	Edward Pasewicz	Dolna Wilda
+2ib	Edward Pasewicz	Dolna Wilda
+2ic	Edward Pasewicz	Dolna Wilda
+2id	Edward Pasewicz	Dolna Wilda
+2ie	Edward Pasewicz	Dolna Wilda
+2if	Edward Pasewicz	Dolna Wilda
+2ig	Edward Pasewicz	Dolna Wilda
+2ih	Edward Pasewicz	Dolna Wilda
+2ii	Edward Pasewicz	Dolna Wilda
+2ij	Edward Pasewicz	Dolna Wilda
+2ik	Edward Pasewicz	Dolna Wilda
+2il	Edward Pasewicz	Dolna Wilda
+2im	Edward Pasewicz	Dolna Wilda
+2in	Edward Pasewicz	Dolna Wilda
+2io	Edward Pasewicz	Dolna Wilda
+2ip	Edward Pasewicz	Dolna Wilda
+2iq	Edward Pasewicz	Dolna Wilda
+2ir	Edward Pasewicz	Dolna Wilda
+2is	Edward Pasewicz	Dolna Wilda
+2it	Edward Pasewicz	Dolna Wilda
+2iu	Edward Pasewicz	Dolna Wilda
+2iv	Edward Pasewicz	Dolna Wilda
+2iw	Edward Pasewicz	Dolna Wilda
+2ix	Edward Pasewicz	Dolna Wilda
+2iy	Edward Pasewicz	Dolna Wilda
+2iz	Edward Pasewicz	Dolna Wilda
+2j0	Edward Pasewicz	Dolna Wilda
+2j1	Edward Pasewicz	Dolna Wilda
+2j2	Edward Pasewicz	Dolna Wilda
+2j3	Edward Pasewicz	Dolna Wilda
+2j4	Edward Pasewicz	Dolna Wilda
+2j5	Edward Pasewicz	Dolna Wilda
+2j6	Edward Pasewicz	Dolna Wilda
+2j7	Edward Pasewicz	Dolna Wilda
+2j8	Edward Pasewicz	Dolna Wilda
+2j9	Edward Pasewicz	Dolna Wilda
+2ja	Edward Pasewicz	Dolna Wilda
+2jb	Edward Pasewicz	Dolna Wilda
+2jc	Edward Pasewicz	Dolna Wilda
+2jd	Edward Pasewicz	Dolna Wilda
+2je	Edward Pasewicz	Dolna Wilda
+2jf	Maria Konopnicka	Pastereczka
+2jg	Fryderyk Hölderlin	Patmos
+2jh	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2ji	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2jj	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2jk	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2jl	Maria Pawlikowska-Jasnorzewska	Bandyta i diabeł
+2jm	Maria Pawlikowska-Jasnorzewska	Barwy narodowe
+2jn	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2jo	Maria Pawlikowska-Jasnorzewska	Bezpieczna rodzina
+2jp	Maria Pawlikowska-Jasnorzewska	Biała dama
+2jq	Maria Pawlikowska-Jasnorzewska	Biały koń w Rabat
+2jr	Maria Pawlikowska-Jasnorzewska	Bluebells
+2js	Maria Pawlikowska-Jasnorzewska	dancing
+2jt	Maria Pawlikowska-Jasnorzewska	Ból fizyczny
+2ju	Maria Pawlikowska-Jasnorzewska	Bratki
+2jv	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2jw	Maria Pawlikowska-Jasnorzewska	dancing
+2jx	Maria Pawlikowska-Jasnorzewska	Ciało szczęścia
+2jy	Maria Pawlikowska-Jasnorzewska	Cień babki
+2jz	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2k0	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2k1	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2k2	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2k3	Maria Pawlikowska-Jasnorzewska	Czarownicy Paryża
+2k4	Maria Pawlikowska-Jasnorzewska	Czas krawiec kulawy
+2k5	Maria Pawlikowska-Jasnorzewska	dancing
+2k6	Maria Pawlikowska-Jasnorzewska	dancing
+2k7	Maria Pawlikowska-Jasnorzewska	Dary kochanków
+2k8	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2k9	Maria Pawlikowska-Jasnorzewska	Do chorego
+2ka	Maria Pawlikowska-Jasnorzewska	Do mięsożerców
+2kb	Maria Pawlikowska-Jasnorzewska	Don Juan i Doña Anna
+2kc	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2kd	Maria Pawlikowska-Jasnorzewska	dancing
+2ke	Maria Pawlikowska-Jasnorzewska	Fatamorgana
+2kf	Maria Pawlikowska-Jasnorzewska	Film amerykański
+2kg	Maria Pawlikowska-Jasnorzewska	dancing
+2kh	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2ki	Maria Pawlikowska-Jasnorzewska	Gobelin
+2kj	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2kk	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2kl	Maria Pawlikowska-Jasnorzewska	Grobowce
+2km	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2kn	Maria Pawlikowska-Jasnorzewska	dancing
+2ko	Maria Pawlikowska-Jasnorzewska	Heliotrop
+2kp	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2kq	Maria Pawlikowska-Jasnorzewska	Ja
+2kr	Maria Pawlikowska-Jasnorzewska	dancing
+2ks	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2kt	Maria Pawlikowska-Jasnorzewska	Kamienice
+2ku	Maria Pawlikowska-Jasnorzewska	Kobieta dzisiejsza
+2kv	Maria Pawlikowska-Jasnorzewska	Kobieta-Ikar
+2kw	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2kx	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2ky	Maria Pawlikowska-Jasnorzewska	Kochanka lotnika
+2kz	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2l0	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2l1	Maria Pawlikowska-Jasnorzewska	dancing
+2l2	Maria Pawlikowska-Jasnorzewska	Kto chce, bym go kochała
+2l3	Maria Pawlikowska-Jasnorzewska	dancing
+2l4	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2l5	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2l6	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2l7	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2l8	Maria Pawlikowska-Jasnorzewska	Laura i Filon
+2l9	Maria Pawlikowska-Jasnorzewska	Lenartowicz
+2la	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2lb	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2lc	Maria Pawlikowska-Jasnorzewska	List
+2ld	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2le	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2lf	Maria Pawlikowska-Jasnorzewska	Madama Butterfly
+2lg	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2lh	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2li	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2lj	Maria Pawlikowska-Jasnorzewska	dancing
+2lk	Maria Pawlikowska-Jasnorzewska	dancing
+2ll	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2lm	Maria Pawlikowska-Jasnorzewska	dancing
+2ln	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2lo	Maria Pawlikowska-Jasnorzewska	Na ciepłej niebieskiej łące
+2lp	Maria Pawlikowska-Jasnorzewska	Najpiękniejszy sen
+2lq	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2lr	Maria Pawlikowska-Jasnorzewska	Niebo a kapelusze
+2ls	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2lt	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2lu	Maria Pawlikowska-Jasnorzewska	Nitka Ariadny
+2lv	Maria Pawlikowska-Jasnorzewska	O biskupie fiołkowym
+2lw	Maria Pawlikowska-Jasnorzewska	O gwiazdeczko, coś błyszczała
+2lx	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2ly	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2lz	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2m0	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2m1	Maria Pawlikowska-Jasnorzewska	Owad ludzki
+2m2	Maria Pawlikowska-Jasnorzewska	dancing
+2m3	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2m4	Maria Pawlikowska-Jasnorzewska	dancing
+2m5	Maria Pawlikowska-Jasnorzewska	dancing
+2m6	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2m7	Maria Pawlikowska-Jasnorzewska	Pobojowisko
+2m8	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2m9	Maria Pawlikowska-Jasnorzewska	Pogrzeb infantki
+2ma	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2mb	Maria Pawlikowska-Jasnorzewska	Potwór
+2mc	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2md	Maria Pawlikowska-Jasnorzewska	dancing
+2me	Maria Pawlikowska-Jasnorzewska	dancing
+2mf	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2mg	Maria Pawlikowska-Jasnorzewska	dancing
+2mh	Maria Pawlikowska-Jasnorzewska	Reforma słów
+2mi	Maria Pawlikowska-Jasnorzewska	Rok pracy serca
+2mj	Maria Pawlikowska-Jasnorzewska	Róża, lasy i świat
+2mk	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2ml	Maria Pawlikowska-Jasnorzewska	Róże dla Safony
+2mm	Maria Pawlikowska-Jasnorzewska	Rozmowa z Omarem
+2mn	Maria Pawlikowska-Jasnorzewska	Różowa magia
+2mo	Maria Pawlikowska-Jasnorzewska	Secesja
+2mp	Maria Pawlikowska-Jasnorzewska	dancing
+2mq	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2mr	Maria Pawlikowska-Jasnorzewska	Słonecznik
+2ms	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2mt	Maria Pawlikowska-Jasnorzewska	Śpiąca załoga
+2mu	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2mv	Maria Pawlikowska-Jasnorzewska	Starość
+2mw	Maria Pawlikowska-Jasnorzewska	Stary lokaj Jan
+2mx	Maria Pawlikowska-Jasnorzewska	dancing
+2my	Maria Pawlikowska-Jasnorzewska	Stwórca
+2mz	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2n0	Maria Pawlikowska-Jasnorzewska	Szarotka
+2n1	Maria Pawlikowska-Jasnorzewska	szejk
+2n2	Maria Pawlikowska-Jasnorzewska	Szpilki
+2n3	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2n4	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2n5	Maria Pawlikowska-Jasnorzewska	dancing
+2n6	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2n7	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2n8		II (Ten, który mienie swoje gwiaździste roztrwania…)
+2n9	Maria Pawlikowska-Jasnorzewska	dancing
+2na	Maria Pawlikowska-Jasnorzewska	dancing
+2nb	Maria Pawlikowska-Jasnorzewska	Tytoń
+2nc	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2nd	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2ne	Maria Pawlikowska-Jasnorzewska	„Uskrzydlone słowa”
+2nf	Maria Pawlikowska-Jasnorzewska	dancing
+2ng	Maria Pawlikowska-Jasnorzewska	dancing
+2nh	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2ni	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2nj	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2nk	Maria Pawlikowska-Jasnorzewska	Wierzbie naszej
+2nl	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2nm	Maria Pawlikowska-Jasnorzewska	Wojna chmur
+2nn	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2no	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2np	Maria Pawlikowska-Jasnorzewska	dancing
+2nq	Maria Pawlikowska-Jasnorzewska	Zapomniane pocałunki
+2nr	Maria Pawlikowska-Jasnorzewska	dancing
+2ns	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2nt	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2nu	Maria Pawlikowska-Jasnorzewska	dancing
+2nv	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2nw	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2nx	Maria Pawlikowska-Jasnorzewska	Pocałunki
+2ny	Włodzimierz Perzyński	O świcie
+2nz	Włodzimierz Perzyński	Przebudzenie
+2o0	Włodzimierz Perzyński	Przysięga
+2o1	Włodzimierz Perzyński	Uajali
+2o2	Włodzimierz Perzyński	Warszawa
+2o3	Wincenty Pol	Piękna jak jagoda
+2o4	Piękna nasza Polska cała…	Piękna nasza Polska cała,
+2o5	Detlev von Liliencron	Piękne dni czerwca
+2o6	Saint-Pol-Roux	Pielgrzymka do św. Anny
+2o7	Adam Mickiewicz	Pieśń filaretów
+2o8	Mikołaj Sęp Szarzyński	Pieśń I
+2o9	Mikołaj Sęp Szarzyński	Pieśń I
+2oa	Mikołaj Sęp Szarzyński	Pieśń I
+2ob	Mikołaj Sęp Szarzyński	Pieśń II
+2oc	Mikołaj Sęp Szarzyński	Pieśń II
+2od	Mikołaj Sęp Szarzyński	Pieśń II
+2oe	Mikołaj Sęp Szarzyński	Pieśń III
+2of	Mikołaj Sęp Szarzyński	Pieśń III
+2og	Mikołaj Sęp Szarzyński	Pieśń III
+2oh	Mikołaj Sęp Szarzyński	Pieśń IV
+2oi	Mikołaj Sęp Szarzyński	Pieśń IV
+2oj	Mikołaj Sęp Szarzyński	Pieśń IX
+2ok	Józef Wybicki	Pieśń Legionów Polskich we Włoszech
+2ol	Bruno Jasieński	Pieśń o głodźe
+2om	Kazimierz Przerwa-Tetmajer	Pieśń o Jaśku zbójniku
+2on	Franciszek Karpiński	Pieśń o Narodzeniu Pańskim (Bóg się rodzi…)
+2oo	Cyprian Kamil Norwid	Pieśń od ziemi naszej
+2op	Pieśń pogrzebowa poległemu rycerzowi	Tego pamięć wiecznie droga,
+2oq	Franciszek Karpiński	Pieśń przyjacielska
+2or	Maria Konopnicka	Pieśń sokołów
+2os	Jan Kochanowski	Pieśń świętojańska o Sobótce
+2ot	Mikołaj Sęp Szarzyński	Pieśń V
+2ou	Mikołaj Sęp Szarzyński	Pieśń VI
+2ov	Mikołaj Sęp Szarzyński	Pieśń VIII
+2ow	Mikołaj Sęp Szarzyński	Pieśń
+2ox	Pieśni Jana Kochanowskiego Księgi Dwoje	[Dedykacja]
+2oy	Jan Kochanowski	Pieśni, Księgi pierwsze
+2oz	Jan Kochanowski	Pieśni, Księgi pierwsze
+2p0	Jan Kochanowski	Pieśni, Księgi pierwsze
+2p1	Jan Kochanowski	Pieśni, Księgi pierwsze
+2p2	Jan Kochanowski	Pieśni, Księgi pierwsze
+2p3	Jan Kochanowski	Pieśni, Księgi pierwsze
+2p4	Jan Kochanowski	Pieśni, Księgi pierwsze
+2p5	Jan Kochanowski	Pieśni, Księgi pierwsze
+2p6	Jan Kochanowski	Pieśni, Księgi pierwsze
+2p7	Jan Kochanowski	Pieśni, Księgi pierwsze
+2p8	Jan Kochanowski	Pieśni, Księgi pierwsze
+2p9	Jan Kochanowski	Pieśni, Księgi pierwsze
+2pa	Jan Kochanowski	Pieśni, Księgi pierwsze
+2pb	Jan Kochanowski	Pieśni, Księgi pierwsze
+2pc	Jan Kochanowski	Pieśni, Księgi pierwsze
+2pd	Jan Kochanowski	Pieśni, Księgi pierwsze
+2pe	Jan Kochanowski	Pieśni, Księgi pierwsze
+2pf	Jan Kochanowski	Pieśni, Księgi pierwsze
+2pg	Jan Kochanowski	Pieśni, Księgi pierwsze
+2ph	Jan Kochanowski	Pieśni, Księgi pierwsze
+2pi	Jan Kochanowski	Pieśni, Księgi pierwsze
+2pj	Jan Kochanowski	Pieśni, Księgi pierwsze
+2pk	Jan Kochanowski	Pieśni, Księgi pierwsze
+2pl	Jan Kochanowski	Pieśni, Księgi pierwsze
+2pm	Jan Kochanowski	Pieśni, Księgi pierwsze
+2pn	Jan Kochanowski	Pieśni, Księgi wtóre
+2po	Jan Kochanowski	Pieśni, Księgi wtóre
+2pp	Jan Kochanowski	Pieśni, Księgi wtóre
+2pq	Jan Kochanowski	Pieśni, Księgi wtóre
+2pr	Jan Kochanowski	Pieśni, Księgi wtóre
+2ps	Jan Kochanowski	Pieśni, Księgi wtóre
+2pt	Jan Kochanowski	Pieśni, Księgi wtóre
+2pu	Jan Kochanowski	Pieśni, Księgi wtóre
+2pv	Jan Kochanowski	Pieśni, Księgi wtóre
+2pw	Jan Kochanowski	Pieśni, Księgi wtóre
+2px	Jan Kochanowski	Pieśni, Księgi wtóre
+2py	Jan Kochanowski	Pieśni, Księgi wtóre
+2pz	Jan Kochanowski	Pieśni, Księgi wtóre
+2q0	Jan Kochanowski	Pieśni, Księgi wtóre
+2q1	Jan Kochanowski	Pieśni, Księgi wtóre
+2q2	Jan Kochanowski	Pieśni, Księgi wtóre
+2q3	Jan Kochanowski	Pieśni, Księgi wtóre
+2q4	Jan Kochanowski	Pieśni, Księgi wtóre
+2q5	Jan Kochanowski	Pieśni, Księgi wtóre
+2q6	Jan Kochanowski	Pieśni, Księgi wtóre
+2q7	Jan Kochanowski	Pieśni, Księgi wtóre
+2q8	Jan Kochanowski	Pieśni, Księgi wtóre
+2q9	Jan Kochanowski	Pieśni, Księgi wtóre
+2qa	Pieśni	[Nota edytorska]
+2qb	Detlev von Liliencron	Pieta
+2qc	Maria Konopnicka	Piosenka dzieci
+2qd	Maria Konopnicka	Piosenka o wilczku
+2qe	Maria Konopnicka	Piosenka w kuźni
+2qf	Maria Konopnicka	Piosenki majowe
+2qg	Piosnka ułańska	Krakowiak
+2qh	Maria Konopnicka	Piosnka żołnierska
+2qi	Władysław Orkan	Płanety
+2qj	Maria Konopnicka	Pobudka wiosny
+2qk	Kazimierz Przerwa-Tetmajer	Pod wrażeniem
+2ql	Kazimierz Przerwa-Tetmajer	Podczas burzy
+2qm	Marta Podgórnik	Próby negocjacji
+2qn	Marta Podgórnik	Próby negocjacji
+2qo	Marta Podgórnik	Próby negocjacji
+2qp	Marta Podgórnik	Próby negocjacji
+2qq	Marta Podgórnik	Próby negocjacji
+2qr	Marta Podgórnik	Próby negocjacji
+2qs	Marta Podgórnik	Próby negocjacji
+2qt	Marta Podgórnik	Próby negocjacji
+2qu	Marta Podgórnik	Próby negocjacji
+2qv	Marta Podgórnik	Próby negocjacji
+2qw	Marta Podgórnik	Próby negocjacji
+2qx	Marta Podgórnik	Próby negocjacji
+2qy	Marta Podgórnik	Próby negocjacji
+2qz	Marta Podgórnik	Próby negocjacji
+2r0	Marta Podgórnik	Próby negocjacji
+2r1	Marta Podgórnik	Próby negocjacji
+2r2	Marta Podgórnik	Próby negocjacji
+2r3	Marta Podgórnik	Próby negocjacji
+2r4	Marta Podgórnik	Próby negocjacji
+2r5	Marta Podgórnik	Próby negocjacji
+2r6	Marta Podgórnik	Próby negocjacji
+2r7	Marta Podgórnik	Próby negocjacji
+2r8	Marta Podgórnik	Próby negocjacji
+2r9	Marta Podgórnik	Próby negocjacji
+2ra	Marta Podgórnik	Próby negocjacji
+2rb	Marta Podgórnik	Próby negocjacji
+2rc	Marta Podgórnik	Próby negocjacji
+2rd	Marta Podgórnik	Próby negocjacji
+2re	Marta Podgórnik	Próby negocjacji
+2rf	Marta Podgórnik	Próby negocjacji
+2rg	Marta Podgórnik	Próby negocjacji
+2rh	Marta Podgórnik	Próby negocjacji
+2ri	Marta Podgórnik	Próby negocjacji
+2rj	Marta Podgórnik	Próby negocjacji
+2rk	Marta Podgórnik	Próby negocjacji
+2rl	Marta Podgórnik	Próby negocjacji
+2rm	Marta Podgórnik	Próby negocjacji
+2rn	Marta Podgórnik	Próby negocjacji
+2ro	Jacek Podsiadło	Wychwyt Grahama
+2rp	Jacek Podsiadło	Wychwyt Grahama
+2rq	Jacek Podsiadło	Wychwyt Grahama
+2rr	Jacek Podsiadło	Wychwyt Grahama
+2rs	Jacek Podsiadło	Wychwyt Grahama
+2rt	Jacek Podsiadło	Wychwyt Grahama
+2ru	Jacek Podsiadło	Wychwyt Grahama
+2rv	Jacek Podsiadło	Wychwyt Grahama
+2rw	Jacek Podsiadło	Wychwyt Grahama
+2rx	Jacek Podsiadło	Wychwyt Grahama
+2ry	Jacek Podsiadło	Wychwyt Grahama
+2rz	Jacek Podsiadło	Wychwyt Grahama
+2s0	Jacek Podsiadło	Wychwyt Grahama
+2s1	Jacek Podsiadło	Wychwyt Grahama
+2s2	Jacek Podsiadło	Wychwyt Grahama
+2s3	Jacek Podsiadło	Wychwyt Grahama
+2s4	Jacek Podsiadło	Wychwyt Grahama
+2s5	Jacek Podsiadło	Wychwyt Grahama
+2s6	Jacek Podsiadło	Wychwyt Grahama
+2s7	Jacek Podsiadło	Wychwyt Grahama
+2s8	Jacek Podsiadło	Wychwyt Grahama
+2s9	Jacek Podsiadło	Wychwyt Grahama
+2sa	Jacek Podsiadło	Wychwyt Grahama
+2sb	Jacek Podsiadło	Wychwyt Grahama
+2sc	Jacek Podsiadło	Wychwyt Grahama
+2sd	Jacek Podsiadło	Wychwyt Grahama
+2se	Jacek Podsiadło	Wychwyt Grahama
+2sf	Jacek Podsiadło	Wychwyt Grahama
+2sg	Jacek Podsiadło	Wychwyt Grahama
+2sh	Jacek Podsiadło	Wychwyt Grahama
+2si	Jacek Podsiadło	Wychwyt Grahama
+2sj	Jacek Podsiadło	Wychwyt Grahama
+2sk	Jacek Podsiadło	Wychwyt Grahama
+2sl	Jacek Podsiadło	Wychwyt Grahama
+2sm	Jacek Podsiadło	Wychwyt Grahama
+2sn	Jacek Podsiadło	Wychwyt Grahama
+2so	Jacek Podsiadło	Wychwyt Grahama
+2sp	Jacek Podsiadło	Wychwyt Grahama
+2sq	Jacek Podsiadło	Wychwyt Grahama
+2sr	Jacek Podsiadło	Wychwyt Grahama
+2ss	Jacek Podsiadło	Wychwyt Grahama
+2st	Jacek Podsiadło	Wychwyt Grahama
+2su	Jacek Podsiadło	Wychwyt Grahama
+2sv	Jacek Podsiadło	Wychwyt Grahama
+2sw	Jacek Podsiadło	Wychwyt Grahama
+2sx	Jacek Podsiadło	Wychwyt Grahama
+2sy	Jacek Podsiadło	Wychwyt Grahama
+2sz	Jacek Podsiadło	Wychwyt Grahama
+2t0	Jacek Podsiadło	Wychwyt Grahama
+2t1	Jacek Podsiadło	Wychwyt Grahama
+2t2	Jacek Podsiadło	Wychwyt Grahama
+2t3	Jacek Podsiadło	Wychwyt Grahama
+2t4	Jacek Podsiadło	Wychwyt Grahama
+2t5	Jacek Podsiadło	Wychwyt Grahama
+2t6	Edgar Allan Poe	Annabel Lee
+2t7	Edgar Allan Poe	Ballada ślubna
+2t8	Edgar Allan Poe	Dialog Monosa i Uny
+2t9	Edgar Allan Poe	Dla Ani
+2ta	Edgar Allan Poe	Do Heleny
+2tb	Edgar Allan Poe	Do jednej w raju
+2tc	Edgar Allan Poe	Do matki
+2td	Edgar Allan Poe	Dzwony
+2te	Edgar Allan Poe	Eulalia
+2tf	Edgar Allan Poe	Hymn
+2tg	Edgar Allan Poe	Izrafel
+2th	Edgar Allan Poe	Kraina snu
+2ti	Edgar Allan Poe	Kruk
+2tj	Edgar Allan Poe	Miasto na morzu
+2tk	Edgar Allan Poe	Milczenie
+2tl	Edgar Allan Poe	Opętany zamek
+2tm	Edgar Allan Poe	Potęga słowa
+2tn	Edgar Allan Poe	Przyśnienie w śnie
+2to	Edgar Allan Poe	Robak zdobywca
+2tp	Edgar Allan Poe	Robak zdobywca
+2tq	Edgar Allan Poe	Sen we śnie
+2tr	Edgar Allan Poe	Ulalume
+2ts	Edgar Allan Poe	Ulalume
+2tt	Edgar Allan Poe	Uśpiona
+2tu	Edgar Allan Poe	Zante
+2tv	Bolesław Leśmian	Poematy zazdrosne
+2tw	Juliusz Słowacki	Poeta i natchnienie
+2tx	Juliusz Słowacki	Pogrzeb kapitana Meyznera
+2ty	Maria Konopnicka	Pogrzeb ptaszka
+2tz	Pójdźmy wszyscy do stajenki…	Pójdźmy wszyscy do stajenki,
+2u0	Tristan Derème	[Pokój hotelu pusty i posępny…]
+2u1	Wincenty Pol	Dzwon
+2u2	Północ już była…	Północ już była, gdy się zjawiła
+2u3	Polonez Kościuszki	(1793 r.)
+2u4	Fryderyk Hölderlin	Połowa życia
+2u5	Pomoc dajcie mi, rodacy	Pomoc dajcie mi, rodacy,
+2u6	Adam Mickiewicz	Popas w Upicie
+2u7	Maria Konopnicka	Poranek Filonka
+2u8	Stefan George	Porta Nigra
+2u9	Wacław Potocki	Bespieczeństwo drabskie
+2ua	Wacław Potocki	Chwalą dzieci pawia
+2ub	Wacław Potocki	Cudzoziemskie ćwiczenia
+2uc	Wacław Potocki	Człowiek nad apetyt jeść nie może, pić może
+2ud	Wacław Potocki	Dla ścieżki drogi nie opuszczaj
+2ue	Wacław Potocki	Epimenidów sen
+2uf	Wacław Potocki	Miła jest różność w rzeczach
+2ug	Wacław Potocki	Na chłopów podgórskich
+2uh	Wacław Potocki	Na urząd podczaszego
+2ui	Wacław Potocki	Nie miejsce człeka ale człek honoruje miejsce
+2uj	Wacław Potocki	Nie mijaj murowanego komina
+2uk	Wacław Potocki	Nie za nas to powstało
+2ul	Wacław Potocki	Niewieście i po śmierci nie wierz
+2um	Wacław Potocki	O fraszkach
+2un	Wacław Potocki	Pan Kurek pannę Maglownicę
+2uo	Wacław Potocki	Pieśń
+2up	Wacław Potocki	Piłę ciskać
+2uq	Maria Konopnicka	Powinszowanie Lizusia
+2ur	Maria Konopnicka	Powitanie wiosenki
+2us	Maria Konopnicka	Powrót ptaków
+2ut	Franciszek Karpiński	Powrót z Warszawy na wieś
+2uu	August von Platen	Pożegnanie Rzymu
+2uv	Franciszek Karpiński	Pożegnanie z Lindorą w górach
+2uw	Cyprian Kamil Norwid	Praca
+2ux	Anna Libera (Anna Krakowianka)	Pragnienie serca
+2uy	Maria Konopnicka	Pranie
+2uz	Kazimierz Przerwa-Tetmajer	Prometeusz
+2v0	Juliusz Słowacki	Proroctwo
+2v1	Maria Konopnicka	Prośba Filusia
+2v2	Juliusz Słowacki	Prowadził mnie na bardzo ciemne wężowisko…
+2v3	Kazimierz Przerwa-Tetmajer	Próżno w swej duszy…
+2v4	Kazimierz Przerwa-Tetmajer	Przebudzenie Jehowy
+2v5	Hugo von Hofmannsthal	Przedświt
+2v6	Juliusz Słowacki	Przeklęstwo
+2v7	Kazimierz Przerwa-Tetmajer	Achilles
+2v8	Kazimierz Przerwa-Tetmajer	Był czas
+2v9	Kazimierz Przerwa-Tetmajer	Capri
+2va	Kazimierz Przerwa-Tetmajer	Daleki świecie…
+2vb	Kazimierz Przerwa-Tetmajer	Dziwna chwila
+2vc	Kazimierz Przerwa-Tetmajer	Gwiazdy
+2vd	Kazimierz Przerwa-Tetmajer	Herakles
+2ve	Kazimierz Przerwa-Tetmajer	Hymn to Nirvana
+2vf	Kazimierz Przerwa-Tetmajer	Ironia
+2vg	Kazimierz Przerwa-Tetmajer	Kolumny Samsona
+2vh	Kazimierz Przerwa-Tetmajer	Muszla
+2vi	Kazimierz Przerwa-Tetmajer	Na pamiątkę
+2vj	Kazimierz Przerwa-Tetmajer	Na szczycie
+2vk	Kazimierz Przerwa-Tetmajer	Na wiosnę
+2vl	Kazimierz Przerwa-Tetmajer	Na wiosnę
+2vm	Kazimierz Przerwa-Tetmajer	Nimfy
+2vn	Kazimierz Przerwa-Tetmajer	O Greku, co znalazł złoty hełm
+2vo	Kazimierz Przerwa-Tetmajer	Orzeł
+2vp	Kazimierz Przerwa-Tetmajer	Pochwała dawnej dzielności greckiej
+2vq	Kazimierz Przerwa-Tetmajer	Pod Portici
+2vr	Kazimierz Przerwa-Tetmajer	Podczas wiatru z Tatr
+2vs	Kazimierz Przerwa-Tetmajer	Potok symboliczny
+2vt	Kazimierz Przerwa-Tetmajer	Pour passer le temps
+2vu	Kazimierz Przerwa-Tetmajer	Przez turnie, pustki…
+2vv	Kazimierz Przerwa-Tetmajer	Przy Morskim Oku
+2vw	Kazimierz Przerwa-Tetmajer	Psyche
+2vx	Kazimierz Przerwa-Tetmajer	Pusty okręt
+2vy	Kazimierz Przerwa-Tetmajer	Refleksja
+2vz	Kazimierz Przerwa-Tetmajer	Rycerz
+2w0	Kazimierz Przerwa-Tetmajer	Rzeka mistyczna
+2w1	Kazimierz Przerwa-Tetmajer	Salamandra
+2w2	Kazimierz Przerwa-Tetmajer	Sierpniowe złote muchy…
+2w3	Kazimierz Przerwa-Tetmajer	Słońce
+2w4	Kazimierz Przerwa-Tetmajer	Śpiąca królewna
+2w5	Kazimierz Przerwa-Tetmajer	The End of the 19th Century
+2w6	Kazimierz Przerwa-Tetmajer	W nocy
+2w7	Kazimierz Przerwa-Tetmajer	Wielbić naturę?
+2w8	Kazimierz Przerwa-Tetmajer	XIX wiekowi
+2w9	Kazimierz Przerwa-Tetmajer	Z dawnej przeszłości
+2wa	Hugo von Hofmannsthal	Przesłanie
+2wb	Cyprian Kamil Norwid	Przeszłość
+2wc	Hugo von Hofmannsthal	Przeżycie
+2wd	Maria Konopnicka	Przy mrowisku
+2we	Przybieżeli do Betlejem…	Przybieżeli do Betlejem pasterze,
+2wf	Stanisław Przybyszewski	Nad morzem
+2wg	Stanisław Przybyszewski	Requiem aeternam
+2wh	Stanisław Przybyszewski	Vigilien
+2wi	Stanisław Przybyszewski	Z Wigilii (fragmenty)
+2wj	Maria Konopnicka	Przygoda Mańci
+2wk	Maria Konopnicka	Przygoda nieuka
+2wl	Maria Konopnicka	Przygoda w koszu
+2wm	Maria Konopnicka	Przygoda w kuchni
+2wn	Maria Konopnicka	Przygoda z lalką
+2wo	Franciszek Karpiński	Przypomnienie dawnej miłości
+2wp	Wespazjan Kochowski	Psalmodia polska
+2wq	Wespazjan Kochowski	Psalmodia polska
+2wr	Wespazjan Kochowski	Psalmodia polska
+2ws	Wespazjan Kochowski	Psalmodia polska
+2wt	Wespazjan Kochowski	Psalmodia polska
+2wu	Wespazjan Kochowski	Psalmodia polska
+2wv	Wespazjan Kochowski	Psalmodia polska
+2ww	Wespazjan Kochowski	Psalmodia polska
+2wx	Wespazjan Kochowski	Psalmodia polska
+2wy	Wespazjan Kochowski	Psalmodia polska
+2wz	Wespazjan Kochowski	Psalmodia polska
+2x0	Wespazjan Kochowski	Psalmodia polska
+2x1	Wespazjan Kochowski	Psalmodia polska
+2x2	Wespazjan Kochowski	Psalmodia polska
+2x3	Wespazjan Kochowski	Psalmodia polska
+2x4	Wespazjan Kochowski	Psalmodia polska
+2x5	Wespazjan Kochowski	Psalmodia polska
+2x6	Wespazjan Kochowski	Psalmodia polska
+2x7	Wespazjan Kochowski	Psalmodia polska
+2x8	Wespazjan Kochowski	Psalmodia polska
+2x9	Wespazjan Kochowski	Psalmodia polska
+2xa	Wespazjan Kochowski	Psalmodia polska
+2xb	Wespazjan Kochowski	Psalmodia polska
+2xc	Wespazjan Kochowski	Psalmodia polska
+2xd	Wespazjan Kochowski	Psalmodia polska
+2xe	Wespazjan Kochowski	Psalmodia polska
+2xf	Wespazjan Kochowski	Psalmodia polska
+2xg	Wespazjan Kochowski	Psalmodia polska
+2xh	Wespazjan Kochowski	Psalmodia polska
+2xi	Wespazjan Kochowski	Psalmodia polska
+2xj	Wespazjan Kochowski	Psalmodia polska
+2xk	Wespazjan Kochowski	Psalmodia polska
+2xl	Wespazjan Kochowski	Psalmodia polska
+2xm	Wespazjan Kochowski	Psalmodia polska
+2xn	Wespazjan Kochowski	Psalmodia polska
+2xo	Wespazjan Kochowski	Psalmodia polska
+2xp	Jan Andrzej Morsztyn	Pszczoła w bursztynie
+2xq	Maria Konopnicka	Pszczółki
+2xr	Aleksander Puszkin	Bajka o rybaku i rybce
+2xs	Aleksander Puszkin	Eugeniusz Oniegin
+2xt	Zygmunt Krasiński	Pytasz się czemu ucichły me pieśni
+2xu	Raban Nowakowskie	.doc i .docx to to samo
+2xv	Raban Nowakowskie	las/manless
+2xw	Justyna Radczyńska-Misiurewicz	Prestige
+2xx	Justyna Radczyńska-Misiurewicz	5 minut
+2xy	Justyna Radczyńska-Misiurewicz	Absolutnie histrioniczny lazur
+2xz	Justyna Radczyńska-Misiurewicz	Banicja podwodna
+2y0	Justyna Radczyńska-Misiurewicz	Bibliografia
+2y1	Justyna Radczyńska-Misiurewicz	Czy może być coś lepszego niż własnoręcznie wykonany prezent?
+2y2	Justyna Radczyńska-Misiurewicz	diOda do miłości
+2y3	Justyna Radczyńska-Misiurewicz	Dramat Vanessy
+2y4	Justyna Radczyńska-Misiurewicz	Drobny wpływ
+2y5	Justyna Radczyńska-Misiurewicz	Dystrakcja
+2y6	Justyna Radczyńska-Misiurewicz	(_- | |^ |_ /-\ |\| |) /-\  \/\/ | |) [- ()
+2y7	Justyna Radczyńska-Misiurewicz	Jaki korbowód zmienia muśnięcia w rotacje?
+2y8	Justyna Radczyńska-Misiurewicz	Kim jest ta, która wydaje się chmurą
+2y9	Justyna Radczyńska-Misiurewicz	Książka i błąd jak sakrament
+2ya	Justyna Radczyńska-Misiurewicz	Kto się nie lęka, sam jest przerażający
+2yb	Justyna Radczyńska-Misiurewicz	Kwietyzm, błogostan
+2yc	Justyna Radczyńska-Misiurewicz	Magiczne odcienie połysku
+2yd	Justyna Radczyńska-Misiurewicz	Marathon de Paris, 15 kwietnia 2007
+2ye	Justyna Radczyńska-Misiurewicz	Mieszkanie Niebieski Klub
+2yf	Justyna Radczyńska-Misiurewicz	Moment słabości
+2yg	Justyna Radczyńska-Misiurewicz	Najstarszy zalotnik
+2yh	Justyna Radczyńska-Misiurewicz	Nieopanowany
+2yi	Justyna Radczyńska-Misiurewicz	O ironio głównego nurtu
+2yj	Justyna Radczyńska-Misiurewicz	Obcowanie z przyrodą przy dobrej zabawie dla przeciętnie wysportowanego turysty
+2yk	Justyna Radczyńska-Misiurewicz	Obwieszczenie
+2yl	Justyna Radczyńska-Misiurewicz	Polowanie pod pieśnią
+2ym	Justyna Radczyńska-Misiurewicz	Przyjacielskość tego mężczyzny
+2yn	Justyna Radczyńska-Misiurewicz	Pył
+2yo	Justyna Radczyńska-Misiurewicz	Regulamin
+2yp	Justyna Radczyńska-Misiurewicz	Skorpionom możesz zaufać
+2yq	Justyna Radczyńska-Misiurewicz	Sportowa propozycja
+2yr	Justyna Radczyńska-Misiurewicz	To regain strength, energy or vitality.
+2ys	Justyna Radczyńska-Misiurewicz	Wyśmienita, śpiewana gra do rana
+2yt	Justyna Radczyńska-Misiurewicz	Za życia nikt
+2yu	Justyna Radczyńska-Misiurewicz	Zapewne
+2yv	Justyna Radczyńska-Misiurewicz	Zeszyt do ćwiczeń z botaniki ogólnej
+2yw	Justyna Radczyńska-Misiurewicz	Kometa zawraca
+2yx	Adam Mickiewicz	Reduta Ordona
+2yy	Henri de Régnier	Ku przeszłości
+2yz	Henri de Régnier	Nokturn
+2z0	Henri de Régnier	Tajemnica
+2z1	Franciszek Karpiński	Reguły dla gospodarzów domu
+2z2	Adam Mickiewicz	Renegat
+2z3	Rainer Maria Rilke	Requiem za przyjaciółkę
+2z4	Rainer Maria Rilke	Requiem za Wolfa hrabiego von Kalckreuth
+2z5	Zygmunt Krasiński	Resurrecturis
+2z6	Adolphe Retté	Zimowa pieśń
+2z7	Jean Richepin	Širdis
+2z8	Rocznica powstania	Bracia! Rocznica — więc po zwyczaju,
+2z9	Stefan George	Rocznica
+2za	Lili Rodał	Getto
+2zb	Georges Rodenbach	Deszcz
+2zc	Georges Rodenbach	Klasztor flamandzki
+2zd	Georges Rodenbach	W miasteczku…
+2ze	Bianka Rolando	Biała książka
+2zf	Bianka Rolando	Biała książka
+2zg	Bianka Rolando	Biała książka
+2zh	Bianka Rolando	Biała książka
+2zi	Bianka Rolando	Biała książka
+2zj	Bianka Rolando	Biała książka
+2zk	Bianka Rolando	Biała książka
+2zl	Bianka Rolando	Biała książka
+2zm	Bianka Rolando	Biała książka
+2zn	Bianka Rolando	Biała książka
+2zo	Bianka Rolando	Biała książka
+2zp	Bianka Rolando	Biała książka
+2zq	Bianka Rolando	Biała książka
+2zr	Bianka Rolando	Biała książka
+2zs	Bianka Rolando	Biała książka
+2zt	Bianka Rolando	Biała książka
+2zu	Bianka Rolando	Biała książka
+2zv	Bianka Rolando	Biała książka
+2zw	Bianka Rolando	Biała książka
+2zx	Bianka Rolando	Biała książka
+2zy	Bianka Rolando	Biała książka
+2zz	Bianka Rolando	Biała książka
+300	Bianka Rolando	Biała książka
+301	Bianka Rolando	Biała książka
+302	Bianka Rolando	Biała książka
+303	Bianka Rolando	Biała książka
+304	Bianka Rolando	Biała książka
+305	Bianka Rolando	Biała książka
+306	Bianka Rolando	Biała książka
+307	Bianka Rolando	Biała książka
+308	Bianka Rolando	Biała książka
+309	Bianka Rolando	Biała książka
+30a	Bianka Rolando	Biała książka
+30b	Bianka Rolando	Biała książka
+30c	Bianka Rolando	Biała książka
+30d	Bianka Rolando	Biała książka
+30e	Blanka Rolando	Biała książka
+30f	Bianka Rolando	Biała książka
+30g	Bianka Rolando	Biała książka
+30h	Bianka Rolando	Biała książka
+30i	Bianka Rolando	Biała książka
+30j	Bianka Rolando	Biała książka
+30k	Bianka Rolando	Biała książka
+30l	Bianka Rolando	Biała książka
+30m	Bianka Rolando	Biała książka
+30n	Bianka Rolando	Biała książka
+30o	Bianka Rolando	Biała książka
+30p	Bianka Rolando	Biała książka
+30q	Blanka Rolando	Biała książka
+30r	Bianka Rolando	Biała książka
+30s	Bianka Rolando	Biała książka
+30t	Bianka Rolando	Biała książka
+30u	Bianka Rolando	Biała książka
+30v	Bianka Rolando	Biała książka
+30w	Bianka Rolando	Biała książka
+30x	Bianka Rolando	Biała książka
+30y	Bianka Rolando	Biała książka
+30z	Bianka Rolando	Biała książka
+310	Bianka Rolando	Biała książka
+311	Bianka Rolando	Dzieło nadrzędne
+312	Pieśń dziewiętnasta	Biała książka
+313	Bianka Rolando	Biała książka
+314	Bianka Rolando	Biała książka
+315	Bianka Rolando	Biała książka
+316	Bianka Rolando	Biała książka
+317	Bianka Rolando	Biała książka
+318	Bianka Rolando	Biała książka
+319	Bianka Rolando	Biała książka
+31a	Bianka Rolando	Biała książka
+31b	Bianka Rolando	Biała książka
+31c	Bianka Rolando	Biała książka
+31d	Bianka Rolando	Biała książka
+31e	Bianka Rolando	Biała książka
+31f	Bianka Rolando	Biała książka
+31g	Bianka Rolando	Biała książka
+31h	Bianka Rolando	Biała książka
+31i	Bianka Rolando	Biała książka
+31j	Bianka Rolando	Biała książka
+31k	Bianka Rolando	Dzieło nadrzędne
+31l	Bianka Rolando	Dzieło nadrzędne
+31m	Bianka Rolando	Biała książka
+31n	Bianka Rolando	Biała książka
+31o	Bianka Rolando	Biała książka
+31p	Bianka Rolando	Biała książka
+31q	Bianka Rolando	Biała książka
+31r	Bianka Rolando	Biała książka
+31s	Bianka Rolando	Biała książka
+31t	Bianka Rolando	Dzieło nadrzędne
+31u	Bianka Rolando	Biała książka
+31v	Bianka Rolando	Biała książka
+31w	Bianka Rolando	Biała książka
+31x	Bianka Rolando	Biała książka
+31y	Bianka Rolando	Biała książka
+31z	Bianka Rolando	Biała książka
+320	Bianka Rolando	Biała książka
+321	Bianka Rolando	Biała książka
+322	Bianka Rolando	Biała książka
+323	Bianka Rolando	Biała książka
+324	Bianka Rolando	Biała książka
+325	Bianka Rolando	Biała książka
+326	Bianka Rolando	Biała książka
+327	Bianka Rolando	Biała książka
+328	Bianka Rolando	Biała książka
+329	Bianka Rolando	Biała książka
+32a	Bianka Rolando	Biała książka
+32b	Bianka Rolando	Biała książka
+32c	Bianka Rolnado	Biała książka
+32d	Bianka Rolando	Biała książka
+32e	Bianka Rolando	Biała książka
+32f	Bianka Rolando	Biała książka
+32g	Bianka Rolando	Biała książka
+32h	Bianka Rolando	Biała książka
+32i	Bianka Rolando	Biała książka
+32j	Bianka Rolando	Biała książka
+32k	Blanka Rolando	Biała książka
+32l	Bianka Rolando	Biała książka
+32m	Bianka Rolando	Biała książka
+32n	Bianka Rolando	Biała książka
+32o	Bianka Rolando	Biała książka
+32p	Bianka Rolando	Biała książka
+32q	Bianka Rolando	Biała książka
+32r	Bianka Rolando	Biała książka
+32s	Bianka Rolando	Biała książka
+32t	Bianka Rolando	Biała książka
+32u	Wacław Rolicz-Lieder	Błędny rycerz
+32v	Wacław Rolicz-Lieder	Do Stefana George
+32w	Wacław Rolicz-Lieder	Ja jestem satyr
+32x	Wacław Rolicz-Lieder	Marzenie
+32y	Wacław Rolicz-Lieder	Mgły jesienne
+32z	Wacław Rolicz-Lieder	Na balu
+330	Wacław Rolicz-Lieder	Szkoła
+331	Wacław Rolicz-Lieder	Wierzba na pustkowiu
+332	Christina Rossetti	Urodziny
+333	Maria Konopnicka	Rota
+334	Juliusz Słowacki	Rozłączenie
+335	Rozmaryn	O mój rozmarynie, rozwijaj się
+336	Dialog mistrza Polikarpa ze Śmiercią	ISBN 978-83-288-6517-4
+337	Juliusz Słowacki	Rozmowa z piramidami
+338	Józef Ruffer	Jabłonie
+339	Józef Ruffer	Maryja Panna
+33a	Józef Ruffer	Morze
+33b	Józef Ruffer	Na halnym stoku
+33c	Józef Ruffer	Pies
+33d	Lucjan Rydel	Bajka o Kasi i królewiczu
+33e	Lucjan Rydel	Hania
+33f	Lucjan Rydel	Jesienią
+33g	Lucjan Rydel	Mojej żonie
+33h	Lucjan Rydel	Serce mi się wciąż wyrywa
+33i	Maria Konopnicka	Rzeka
+33j	Juliusz Słowacki	Rzym
+33k	Hugo von Hofmannsthal	Są na pewno…
+33l	Safona	Hymn do Afrodyty
+33m	Safona	Sen dziewczyny
+33n	Safona	W gaju miłości
+33o	Safona	Śmierć
+33p	Safona	Fragment epigramu
+33q	Safona	Taniec
+33r	Safona	Gongyla
+33s	Safona	Smutek
+33t	Safona	Wiosenne rano
+33u	Safona	Piosnka fletu
+33v	Safona	Wiosna
+33w	Safona	Zazdrość
+33x	Safona	Dobroć i piękno
+33y	Safona	Północ
+33z	Safona	Do brata Charaksosa
+340	Safona	Zgon Adonisa
+341	Safona	Oblubieńcowi
+342	Safona	Wzbroniony owoc
+343	Safona	Noc
+344	Safona	Skarby
+345	Safona	Grób Timady
+346	Safona	Dike
+347	Safona	Hiacynty
+348	Safona	Po zachodzie
+349	Safona	Pieśń o Attydzie
+34a	Kazimierz Przerwa-Tetmajer	Salomon i Sulamitka
+34b	Albert Samain	Wiosenny wieczór
+34c	Joachim Gasquet	Samowiedzy! Boleści!
+34d	Lula Sarnia	podziemne życie martwych gwiazd
+34e	Lula Sarnia	schemat blokowy o nadciągającym zderzeniu
+34f	Fryderyk Schiller	Oda do radości
+34g	Fryderyk Schiller	An die Freude
+34h	Friedrich Schiller	Der Handschuh
+34i	Friedrich Schiller	Der Ring des Polykrates
+34j	Friedrich Schiller	Der Taucher
+34k	Friedrich Schiller	Die Bürgschaft
+34l	Fryderyk Schiller	Nurek
+34m	Fryderyk Schiller	Pierścień Polikratesa
+34n	Fryderyk Schiller	Rękojmia
+34o	Friedrich Schillers	Ritter Toggenburg
+34p	Fryderyk Schiller	Rycerz Toggenburg
+34q	Maurycy Schlanger	Idę…
+34r	Kazimierz Przerwa-Tetmajer	Schnąca limba
+34s	Theodor Däubler	Sekret
+34t	Marcin Sendecki	***
+34u	Marcin Sendecki	***
+34v	Marcin Sendecki	***
+34w	Marcin Sendecki	Fragment
+34x	Marcin Sendecki	***
+34y	Marcin Sendecki	Lustro
+34z	Marcin Sendecki	Maciek Tanner otwiera pudełko z tektury
+350	Marcin Sendecki	Maciek Tanner, rytmy
+351	Marcin Sendecki	***
+352	Marcin Sendecki	Mój fryzjer oglądał w TV serial o Jezusie
+353	Marcin Sendecki	***
+354	Marcin Sendecki	***
+355	Marcin Sendecki	***
+356	Marcin Sendecki	***
+357	Marcin Sendecki	***
+358	Marcin Sendecki	***
+359	Marcin Sendecki	Tytuł
+35a	Marcin Sendecki	W (
+35b	Marcin Sendecki	***
+35c	Percy Bysshe Shelley	Ozymandias
+35d	Bolesław Leśmian	Poematy zazdrosne
+35e	Wanda Sieradzka	Samobójstwo
+35f	Maria Konopnicka	Sierotki (W oknie stoją dwie sieroty…)
+35g	Maria Konopnicka	Skąd się biorą piosenki?
+35h	Otto zur Linde	Skarga
+35i	Maria Konopnicka	Skrucha Józi
+35j	Fagus	Słońce powstanie znowu…
+35k	Edward Słoński	Ani ja chciałbym
+35l	Edward Słoński	Głód
+35m	Edward Słoński	Na łodzi
+35n	Edward Słoński	Nuda
+35o	Juliusz Słowacki	Anhelli
+35p	Juliusz Słowacki	Hugo
+35q	Juliusz Słowacki	[In Sophie's Diary]
+35r	Juliusz Słowacki	My Testament
+35s	Tadeusz Boy-Żeleński	Słówka (zbiór)
+35t	Tadeusz Boy-Żeleński	Słówka (zbiór)
+35u	Tadeusz Boy-Żeleński	Słówka (zbiór)
+35v	Tadeusz Boy-Żeleński	Słówka (zbiór)
+35w	Tadeusz Boy-Żeleński	Słówka (zbiór)
+35x	Tadeusz Boy-Żeleński	Słówka (zbiór)
+35y	Tadeusz Boy-Żeleński	Słówka (zbiór)
+35z	Tadeusz Boy-Żeleński	Słówka (zbiór)
+360	Tadeusz Boy-Żeleński	Słówka (zbiór)
+361	Tadeusz Boy-Żeleński	Słówka (zbiór)
+362	Tadeusz Boy-Żeleński	Słówka (zbiór)
+363	Tadeusz Boy-Żeleński	Słówka (zbiór)
+364	Tadeusz Boy-Żeleński	Słówka (zbiór)
+365	Tadeusz Boy-Żeleński	Słówka (zbiór)
+366	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+367	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+368	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+369	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36a	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36b	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36c	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36d	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36e	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36f	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36g	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36h	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36i	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36j	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36k	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36l	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36m	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36n	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36o	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36p	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36q	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36r	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36s	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36t	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36u	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36v	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36w	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36x	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36y	Tadeusz Boy-Żeleński	Piosenki „Zielonego Balonika”
+36z	Tadeusz Boy-Żeleński	Słówka (zbiór)
+370	Tadeusz Boy-Żeleński	Słówka (zbiór)
+371	Tadeusz Boy-Żeleński	Słówka (zbiór)
+372	Tadeusz Boy-Żeleński	Słówka (zbiór)
+373	Tadeusz Boy-Żeleński	Słówka (zbiór)
+374	Tadeusz Boy-Żeleński	Słówka (zbiór)
+375	Tadeusz Boy-Żeleński	Słówka (zbiór)
+376	Tadeusz Boy-Żeleński	Słówka (zbiór)
+377	Tadeusz Boy-Żeleński	Słówka (zbiór)
+378	Tadeusz Boy-Żeleński	Słówka (zbiór)
+379	Tadeusz Boy-Żeleński	Słówka (zbiór)
+37a	Tadeusz Boy-Żeleński	Słówka (zbiór)
+37b	Bruno Jasieński	Słowo o Jakubie Szeli
+37c	Juliusz Słowacki	Śmierć, co trzynaście lat stała koło mnie…
+37d	Charles Baudlaire	Śmierć kochanków
+37e	Adam Mickiewicz	Śmierć Pułkownika
+37f	Maria Konopnicka	Śmigus
+37g	Juliusz Słowacki	Śni mi się jakaś wielka a przez wieki idąca…
+37h	Maria Konopnicka	Śniadanie
+37i	Maria Konopnicka	Śnieżyca
+37j	Juliusz Słowacki	Snycerz był zatrudniony Dyjany lepieniem…
+37k	Piotr Sommer	Pamiątki po nas
+37l	Piotr Sommer	Pamiątki po nas
+37m	Piotr Sommer	Pamiątki po nas
+37n	Piotr Sommer	Pamiątki po nas
+37o	Piotr Sommer	Pamiątki po nas
+37p	Piotr Sommer	Pamiątki po nas
+37q	Piotr Sommer	Pamiątki po nas
+37r	Piotr Sommer	Pamiątki po nas
+37s	Piotr Sommer	Pamiątki po nas
+37t	Piotr Sommer	Pamiątki po nas
+37u	Piotr Sommer	Pamiątki po nas
+37v	Piotr Sommer	Pamiątki po nas
+37w	Piotr Sommer	Pamiątki po nas
+37x	Piotr Sommer	Pamiątki po nas
+37y	Piotr Sommer	Pamiątki po nas
+37z	Piotr Sommer	Pamiątki po nas
+380	Piotr Sommer	Pamiątki po nas
+381	Piotr Sommer	Pamiątki po nas
+382	Piotr Sommer	Pamiątki po nas
+383	Piotr Sommer	Pamiątki po nas
+384	Piotr Sommer	Pamiątki po nas
+385	Piotr Sommer	Pamiątki po nas
+386	Piotr Sommer	Pamiątki po nas
+387	Piotr Sommer	Pamiątki po nas
+388	Piotr Sommer	Pamiątki po nas
+389	Piotr Sommer	Pamiątki po nas
+38a	Piotr Sommer	Pamiątki po nas
+38b	Piotr Sommer	Pamiątki po nas
+38c	Piotr Sommer	Pamiątki po nas
+38d	Piotr Sommer	Pamiątki po nas
+38e	Piotr Sommer	Pamiątki po nas
+38f	Piotr Sommer	Pamiątki po nas
+38g	Piotr Sommer	Pamiątki po nas
+38h	Mikołaj Sęp Szarzyński	Sonet I
+38i	Mikołaj Sęp Szarzyński	Sonet II
+38j	Mikołaj Sęp Szarzyński	Sonet III
+38k	Mikołaj Sęp Szarzyński	Sonet IV
+38l	Mikołaj Sęp Szarzyński	Sonet V
+38m	Mikołaj Sęp Szarzyński	Sonet VI
+38n	Adam Mickiewicz	Sonety krymskie
+38o	Adam Mickiewicz	Sonety krymskie
+38p	Adam Mickiewicz	Sonety krymskie
+38q	Adam Mickiewicz	Sonety krymskie
+38r	Adam Mickiewicz	Sonety krymskie
+38s	Adam Mickiewicz	Sonety krymskie
+38t	Adam Mickiewicz	Sonety krymskie
+38u	Adam Mickiewicz	Sonety krymskie
+38v	Adam Mickiewicz	Sonety krymskie
+38w	Adam Mickiewicz	Sonety krymskie
+38x	Adam Mickiewicz	Sonety krymskie
+38y	Adam Mickiewicz	Sonety krymskie
+38z	Adam Mickiewicz	Sonety krymskie
+390	Adam Mickiewicz	Sonety krymskie
+391	Adam Mickiewicz	Sonety krymskie
+392	Adam Mickiewicz	Sonety krymskie
+393	Adam Mickiewicz	Sonety krymskie
+394	Adam Mickiewicz	Sonety krymskie
+395	Adam Mickiewicz	Sonety krymskie
+396	Adam Mickiewicz	Błogosławieństwo
+397	Adam Mickiewicz	Sonety odeskie
+398	Adam Mickiewicz	Do D. D.
+399	Adam Mickiewicz	Sonety odeskie
+39a	Adam Mickiewicz	Sonety odeskie
+39b	Adam Mickiewicz	Do M***
+39c	Adam Mickiewicz	Do Marii P…
+39d	Adam Mickiewicz	Sonety odeskie
+39e	Adam Mickiewicz	Sonety odeskie
+39f	Adam Mickiewicz	Sonety odeskie
+39g	Adam Mickiewicz	Sonety odeskie
+39h	Adam Mickiewicz	Sonety odeskie
+39i	Adam Mickiewicz	Sonety odeskie
+39j	Adam Mickiewicz	Sonety odeskie
+39k	Adam Mickiewicz	Sonety odeskie
+39l	Adam Mickiewicz	Sonety odeskie
+39m	Adam Mickiewicz	Sonety odeskie
+39n	Adam Mickiewicz	Niepewność
+39o	Adam Mickiewicz	Sonety odeskie
+39p	Adam Mickiewicz	Sonety odeskie
+39q	Adam Mickiewicz	Sonety odeskie
+39r	Adam Mickiewicz	Sonety odeskie
+39s	Adam Mickiewicz	Sonety odeskie
+39t	Adam Mickiewicz	Sonety odeskie
+39u	Adam Mickiewicz	Sonety odeskie
+39v	Adam Mickiewicz	Sonety odeskie
+39w	Adam Mickiewicz	W imionniku C. S.
+39x	Adam Mickiewicz	Sonety odeskie
+39y	Adam Mickiewicz	Sonety odeskie
+39z	Adam Mickiewicz	Z Petrarki
+3a0	Adam Mickiewicz	Żeglarz
+3a1	Adam Mickiewicz	Zima miejska
+3a2	Andrzej Sosnowski	Życie na Korei
+3a3	Andrzej Sosnowski	Życie na Korei
+3a4	Andrzej Sosnowski	Życie na Korei
+3a5	Andrzej Sosnowski	Życie na Korei
+3a6	Andrzej Sosnowski	Życie na Korei
+3a7	Andrzej Sosnowski	Życie na Korei
+3a8	Andrzej Sosnowski	Życie na Korei
+3a9	Andrzej Sosnowski	Życie na Korei
+3aa	Andrzej Sosnowski	Życie na Korei
+3ab	Andrzej Sosnowski	Życie na Korei
+3ac	Andrzej Sosnowski	Życie na Korei
+3ad	Andrzej Sosnowski	Życie na Korei
+3ae	Andrzej Sosnowski	Życie na Korei
+3af	Andrzej Sosnowski	Życie na Korei
+3ag	Andrzej Sosnowski	Życie na Korei
+3ah	Andrzej Sosnowski	Życie na Korei
+3ai	Andrzej Sosnowski	Życie na Korei
+3aj	Andrzej Sosnowski	Życie na Korei
+3ak	Andrzej Sosnowski	Życie na Korei
+3al	Juliusz Słowacki	Sowiński w okopach Woli
+3am	Rajnold Suchodolski	Śpiew rewolucyjny z roku 1830
+3an	Maria Konopnicka	Śpiew skowronka
+3ao	Władysław Tarnowski	Śpiewka powstańców
+3ap	Maria Konopnicka	Sposób na laleczkę
+3aq	Jean Moréas	Stanze
+3ar	Maria Konopnicka	Stefek Burczymucha
+3as	Cyprian Kamil Norwid	Stolica
+3at	Maria Konopnicka	Stopnie poznania
+3au	Zdzisław Stroiński	*** [Po huraganach szarż…]
+3av	Zdzisław Leon Stroiński	Polska
+3aw	Zdzisław Stroiński	*** [Śniły się szarże…]
+3ax	Oskar Loerke	Strumień
+3ay	Bolesław Leśmian	Łąka
+3az	Maria Konopnicka	Świerszczyk
+3b0	Wincenty Pol	Sygnał
+3b1	Kazimierz Przerwa-Tetmajer	Symbol
+3b2	Władysław Syrokomla	Córa Piastów
+3b3	Władysław Syrokomla	Gawędy
+3b4	Władysław Syrokomla	Gawędy
+3b5	Władysław Syrokomla	Gawędy
+3b6	Władysław Syrokomla	Gawędy
+3b7	Władysław Syrokomla	Gawędy
+3b8	Władysław Syrokomla	Gawędy
+3b9	Władysław Syrokomla	Janko Cmentarnik
+3ba	Władysław Syrokomla	Marcin Studzieński
+3bb	Władysław Syrokomla	Margier
+3bc	Władysław Syrokomla	Rymy ulotne
+3bd	Władysław Syrokomla	Rymy ulotne
+3be	Władysław Syrokomla	Rymy ulotne
+3bf	Władysław Syrokomla	Rymy ulotne
+3bg	Władysław Syrokomla	Rymy ulotne
+3bh	Władysław Syrokomla	Rymy ulotne
+3bi	Władysław Syrokomla	Rymy ulotne
+3bj	Władysław Syrokomla	Rymy ulotne
+3bk	Władysław Syrokomla	Rymy ulotne
+3bl	Władysław Syrokomla	Rymy ulotne
+3bm	Władysław Syrokomla	Rymy ulotne
+3bn	Władysław Syrokomla	Rymy ulotne
+3bo	Władysław Syrokomla	Rymy ulotne
+3bp	Władysław Syrokolma	Rymy ulotne
+3bq	Władysław Syrokomla	Czem chata bogata, tem rada
+3br	Władysław Syrokomla	Stare wrota
+3bs	Władysław Syrokomla	Urodzony Jan Dęboróg
+3bt	Władysław Syrokomla	Wybryki dobrego humoru
+3bu	Władysław Syrokomla	Wybryki dobrego umysłu
+3bv	Władysław Syrokomla	Wybryki dobrego humoru
+3bw	Władysław Syrokomla	Wybryki dobrego humoru
+3bx	Władysław Syrokomla	Wybryki dobrego humoru
+3by	Władysław Syrokomla	Wybryki dobrego humoru
+3bz	Władysław Syrokomla	Wybryki dobrego humoru
+3c0	Władysław Syrokomla	Wybryki dobrego humoru
+3c1	Władysław Syrokomla	Wybryki dobrego humoru
+3c2	Władysław Syrokomla	Wybryki dobrego humoru
+3c3	Władysław Syrokomla	Wybryki dobrego humoru
+3c4	Kazimierz Przerwa-Tetmajer	Szatan
+3c5	Józef Szczepański	Chłopcy silni jak stal
+3c6	Józef Szczepański „Ziutek”	Czerwona zaraza
+3c7	Józef Szczepański	Pałacyk Michla
+3c8	Józef Szczepański	Piosenka batalionu szturmowego „Parasol”
+3c9	Taras Szewczenko	Dumka (Bujny wietrze)
+3ca	Taras Szewczenko	Hajdamacy
+3cb	Taras Szewczenko	Dumka (Bujny wietrze…)
+3cc	Taras Szewczenko	Dumka (Och, nie znacie, och, nie wiecie)
+3cd	Taras Szewczenko	Dumka (Po co u mnie czarne brewki?)
+3ce	Taras Szewczenko	Dumka (Rzeka ciągle, choć powoli)
+3cf	Taras Szewczenko	Gamalej
+3cg	Taras Szewczenko	Iwan Podkowa
+3ch	Taras Szewczenko	Katarzyna
+3ci	Taras Szewczenko	Najemnica
+3cj	Taras Szewczenko	Noc Tarasowa
+3ck	Taras Szewczenko	Perebenda
+3cl	Taras Szewczenko	Przygrywka (Dumki moje…)
+3cm	Taras Szewczenko	Topola
+3cn	Taras Szewczenko	Urzeczona
+3co	Co czytałem umarłym	Władysław Szlengel
+3cp	Co czytałem umarłym	Władysław Szlengel
+3cq	Co czytałem umarłym	Władysław Szlengel
+3cr	Co czytałem umarłym	Władysław Szlengel
+3cs	Co czytałem umarłym	Władysław Szlengel
+3ct	Co czytałem umarłym	Władysław Szlengel
+3cu	Co czytałem umarłym	Władysław Szlengel
+3cv	Co czytałem umarłym	Władysław Szlengel
+3cw	Co czytałem umarłym	Władysław Szlengel
+3cx	Co czytałem umarłym	Władysław Szlengel
+3cy	Co czytałem umarłym	Władysław Szlengel
+3cz	Co czytałem umarłym	Władysław Szlengel
+3d0	Co czytałem umarłym	Władysław Szlengel
+3d1	Co czytałem umarłym	Władysław Szlengel
+3d2	Co czytałem umarłym	Władysław Szlengel
+3d3	Co czytałem umarłym	Władysław Szlengel
+3d4	Co czytałem umarłym	Włądysław Szlengel
+3d5	Co czytałem umarłym	Władysław Szlengel
+3d6	Co czytałem umarłym	Władysław Szlengel
+3d7	Władysław Szlengel	Okno na tamtą stronę
+3d8	Co czytałem umarłym	Władysław Szlengel
+3d9	Co czytałem umarłym	Władysław Szlengel
+3da	Co czytałem umarłym	Władysław Szlengel
+3db	Co czytałem umarłym	Władysław Szlengel
+3dc	Co czytałem umarłym	Władysław Szlengel
+3dd	Co czytałem umarłym	Władysław Szlengel
+3de	Co czytałem umarłym	Władysław Szlengel
+3df	Co czytałem umarłym	Władysław Szlengel
+3dg	Co czytałem umarłym	Władysław Szlengel
+3dh	Co czytałem umarłym	Władysław Szlengel
+3di	Co czytałem umarłym	Władysław Szlengel
+3dj	Co czytałem umarłym	Władysław Szlengel
+3dk	Co czytałem umarłym	Władysław Szlengel
+3dl	Co czytałem umarłym	Władysław Szlengel
+3dm	Co czytałem umarłym	Władysław Szlengel
+3dn	Co czytałem umarłym	Władysław Szlengel
+3do	Co czytałem umarłym	Władysław Szlengel
+3dp	Co czytałem umarłym	Władysław Szlengel
+3dq	Artur Oppman	Szopka. Wiersze Or-Ota
+3dr	Artur Oppman	Szopka. Wiersze Or-Ota
+3ds	Artur Oppman	Szopka. Wiersze Or-Ota
+3dt	Artur Oppman	Szopka. Wiersze Or-Ota
+3du	Artur Oppman	Szopka. Wiersze Or-Ota
+3dv	Artur Oppman	Szopka. Wiersze Or-Ota
+3dw	Artur Oppman	Szopka. Wiersze Or-Ota
+3dx	Artur Oppman	Szopka. Wiersze Or-Ota
+3dy	Artur Oppman	Szopka. Wiersze Or-Ota
+3dz	Artur Oppman	Szopka. Wiersze Or-Ota
+3e0	Artur Oppman	Szopka. Wiersze Or-Ota
+3e1	Artur Oppman	Szopka. Wiersze Or-Ota
+3e2	Artur Oppman	Szopka. Wiersze Or-Ota
+3e3	Artur Oppman	Szopka. Wiersze Or-Ota
+3e4	Artur Oppman	Szopka. Wiersze Or-Ota
+3e5	Zosia Szpigelman	Ulica żydowska
+3e6	Owidiusz	Sztuka kochania
+3e7	Maciej Szukiewicz	Przeczucie śmierci
+3e8	Maciej Szukiewicz	Równe, bezkreśne pole…
+3e9	Maciej Szukiewicz	Sielanka
+3ea	Juliusz Słowacki	Tak mi, Boże, dopomóż
+3eb	Tam na błoniu błyszczy kwiecie	Tam na błoniu błyszczy kwiecie,
+3ec	Bolesław Leśmian	Łąka
+3ed	Bolesław Leśmian	Poematy zazdrosne
+3ee	Torquato Tasso	Jerozolima wyzwolona
+3ef	Maria Konopnicka	Tęczowy duszek
+3eg	Juliusz Słowacki	Ten sam duchowi płomienny szlak…
+3eh	Juliusz Słowacki	Testament mój
+3ei	Fagus	Testament
+3ej	Jan Kochanowski	Thrènes
+3ek	Jan Kochanowski	Thrènes
+3el	Jan Kochanowski	Thrènes
+3em	Jan Kochanowski	Thrènes
+3en	Jan Kochanowski	Thrènes
+3eo	Jan Kochanowski	Thrènes
+3ep	Jan Kochanowski	Thrènes
+3eq	Jan Kochanowski	Thrènes
+3er	Jan Kochanowski	Thrènes
+3es	Jan Kochanowski	Thrènes
+3et	Jan Kochanowski	Thrènes
+3eu	Jan Kochanowski	Thrènes
+3ev	Jan Kochanowski	Thrènes
+3ew	Jan Kochanowski	Thrènes
+3ex	Jan Kochanowski	Thrènes
+3ey	Jan Kochanowski	Thrènes
+3ez	Jan Kochanowski	Thrènes
+3f0	Jan Kochanowski	Thrènes
+3f1	Jan Kochanowski	Thrènes
+3f2	Jan Kochanowski	Thrènes
+3f3	Jan Kochanowski	Threnodien
+3f4	Jan Kochanowski	Threnodien
+3f5	Jan Kochanowski	Threnodien
+3f6	Jan Kochanowski	Threnodien
+3f7	Jan Kochanowski	Threnodien
+3f8	Jan Kochanowski	Threnodien
+3f9	Jan Kochanowski	Threnodien
+3fa	Jan Kochanowski	Threnodien
+3fb	Jan Kochanowski	Threnodien
+3fc	Jan Kochanowski	Threnodien
+3fd	Jan Kochanowski	Threnodien
+3fe	Jan Kochanowski	Threnodien
+3ff	Jan Kochanowski	Threnodien
+3fg	Jan Kochanowski	Threnodien
+3fh	Jan Kochanowski	Threnodien
+3fi	Jan Kochanowski	Threnodien
+3fj	Jan Kochanowski	Threnodien
+3fk	Jan Kochanowski	Threnodien
+3fl	Jan Kochanowski	Threnodien
+3fm	Eugeniusz Tkaczyszyn-Dycki	I
+3fn	Eugeniusz Tkaczyszyn-Dycki	II
+3fo	Eugeniusz Tkaczyszyn-Dycki	III
+3fp	Eugeniusz Tkaczyszyn-Dycki	IV
+3fq	Eugeniusz Tkaczyszyn-Dycki	IX
+3fr	Eugeniusz Tkaczyszyn-Dycki	L. Stypa w domu pani R(uszkowskiej)
+3fs	Eugeniusz Tkaczyszyn-Dycki	LI. Na miasteczku uniwersyteckim
+3ft	Eugeniusz Tkaczyszyn-Dycki	II
+3fu	Eugeniusz Tkaczyszyn-Dycki	LIII
+3fv	Eugeniusz Tkaczyszyn-Dycki	LIV. Areszt
+3fw	Eugeniusz Tkaczyszyn-Dycki	LIX
+3fx	Eugeniusz Tkaczyszyn-Dycki	LV
+3fy	Eugeniusz Tkaczyszyn-Dycki	LVI. Piosenka dla Funi Bełskiej
+3fz	Eugeniusz Tkaczyszyn-Dycki	LVII. Piosenka utracjusza
+3g0	Eugeniusz Tkaczyszyn-Dycki	LVIII. Piosenka o jarmarcznym kogutku
+3g1	Eugeniusz Tkaczyszyn-Dycki	LX. Nosiciele na schodach katedry
+3g2	Eugeniusz Tkaczyszyn-Dycki	LXI. Bojkot radia i telewizji w latach osiemdziesiątych
+3g3	Eugeniusz Tkaczyszyn-Dycki	LXII
+3g4	Eugeniusz Tkaczyszyn-Dycki	LXIII
+3g5	Eugeniusz Tkaczyszyn-Dycki	LXIV. Piosenka dla burmistrza
+3g6	Eugeniusz Tkaczyszyn-Dycki	LXIX. Wycieczka do lasu
+3g7	Eugeniusz Tkaczyszyn-Dycki	LXV
+3g8	Eugeniusz Tkaczyszyn-Dycki	LXVI. Elegia in obitum
+3g9	Eugeniusz Tkaczyszyn-Dycki	LXVII. Odpowiedzialność
+3ga	Eugeniusz Tkaczyszyn-Dycki	LXVIII. Nagły deszcz
+3gb	Eugeniusz Tkaczyszyn-Dycki	LXX. Wiadomość z ostatniej chwili
+3gc	Eugeniusz Tkaczyszyn-Dycki	LXXI. Źle skrywana wstydliwość
+3gd	Eugeniusz Tkaczyszyn-Dycki	LXXII
+3ge	Eugeniusz Tkaczyszyn-Dycki	LXXIII. Na rogu Farbiarskiej i Szymonowica
+3gf	Eugeniusz Tkaczyszyn-Dycki	LXXIV
+3gg	Eugeniusz Tkaczyszyn-Dycki	LXXIX
+3gh	Eugeniusz Tkaczyszyn-Dycki	LXXV
+3gi	Eugeniusz Tkaczyszyn-Dycki	LXXVI. Po dzień dzisiejszy
+3gj	Eugeniusz Tkaczyszyn-Dycki	LXXVII. Kobieta z radioodbiornikiem
+3gk	Eugeniusz Tkaczyszyn-Dycki	LXXVIII. Niebezpieczeństwo
+3gl	Eugeniusz Tkaczyszyn-Dycki	LXXX. Upał
+3gm	Eugeniusz Tkaczyszyn-Dycki	LXXXI. Przebudzenie
+3gn	Eugeniusz Tkaczyszyn-Dycki	LXXXII. Manifestacja
+3go	Eugeniusz Tkaczyszyn-Dycki	LXXXIII. Nieśmiałość
+3gp	Eugeniusz Tkaczyszyn-Dycki	LXXXIV. Pieszczoch
+3gq	Eugeniusz Tkaczyszyn-Dycki	LXXXIX
+3gr	Eugeniusz Tkaczyszyn-Dycki	LXXXV. Znak z nieba
+3gs	Eugeniusz Tkaczyszyn-Dycki	LXXXVI. Rekolekcje w 1988 roku
+3gt	Eugeniusz Tkaczyszyn-Dycki	LXXXVII
+3gu	Eugeniusz Tkaczyszyn-Dycki	LXXXVIII
+3gv	Eugeniusz Tkaczyszyn-Dycki	V
+3gw	Eugeniusz Tkaczyszyn-Dycki	VI
+3gx	Eugeniusz Tkaczyszyn-Dycki	VII
+3gy	Eugeniusz Tkaczyszyn-Dycki	VIII
+3gz	Eugeniusz Tkaczyszyn-Dycki	X
+3h0	Eugeniusz Tkaczyszyn-Dycki	XC
+3h1	Eugeniusz Tkaczyszyn-Dycki	XCI
+3h2	Eugeniusz Tkaczyszyn-Dycki	XCII. Wakacje
+3h3	Eugeniusz Tkaczyszyn-Dycki	XCIII. Przyjście i odejście
+3h4	Eugeniusz Tkaczyszyn-Dycki	XCIV
+3h5	Eugeniusz Tkaczyszyn-Dycki	XCV
+3h6	Eugeniusz Tkaczyszyn-Dycki	XCVI
+3h7	Eugeniusz Tkaczyszyn-Dycki	XI
+3h8	Eugeniusz Tkaczyszyn-Dycki	XII
+3h9	Eugeniusz Tkaczyszyn-Dycki	XIII
+3ha	Eugeniusz Tkaczyszyn-Dycki	XIV
+3hb	Eugeniusz Tkaczyszyn-Dycki	XIX
+3hc	Eugeniusz Tkaczyszyn-Dycki	XL
+3hd	Eugeniusz Tkaczyszyn-Dycki	XLI. Awantura z powodu listy obecności
+3he	Eugeniusz Tkaczyszyn-Dycki	XLII
+3hf	Eugeniusz Tkaczyszyn-Dycki	XLIII. Do studentki UMCS w Lublinie
+3hg	Eugeniusz Tkaczyszyn-Dycki	XLIV. Dławiąc się sobą, idzie prosto do nieba
+3hh	Eugeniusz Tkaczyszyn-Dycki	XLIX
+3hi	Eugeniusz Tkaczyszyn-Dycki	XLV. Waleta
+3hj	Eugeniusz Tkaczyszyn-Dycki	XLVI
+3hk	Eugeniusz Tkaczyszyn-Dycki	XLVII
+3hl	Eugeniusz Tkaczyszyn-Dycki	XLVIII. Piosenka wieczorna
+3hm	Eugeniusz Tkaczyszyn-Dycki	XV. Do A(…) N(…) pod jego bytność w przemyskiem
+3hn	Eugeniusz Tkaczyszyn-Dycki	XVI
+3ho	Eugeniusz Tkaczyszyn-Dycki	XVII
+3hp	Eugeniusz Tkaczyszyn-Dycki	XVIII
+3hq	Eugeniusz Tkaczyszyn-Dycki	XX
+3hr	Eugeniusz Tkaczyszyn-Dycki	XXI
+3hs	Eugeniusz Tkaczyszyn-Dycki	XXII
+3ht	Eugeniusz Tkaczyszyn-Dycki	XXIII
+3hu	Eugeniusz Tkaczyszyn-Dycki	XXIV
+3hv	Eugeniusz Tkaczyszyn-Dycki	XXIX
+3hw	Eugeniusz Tkaczyszyn-Dycki	XXV
+3hx	Eugeniusz Tkaczyszyn-Dycki	XXVI
+3hy	Eugeniusz Tkaczyszyn-Dycki	XXVII
+3hz	Eugeniusz Tkaczyszyn-Dycki	XXVIII.
+3i0	Eugeniusz Tkaczyszyn-Dycki	XXX
+3i1	Eugeniusz Tkaczyszyn-Dycki	XXXI
+3i2	Eugeniusz Tkaczyszyn-Dycki	XXXII. Na pogrzebie A(nny) S(uchożebrskiej)
+3i3	Eugeniusz Tkaczyszyn-Dycki	Kamień pełen pokarmu
+3i4	Eugeniusz Tkaczyszyn-Dycki	XXXIV
+3i5	Eugeniusz Tkaczyszyn-Dycki	XXXIX. Piosenka
+3i6	Eugeniusz Tkaczyszyn-Dycki	XXXV. Szpital św. Klary
+3i7	Eugeniusz Tkaczyszyn-Dycki	XXXVI
+3i8	Eugeniusz Tkaczyszyn-Dycki	XXXVII. Inskrypcja
+3i9	Eugeniusz Tkaczyszyn-Dycki	XXXVIII
+3ia	Eugeniusz Tkaczyszyn-Dycki	Kamień pełen pokarmu
+3ib	Franciszek Karpiński	Tłumaczenia
+3ic	Franciszek Karpiński	Tłumaczenia
+3id	Franciszek Karpiński	Tłumaczenia
+3ie	Franciszek Karpiński	Tłumaczenia
+3if	Stanisław Przybyszewski	Totenmesse
+3ig	Stanisław Trembecki	Sofijówka
+3ih	Jan Kochanowski	Epitafium Hannie Kochanowskiej
+3ii	Treny — nota edytorska	Tekst Trenów został tu podany według drugiego wydania, ostatniego opublikowanego za życia poety, które ukazało się w roku 1583 w Drukarni Łazarzowej w Krakowie. Tekst przygotowałem zgodnie z kryteriami zawartymi w opracowaniu Zasady wydawania tekstów staropolskich. Projekt — typ B (edycje popularnonaukowe), Wrocław 1955. Zdecydowałem się jednak zachować pewne cechy językowe, których nie uwzględnia się w edycjach popularnonaukowych, zwłaszcza dawne końcówki fleksyjne i większość dawnych form ortograficznych.
+3ij	Jan Kochanowski	Treny
+3ik	Jan Kochanowski	Treny
+3il	Jan Kochanowski	Treny
+3im	Jan Kochanowski	Treny
+3in	Jan Kochanowski	Treny
+3io	Jan Kochanowski	Treny
+3ip	Jan Kochanowski	Treny
+3iq	Jan Kochanowski	Treny
+3ir	Jan Kochanowski	Treny
+3is	Jan Kochanowski	Treny
+3it	Jan Kochanowski	Treny
+3iu	Jan Kochanowski	Treny
+3iv	Jan Kochanowski	Treny
+3iw	Jan Kochanowski	Treny
+3ix	Jan Kochanowski	Treny
+3iy	Jan Kochanowski	Treny
+3iz	Jan Kochanowski	Treny
+3j0	Jan Kochanowski	Treny
+3j1	Jan Kochanowski	Treny
+3j2	Tryumfy Króla niebieskiego	Tryumfy Króla niebieskiego
+3j3	Andrzej Trzebiński	Piosenka o Teresie
+3j4	Andrzej Trzebiński	Ta chwila
+3j5	Andrzej Trzebiński	Wieczór w śniegu
+3j6	Andrzej Trzebiński	Wymarsz Uderzenia
+3j7	Adam Mickiewicz	Trzech Budrysów
+3j8	Rajnold Suchodolski	Trzeci maj Litwina
+3j9	Maria Konopnicka	Trzewiczki Józia
+3ja	Juliusz Słowacki	Trzy poemata
+3jb	Juliusz Słowacki	Trzy poemata
+3jc	Juliusz Słowacki	Trzy poemata
+3jd	Julian Tuwim	Czyhanie na Boga
+3je	Julian Tuwim	Abecadło
+3jf	Julian Tuwim	Czyhanie na Boga
+3jg	Julian Tuwim	Czyhanie na Boga
+3jh	Julian Tuwim	Bal w operze
+3ji	Julian Tuwim	Bambo
+3jj	Julian Tuwim	Czyhanie na Boga
+3jk	Julian Tuwim	Czyhanie na Boga
+3jl	Julian Tuwim	Czyhanie na Boga
+3jm	Julian Tuwim	Czyhanie na Boga
+3jn	Julian Tuwim	Cuda i dziwy
+3jo	Julian Tuwim	Czyhanie na Boga
+3jp	Julian Tuwim	Do prostego człowieka
+3jq	Julian Tuwim	Czyhanie na Boga
+3jr	Julian Tuwim	Czyhanie na Boga
+3js	Julian Tuwim	Dwa wiatry
+3jt	Julian Tuwim	Dyzio marzyciel
+3ju	Julian Tuwim	Czyhanie na Boga
+3jv	Julian Tuwim	Czyhanie na Boga
+3jw	Julian Tuwim	Czyhanie na Boga
+3jx	Julian Tuwim	Czyhanie na Boga
+3jy	Julian Tuwim	Figielek
+3jz	Julian Tuwim	Gabryś
+3k0	Julian Tuwim	Czyhanie na Boga
+3k1	Julian Tuwim	Czyhanie na Boga
+3k2	Julian Tuwim	Idzie Grześ
+3k3	Julian Tuwim	Czyhanie na Boga
+3k4	Julian Tuwim	Czyhanie na Boga
+3k5	Julian Tuwim	Kapuśniaczek
+3k6	Julian Tuwim	Czyhanie na Boga
+3k7	Julian Tuwim	Kotek
+3k8	Julian Tuwim	Czyhanie na Boga
+3k9	Julian Tuwim	Kwiaty polskie
+3ka	Julian Tuwim	Czyhanie na Boga
+3kb	Julian Tuwim	Czyhanie na Boga
+3kc	Julian Tuwim	List do wszystkich dzieci
+3kd	Julian Tuwim	Lokomotywa
+3ke	Julian Tuwim	Czyhanie na Boga
+3kf	Julian Tuwim	Czyhanie na Boga
+3kg	Julian Tuwim	Matka
+3kh	Julian Tuwim	Czyhanie na Boga
+3ki	Julian Tuwim	Czyhanie na Boga
+3kj	Julian Tuwim	Czyhanie na Boga
+3kk	Julian Tuwim	Czyhanie na Boga
+3kl	Julian Tuwim	Czyhanie na Boga
+3km	Julian Tuwim	Mróz
+3kn	Julian Tuwim	Czyhanie na Boga
+3ko	Julian Tuwim	Czyhanie na Boga
+3kp	Julian Tuwim	O Grzesiu kłamczuchu i jego cioci
+3kq	Julian Tuwim	O panu Tralalińskim
+3kr	Julian Tuwim	Czyhanie na Boga
+3ks	Julian Tuwim	Czyhanie na Boga
+3kt	Julian Tuwim	Okulary
+3ku	Julian Tuwim	Czyhanie na Boga
+3kv	Julian Tuwim	Pan Maluśkiewicz i wieloryb
+3kw	Julian Tuwim	Czyhanie na Boga
+3kx	Julian Tuwim	Czyhanie na Boga
+3ky	Julian Tuwim	Czyhanie na Boga
+3kz	Julian Tuwim	Czyhanie na Boga
+3l0	Julian Tuwim	Czyhanie na Boga
+3l1	Julian Tuwim	Czyhanie na Boga
+3l2	Julian Tuwim	Czyhanie na Boga
+3l3	Julian Tuwim	Czyhanie na Boga
+3l4	Julian Tuwim	Czyhanie na Boga
+3l5	Julian Tuwim	Czyhanie na Boga
+3l6	Julian Tuwim	Czyhanie na Boga
+3l7	Julian Tuwim	Czyhanie na Boga
+3l8	Julian Tuwim	Pstryk!
+3l9	Julian Tuwim	Tańcowały dwa Michały
+3la	Julian Tuwim	Ptasie radio
+3lb	Julian Tuwim	Raz — dwa — trzy!
+3lc	Julian Tuwim	Rok i bieda
+3ld	Julian Tuwim	Rycerz Krzykalski
+3le	Julian Tuwim	Rzeczka
+3lf	Julian Tuwim	Rzepka
+3lg	Julian Tuwim	Czyhanie na Boga
+3lh	Julian Tuwim	Skakanka
+3li	Julian Tuwim	Słoń Trąbalski
+3lj	Julian Tuwim	Słówka i słufka
+3lk	Julian Tuwim	Czyhanie na Boga
+3ll	Julian Tuwim	Czyhanie na Boga
+3lm	Julian Tuwim	Czyhanie na Boga
+3ln	Julian Tuwim	Spóźniony słowik
+3lo	Julian Tuwim	Czyhanie na Boga
+3lp	Julian Tuwim	Stół
+3lq	Julian Tuwim	Czyhanie na Boga
+3lr	Julian Tuwim	Czyhanie na Boga
+3ls	Julian Tuwim	Czyhanie na Boga
+3lt	Julian Tuwim	Czyhanie na Boga
+3lu	Julian Tuwim	Czyhanie na Boga
+3lv	Julian Tuwim	Czyhanie na Boga
+3lw	Julian Tuwim	Taniec
+3lx	Julian Tuwim	Czyhanie na Boga
+3ly	Julian Tuwim	Trudny rachunek
+3lz	Julian Tuwim	Czyhanie na Boga
+3m0	Julian Tuwim	W aeroplanie
+3m1	Julian Tuwim	Warszawa
+3m2	Julian Tuwim	Warzywa
+3m3	Julian Tuwim	Czyhanie na Boga
+3m4	Julian Tuwim	Czyhanie na Boga
+3m5	Julian Tuwim	Czyhanie na Boga
+3m6	Julian Tuwim	Czyhanie na Boga
+3m7	Wszyscy dla wszystkich	Murarz domy buduje,
+3m8	Julian Tuwim	Czyhanie na Boga
+3m9	Julian Tuwim	Czyhanie na Boga
+3ma	Julian Tuwim	Czyhanie na Boga
+3mb	Julian Tuwim	Zosia Samosia
+3mc	Julian Tuwim	Czyhanie na Boga
+3md	Julian Tuwim	Czyhanie na Boga
+3me	Julian Tuwim	Czyhanie na Boga
+3mf	Juliusz Słowacki	Ty głos cierpiący podnieś — i niech w tobie…
+3mg	Maria Konopnicka	U okienka
+3mh	Adam Mickiewicz	Ucieczka
+3mi	Kornel Ujejski	Maraton
+3mj	Franciszek Kowalski	Ułan i dziewczyna
+3mk	Fryderyk Hebbel	Utwory drobne
+3ml	Émile Verhaeren	Wychodźcy
+3mm	Francis Vielé-Griffin	Pieśń
+3mn	Kazimierz Przerwa-Tetmajer	Virgini intactae
+3mo	Juliusz Słowacki	W albumie E. Hr. Krasińskiej
+3mp	Jan Kasprowicz	W ciemności schodzi moja dusza
+3mq	Jan Kasprowicz	W ciemności schodzi moja dusza
+3mr	Jan Kasprowicz	W ciemności schodzi moja dusza
+3ms	Jan Kasprowicz	W ciemności schodzi moja dusza
+3mt	Jan Kasprowicz	W ciemności schodzi moja dusza
+3mu	Jan Kasprowicz	W ciemności schodzi moja dusza
+3mv	Jan Kasprowicz	W ciemności schodzi moja dusza
+3mw	Jan Kasprowicz	W ciemności schodzi moja dusza
+3mx	Jan Kasprowicz	W ciemności schodzi moja dusza
+3my	Jan Kasprowicz	W ciemności schodzi moja dusza
+3mz	Jan Kasprowicz	W ciemności schodzi moja dusza
+3n0	Juliusz Słowacki	W dziecinne moje cudne lata…
+3n1	Kazimierz Przerwa-Tetmajer	W jesieni
+3n2	Charles Cros	W knajpie
+3n3	Bolesław Leśmian	Łąka
+3n4	Detlev von Liliencron	W mieście wielkim
+3n5	Max Dauthendey	[W moje oczy — popiół prószy…]
+3n6	Tadeusz Miciński	W pośród Raju
+3n7	Tadeusz Miciński	Zatoka tęcz
+3n8	Tadeusz Miciński	In loco tormentorum
+3n9	Tadeusz Miciński	Strąceni z niebiosów
+3na	Tadeusz Miciński	Białe róże krwi
+3nb	Tadeusz Miciński	Zatoka tęcz
+3nc	Tadeusz Miciński	Strąceni z niebiosów
+3nd	Tadeusz Miciński	W pośród Raju
+3ne	Tadeusz Miciński	Zatoka tęcz
+3nf	Tadeusz Miciński	Już świt
+3ng	Tadeusz Miciński	W pośród Raju
+3nh	Tadeusz Miciński	Noce polarne
+3ni	Tadeusz Miciński	Zatoka tęcz
+3nj	Tadeusz Miciński	Noce polarne
+3nk	Tadeusz Miciński	W pośród Raju
+3nl	Tadeusz Miciński	W pośród Raju
+3nm	Tadeusz Miciński	Strąceni z niebiosów
+3nn	Tadeusz Miciński	Strąceni z niebiosów
+3no	Tadeusz Miciński	Już świt
+3np	Tadeusz Miciński	Zatoka tęcz
+3nq	Tadeusz Miciński	Strąceni z niebiosów
+3nr	Tadeusz Miciński	Strąceni z niebiosów
+3ns	Tadeusz Miciński	Strąceni z niebiosów
+3nt	Tadeusz Miciński	Już świt
+3nu	Tadeusz Miciński	Strąceni z niebiosów
+3nv	Tadeusz Miciński	Strąceni z niebiosów
+3nw	Tadeusz Miciński	In loco tormentorum
+3nx	Tadeusz Miciński	Zatoka tęcz
+3ny	Tadeusz Miciński	Zatoka tęcz
+3nz	Tadeusz Miciński	Zatoka tęcz
+3o0	Tadeusz Miciński	In loco tormentorum
+3o1	Tadeusz Miciński	Noce polarne
+3o2	Tadeusz Miciński	In loco tormentorum
+3o3	Tadeusz Miciński	W pośród Raju
+3o4	Tadeusz Miciński	Zatoka tęcz
+3o5	Tadeusz Miciński	Już świt
+3o6	Tadeusz Miciński	Strąceni z niebiosów
+3o7	Tadeusz Miciński	W pośród Raju
+3o8	Tadeusz Miciński	(Powiało na mnie morze snów…)
+3o9	Tadeusz Miciński	Już świt
+3oa	Tadeusz Miciński	In loco tormentorum
+3ob	Tadeusz Miciński	In loco tormentorum
+3oc	Tadeusz Miciński	Już świt
+3od	Tadeusz Miciński	In loco tormentorum
+3oe	Tadeusz Miciński	Białe róże krwi
+3of	Tadeusz Miciński	W pośród Raju
+3og	Tadeusz Miciński	W pośród Raju
+3oh	Tadeusz Miciński	W pośród Raju
+3oi	Tadeusz Miciński	Białe róże krwi
+3oj	Tadeusz Miciński	In loco tormentorum
+3ok	Tadeusz Miciński	Noce polarne
+3ol	Tadeusz Miciński	In loco tormentorum
+3om	Tadeusz Miciński	Noce polarne
+3on	Tadeusz Miciński	Już świt
+3oo	Tadeusz Miciński	Zatoka tęcz
+3op	Tadeusz Miciński	Zatoka tęcz
+3oq	Tadeusz Miciński	W pośród Raju
+3or	Tadeusz Miciński	Zatoka tęcz
+3os	Tadeusz Miciński	W pośród Raju
+3ot	Tadeusz Miciński	In loco tormentorum
+3ou	Tadeusz Miciński	Noce polarne
+3ov	Tadeusz Miciński	Już świt
+3ow	Tadeusz Miciński	Noce polarne
+3ox	August von Platen	W noc noworoczną
+3oy	Maria Konopnicka	W obronie Jaśka
+3oz	Juliusz Słowacki	W ostatni dzień — w ostatni dzień…
+3p0	Juliusz Słowacki	W pamiętniku Zofii Bobrówny
+3p1	Maria Konopnicka	„W Państwo”
+3p2	Maria Konopnicka	W polu (I czego im braknie?)
+3p3	Maria Konopnicka	W ślepą babkę
+3p4	Maria Konopnicka	W szkole
+3p5	Juliusz Słowacki	W sztambuchu Marii Wodzińskiej
+3p6	Maria Konopnicka	W zasadzce
+3p7	W żłobie leży…	W żłobie leży, któż pobieży,
+3p8	Bolesław Leśmian	Łąka
+3p9	Casimir Delavigne	Warszawianka 1831
+3pa	Wacław Święcicki	Warszawianka 1905
+3pb	Kazimierz Przerwa-Tetmajer	Wędrowcy
+3pc	Jerzy Kamil Weintraub-Krzyżanowski	*** [Ach, jak ogłusza to wszystko…]
+3pd	Jerzy Kamil Weintraub-Krzyżanowski	Do Krzysztofa Baczyńskiego albo elegia nocy zimowej
+3pe	Jerzy Kamil Weintraub-Krzyżanowski	Ja, smutnej ziemi syn
+3pf	Jerzy Kamil Weintraub-Krzyżanowski	Kołysanka podziemna
+3pg	Jerzy Kamil Weintraub-Krzyżanowski	Popiół
+3ph	Jerzy Kamil Weintraub-Krzyżanowski	*** (Rośniesz, nocy kamienna…)
+3pi	Jerzy Kamil Weintraub-Krzyżanowski	Wiersze grudniowe
+3pj	Hadassa Estera Weiss	Dwie Żydówki
+3pk	Hadassa Estera Weiss	Ich pięcioro
+3pl	Maria Konopnicka	Wesele w maju
+3pm	Maria Konopnicka	Wesoły Janek
+3pn	Maria Konopnicka	Wianki
+3po	Henryk Zbierzchowski	Impresye
+3pp	Kazimierz Przerwa-Tetmajer	Widok ze Świnicy do Doliny Wierchcichej
+3pq	Maria Więckowska	Córce — Mirusi
+3pr	Maria Więckowska	Europa
+3ps	Maria Więckowska	[Garstko maleńka…]
+3pt	Maria Więckowska	Oskarżam
+3pu	Maria Więckowska	Pamięci córki
+3pv	Maria Więckowska	[Wysepko mała…]
+3pw	Maria Konopnicka	Wieczór w lesie
+3px	Maria Konopnicka	Wieczorny pacierz
+3py	Bolesław Leśmian	Poematy zazdrosne
+3pz	Adam Wiedemann	Samczyk
+3q0	Adam Wiedemann	Samczyk
+3q1	Adam Wiedemann	Samczyk
+3q2	Adam Wiedemann	Samczyk
+3q3	Adam Wiedemann	Samczyk
+3q4	Adam Wiedemann	Samczyk
+3q5	Adam Wiedemann	Samczyk
+3q6	Adam Wiedemann	Samczyk
+3q7	Adam Wiedemann	Samczyk
+3q8	Adam Wiedemann	Samczyk
+3q9	Adam Wiedemann	Samczyk
+3qa	Adam Wiedemann	Samczyk
+3qb	Adam Wiedemann	Samczyk
+3qc	Adam Wiedemann	Samczyk
+3qd	Adam Wiedemann	Samczyk
+3qe	Adam Wiedemann	Samczyk
+3qf	Adam Wiedemann	Samczyk
+3qg	Adam Wiedemann	Samczyk
+3qh	Adam Wiedemann	Samczyk
+3qi	Adam Wiedemann	Samczyk
+3qj	Adam Wiedemann	Samczyk
+3qk	Adam Wiedemann	Samczyk
+3ql	Adam Wiedemann	Samczyk
+3qm	Adam Wiedemann	Samczyk
+3qn	Adam Wiedemann	Samczyk
+3qo	Adam Wiedemann	Samczyk
+3qp	Adam Wiedemann	Samczyk
+3qq	Adam Wiedemann	Samczyk
+3qr	Adam Wiedemann	Samczyk
+3qs	Adam Wiedemann	Samczyk
+3qt	Adam Wiedemann	Samczyk
+3qu	Adam Wiedemann	Samczyk
+3qv	Adam Wiedemann	Samczyk
+3qw	Adam Wiedemann	Samczyk
+3qx	Adam Wiedemann	Samczyk
+3qy	Adam Wiedemann	Samczyk
+3qz	Adam Wiedemann	Samczyk
+3r0	Adam Wiedemann	Samczyk
+3r1	Adam Wiedemann	Samczyk
+3r2	Adam Wiedemann	Samczyk
+3r3	Adam Wiedemann	Samczyk
+3r4	Adam Wiedemann	Samczyk
+3r5	Adam Wiedemann	Samczyk
+3r6	Adam Wiedemann	Samczyk
+3r7	Juliusz Słowacki	Wielcyśmy byli i śmieszniśmy byli…
+3r8	François Villon	Wielki Testament
+3r9	Marceline Desbordes-Valmore	Wieniec z liści odarty
+3ra	Juliusz Słowacki	Wierzę
+3rb	Oliver Goldsmith	Wieś opuszczona
+3rc	Juliusz Słowacki	Wiesz, Panie, iżem zbiegał świat szeroki…
+3rd	Wincenty Korab-Brzozowski	Świetlanej pamięci
+3re	Wincenty Korab-Brzozowski	Symbole
+3rf	Wincenty Korab-Brzozowski	Węglem smutku i zgryzoty
+3rg	Stanisław Ignacy Witkiewicz	A Portrait Company
+3rh	Agnieszka Wolny-Hamkało	Nikon i Leica
+3ri	Agnieszka Wolny-Hamkało	Nikon i Leica
+3rj	Agnieszka Wolny-Hamkało	Nikon i Leica
+3rk	Agnieszka Wolny-Hamkało	Nikon i Leica
+3rl	Agnieszka Wolny-Hamkało	Nikon i Leica
+3rm	Agnieszka Wolny-Hamkało	Nikon i Leica
+3rn	Agnieszka Wolny-Hamkało	Nikon i Leica
+3ro	Agnieszka Wolny-Hamkało	Nikon i Leica
+3rp	Agnieszka Wolny-Hamkało	Nikon i Leica
+3rq	Agnieszka Wolny-Hamkało	Nikon i Leica
+3rr	Agnieszka Wolny-Hamkało	Nikon i Leica
+3rs	Agnieszka Wolny-Hamkało	Nikon i Leica
+3rt	Agnieszka Wolny-Hamkało	Nikon i Leica
+3ru	Agnieszka Wolny-Hamkało	Nikon i Leica
+3rv	Agnieszka Wolny-Hamkało	Nikon i Leica
+3rw	Agnieszka Wolny-Hamkało	Nikon i Leica
+3rx	Agnieszka Wolny-Hamkało	Nikon i Leica
+3ry	Agnieszka Wolny-Hamkało	Nikon i Leica
+3rz	Agnieszka Wolny-Hamkało	Nikon i Leica
+3s0	Agnieszka Wolny-Hamkało	Nikon i Leica
+3s1	Agnieszka Wolny-Hamkało	Nikon i Leica
+3s2	Agnieszka Wolny-Hamkało	Nikon i Leica
+3s3	Agnieszka Wolny-Hamkało	Nikon i Leica
+3s4	Agnieszka Wolny-Hamkało	Nikon i Leica
+3s5	Agnieszka Wolny-Hamkało	Nikon i Leica
+3s6	Agnieszka Wolny-Hamkało	Nikon i Leica
+3s7	Agnieszka Wolny-Hamkało	Nochal czarodziej
+3s8	Agnieszka Wolny-Hamkało	Nikon i Leica
+3s9	Agnieszka Wolny-Hamkało	Nikon i Leica
+3sa	Agnieszka Wolny-Hamkało	Nikon i Leica
+3sb	Agnieszka Wolny-Hamkało	Nikon i Leica
+3sc	Agnieszka Wolny-Hamkało	Nikon i Leica
+3sd	Agnieszka Wolny-Hamkało	Nikon i Leica
+3se	Agnieszka Wolny-Hamkało	Nikon i Leica
+3sf	Agnieszka Wolny-Hamkało	Nikon i Leica
+3sg	Agnieszka Wolny-Hamkało	Nikon i Leica
+3sh	Agnieszka Wolny-Hamkało	Nikon i Leica
+3si	Agnieszka Wolny-Hamkało	Nikon i Leica
+3sj	Agnieszka Wolny-Hamkało	Nikon i Leica
+3sk	Agnieszka Wolny-Hamkało	Nikon i Leica
+3sl	Agnieszka Wolny-Hamkało	Nikon i Leica
+3sm	Agnieszka Wolny-Hamkało	Nikon i Leica
+3sn	Agnieszka Wolny-Hamkało	Nikon i Leica
+3so	Agnieszka Wolny-Hamkało	Nikon i Leica
+3sp	Agnieszka Wolny-Hamkało	Nikon i Leica
+3sq	Agnieszka Wolny-Hamkało	Nikon i Leica
+3sr	Agnieszka Wolny-Hamkało	Nikon i Leica
+3ss	Maryla Wolska	Święto Słońca
+3st	Maryla Wolska	Symfonia jesienna
+3su	Maryla Wolska	Szara godzina
+3sv	Wacław Wolski	Ucieczka przed życiem
+3sw	Wacław Wolski	Uczta upiorów
+3sx	Wacław Wolski	Wiec
+3sy	Juliusz Słowacki	Wspomnienie Pani De St. Marcel z domu Chauveaux
+3sz	Wśród nocnej ciszy	Wśród nocnej ciszy głos się rozchodzi:
+3t0	Maria Konopnicka	Wstań o dziecię…
+3t1	Kazimierz Przerwa-Tetmajer	Wszechmocny Bóg
+3t2	Julisz Słowacki	Wyjdzie stu robotników…
+3t3	Charles Baudelaire	Wyrzut pośmiertny
+3t4	Stanisław Wyspiański	[Był u mnie ktoś]
+3t5	Stanisław Wyspiański	[Czekam na cię…]
+3t6	Stanisław Wyspiański	[Czekam…]
+3t7	Stanisław Wyspiański	Gdy przyjdzie mi ten świat porzucić
+3t8	Stanisław Wyspiański	[Habt ach!]
+3t9	Stanisław Wyspiański	Hymn
+3ta	Stanisław Wyspiański	I ciągle widzę ich twarze
+3tb	Stanisław Wyspiański	[I Want No Weeping at My Grave]
+3tc	Stanisław Wyspiański	(Jak pomnę…)
+3td	Stanisław Wyspiański	[Kamienna była ława]
+3te	Stanisław Wyspiański	[Mój uśmiech…]
+3tf	Stanisław Wyspiański	Nad Morskiem Okiem
+3tg	Stanisław Wyspiański	Niech nikt nad grobem mi nie płacze
+3th	Stanisław Wyspiański	Pociecho moja ty, książeczko…
+3ti	Stanisław Wyspiański	[Poszedłem błądzić w nieznane mi światy]
+3tj	Stanisław Wyspiański	[tym, że krótką chwilę]
+3tk	Stanisław Wyspiański	Wesoły jestem, wesoły
+3tl	Stanisław Wyspiański	Wierszyk wakacyjny
+3tm	Jan Kasprowicz	Z chałupy
+3tn	Jan Kasprowicz	Z chałupy
+3to	Jan Kasprowicz	Z chałupy
+3tp	Jan Kasprowicz	Z chałupy
+3tq	Jan Kasprowicz	Z chałupy
+3tr	Jan Kasprowicz	Z chałupy
+3ts	Jan Kasprowicz	Z chałupy
+3tt	Jan Kasprowicz	Z chałupy
+3tu	Jan Kasprowicz	Z chałupy
+3tv	Jan Kasprowicz	Z chałupy
+3tw	Jan Kasprowicz	Z chałupy
+3tx	Jan Kasprowicz	Z chałupy
+3ty	Jan Kasprowicz	Z chałupy
+3tz	Jan Kasprowicz	Z chałupy
+3u0	Jan Kasprowicz	Z chałupy
+3u1	Maria Konopnicka	Z łąki do domu
+3u2	Maria Konopnicka	Z lasu
+3u3	Juliusz Słowacki	Z listu do księgarza
+3u4	Z Narodzenia Pana…	Z Narodzenia Pana dzień dziś wesoły,
+3u5	Jan Kasprowicz	Z wichrów i hal, Z Alp
+3u6	Jan Kasprowicz	Z wichrów i hal, Z Alp
+3u7	Jan Kasprowicz	Z wichrów i hal, Z Alp
+3u8	Jan Kasprowicz	Z wichrów i hal, Z Alp
+3u9	Jan Kasprowicz	Z wichrów i hal, Z Alp
+3ua	Jan Kasprowicz	Z wichrów i hal, Z Alp
+3ub	Jan Kasprowicz	Z wichrów i hal, Z Alp
+3uc	Jan Kasprowicz	Z wichrów i hal, Z Alp
+3ud	Jan Kasprowicz	Z wichrów i hal, Z Tatr
+3ue	Jan Kasprowicz	Z wichrów i hal, Z Tatr
+3uf	Jan Kasprowicz	Z wichrów i hal, Z Tatr
+3ug	Jan Kasprowicz	Z wichrów i hal, Z Tatr
+3uh	Jan Kasprowicz	Z wichrów i hal, Z Tatr
+3ui	Jan Kasprowicz	Z wichrów i hal, Z Tatr
+3uj	Michał Bałucki	Za chlebem (Góralu, czy ci nie żal…)
+3uk	Maria Konopnicka	Za kółkiem
+3ul	Za Niemen hen precz…	Za Niemen hen precz,
+3um	Maria Konopnicka	Żabka Helusi
+3un	Juliusz Słowacki	Zachwycenie
+3uo	Adam Asnyk	Zaczarowana Królewna
+3up	Charles Baudelaire	Zagubienie aureoli
+3uq	Seweryn Goszczyński	Zamek kaniowski
+3ur	Maria Konopnicka	Zamiary Stasia
+3us	Kazimiera Zawistowska	Chciałabym z tobą poszedłszy…
+3ut	Kazimiera Zawistowska	Epitaphium
+3uu	Kazimiera Zawistowska	Herodiada
+3uv	Kazimiera Zawistowska	Jesienną nocą
+3uw	Kazimiera Zawistowska	Lwy
+3ux	Kazimiera Zawistowska	Magdalena
+3uy	Kazimiera Zawistowska	Moja dusza
+3uz	Kazimiera Zawistowska	Nimfa
+3v0	Kazimiera Zawistowska	Tobie
+3v1	Kazimiera Zawistowska	Z wizji piekielnych
+3v2	Kazimierz Przerwa-Tetmajer	Zbrodnie
+3v3	Kazimierz Przerwa-Tetmajer	Zbroja Zawiszy
+3v4	Charles Baudelaire	Zegar
+3v5	Maria Konopnicka	Zła zima
+3v6	Maria Konopnicka	Zmarźlak
+3v7	Juliusz Słowacki	Żmija
+3v8	Eliza Orzeszkowa	Z myśli wieczornych
+3v9	Maria Konopnicka	Zosia i jej mopsy
+3va	Maria Konopnicka	Zosia na wsi
+3vb	Fryderyk Hölderlin	Źrałe są w ogniu nurzane…
+3vc	Maria Konopnicka	Żuczek
+3vd	Jerzy Żuławski	Moja piosnka
+3ve	Jerzy Żuławski	Moje życie
+3vf	Jerzy Żuławski	Nad gruzami
+3vg	Jerzy Żuławski	Nie warto…
+3vh	Jerzy Żuławski	W prosektorium
+3vi	Jerzy Żuławski	„Z czary młodości”
+3vj	Maria Konopnicka	Zwierzenia Janki
+3vk	Charles Cros	Życie wymarzone
+3vl	Kazimierz Przerwa-Tetmajer	Życie
