@@ -605,7 +605,7 @@ function rhymeSyl(lines,odAt){const secs=[];let cur=[];
     const col=new Map();let gn=0;SY.forEach((x,k)=>{if(!mark[k].size)return;out.set(x.i,[...mark[k]].sort((a,b)=>a-b).map(j=>{const r=fnd(k+':'+j);if(!col.has(r))col.set(r,gn++);return {s:x.syl[j].s,e:x.syl[j].e,c:x.syl[j].c,g:col.get(r)}}).reduce((acc,t)=>{const l=acc[acc.length-1];if(l&&l.g===t.g&&l.e===t.s)l.e=t.e;else acc.push(t);return acc},[]))})});
   return out}
 /* chórki: WIELKIE LITERY (min. 2 litery w słowie) = kilka wokali; liczą się jak zwykły tekst, tylko inny kolor */
-const CHRX=/(?<![A-Za-ząćęłńóśźżĄĆĘŁŃÓŚŹŻ])([A-ZĄĆĘŁŃÓŚŹŻ]{2,}(?:[\s,.!?'-]+[A-ZĄĆĘŁŃÓŚŹŻ]{2,})*)(?![A-Za-ząćęłńóśźżĄĆĘŁŃÓŚŹŻ])/g;
+const CHRX=/(?<![A-Za-ząćęłńóśźżĄĆĘŁŃÓŚŹŻ])([A-ZĄĆĘŁŃÓŚŹŻ]{2,}(?:[\s,.!?'-]+(?:[A-ZĄĆĘŁŃÓŚŹŻ](?=[\s,.!?'-]+[A-ZĄĆĘŁŃÓŚŹŻ]{2,})|[A-ZĄĆĘŁŃÓŚŹŻ]{2,}))*)(?![A-Za-ząćęłńóśźżĄĆĘŁŃÓŚŹŻ])/g;
 const chEsc=t=>esc(t).replace(CHRX,'<span class="ch">$1</span>');
 function rhTxt(line,seg,list,mode){
   if(mode==='smart')return (list&&list.length)?rhTxtG(line,seg,list,t=>`rh rh${t.g%10} ex`):seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:chEsc(x.t)).join('');
