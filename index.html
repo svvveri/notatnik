@@ -160,6 +160,10 @@ body[data-view="edit"] #fab{display:none}
 #rmodes button.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
 #rmodes button.on b{color:inherit;opacity:.6}
 #scroll{touch-action:pan-y}
+.wcard{margin:0 0 14px;padding:12px 12px 6px;border-radius:14px;background:var(--bg);border:1px solid var(--line)}.wcard h4{margin:0 0 8px;font:700 15px var(--font-d)}
+.wrow{display:flex;flex-direction:column;gap:2px;padding:7px 0;border-top:1px solid var(--line)}.wrow:first-of-type{border-top:0}.wrow b{font-size:15px}.wrow span{font-size:13.5px;color:var(--dim)}.wrow i{font-style:normal;color:var(--acc)}
+.wline{padding:10px 12px;border-radius:12px;background:var(--chip);font-size:17px;line-height:1.4;margin:0 0 6px}code{font-family:ui-monospace,monospace;background:var(--chip);padding:1px 6px;border-radius:6px}
+.wd summary span{font-weight:400;color:var(--dim);font-size:13px;margin-left:6px}
 .wf{margin:0 0 16px}.wf h4{margin:0 0 6px;font:700 15px var(--font-d)}.wf h4 span{font:400 12px var(--font);color:var(--dim);margin-left:6px}
 .wr{padding:8px 10px;margin:0 0 6px;border-radius:10px;background:var(--chip);font-size:14.5px;line-height:1.35;cursor:pointer}.wr b{color:var(--acc);margin-right:6px}.wr i{font-style:normal;color:var(--dim);font-size:12px;margin-left:6px}
 .wd{margin:0 0 8px;padding:8px 12px;border-radius:12px;background:var(--chip)}.wd summary{font-weight:600;cursor:pointer}.wd p{margin:8px 0 0;font-size:14.5px;line-height:1.4}
@@ -211,6 +215,14 @@ body[data-view="edit"] #fab{display:none}
 #keyGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 #keyGrid button{padding:12px 0;border-radius:11px;background:var(--chip);font-size:16px;font-weight:600}
 #keyGrid button.on{background:var(--acc-fill);color:var(--on-acc)}
+#mirror .rh{border-radius:5px;background:hsl(var(--rc) 62% 52% / .30);box-shadow:0 0 0 1.5px hsl(var(--rc) 62% 52% / .30)}
+#mirror .rh.as{background:hsl(var(--rc) 62% 52% / .15);box-shadow:0 0 0 1.5px hsl(var(--rc) 62% 52% / .15)}
+.rh0{--rc:152}.rh1{--rc:188}.rh2{--rc:285}.rh3{--rc:330}.rh4{--rc:22}.rh5{--rc:100}.rh6{--rc:252}.rh7{--rc:350}
+#verseBtns{position:absolute;inset:0;pointer-events:none;z-index:2}
+.vbtn{position:absolute;left:calc(100% - 22px);width:22px;height:22px;border-radius:50%;pointer-events:auto;color:var(--faint);font-size:12px;line-height:1;display:grid;place-items:center;opacity:.55}.vbtn:active{background:var(--acc-fill);color:var(--on-acc);opacity:1}
+#mirror .ml.od{color:var(--dim);font-style:italic}#mirror .ml.od.first{border-top:1px dashed var(--line);margin-top:6px;padding-top:6px}
+#mirror .ml.odh{color:var(--faint);font-style:italic}#struct button.od{color:var(--dim)}
+#mirror .ml i{width:30px;text-align:left}
 #labBtns{position:absolute;inset:0;pointer-events:none;z-index:2}
 .lmic{position:absolute;left:calc(100% - 36px);width:30px;height:30px;border-radius:50%;pointer-events:auto;color:var(--acc);border:1px solid var(--line);background:var(--bg);display:grid;place-items:center}
 .lmic:active{background:var(--acc-fill);color:var(--on-acc)}
@@ -298,6 +310,7 @@ body[data-view="edit"] #fab{display:none}
         <div class="wrap" id="wrap">
           <div id="mirror" aria-hidden="true"></div>
           <div id="labBtns"></div>
+          <div id="verseBtns"></div>
           <textarea id="body" spellcheck="false" placeholder="Pisz… Nawias ( ) to adlib, „Refren:” albo „Verse 1” zaczyna część." aria-label="Tekst"></textarea>
         </div>
       </div>
@@ -518,28 +531,80 @@ function renderTools(){const n=T.get(cur);if(!n)return;
   const km=n.klucz?String(n.klucz).split(' '):null;
   k.innerHTML=km?`<b>${esc(km[0])}</b> ${esc(km.slice(1).join(' '))}`:'Tonacja';k.classList.toggle('set',!!km);
   const rb=$('#recBtn'),rc=(n.nagrania||[]).length;rb.innerHTML=rc?`<b>♪ ${rc}</b> nagr.`:'♪ Nagrania';rb.classList.toggle('set',!!rc);undoState()}
+/* odrzuty: wersy "na dole" (luźne myśli po głównym tekście). Wykrywane po: znaczniku (---, odrzuty:), dwóch pustych liniach przed blokiem bez nagłówka, albo końcowym krótkim bloku, który nie rymuje się z resztą */
+const RKC=new Map();function rk1(w){let r=RKC.get(w);if(r===undefined){r=rkey(w)||null;RKC.set(w,r)}return r}
+/* kolorowanie rymów w tekście: w obrębie sekcji słowa o tej samej końcówce (dokładny rym, także wewnątrz wersu) i końcówki wersów zgodne samogłoskowo (asonans) dostają wspólny kolor */
+function rhyColors(lines,odAt){const secs=[];let cur=[];
+  lines.forEach((l,i)=>{if(odAt>=0&&i>=odAt)return;if(isLabel(l)){if(cur.length)secs.push(cur);cur=[];return}if(!l.trim()||/^\s*(#|\/\/)/.test(l)||/^-[^\s-]/.test(l)||/^\s*https?:/i.test(l))return;cur.push(i)});if(cur.length)secs.push(cur);
+  const out=new Map();
+  secs.forEach(S=>{const toks=[];
+    S.forEach(i=>{const l=lines[i],pr=pairsOf(l),re=/[a-ząćęłńóśźżéèäöü']+/gi;let m;const arr=[];
+      while((m=re.exec(l))){const st=m.index,en=st+m[0].length;if(pr.some(([a,z])=>st>=a&&st<=z))continue;
+        const w=m[0].toLowerCase().replace(/([aeiouyąęó])\1{2,}/g,'$1').replace(/'/g,'');if(!/[aeiouyąęó]/.test(w))continue;arr.push({i,s:st,e:en,w})}
+      arr.forEach((t,k)=>{t.last=k===arr.length-1});toks.push(...arr)});
+    const ex=new Map(),asn=new Map();
+    toks.forEach(t=>{const r=rk1(t.w);if(!r)return;t.r=r;if(!t.last&&sylWord(t.w)<2)return;
+      (ex.get(r.tail)||ex.set(r.tail,[]).get(r.tail)).push(t);
+      if(t.last){const ak=skelOf(r.tail)+'|'+trailOf(r.tail).slice(-1);(asn.get(ak)||asn.set(ak,[]).get(ak)).push(t)}});
+    let ci=0;const put=(t,c,k)=>{if(t.c!==undefined)return;t.c=c;t.k=k;(out.get(t.i)||out.set(t.i,[]).get(t.i)).push(t)};
+    ex.forEach(g=>{if(new Set(g.map(t=>t.w)).size<2)return;const c=ci++%8;g.forEach(t=>put(t,c,'ex'))});
+    const akc=new Map();ex.forEach(g=>g.forEach(t=>{if(t.c!==undefined&&t.last){const ak=skelOf(t.r.tail)+'|'+trailOf(t.r.tail).slice(-1);if(!akc.has(ak))akc.set(ak,t.c)}}));
+    toks.forEach(t=>{if(t.last&&t.c===undefined&&t.r){const ak=skelOf(t.r.tail)+'|'+trailOf(t.r.tail).slice(-1);if(akc.has(ak))put(t,akc.get(ak),'as')}});
+    asn.forEach(g=>{const f=g.filter(t=>t.c===undefined);if(f.length<2||new Set(f.map(t=>t.w)).size<2)return;const c=ci++%8;f.forEach(t=>put(t,c,'as'))})});
+  out.forEach(a=>a.sort((x,y)=>x.s-y.s));return out}
+function rhTxt(line,seg,list){if(!list||!list.length)return seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:esc(x.t)).join('');
+  let pos=0,h='';
+  for(const x of seg){const st=pos,en=pos+x.t.length;pos=en;
+    if(x.ad){h+=`<span class="ad">${esc(x.t)}</span>`;continue}
+    let p=st;for(const t of list){if(t.s<st||t.e>en)continue;h+=esc(line.slice(p,t.s))+`<span class="rh rh${t.c} ${t.k}">${esc(line.slice(t.s,t.e))}</span>`;p=t.e}
+    h+=esc(line.slice(p,en))}
+  return h}
+function findOdrzut(lines){
+  const mk=/^\s*(-{3,}|={3,}|\*{3,}|_{3,}|\/{3,}|#{3,}|(odrzuty|odrzut|szkice|notatki|pomysły|na później|reszta)\s*:?)\s*$/i;
+  for(let i=0;i<lines.length;i++)if(mk.test(lines[i]))return {at:i,mark:true};
+  const isV=l=>l.trim()&&!isLabel(l)&&!/^\s*(#|\/\/)/.test(l)&&!/^\s*https?:\/\//i.test(l);
+  const nv=(a,b)=>lines.slice(a,b).filter(isV).length;
+  let gap=-1;for(let i=2;i<lines.length;i++)if(!lines[i].trim()&&!lines[i-1].trim()&&lines.slice(i+1).some(x=>x.trim()))gap=i;
+  if(gap>0){let st=gap+1;while(st<lines.length&&!lines[st].trim())st++;
+    const blk=lines.slice(st);if(!blk.some(isLabel)&&nv(0,gap)>=4&&nv(st,lines.length)<=16)return {at:st}}
+  if(lines.some(isLabel)){let e=lines.length-1;while(e>=0&&!lines[e].trim())e--;let st=e;while(st>=0&&lines[st].trim())st--;st++;
+    const blk=lines.slice(st,e+1);
+    if(st>1&&!blk.some(isLabel)&&blk.length<=6&&nv(0,st)>=6&&lines.slice(0,st).some(isLabel)){
+      const last=x=>{const w=wordsOf(parseLine(x).seg.filter(y=>!y.ad).map(y=>y.t).join(' '));return w[w.length-1]||''};
+      const prev=lines.slice(0,st).filter(isV).slice(-4).map(last),bl=blk.filter(isV).map(last);
+      const rh=(a,b)=>{if(!a||!b||a===b)return false;const x=rkey(a),y=rkey(b);return !!(x&&y&&(x.tail===y.tail||(skelOf(x.tail)===skelOf(y.tail)&&trailOf(x.tail).slice(-1)===trailOf(y.tail).slice(-1))))};
+      const any=bl.some(w=>prev.some(p=>rh(w,p)))||bl.some((w,i)=>bl.some((v,j)=>j>i&&rh(w,v)));
+      if(!any)return {at:st}}}
+  return null}
 function refit(){const b=$('#body');b.style.height='auto';b.style.height=Math.max(b.scrollHeight,Math.round(window.innerHeight*.46))+'px';
-  const n=T.get(cur);const lines=b.value.split('\n');let wers=0,syl=0,adSyl=0;
-  const secs=[{name:'Początek',idx:0,n:0,implicit:true}];let sec=secs[0];
+  const n=T.get(cur);const lines=b.value.split('\n');let wers=0,syl=0,adSyl=0,odN=0;
+  const OD=findOdrzut(lines),odAt=OD?OD.at:-1;const RC=VS.rh?rhyColors(lines,odAt):new Map();
+  const secs=[{name:'Początek',idx:0,n:0,implicit:true}];let sec=secs[0];const verses=[];
   const kind=l=>isLabel(l)?'lab':(/^\s*(#|\/\/)/.test(l)||/^\s*https?:\/\/\S+\s*$/i.test(l))?'cm':/^-[^\s-]/.test(l)?'st':'';
   $('#mirror').innerHTML=lines.map((l,idx)=>{
-    const no=VS.nums?`<span class="no">${idx+1}</span>`:'';const kd=kind(l);
-    if(kd==='lab'){sec={name:labName(l),idx,n:0};secs.push(sec);return `<div class="ml lab">${no}${esc(l)}</div>`}
-    if(kd==='cm')return `<div class="ml cm">${no}${esc(l)}</div>`;
-    if(kd==='st')return `<div class="ml st">${no}${esc(l)}<i>odrzut</i></div>`;
+    const kd=kind(l),inOd=odAt>=0&&idx>=odAt;
+    if(OD&&OD.mark&&idx===odAt)return `<div class="ml cm odh">${esc(l)}</div>`;
+    if(inOd&&l.trim()&&kd!=='lab'){odN++;return `<div class="ml od${idx===odAt?' first':''}">${esc(l)}</div>`}
+    if(kd==='lab'){sec={name:labName(l),idx,n:0};secs.push(sec);return `<div class="ml lab">${esc(l)}</div>`}
+    if(kd==='cm')return `<div class="ml cm">${esc(l)}</div>`;
+    if(kd==='st'){odN++;return `<div class="ml st">${esc(l)}<i>odrzut</i></div>`}
     const p=parseLine(l);
-    if(p.hasMain){wers++;syl+=p.main;sec.n++}
+    if(p.hasMain){wers++;syl+=p.main;sec.n++;verses.push({idx,no:sec.n,sec:sec.name})}
     adSyl+=p.ad;
-    const txt=p.seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:esc(x.t)).join('');
+    const no=(VS.nums&&p.hasMain)?`<span class="no">${sec.n}</span>`:'';
+    const txt=rhTxt(l,p.seg,RC.get(idx));
     const cnt=(p.hasMain||p.ad)?`<i>${p.hasMain?p.main:''}${p.ad?`<em>+${p.ad}</em>`:''}</i>`:'';
     return `<div class="ml">${no}${txt||'&nbsp;'}${cnt}</div>`}).join('');
   const takt=n&&n.bpm?` · <span class="fl">takt ${(240/n.bpm).toFixed(1).replace('.',',')} s</span>`:'';
-  $('#stat').innerHTML=`${wers} wersów · ${syl} sylab`+(wers?` · śr. ${(syl/wers).toFixed(1).replace('.',',')}/wers`:'')+(adSyl?` · <span class="adn">adlib ${adSyl}</span>`:'')+takt;
-  placeLabBtns(secs);
+  $('#stat').innerHTML=`${wers} wersów · ${syl} sylab`+(wers?` · śr. ${(syl/wers).toFixed(1).replace('.',',')}/wers`:'')+(adSyl?` · <span class="adn">adlib ${adSyl}</span>`:'')+(odN?` · <span class="fl">odrzuty ${odN}</span>`:'')+takt;
+  placeLabBtns(secs);placeVerseBtns(verses);
   const show=secs.filter(x=>!x.implicit||x.n);
-  $('#struct').innerHTML=secs.length>1?show.map(x=>`<button type="button" data-i="${x.idx}">${esc(x.name)}<b>${x.n} w.</b></button>`).join(''):'';
+  $('#struct').innerHTML=(secs.length>1||odN)?show.map(x=>`<button type="button" data-i="${x.idx}">${esc(x.name)}<b>${x.n} w.</b></button>`).join('')+(odN?`<button type="button" data-i="${odAt}" class="od">odrzuty<b>${odN}</b></button>`:''):'';
   $('#struct').querySelectorAll('button').forEach(e=>e.onclick=()=>{const el=$('#mirror').children[+e.dataset.i];if(!el)return;
     $('#scroll').scrollTop=$('#wrap').offsetTop+el.offsetTop-$('#tools').offsetHeight-10})}
+function placeVerseBtns(vs){const box=$('#verseBtns');if(!box)return;const ch=$('#mirror').children;
+  box.innerHTML=vs.map(v=>{const el=ch[v.idx];if(!el)return'';return `<button class="vbtn" data-i="${v.idx}" style="top:${el.offsetTop+Math.round(el.offsetHeight/2)-11}px" aria-label="Analiza wersu ${v.no}">✦</button>`}).join('');
+  box.querySelectorAll('.vbtn').forEach(b=>b.onclick=()=>sheetWers(+b.dataset.i))}
 let sel={s:0,e:0},sheetRe=null;
 function trackSel(){const b=$('#body');if(document.activeElement===b){sel={s:b.selectionStart,e:b.selectionEnd};selBar()}}
 function selBar(){const bar=$('#selbar'),b=$('#body');if(!bar||!cur)return;const t=b.value.slice(sel.s,sel.e).trim();
@@ -812,7 +877,7 @@ const HIPER=/\b(wiek(i|ów|ami)?|tysi[aą]c(e|ami)? (razy|lat)|milion(y|ów|y ra
 const ONOM=/\b(bum|bam|buch|trach|brzdęk|puf|pif|paf|bzz+|brr+|chlup|plusk|kap-?kap|szum\w*|szept\w*|syk\w*|grzmot\w*|łoskot\w*|trzask\w*|stuk\w*|szelest\w*|miau|hau|kuku|muu+|chrum\w*|brzęcz\w*|skrzyp\w*|świergot\w*|buczeć|wyć|tik-?tak|bęc|łup|dzyń|ding|boom|tarara)\b/i;
 const OXY=/(zimn\w+ ogni\w+|żyw\w+ trup\w*|głośn\w+ cisz\w+|słodk\w+ gorycz\w*|ciepł\w+ lod\w+|gorąc\w+ lód|biał\w+ kruk\w*|otwart\w+ tajemnic\w+|spiesz się powoli|żyjąc umieram|ciemność widoma)/i;
 const FRAZ=['czarna owca','gruba ryba','zimna krew','wziąć nogi za pas','zbić z pantałyku','pięta achillesa','syzyfowa praca','stajnia augiasza','nić ariadny','umywać ręce','krokodyle łzy','sądny dzień','rzeź niewiniątek','trąba jerychońska','poszło jak z płatka','makiem zasiał','kropla w morzu','bułka z masłem','złapać byka za rogi','wiercić dziurę w brzuchu','nie ma róży bez kolców','ani be ani me','jak kamień w wodę','co nagle to po diable','kula u nogi','pod włos','w czepku urodzony','z drzewa spadł','tkwić w martwym punkcie','wyjść na prostą','rzucić na głęboką wodę','siedzieć jak na szpilkach','mieć muchy w nosie','nosić wodę','wilk w owczej skórze','gdzie diabeł mówi dobranoc','coś jak z bicza trzasnął','z głową w chmurach','bić pianę','mieć nosa','dostać kosza','pójść z torbami','biały kruk','spaść z nieba','lać wodę','łapać za słowa','dwa grzyby w barszcz','kto pod kim dołki kopie','nie ruszać z miejsca','po trupach do celu','ręka rękę myje','cisza przed burzą','jak z nut','zęby zjeść na czymś','pod górkę','czarno na białym','na łeb na szyję','od a do z','słowo się rzekło','jak grom z jasnego nieba'];
-function warLinie(){const b=$('#body').value.split('\n');return b.map((t,i)=>{const lab=isLabel(t),cm=/^\s*(#|\/\/)/.test(t)||/^\s*https?:/i.test(t),st=/^-[^\s-]/.test(t);const p=parseLine(t);
+function warLinie(){const b=$('#body').value.split('\n');const OD=findOdrzut(b),od=OD?OD.at:1e9;return b.map((t,i)=>{if(i>=od)return {i,t,lab:false,skip:true,ws:[],last:''};const lab=isLabel(t),cm=/^\s*(#|\/\/)/.test(t)||/^\s*https?:/i.test(t),st=/^-[^\s-]/.test(t);const p=parseLine(t);
   const main=p.seg.filter(x=>!x.ad).map(x=>x.t).join(' ');const ws=wordsOf(main);return {i,t,lab,skip:lab||cm||st||!t.trim(),ws,last:ws[ws.length-1]||''}})}
 function warRhyme(a,b){if(!a||!b||a===b)return a===b&&a?'dokładny':null;const ka=rkey(a),kb=rkey(b);if(!ka||!kb)return null;
   if(ka.tail===kb.tail)return 'dokładny';const ta=ka.tail,tb=kb.tail;
@@ -855,23 +920,38 @@ function warAnaliza(){const L=warLinie(),out=[],strophes=[];let cur=[];
     const ini={};[...new Set(l.ws)].filter(w=>w.length>2).forEach(w=>{const k=w.slice(0,2);(ini[k]=ini[k]||[]).push(w)});
     for(const k in ini)if(ini[k].length>=3){add('aliteracja',n,`„${ini[k].slice(0,4).join(' ')}”`);break}});
   return out}
-let warTab='an',warFig=null,warAI=null;
-function sheetWarsztat(tab){if(tab)warTab=tab;const n=T.get(cur);if(!n)return;
-  const tabs=[['an','Analiza'],['sl','Słownik'],['ai','AI na wers']];
-  const head=`<div class="shHead"><h3>Warsztat</h3><button class="x" id="x" aria-label="Zamknij">×</button></div><div class="pomcats">${tabs.map(([id,l])=>`<button data-w="${id}" class="${warTab===id?'on':''}">${l}</button>`).join('')}</div>`;
-  let body='';
-  if(warTab==='an'){const R=warAnaliza();const by={};R.forEach(r=>(by[r.f]=by[r.f]||[]).push(r));
-    body=Object.keys(by).length?Object.keys(by).map(f=>`<div class="wf"><h4>${esc((SRODKI[f]||{n:f}).n)}<span>${by[f].length}</span></h4>${by[f].slice(0,30).map(r=>`<div class="wr" data-l="${r.lines[0]}"><b>${r.lines.length>1?'linie '+r.lines.join(', '):'linia '+r.lines[0]}</b> ${esc(r.note)}</div>`).join('')}</div>`).join(''):'<div class="hint">Nie znalazłam jeszcze nic do pokazania. Napisz kilka wersów.</div>';
-    body+=`<div class="shBtns"><button id="warAI">Analiza AI całego tekstu (epitety, metafory, inwersje, oksymorony…)</button></div><div id="warAIo">${warAI?warAI:''}</div>`}
-  else if(warTab==='sl'){body=Object.keys(SRODKI).map(f=>{const s=SRODKI[f];return `<details class="wd"><summary>${esc(s.n)}</summary><p>${esc(s.d)}</p><p><b>Do czego:</b> ${esc(s.f)}</p><p><b>Przykład:</b> ${esc(s.e)}</p></details>`}).join('')}
-  else{const figs=['epitet','porownanie','hiperbola','oksymoron','metafora','inwersja','anafora','onomatopeja','aliteracja','ironia','antyteza'];
-    body=`<div class="hint">Zaznacz wers w tekście albo ustaw w nim kursor, wybierz środek, a model Claude zaproponuje warianty tego wersu. Wymaga klucza API (menu ⋯).</div><div class="pomcats" id="warF">${figs.map(f=>`<button data-f="${f}" class="${warFig===f?'on':''}">${esc(SRODKI[f].n)}</button>`).join('')}</div><div class="shBtns"><button id="warGo">Zaproponuj warianty</button></div><div id="warOut"></div>`}
-  openSheet(head+`<div class="warbody">${body}</div>`);
-  $('#x').onclick=closeSheet;
-  $('#sheet').querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>sheetWarsztat(b.dataset.w));
-  $('#sheet').querySelectorAll('.wr').forEach(r=>r.onclick=()=>{const ln=+r.dataset.l,b=$('#body'),L=b.value.split('\n');let s=0;for(let i=0;i<ln-1;i++)s+=L[i].length+1;closeSheet();showTab('text');b.focus();try{b.setSelectionRange(s,s+(L[ln-1]||'').length)}catch(_){}sel={s,e:s+(L[ln-1]||'').length}});
-  if(warTab==='an')$('#warAI').onclick=warAnalizaAI;
-  if(warTab==='ai'){$('#warF').querySelectorAll('button').forEach(b=>b.onclick=()=>{warFig=b.dataset.f;$('#warF').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b))});$('#warGo').onclick=warWariant}}
+const TYP={refren:8,hook:8,chorus:8,zwrotka:16,verse:16,bridge:4,'pre-hook':4,prehook:4,przedrefren:4};
+function warStruct(){const L=warLinie(),out=[];let cur={name:'Początek',v:[]};
+  L.forEach(l=>{if(l.lab){if(cur.v.length||cur.name!=='Początek')out.push(cur);cur={name:labName(l.t),v:[]};return}if(!l.skip&&l.ws.length)cur.v.push(l)});if(cur.v.length||out.length===0)out.push(cur);
+  return out.filter(x=>x.v.length).map(x=>{const sy=x.v.map(l=>sylText(l.t)),av=sy.reduce((a,b)=>a+b,0)/sy.length;let letters=[],n=0;
+    x.v.forEach((l,i)=>{let g=null;for(let j=i-1;j>=0;j--){if(warRhyme(x.v[j].last,l.last)){g=letters[j];break}}letters.push(g||String.fromCharCode(97+(n++%26)))});
+    const key=x.name.toLowerCase().split(/\s+/)[0].replace(/[:\d]/g,'');return {name:x.name,n:x.v.length,av,sch:letters.join('').slice(0,24),typ:TYP[key]}})}
+function warFigChip(f){return SRODKI[f]?SRODKI[f].n:f}
+function sheetWarsztat(){const n=T.get(cur);if(!n)return;const R=warAnaliza(),st=warStruct();const by={};R.filter(r=>r.f!=='rym').forEach(r=>(by[r.f]=by[r.f]||[]).push(r));
+  const rhy=R.filter(r=>r.f==='rym'&&/schemat/.test(r.note)),wh=R.filter(r=>r.f==='bialy');
+  const html=`<div class="shHead"><h3>Warsztat</h3><button class="x" id="x" aria-label="Zamknij">×</button></div><div class="warbody">
+  <div class="wcard"><h4>Struktura utworu</h4>${st.length?st.map(x=>`<div class="wrow"><b>${esc(x.name)}</b><span>${x.n} wersów${x.typ&&x.n!==x.typ?` <i>(zwykle ok. ${x.typ})</i>`:''} · śr. ${x.av.toFixed(1).replace('.',',')} sylab${x.n>=3?' · schemat <code>'+esc(x.sch)+'</code>':''}</span></div>`).join(''):'<div class="hint">Napisz kilka wersów.</div>'}
+   <div class="hint">Odrzuty (luźne wersy na dole) nie wchodzą do liczenia. Oddziel je pustą linią podwójnie albo linią <code>---</code>.</div></div>
+  <div class="wcard"><h4>Rymy w strofach</h4>${rhy.length?rhy.map(r=>`<div class="wr" data-l="${r.lines[0]}">${esc(r.note.replace(/^Strofa (\d+) \(linie ([^)]*)\): /,'Strofa $1, linie $2 → '))}</div>`).join(''):'<div class="hint">Brak wykrytych rymów końcowych.</div>'}${wh.map(r=>`<div class="wr" data-l="${r.lines[0]}">${esc(r.note.replace(/^Strofa (\d+) \(linie ([^)]*)\): /,'Strofa $1, linie $2 → '))}</div>`).join('')}</div>
+  <div class="wcard"><h4>Środki stylistyczne</h4>${Object.keys(by).length?Object.keys(by).map(f=>`<details class="wd"><summary>${esc(warFigChip(f))} <span>${by[f].length}</span></summary>${by[f].slice(0,25).map(r=>`<div class="wr" data-l="${r.lines[0]}"><b>${r.lines.length>1?'linie '+r.lines.join(', '):'linia '+r.lines[0]}</b> ${esc(r.note)}</div>`).join('')}<p class="hint">${esc((SRODKI[f]||{}).d||'')}</p></details>`).join(''):'<div class="hint">Nic nie wykryłam regułami. Spróbuj analizy AI poniżej.</div>'}
+   <div class="shBtns"><button id="warAI">Analiza AI (epitety, metafory, inwersje, ironia…)</button></div><div id="warAIo">${warAI||''}</div></div>
+  <details class="wcard wd"><summary>Słownik środków stylistycznych</summary>${Object.keys(SRODKI).map(f=>{const x=SRODKI[f];return `<details class="wd"><summary>${esc(x.n)}</summary><p>${esc(x.d)}</p><p><b>Do czego:</b> ${esc(x.f)}</p><p><b>Przykład:</b> ${esc(x.e)}</p></details>`}).join('')}</details></div>`;
+  openSheet(html);$('#x').onclick=closeSheet;$('#warAI').onclick=warAnalizaAI;
+  $('#sheet').querySelectorAll('.wr[data-l]').forEach(r=>r.onclick=()=>warGoto(+r.dataset.l))}
+function warGoto(ln){const b=$('#body'),L=b.value.split('\n');let s=0;for(let i=0;i<ln-1;i++)s+=L[i].length+1;closeSheet();showTab('text');b.focus();try{b.setSelectionRange(s,s+(L[ln-1]||'').length)}catch(_){}sel={s,e:s+(L[ln-1]||'').length}}
+function sheetWers(idx){const L=warLinie(),l=L[idx];if(!l)return;const R=warAnaliza().filter(r=>r.lines.includes(idx+1));
+  let secName='Początek',no=0;for(let i=0;i<=idx;i++){if(L[i].lab){secName=labName(L[i].t);no=0}else if(!L[i].skip&&L[i].ws.length)no++}
+  const rh=R.filter(r=>r.f==='rym'&&r.lines.length===2),fg=R.filter(r=>r.f!=='rym'&&r.f!=='bialy'),sc=R.filter(r=>r.f==='rym'&&r.lines.length===1);
+  const last=l.last,figs=['epitet','porownanie','hiperbola','oksymoron','metafora','inwersja','anafora','onomatopeja','aliteracja','ironia','antyteza'];
+  openSheet(`<div class="shHead"><h3>Wers ${no} · ${esc(secName)}</h3><button class="x" id="x" aria-label="Zamknij">×</button></div><div class="warbody">
+   <div class="wline">${esc(l.t.trim())}</div><div class="hint">${sylText(l.t)} sylab${last?` · końcówka „${esc(last)}” (wymowa ${esc((rkey(last)||{}).tail||'')})`:''}</div>
+   <div class="wcard"><h4>Rymy tego wersu</h4>${rh.length?rh.map(r=>{const o=r.lines.find(x=>x!==idx+1);return `<div class="wr" data-l="${o}"><b>wers w linii ${o}</b> ${esc(r.note)}<br><i>${esc((L[o-1]||{}).t||'')}</i></div>`}).join(''):'<div class="hint">Ten wers nie rymuje się końcówką z innym wersem w strofie.</div>'}${sc.map(r=>`<div class="hint">${esc(r.note)}</div>`).join('')}</div>
+   <div class="wcard"><h4>Środki w tym wersie</h4>${fg.length?fg.map(r=>`<details class="wd"><summary>${esc(warFigChip(r.f))} <span>${esc(r.note)}</span></summary><p>${esc((SRODKI[r.f]||{}).d||'')}</p></details>`).join(''):'<div class="hint">Nic nie wykryłam regułami.</div>'}</div>
+   <div class="shBtns"><button id="wRy">Rymy do „${esc(last||'…')}”</button></div>
+   <div class="wcard"><h4>Warianty wersu (AI)</h4><div class="pomcats" id="wF">${figs.map(f=>`<button data-f="${f}">${esc(SRODKI[f].n)}</button>`).join('')}</div><div id="wOut"><div class="hint">Wybierz środek, a model Claude zaproponuje osiem wariantów tego wersu. Wymaga klucza API (menu ⋯).</div></div></div></div>`);
+  $('#x').onclick=closeSheet;$('#sheet').querySelectorAll('.wr[data-l]').forEach(r=>r.onclick=()=>warGoto(+r.dataset.l));
+  $('#wRy').onclick=()=>{if(!last)return;closeSheet();showTab('wall');$('#rq').value=last;szukajRymow(last)};
+  $('#wF').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('#wF').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));wersAI(idx,b.dataset.f)})}
 function aiCall(system,user,max){const k=ls('nt-akey');if(!k)return Promise.reject(new Error('Wpisz klucz API w menu ⋯ → Klucz API Claude'));
   return fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-5-5',max_tokens:max||2000,system,messages:[{role:'user',content:user}]})})
     .then(r=>r.json().then(j=>{if(!r.ok)throw new Error((j.error&&j.error.message)||('HTTP '+r.status));return (j.content||[]).map(x=>x.text||'').join('').trim()}))}
@@ -879,20 +959,16 @@ function warAnalizaAI(){const o=$('#warAIo'),b=$('#body');o.innerHTML='<div clas
   const txt=b.value.split('\n').map((l,i)=>(i+1)+': '+l).join('\n').slice(0,6000);
   aiCall('Jesteś redaktorem tekstów piosenek i poezji. Znasz polskie środki stylistyczne: epitet, metafora, porównanie, inwersja, oksymoron, hiperbola, ironia, antyteza, apostrofa, metonimia, neologizm, frazeologizm, onomatopeja, aliteracja. Odpowiadasz zwięźle po polsku.','Wskaż w tekście (numeracja linii na początku) konkretne użycia środków stylistycznych: epitetów, metafor, inwersji, oksymoronów, ironii, antytez, metonimii, neologizmów. Format: jedna linia na znalezisko: "linia N | środek | cytat | krótkie wyjaśnienie". Bez wstępu. Nie wymyślaj, jeśli czegoś nie ma.\n\n'+txt,1800)
   .then(t=>{warAI='<div class="wf"><h4>Analiza AI</h4>'+esc(t).split('\n').filter(x=>x.trim()).map(x=>{const m=x.match(/linia\s*(\d+)/i);return `<div class="wr" ${m?`data-l="${m[1]}"`:''}>${x}</div>`}).join('')+'</div>';o.innerHTML=warAI;
-    o.querySelectorAll('.wr[data-l]').forEach(r=>r.onclick=()=>{const ln=+r.dataset.l,L=b.value.split('\n');let s=0;for(let i=0;i<ln-1;i++)s+=L[i].length+1;closeSheet();showTab('text');b.focus();try{b.setSelectionRange(s,s+(L[ln-1]||'').length)}catch(_){}sel={s,e:s+(L[ln-1]||'').length}})})
+    o.querySelectorAll('.wr[data-l]').forEach(r=>r.onclick=()=>warGoto(+r.dataset.l))})
   .catch(e=>{o.innerHTML='<div class="hint" style="color:var(--danger)">'+esc(e.message)+'</div>'})}
-function warWariant(){const o=$('#warOut'),b=$('#body');if(!warFig){o.innerHTML='<div class="hint">Wybierz środek.</div>';return}
-  const v=b.value,pos=Math.min(sel.s,v.length),ls0=v.lastIndexOf('\n',pos-1)+1;let le=v.indexOf('\n',pos);if(le<0)le=v.length;const line=v.slice(ls0,le).trim();
-  if(!line){o.innerHTML='<div class="hint">Ustaw kursor w wersie.</div>';return}
-  const ctx=v.slice(Math.max(0,ls0-400),Math.min(v.length,le+300));o.innerHTML='<div class="hint">Szukam wariantów…</div>';
+function wersAI(idx,fig){const o=$('#wOut'),b=$('#body'),v=b.value,L=v.split('\n'),line=(L[idx]||'').trim();if(!line){o.innerHTML='<div class="hint">Pusty wers.</div>';return}
+  const ctx=L.slice(Math.max(0,idx-4),idx+4).join('\n');o.innerHTML='<div class="hint">Szukam wariantów…</div>';
   aiCall('Jesteś współautorem tekstów rapowych i poetyckich po polsku. Zachowujesz sens, rytm i (jeśli to możliwe) liczbę sylab oraz końcówkę rymującą się wersu. Odpowiadasz wyłącznie listą wariantów, jeden w linii, bez numeracji i komentarzy.',
-    `Kontekst:\n${ctx}\n\nWers: "${line}"\nŚrodek stylistyczny: ${SRODKI[warFig].n} (${SRODKI[warFig].d})\nZaproponuj 8 wariantów tego wersu z użyciem tego środka.`,900)
-  .then(t=>{const L=t.split('\n').map(x=>x.replace(/^[\-\*\d\.\)\s"„]+|["”]+$/g,'').trim()).filter(Boolean).slice(0,10);
-    o.innerHTML=L.map(x=>`<div class="wr" data-t="${esc(x)}">${esc(x)} <i>${sylText(x)} syl.</i></div>`).join('');
-    o.querySelectorAll('.wr').forEach(r=>r.onclick=()=>{const t=r.dataset.t,cur2=b.value;let ls1=cur2.lastIndexOf('\n',Math.min(sel.s,cur2.length)-1)+1,le1=cur2.indexOf('\n',Math.min(sel.s,cur2.length));if(le1<0)le1=cur2.length;
-      b.value=cur2.slice(0,ls1)+t+cur2.slice(le1);edit();closeSheet();showTab('text')})})
+    `Kontekst:\n${ctx}\n\nWers: "${line}"\nŚrodek stylistyczny: ${SRODKI[fig].n} (${SRODKI[fig].d})\nZaproponuj 8 wariantów tego wersu z użyciem tego środka.`,900)
+  .then(t=>{const A=t.split('\n').map(x=>x.replace(/^[\-\*\d\.\)\s"„]+|["”]+$/g,'').trim()).filter(Boolean).slice(0,10);
+    o.innerHTML=A.map(x=>`<div class="wr" data-t="${esc(x)}">${esc(x)} <i>${sylText(x)} syl.</i></div>`).join('');
+    o.querySelectorAll('.wr').forEach(r=>r.onclick=()=>{const L2=b.value.split('\n');L2[idx]=r.dataset.t;b.value=L2.join('\n');edit();closeSheet();showTab('text')})})
   .catch(e=>{o.innerHTML='<div class="hint" style="color:var(--danger)">'+esc(e.message)+'</div>'})}
-
 function addToWall(p){const n=T.get(cur);if(!n)return;const ta=$('#wallTa'),v=ta.value;
   ta.value=!v.trim()?p:(/\n$/.test(v)?v+p:v+', '+p);n.sciana=ta.value;touch(n);wallFit()}
 function wallFit(){const t=$('#wallTa');t.style.height='auto';t.style.height=Math.max(t.scrollHeight,200)+'px'}
@@ -904,7 +980,7 @@ function rymyDlaMiejsca(){const b=$('#body');if(!cur)return;
   showTab('wall');$('#rq').value=q;if(q)szukajRymow(q);else $('#rq').focus()}
 
 /* ---- widok, cofnij, ulubione ---- */
-const VS={fs:+(ls('nt-fs')||17),ff:ls('nt-ff')||'sys',nums:ls('nt-nums')==='1',syl:ls('nt-syl')!=='0'};
+const VS={rh:ls('nt-rh')!=='0',fs:+(ls('nt-fs')||17),ff:ls('nt-ff')||'sys',nums:ls('nt-nums')==='1',syl:ls('nt-syl')!=='0'};
 const FF={sys:'var(--font)',serif:'ui-serif,"New York",Georgia,serif',mono:'ui-monospace,"SF Mono",Menlo,monospace'};
 function applyView(){const r=document.documentElement.style;r.setProperty('--fs',VS.fs+'px');r.setProperty('--ff',FF[VS.ff]||FF.sys);
   $('#wrap').classList.toggle('nums',VS.nums);$('#wrap').classList.toggle('nocount',!VS.syl);if(cur&&tab==='text')refit();if(cur&&tab==='wall')wallFit()}
@@ -924,7 +1000,7 @@ function sheetMore(){const n=T.get(cur);if(!n)return;
   openSheet(`<div class="shHead"><h3>Widok i eksport</h3><button class="x" id="x" aria-label="Zamknij">×</button></div>
   <div class="row"><span>Rozmiar</span><input type="range" id="fsR" min="14" max="26" step="1" value="${VS.fs}" aria-label="Rozmiar tekstu"><span id="fsV">${VS.fs}</span></div>
   <div class="seg wide" id="ffSeg"><button data-f="sys" class="${VS.ff==='sys'?'on':''}">System</button><button data-f="serif" class="${VS.ff==='serif'?'on':''}">Szeryfowy</button><button data-f="mono" class="${VS.ff==='mono'?'on':''}">Mono</button></div>
-  ${sw('swNums',VS.nums,'Numery linii')}${sw('swSyl',VS.syl,'Liczniki sylab przy wersach')}
+  ${sw('swRh',VS.rh,'Podświetlaj rymy w tekście')}${sw('swNums',VS.nums,'Numery wersów (w sekcji)')}${sw('swSyl',VS.syl,'Liczniki sylab przy wersach')}
   <div class="row" style="flex-wrap:wrap"><span>Klucz API Claude (zakładka Pomysły)</span><input type="password" id="akey" autocomplete="off" placeholder="sk-ant-…" value="${esc(ls('nt-akey')||'')}" style="flex:1 1 100%;margin-top:6px;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--chip)"><div class="hint" style="flex:1 1 100%">Zostaje tylko w tej przeglądarce na telefonie. Bez niego zakładka Pomysły nie działa.</div></div>
   <div class="shBtns"><button id="impBtn">Importuj z pliku (.json)</button><button id="syncBtn">Synchronizuj teraz</button></div>
   <div class="shBtns"><button id="exOne">Zapisz ten tekst (.txt)</button><button id="exAll">Kopia wszystkich (.json)</button></div>
@@ -935,7 +1011,7 @@ function sheetMore(){const n=T.get(cur);if(!n)return;
   $('#fsR').oninput=e=>{VS.fs=+e.target.value;$('#fsV').textContent=VS.fs;ls('nt-fs',VS.fs);applyView()};
   $('#ffSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{VS.ff=b.dataset.f;ls('nt-ff',VS.ff);$('#ffSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));applyView()});
   const tog=(id,k,key)=>$(id).onclick=()=>{VS[k]=!VS[k];ls(key,VS[k]?'1':'0');$(id).classList.toggle('on',VS[k]);$(id).setAttribute('aria-checked',VS[k]);applyView()};
-  tog('#swNums','nums','nt-nums');tog('#swSyl','syl','nt-syl');
+  tog('#swNums','nums','nt-nums');tog('#swRh','rh','nt-rh');tog('#swSyl','syl','nt-syl');
   $('#exOne').onclick=async()=>{$('#exMsg').textContent=await zapisz(slug(n.tytul)+'.txt',(n.tytul||'')+'\n\n'+n.tresc+(n.sciana?'\n\n--- ściana rymów ---\n'+n.sciana:'')+'\n')};
   $('#exAll').onclick=async()=>{const all=[...T.values()].map(({id,tytul,tresc,tagi,bpm,klucz,sciana,gwiazdka,utworzono,zmieniono})=>({id,tytul,tresc,tagi,bpm,klucz,sciana,gwiazdka,utworzono,zmieniono}));
     $('#exMsg').textContent=await zapisz('notatnik-tekstow-kopia.json',JSON.stringify({teksty:all},null,1))};
@@ -1068,7 +1144,7 @@ function wire(){
     await saveAudio(f,isFinite(d)?d:0,f.name.replace(/\.[^.]+$/,''))}};
   swipeInit();
   $('#tabText').onclick=()=>showTab('text');$('#tabWall').onclick=()=>showTab('wall');
-  $('#bpmBtn').onclick=sheetBpm;$('#warBtn').onclick=()=>sheetWarsztat('an');$('#keyBtn').onclick=sheetKey;$('#rymBtn').onclick=rymyDlaMiejsca;
+  $('#bpmBtn').onclick=sheetBpm;$('#warBtn').onclick=()=>sheetWarsztat();$('#keyBtn').onclick=sheetKey;$('#rymBtn').onclick=rymyDlaMiejsca;
   $('#rForm').onsubmit=e=>{e.preventDefault();szukajRymow($('#rq').value);$('#rq').blur()};
   ['selRy','selAd','selWall'].forEach(id=>{const e=$('#'+id);e.addEventListener('pointerdown',ev=>ev.preventDefault());e.addEventListener('mousedown',ev=>ev.preventDefault())});
   $('#selRy').onclick=()=>{$('#selbar').hidden=true;rymyDlaMiejsca()};
