@@ -215,6 +215,7 @@ body[data-view="edit"] #fab{display:none}
 #keyGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 #keyGrid button{padding:12px 0;border-radius:11px;background:var(--chip);font-size:16px;font-weight:600}
 #keyGrid button.on{background:var(--acc-fill);color:var(--on-acc)}
+#mirror .vw.sm.va{background:hsl(50 95% 55% / .30)}#mirror .vw.sm.ve{background:hsl(125 62% 50% / .28)}#mirror .vw.sm.vi{background:hsl(0 0% 62% / .30)}#mirror .vw.sm.vo{background:hsl(2 78% 58% / .30)}#mirror .vw.sm.vu{background:hsl(212 82% 60% / .30)}
 #mirror .vw{border-radius:3px}
 #mirror .va{background:hsl(50 95% 55% / .50)}#mirror .ve{background:hsl(125 62% 50% / .45)}#mirror .vi{background:hsl(0 0% 62% / .42)}#mirror .vo{background:hsl(2 78% 58% / .48)}#mirror .vu{background:hsl(212 82% 60% / .48)}
 #mirror .rh{border-radius:5px;background:hsl(var(--rc) 62% 52% / .30);box-shadow:0 0 0 1.5px hsl(var(--rc) 62% 52% / .30)}
@@ -295,6 +296,7 @@ body[data-view="edit"] #fab{display:none}
         <button id="redoBtn" class="ico" type="button" aria-label="Ponów" title="Ponów"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button>
         <button id="bpmBtn" class="pill" type="button" title="Tempo bitu"></button>
         <button id="keyBtn" class="pill" type="button" title="Tonacja"></button>
+        <button id="rhBtn" class="pill" type="button" title="Włącz/wyłącz kolorowanie rymujących się sylab">Kolory</button>
         <button id="warBtn" class="pill" type="button" title="Środki stylistyczne i rymy w tym tekście">Warsztat</button>
         <button id="recBtn" class="pill" type="button" title="Nagrania głosowe do tego tekstu">Nagrania</button>
         <span class="sp"></span>
@@ -575,15 +577,38 @@ function vowSyl(w){const V='aeiouyąęó',n=w.length,nuc=[];
   return nuc.map((p,k)=>({s:bnd[k],e:bnd[k+1],c:VOWC[w[p]]||'a'}))}
 function vowWord(w){const sy=vowSyl(w.toLowerCase());if(!sy.length)return esc(w);let h='',p=0;for(const x of sy){if(x.s>p)h+=esc(w.slice(p,x.s));h+=`<span class="vw v${x.c}">${esc(w.slice(x.s,x.e))}</span>`;p=x.e}return h+(p<w.length?esc(w.slice(p)):'')}
 function vowHtml(t){return t.split(/([a-ząćęłńóśźżéèäöü']+)/gi).map((x,i)=>i%2?vowWord(x):esc(x)).join('')}
+/* tryb "rymujące się sylaby": kolor dostają tylko sylaby, które powtarzają się (rym samogłoskowy, w razie potrzeby z zgodnymi końcówkami) w innych wersach sekcji lub w tym samym wersie */
+const STOPS=new Set('nie się to co że na do po za mi ci ma da go mnie tak jak już ale bo mam ze te ta tu tym ten tą też ty ja my wy on ona ich ją jej jest są był być by się coś'.split(' '));
+const rimeOf=t=>{const m=t.search(/[aeiouyąęó]/);return m<0?t:t.slice(m)};
+function rhymeSyl(lines,odAt){const secs=[];let cur=[];
+  lines.forEach((l,i)=>{if(odAt>=0&&i>=odAt)return;if(isLabel(l)){if(cur.length)secs.push(cur);cur=[];return}if(!l.trim()||/^\s*(#|\/\/)/.test(l)||/^-[^\s-]/.test(l)||/^\s*https?:/i.test(l))return;cur.push(i)});if(cur.length)secs.push(cur);
+  const out=new Map();
+  secs.forEach(S=>{const SY=S.map(i=>{const l=lines[i],pr=pairsOf(l),re=/[a-ząćęłńóśźżéèäöü']+/gi;let m;const words=[];
+      while((m=re.exec(l))){const st=m.index;if(pr.some(([a,z])=>st>=a&&st<=z))continue;const ss=vowSyl(m[0].toLowerCase());if(ss.length)words.push({st,ss})}
+      const syl=[];words.forEach((wd,wi)=>wd.ss.forEach((x,k)=>syl.push({s:wd.st+x.s,e:wd.st+x.e,c:x.c,t:l.slice(wd.st+x.s,wd.st+x.e).toLowerCase(),fin:wi===words.length-1&&k===wd.ss.length-1})));return {i,syl}});
+    const mark=SY.map(x=>new Set());
+    for(let p=0;p<SY.length;p++)for(let q=p;q<=Math.min(p+4,SY.length-1);q++){
+      const A=SY[p].syl,B=SY[q].syl,n=A.length,m=B.length;if(!n||!m)continue;
+      const D=Array.from({length:n+1},()=>new Array(m+1).fill(0));
+      for(let a=0;a<n;a++)for(let b=0;b<m;b++)D[a+1][b+1]=A[a].c===B[b].c?D[a][b]+1:0;
+      for(let a=0;a<n;a++)for(let b=0;b<m;b++){const L=D[a+1][b+1];if(L<1)continue;if(a+1<n&&b+1<m&&A[a+1].c===B[b+1].c)continue;
+        const ai=a-L+1,bi=b-L+1;if(p===q&&!(a<bi))continue;
+        let strong=0,full=0,same=true;for(let k=0;k<L;k++){if(rimeOf(A[ai+k].t)===rimeOf(B[bi+k].t))strong++;if(A[ai+k].t===B[bi+k].t){if(!STOPS.has(A[ai+k].t))full++}else same=false}
+        if(same)continue;const fa=A[a].fin&&B[b].fin;
+        const ok=L>=3?(strong>=L-1&&(full>=1||fa)):L===2?((strong===2&&full>=1)||(fa&&strong>=1)):(fa&&strong===1&&rimeOf(A[a].t).length>=2);
+        if(ok)for(let k=0;k<L;k++){mark[p].add(ai+k);mark[q].add(bi+k)}}}
+    SY.forEach((x,k)=>{if(!mark[k].size)return;out.set(x.i,[...mark[k]].sort((a,b)=>a-b).map(j=>({s:x.syl[j].s,e:x.syl[j].e,c:x.syl[j].c})))})});
+  return out}
 function rhTxt(line,seg,list,mode){
-  if(mode==='vow')return seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:vowHtml(x.t)).join('');
+  if(mode==='smart')return (list&&list.length)?rhTxtG(line,seg,list,t=>`vw sm v${t.c}`):seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:esc(x.t)).join('');
+  if(mode==='all')return seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:vowHtml(x.t)).join('');
   if(!list||!list.length)return seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:esc(x.t)).join('');
   return rhTxtG(line,seg,list)}
-function rhTxtG(line,seg,list){if(!list||!list.length)return seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:esc(x.t)).join('');
+function rhTxtG(line,seg,list,cf){if(!list||!list.length)return seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:esc(x.t)).join('');
   let pos=0,h='';
   for(const x of seg){const st=pos,en=pos+x.t.length;pos=en;
     if(x.ad){h+=`<span class="ad">${esc(x.t)}</span>`;continue}
-    let p=st;for(const t of list){if(t.s<st||t.e>en)continue;h+=esc(line.slice(p,t.s))+`<span class="rh rh${t.c} ${t.k}">${esc(line.slice(t.s,t.e))}</span>`;p=t.e}
+    let p=st;for(const t of list){if(t.s<st||t.e>en)continue;h+=esc(line.slice(p,t.s))+`<span class="${cf?cf(t):'rh rh'+t.c+' '+t.k}">${esc(line.slice(t.s,t.e))}</span>`;p=t.e}
     h+=esc(line.slice(p,en))}
   return h}
 function findOdrzut(lines){
@@ -605,7 +630,7 @@ function findOdrzut(lines){
   return null}
 function refit(){const b=$('#body');b.style.height='auto';b.style.height=Math.max(b.scrollHeight,Math.round(window.innerHeight*.46))+'px';
   const n=T.get(cur);const lines=b.value.split('\n');let wers=0,syl=0,adSyl=0,odN=0;
-  const OD=findOdrzut(lines),odAt=OD?OD.at:-1;const RC=VS.rhm==='grp'?rhyColors(lines,odAt):new Map();
+  const OD=findOdrzut(lines),odAt=OD?OD.at:-1;const RC=VS.rhm==='grp'?rhyColors(lines,odAt):VS.rhm==='smart'?rhymeSyl(lines,odAt):new Map();
   const secs=[{name:'Początek',idx:0,n:0,implicit:true}];let sec=secs[0];const verses=[];
   const kind=l=>isLabel(l)?'lab':(/^\s*(#|\/\/)/.test(l)||/^\s*https?:\/\/\S+\s*$/i.test(l))?'cm':/^-[^\s-]/.test(l)?'st':'';
   $('#mirror').innerHTML=lines.map((l,idx)=>{
@@ -1018,9 +1043,9 @@ function rymyDlaMiejsca(){const b=$('#body');if(!cur)return;
   showTab('wall');$('#rq').value=q;if(q)szukajRymow(q);else $('#rq').focus()}
 
 /* ---- widok, cofnij, ulubione ---- */
-const VS={rhm:ls('nt-rhm')||'vow',fs:+(ls('nt-fs')||17),ff:ls('nt-ff')||'sys',nums:ls('nt-nums')==='1',syl:ls('nt-syl')!=='0'};
+const VS={rhm:(x=>x==='vow'||!x?'smart':x)(ls('nt-rhm')),fs:+(ls('nt-fs')||17),ff:ls('nt-ff')||'sys',nums:ls('nt-nums')==='1',syl:ls('nt-syl')!=='0'};
 const FF={sys:'var(--font)',serif:'ui-serif,"New York",Georgia,serif',mono:'ui-monospace,"SF Mono",Menlo,monospace'};
-function applyView(){const r=document.documentElement.style;r.setProperty('--fs',VS.fs+'px');r.setProperty('--ff',FF[VS.ff]||FF.sys);
+function applyView(){const rb=$('#rhBtn');if(rb)rb.classList.toggle('set',VS.rhm!=='off');const r=document.documentElement.style;r.setProperty('--fs',VS.fs+'px');r.setProperty('--ff',FF[VS.ff]||FF.sys);
   $('#wrap').classList.toggle('nums',VS.nums);$('#wrap').classList.toggle('nocount',!VS.syl);if(cur&&tab==='text')refit();if(cur&&tab==='wall')wallFit()}
 let hT=null;
 function histReset(){hist={s:[$('#body').value],i:0}}
@@ -1038,7 +1063,7 @@ function sheetMore(){const n=T.get(cur);if(!n)return;
   openSheet(`<div class="shHead"><h3>Widok i eksport</h3><button class="x" id="x" aria-label="Zamknij">×</button></div>
   <div class="row"><span>Rozmiar</span><input type="range" id="fsR" min="14" max="26" step="1" value="${VS.fs}" aria-label="Rozmiar tekstu"><span id="fsV">${VS.fs}</span></div>
   <div class="seg wide" id="ffSeg"><button data-f="sys" class="${VS.ff==='sys'?'on':''}">System</button><button data-f="serif" class="${VS.ff==='serif'?'on':''}">Szeryfowy</button><button data-f="mono" class="${VS.ff==='mono'?'on':''}">Mono</button></div>
-  <div class="row"><span>Kolorowanie rymów</span></div><div class="seg wide" id="rhSeg"><button data-r="vow" class="${VS.rhm==='vow'?'on':''}">Samogłoski</button><button data-r="grp" class="${VS.rhm==='grp'?'on':''}">Grupy rymów</button><button data-r="off" class="${VS.rhm==='off'?'on':''}">Wył.</button></div>${sw('swNums',VS.nums,'Numery wersów (w sekcji)')}${sw('swSyl',VS.syl,'Liczniki sylab przy wersach')}
+  <div class="row"><span>Kolorowanie rymów</span></div><div class="seg wide" id="rhSeg"><button data-r="smart" class="${VS.rhm==='smart'?'on':''}">Rymy</button><button data-r="all" class="${VS.rhm==='all'?'on':''}">Wszystkie sylaby</button><button data-r="grp" class="${VS.rhm==='grp'?'on':''}">Grupy rymów</button><button data-r="off" class="${VS.rhm==='off'?'on':''}">Wył.</button></div>${sw('swNums',VS.nums,'Numery wersów (w sekcji)')}${sw('swSyl',VS.syl,'Liczniki sylab przy wersach')}
   <div class="row" style="flex-wrap:wrap"><span>Klucz API Claude (zakładka Pomysły)</span><input type="password" id="akey" autocomplete="off" placeholder="sk-ant-…" value="${esc(ls('nt-akey')||'')}" style="flex:1 1 100%;margin-top:6px;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--chip)"><div class="hint" style="flex:1 1 100%">Zostaje tylko w tej przeglądarce na telefonie. Bez niego zakładka Pomysły nie działa.</div></div>
   <div class="shBtns"><button id="impBtn">Importuj z pliku (.json)</button><button id="syncBtn">Synchronizuj teraz</button></div>
   <div class="shBtns"><button id="exOne">Zapisz ten tekst (.txt)</button><button id="exAll">Kopia wszystkich (.json)</button></div>
@@ -1182,7 +1207,7 @@ function wire(){
     await saveAudio(f,isFinite(d)?d:0,f.name.replace(/\.[^.]+$/,''))}};
   swipeInit();
   $('#tabText').onclick=()=>showTab('text');$('#tabWall').onclick=()=>showTab('wall');
-  $('#bpmBtn').onclick=sheetBpm;$('#warBtn').onclick=()=>sheetWarsztat();$('#keyBtn').onclick=sheetKey;$('#rymBtn').onclick=rymyDlaMiejsca;
+  $('#bpmBtn').onclick=sheetBpm;$('#rhBtn').onclick=()=>{if(VS.rhm==='off'){VS.rhm=ls('nt-rhm0')||'smart'}else{ls('nt-rhm0',VS.rhm);VS.rhm='off'}ls('nt-rhm',VS.rhm);applyView()};$('#warBtn').onclick=()=>sheetWarsztat();$('#keyBtn').onclick=sheetKey;$('#rymBtn').onclick=rymyDlaMiejsca;
   $('#rForm').onsubmit=e=>{e.preventDefault();szukajRymow($('#rq').value);$('#rq').blur()};
   ['selRy','selAd','selWall','selWers','selAI'].forEach(id=>{const e=$('#'+id);e.addEventListener('pointerdown',ev=>ev.preventDefault());e.addEventListener('mousedown',ev=>ev.preventDefault())});
   $('#selRy').onclick=()=>{$('#selbar').hidden=true;rymyDlaMiejsca()};
