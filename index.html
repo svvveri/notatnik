@@ -221,10 +221,10 @@ body[data-view="edit"] #fab{display:none}
 #mirror .rh.as{background:hsl(var(--rc) 62% 52% / .15);box-shadow:0 0 0 1.5px hsl(var(--rc) 62% 52% / .15)}
 .rh0{--rc:152}.rh1{--rc:188}.rh2{--rc:285}.rh3{--rc:330}.rh4{--rc:22}.rh5{--rc:100}.rh6{--rc:252}.rh7{--rc:350}
 #verseBtns{position:absolute;inset:0;pointer-events:none;z-index:2}
-.vbtn{position:absolute;left:calc(100% - 22px);width:22px;height:22px;border-radius:50%;pointer-events:auto;color:var(--faint);font-size:12px;line-height:1;display:grid;place-items:center;opacity:.55}.vbtn:active{background:var(--acc-fill);color:var(--on-acc);opacity:1}
+.vbtn{position:absolute;left:calc(100% - 30px);width:30px;height:30px;margin-top:-4px;border-radius:50%;pointer-events:auto;color:var(--faint);font-size:12px;line-height:1;display:grid;place-items:center;opacity:.55}.vbtn:active{background:var(--acc-fill);color:var(--on-acc);opacity:1}
 #mirror .ml.od{color:var(--dim);font-style:italic}#mirror .ml.od.first{border-top:1px dashed var(--line);margin-top:6px;padding-top:6px}
 #mirror .ml.odh{color:var(--faint);font-style:italic}#struct button.od{color:var(--dim)}
-#mirror .ml i{width:30px;text-align:left}
+#mirror .ml i{width:24px;text-align:left}
 #labBtns{position:absolute;inset:0;pointer-events:none;z-index:2}
 .lmic{position:absolute;left:calc(100% - 36px);width:30px;height:30px;border-radius:50%;pointer-events:auto;color:var(--acc);border:1px solid var(--line);background:var(--bg);display:grid;place-items:center}
 .lmic:active{background:var(--acc-fill);color:var(--on-acc)}
@@ -301,7 +301,7 @@ body[data-view="edit"] #fab{display:none}
         <button id="adBtn" class="pill ad" type="button" title="Zaznacz fragment: nawias = adlib. Dotknięcie w nawiasie go zdejmuje. Bez zaznaczenia: cały wers.">( ) adlib</button>
         <button id="rymBtn" class="pill ry" type="button" title="Rymy do zaznaczonego słowa albo końca wersu">Rymy</button>
       </div>
-      <div id="selbar" class="gut" hidden><span id="selw"></span><button id="selRy" class="pill ry" type="button">Rymy</button><button id="selAd" class="pill ad" type="button">( ) adlib</button><button id="selWall" class="pill" type="button">+ ściana</button></div>
+      <div id="selbar" class="gut" hidden><span id="selw"></span><button id="selWers" class="pill" type="button">✦ Analiza</button><button id="selAI" class="pill" type="button">✦ AI</button><button id="selRy" class="pill ry" type="button">Rymy</button><button id="selAd" class="pill ad" type="button">( ) adlib</button><button id="selWall" class="pill" type="button">+ ściana</button></div>
       <div id="page" class="gut" hidden>
         <div id="date"></div>
         <input id="title" placeholder="Tytuł" spellcheck="false" autocomplete="off" enterkeyhint="next" aria-label="Tytuł">
@@ -634,9 +634,19 @@ function placeVerseBtns(vs){const box=$('#verseBtns');if(!box)return;const ch=$(
   box.querySelectorAll('.vbtn').forEach(b=>b.onclick=()=>sheetWers(+b.dataset.i))}
 let sel={s:0,e:0},sheetRe=null;
 function trackSel(){const b=$('#body');if(document.activeElement===b){sel={s:b.selectionStart,e:b.selectionEnd};selBar()}}
-function selBar(){const bar=$('#selbar'),b=$('#body');if(!bar||!cur)return;const t=b.value.slice(sel.s,sel.e).trim();
-  const ok=sel.e>sel.s&&t&&t.length<=40&&/[a-ząćęłńóśźż]/i.test(t)&&!t.includes('\n');
-  bar.hidden=!ok;if(ok){bar.style.top=($('#tools').offsetHeight||44)+'px';$('#selw').textContent='„'+t+'”'}}
+function curVerse(){const b=$('#body'),v=b.value,idx=v.slice(0,Math.min(sel.s,v.length)).split('\n').length-1,lines=v.split('\n'),l=lines[idx]||'';
+  const OD=findOdrzut(lines);if(OD&&idx>=OD.at)return null;
+  if(!l.trim()||isLabel(l)||/^\s*(#|\/\/)/.test(l)||/^-[^\s-]/.test(l))return null;
+  let no=0;for(let i=0;i<=idx;i++){if(isLabel(lines[i]))no=0;else if(lines[i].trim()&&!/^\s*(#|\/\/)/.test(lines[i])&&!/^-[^\s-]/.test(lines[i]))no++}
+  return {idx,no}}
+function selBar(){const bar=$('#selbar'),b=$('#body');if(!bar||!cur)return;
+  if(tab!=='text'){bar.hidden=true;return}
+  const cv=curVerse(),t=b.value.slice(sel.s,sel.e).trim();
+  const word=sel.e>sel.s&&t&&t.length<=40&&/[a-ząćęłńóśźż]/i.test(t)&&!t.includes('\n');
+  if(!cv&&!word){bar.hidden=true;return}
+  bar.hidden=false;bar.style.top=($('#tools').offsetHeight||44)+'px';
+  $('#selw').textContent=word?'„'+t+'”':(cv?'Wers '+cv.no:'');
+  bar.dataset.idx=cv?cv.idx:''}
 function selWord(){const b=$('#body');return b.value.slice(sel.s,sel.e).trim()}
 function toggleAdlib(){const b=$('#body');if(!cur)return;const old=b.value;let v=old,s=Math.min(sel.s,v.length),e=Math.min(sel.e,v.length);
   if(s===e){ // kursor: zdejmij nawias wokół kursora albo zrób adlib z całego wersu
@@ -966,7 +976,7 @@ function sheetWarsztat(){const n=T.get(cur);if(!n)return;const R=warAnaliza(),st
   openSheet(html);$('#x').onclick=closeSheet;$('#warAI').onclick=warAnalizaAI;
   $('#sheet').querySelectorAll('.wr[data-l]').forEach(r=>r.onclick=()=>warGoto(+r.dataset.l))}
 function warGoto(ln){const b=$('#body'),L=b.value.split('\n');let s=0;for(let i=0;i<ln-1;i++)s+=L[i].length+1;closeSheet();showTab('text');b.focus();try{b.setSelectionRange(s,s+(L[ln-1]||'').length)}catch(_){}sel={s,e:s+(L[ln-1]||'').length}}
-function sheetWers(idx){const L=warLinie(),l=L[idx];if(!l)return;const R=warAnaliza().filter(r=>r.lines.includes(idx+1));
+function sheetWers(idx,ai){const L=warLinie(),l=L[idx];if(!l)return;const R=warAnaliza().filter(r=>r.lines.includes(idx+1));
   let secName='Początek',no=0;for(let i=0;i<=idx;i++){if(L[i].lab){secName=labName(L[i].t);no=0}else if(!L[i].skip&&L[i].ws.length)no++}
   const rh=R.filter(r=>r.f==='rym'&&r.lines.length===2),fg=R.filter(r=>r.f!=='rym'&&r.f!=='bialy'),sc=R.filter(r=>r.f==='rym'&&r.lines.length===1);
   const last=l.last,figs=['epitet','porownanie','hiperbola','oksymoron','metafora','inwersja','anafora','onomatopeja','aliteracja','ironia','antyteza'];
@@ -978,7 +988,8 @@ function sheetWers(idx){const L=warLinie(),l=L[idx];if(!l)return;const R=warAnal
    <div class="wcard"><h4>Warianty wersu (AI)</h4><div class="pomcats" id="wF">${figs.map(f=>`<button data-f="${f}">${esc(SRODKI[f].n)}</button>`).join('')}</div><div id="wOut"><div class="hint">Wybierz środek, a model Claude zaproponuje osiem wariantów tego wersu. Wymaga klucza API (menu ⋯).</div></div></div></div>`);
   $('#x').onclick=closeSheet;$('#sheet').querySelectorAll('.wr[data-l]').forEach(r=>r.onclick=()=>warGoto(+r.dataset.l));
   $('#wRy').onclick=()=>{if(!last)return;closeSheet();showTab('wall');$('#rq').value=last;szukajRymow(last)};
-  $('#wF').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('#wF').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));wersAI(idx,b.dataset.f)})}
+  $('#wF').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('#wF').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));wersAI(idx,b.dataset.f)});
+  if(ai){const w=$('#wF');if(w&&w.scrollIntoView)setTimeout(()=>w.scrollIntoView({block:'center'}),60)}}
 function aiCall(system,user,max){const k=ls('nt-akey');if(!k)return Promise.reject(new Error('Wpisz klucz API w menu ⋯ → Klucz API Claude'));
   return fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-5-5',max_tokens:max||2000,system,messages:[{role:'user',content:user}]})})
     .then(r=>r.json().then(j=>{if(!r.ok)throw new Error((j.error&&j.error.message)||('HTTP '+r.status));return (j.content||[]).map(x=>x.text||'').join('').trim()}))}
@@ -1173,12 +1184,15 @@ function wire(){
   $('#tabText').onclick=()=>showTab('text');$('#tabWall').onclick=()=>showTab('wall');
   $('#bpmBtn').onclick=sheetBpm;$('#warBtn').onclick=()=>sheetWarsztat();$('#keyBtn').onclick=sheetKey;$('#rymBtn').onclick=rymyDlaMiejsca;
   $('#rForm').onsubmit=e=>{e.preventDefault();szukajRymow($('#rq').value);$('#rq').blur()};
-  ['selRy','selAd','selWall'].forEach(id=>{const e=$('#'+id);e.addEventListener('pointerdown',ev=>ev.preventDefault());e.addEventListener('mousedown',ev=>ev.preventDefault())});
+  ['selRy','selAd','selWall','selWers','selAI'].forEach(id=>{const e=$('#'+id);e.addEventListener('pointerdown',ev=>ev.preventDefault());e.addEventListener('mousedown',ev=>ev.preventDefault())});
   $('#selRy').onclick=()=>{$('#selbar').hidden=true;rymyDlaMiejsca()};
+  $('#selWers').onclick=()=>{const i=$('#selbar').dataset.idx;if(i!=='')sheetWers(+i)};
+  $('#selAI').onclick=()=>{const i=$('#selbar').dataset.idx;if(i!=='')sheetWers(+i,true)};
   $('#selAd').onclick=()=>{toggleAdlib();selBar()};
   $('#selWall').onclick=()=>{const w=selWord();if(!w||!cur)return;addToWall(w);const e=$('#selWall');e.textContent='✓ dodano';setTimeout(()=>{e.textContent='+ ściana'},1200)};
   const ab=$('#adBtn');ab.addEventListener('pointerdown',e=>e.preventDefault());ab.addEventListener('mousedown',e=>e.preventDefault());ab.onclick=toggleAdlib;
   const rb=$('#rymBtn');rb.addEventListener('pointerdown',e=>e.preventDefault());rb.addEventListener('mousedown',e=>e.preventDefault());
+  $('#body').addEventListener('blur',()=>setTimeout(()=>{const sb=$('#selbar');if(sb&&document.activeElement!==$('#body')&&$('#sheetBg').hidden)sb.hidden=true},300));
   document.addEventListener('selectionchange',trackSel);['select','keyup','pointerup','input','focus'].forEach(t=>$('#body').addEventListener(t,trackSel));
   applyView();
   document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='n'){e.preventDefault();nowy()}if(e.key==='Escape')closeSheet()});
