@@ -1,6 +1,6 @@
 # Notatnik tekstów: podłączenie Dysku Google (jednorazowo, ok. 10 minut)
 
-Aplikacja zapisuje teksty i nagrania w folderze **„Notatnik tekstów”** na Twoim Dysku Google. Widzi tylko pliki, które sama tam utworzy (zakres `drive.file`), a nie resztę Dysku. Żeby się zalogować, potrzebuje „identyfikatora klienta” z Google Cloud. To nie jest hasło ani sekret, można go bezpiecznie wkleić do czatu.
+Aplikacja zapisuje teksty i nagrania w folderze **„!Teksty”** na Twoim Dysku Google. Widzi tylko pliki, które sama tam utworzy (zakres `drive.file`), a nie resztę Dysku. Żeby się zalogować, potrzebuje „identyfikatora klienta” z Google Cloud. To nie jest hasło ani sekret, można go bezpiecznie wkleić do czatu.
 
 1. Wejdź na https://console.cloud.google.com i zaloguj się kontem, na którego Dysku mają leżeć dane.
 2. U góry kliknij listę projektów → **Nowy projekt** → nazwa `Notatnik tekstow` → **Utwórz**.

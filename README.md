@@ -1,6 +1,6 @@
 # Notatnik tekstów
 
-Osobisty notatnik do pisania tekstów rapowych: sylaby przy wersach, adliby, części utworu (refren, zwrotka), BPM i tonacja, ściana rymów, nagrywanie głosu pod metronom. Aplikacja webowa (PWA), dane trzymane w folderze „Notatnik tekstów” na Dysku Google użytkownika (zakres `drive.file`). W repozytorium nie ma żadnych tekstów ani nagrań, tylko kod.
+Osobisty notatnik do pisania tekstów rapowych: sylaby przy wersach, adliby, części utworu (refren, zwrotka), BPM i tonacja, ściana rymów, nagrywanie głosu pod metronom. Aplikacja webowa (PWA), dane trzymane w folderze „!Teksty” na Dysku Google użytkownika (zakres `drive.file`). W repozytorium nie ma żadnych tekstów ani nagrań, tylko kod.
 
 - Logowanie: Google Identity Services, identyfikator klienta w `config.js` (jawny z założenia).
 - Konfiguracja Google Cloud: `INSTRUKCJA-GOOGLE.md`.

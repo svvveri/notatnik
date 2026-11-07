@@ -1,4 +1,4 @@
-/* Warstwa danych notatnika: Dysk Google (folder „Notatnik tekstów”) albo tryb lokalny.
+/* Warstwa danych notatnika: Dysk Google (folder „!Teksty”) albo tryb lokalny.
    Udaje interfejs bazy/plików, z którego korzysta aplikacja: claude.use('db' | 'assets' | 'downloads'). */
 (function(){
 'use strict';
@@ -53,10 +53,10 @@ function needLogin(){Store.needsAuth=true;status('☁ połącz z Dyskiem','warn'
 
 /* ---- Dysk: folder i plik z tekstami ---- */
 async function ensureFolder(){if(Store.folder)return Store.folder;
-  const q="name='Notatnik tekstów' and mimeType='application/vnd.google-apps.folder' and trashed=false";
+  const q="name='!Teksty' and mimeType='application/vnd.google-apps.folder' and trashed=false";
   let r=await (await gfetch(DRIVE+'/files?q='+encodeURIComponent(q)+'&fields=files(id)&pageSize=5')).json();
   let id=r.files&&r.files[0]&&r.files[0].id;
-  if(!id){r=await (await gfetch(DRIVE+'/files?fields=id',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:'Notatnik tekstów',mimeType:'application/vnd.google-apps.folder'})})).json();id=r.id}
+  if(!id){r=await (await gfetch(DRIVE+'/files?fields=id',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:'!Teksty',mimeType:'application/vnd.google-apps.folder'})})).json();id=r.id}
   Store.folder=id;ls('nt-folder',id);return id}
 async function findData(){const f=await ensureFolder();
   const q="name='teksty.json' and '"+f+"' in parents and trashed=false";
