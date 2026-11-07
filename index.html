@@ -170,7 +170,8 @@ body[data-view="edit"] #fab{display:none}
 .wd{margin:0 0 8px;padding:8px 12px;border-radius:12px;background:var(--chip)}.wd summary{font-weight:600;cursor:pointer}.wd p{margin:8px 0 0;font-size:14.5px;line-height:1.4}
 .warbody{max-height:62vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .pomcats{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}.pomcats button{padding:6px 12px;border-radius:999px;border:1px solid var(--line);font-size:13.5px;white-space:normal;text-align:left;line-height:1.25}.pomcats button.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-#selbar{position:sticky;z-index:3;display:flex;align-items:center;gap:8px;padding-top:7px;padding-bottom:7px;background:var(--bg);border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+#selwrap{position:sticky;top:44px;height:0;z-index:4}
+#selbar{position:absolute;left:0;right:0;top:0;z-index:4;display:flex;align-items:center;gap:8px;padding-top:7px;padding-bottom:7px;background:var(--bg);border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
 #selbar[hidden]{display:none}#selw{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;color:var(--fg)}
 .ln.ro{cursor:default}.ln{display:flex;gap:12px;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer;line-height:1.35}.ln div{flex:1;min-width:0}.ln span{flex:none;max-width:36%;font-size:12.5px;color:var(--dim);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ln b{font-weight:700;color:var(--acc)}
 .rsec{margin:0 0 22px}.rsec h3{margin:6px 0 4px;font:700 19px/1.2 var(--font-d)}.rsec h3 span{font:400 13px var(--font);color:var(--dim);margin-left:8px}
@@ -219,7 +220,7 @@ body[data-view="edit"] #fab{display:none}
 #mirror .vw.sm.va{background:hsl(50 95% 55% / .30)}#mirror .vw.sm.ve{background:hsl(125 62% 50% / .28)}#mirror .vw.sm.vi{background:hsl(0 0% 62% / .30)}#mirror .vw.sm.vo{background:hsl(2 78% 58% / .30)}#mirror .vw.sm.vu{background:hsl(212 82% 60% / .30)}
 #mirror .vw{border-radius:3px}
 #mirror .va{background:hsl(50 95% 55% / .50)}#mirror .ve{background:hsl(125 62% 50% / .45)}#mirror .vi{background:hsl(0 0% 62% / .42)}#mirror .vo{background:hsl(2 78% 58% / .48)}#mirror .vu{background:hsl(212 82% 60% / .48)}
-#mirror .rh{border-radius:4px;background:hsl(var(--rc) 70% 52% / .38);box-shadow:0 0 0 1.5px hsl(var(--rc) 70% 52% / .38)}
+#mirror .rh{border-radius:4px;background:hsl(var(--rc) 70% 52% / .38);}
 #mirror .rh.as{background:hsl(var(--rc) 62% 52% / .15);box-shadow:0 0 0 1.5px hsl(var(--rc) 62% 52% / .15)}
 .rh0{--rc:152}.rh1{--rc:212}.rh2{--rc:52}.rh3{--rc:318}.rh4{--rc:28}.rh5{--rc:0}.rh6{--rc:176}.rh7{--rc:268}.rh8{--rc:96}.rh9{--rc:345}
 #verseBtns{position:absolute;inset:0;pointer-events:none;z-index:2}
@@ -304,7 +305,7 @@ body[data-view="edit"] #fab{display:none}
         <button id="adBtn" class="pill ad" type="button" title="Zaznacz fragment: nawias = adlib. Dotknięcie w nawiasie go zdejmuje. Bez zaznaczenia: cały wers.">( ) adlib</button>
         <button id="rymBtn" class="pill ry" type="button" title="Rymy do zaznaczonego słowa albo końca wersu">Rymy</button>
       </div>
-      <div id="selbar" class="gut" hidden><span id="selw"></span><button id="selWers" class="pill" type="button">✦ Analiza</button><button id="selAI" class="pill" type="button">✦ AI</button><button id="selRy" class="pill ry" type="button">Rymy</button><button id="selAd" class="pill ad" type="button">( ) adlib</button><button id="selWall" class="pill" type="button">+ ściana</button></div>
+      <div id="selwrap"><div id="selbar" class="gut" hidden><span id="selw"></span><button id="selWers" class="pill" type="button">✦ Analiza</button><button id="selAI" class="pill" type="button">✦ AI</button><button id="selRy" class="pill ry" type="button">Rymy</button><button id="selAd" class="pill ad" type="button">( ) adlib</button><button id="selWall" class="pill" type="button">+ ściana</button></div></div>
       <div id="page" class="gut" hidden>
         <div id="date"></div>
         <input id="title" placeholder="Tytuł" spellcheck="false" autocomplete="off" enterkeyhint="next" aria-label="Tytuł">
@@ -563,6 +564,7 @@ const ONS=/^(?:[pbtdkgfw][rlł]|[kgpbf]ł|w[nlrł]|[sz][pktfwbdgmnłćś]|ś[cml
 function vowSyl(w){const V='aeiouyąęó',n=w.length,nuc=[];
   for(let i=0;i<n;i++){const c=w[i];if(!V.includes(c))continue;
     if(c==='i'&&i+1<n&&V.includes(w[i+1]))continue; // i palatalizujące (dzie, cia)
+    if(c==='y'&&i>0&&'aeou'.includes(w[i-1]))continue; // ey, ay, oy: półsamogłoska (Reymont)
     if(c==='u'&&i>0&&(w[i-1]==='a'||w[i-1]==='e')&&!V.includes(w[i+1]||'x'))continue; // dyftong au/eu na końcu: część poprzedniej
     if(c==='u'&&i>0&&(w[i-1]==='a'||w[i-1]==='e'))continue;
     nuc.push(i)}
@@ -581,12 +583,13 @@ function vowHtml(t){return t.split(/([a-ząćęłńóśźżéèäöü']+)/gi).ma
 /* tryb "rymujące się sylaby": kolor dostają tylko sylaby, które powtarzają się (rym samogłoskowy, w razie potrzeby z zgodnymi końcówkami) w innych wersach sekcji lub w tym samym wersie */
 const STOPS=new Set('nie się to co że na do po za mi ci ma da go mnie tak jak już ale bo mam ze te ta tu tym ten tą też ty ja my wy on ona ich ją jej jest są był być by się coś'.split(' '));
 const rimeOf=t=>{const m=t.search(/[aeiouyąęó]/);return m<0?t:t.slice(m)};
+const rimeN=t=>rimeOf(t).replace(/ą/g,'o').replace(/ę/g,'e').replace(/ó/g,'u').replace(/([aeou])y/g,'$1').replace(/[^aeiouy]+$/,'');
 function rhymeSyl(lines,odAt){const secs=[];let cur=[];
   lines.forEach((l,i)=>{if(odAt>=0&&i>=odAt)return;if(isLabel(l)){if(cur.length)secs.push(cur);cur=[];return}if(!l.trim()||/^\s*(#|\/\/)/.test(l)||/^-[^\s-]/.test(l)||/^\s*https?:/i.test(l))return;cur.push(i)});if(cur.length)secs.push(cur);
   const out=new Map();
   secs.forEach(S=>{const SY=S.map(i=>{const l=lines[i],pr=pairsOf(l),re=/[a-ząćęłńóśźżéèäöü']+/gi;let m;const words=[];
-      while((m=re.exec(l))){const st=m.index;if(pr.some(([a,z])=>st>=a&&st<=z))continue;const ss=vowSyl(m[0].toLowerCase());if(ss.length)words.push({st,ss})}
-      const syl=[];words.forEach((wd,wi)=>wd.ss.forEach((x,k)=>syl.push({s:wd.st+x.s,e:wd.st+x.e,c:x.c,t:l.slice(wd.st+x.s,wd.st+x.e).toLowerCase(),fin:wi===words.length-1&&k===wd.ss.length-1})));return {i,syl}});
+      while((m=re.exec(l))){const st=m.index;if(pr.some(([a,z])=>st>=a&&st<=z))continue;const ss=vowSyl(m[0].toLowerCase());if(ss.length)words.push({st,ss,wt:m[0].toLowerCase().replace(/([aeiouyąęó])\1{2,}/g,'$1')})}
+      const syl=[];words.forEach((wd,wi)=>wd.ss.forEach((x,k)=>syl.push({s:wd.st+x.s,e:wd.st+x.e,c:x.c,wt:wd.wt,t:l.slice(wd.st+x.s,wd.st+x.e).toLowerCase(),fin:wi===words.length-1&&k===wd.ss.length-1})));return {i,syl}});
     const mark=SY.map(x=>new Set()),uf=new Map();const fnd=x=>{while(uf.has(x)&&uf.get(x)!==x){uf.set(x,uf.get(uf.get(x)));x=uf.get(x)}return x};const uni=(a,b)=>{if(!uf.has(a))uf.set(a,a);if(!uf.has(b))uf.set(b,b);uf.set(fnd(a),fnd(b))};
     for(let p=0;p<SY.length;p++)for(let q=p;q<=Math.min(p+4,SY.length-1);q++){
       const A=SY[p].syl,B=SY[q].syl,n=A.length,m=B.length;if(!n||!m)continue;
@@ -594,11 +597,11 @@ function rhymeSyl(lines,odAt){const secs=[];let cur=[];
       for(let a=0;a<n;a++)for(let b=0;b<m;b++)D[a+1][b+1]=A[a].c===B[b].c?D[a][b]+1:0;
       for(let a=0;a<n;a++)for(let b=0;b<m;b++){const L=D[a+1][b+1];if(L<1)continue;if(a+1<n&&b+1<m&&A[a+1].c===B[b+1].c)continue;
         const ai=a-L+1,bi=b-L+1;if(p===q&&!(a<bi))continue;
-        let strong=0,full=0,same=true;for(let k=0;k<L;k++){if(rimeOf(A[ai+k].t)===rimeOf(B[bi+k].t))strong++;if(A[ai+k].t===B[bi+k].t){if(!STOPS.has(A[ai+k].t))full++}else same=false}
-        if(same)continue;const fa=A[a].fin&&B[b].fin;
+        let strong=0,full=0,same=true,idr=0,idm=0;for(let k=0;k<L;k++){if(rimeN(A[ai+k].t)===rimeN(B[bi+k].t))strong++;if(A[ai+k].t===B[bi+k].t){if(!STOPS.has(A[ai+k].t)&&A[ai+k].wt!==B[bi+k].wt)full++;idr++;if(idr>idm)idm=idr}else{same=false;idr=0}}
+        if(same||idm>=2)continue;const fa=A[a].fin&&B[b].fin;
         const ok=L>=3?(strong>=L-1&&(full>=1||fa)):L===2?((strong===2&&full>=1)||(fa&&strong>=1)):(fa&&strong===1&&rimeOf(A[a].t).length>=2);
         if(ok){const f0=p+':'+ai;for(let k=0;k<L;k++){mark[p].add(ai+k);mark[q].add(bi+k);uni(f0,p+':'+(ai+k));uni(f0,q+':'+(bi+k))}}}}
-    const col=new Map();let gn=0;SY.forEach((x,k)=>{if(!mark[k].size)return;out.set(x.i,[...mark[k]].sort((a,b)=>a-b).map(j=>{const r=fnd(k+':'+j);if(!col.has(r))col.set(r,gn++);return {s:x.syl[j].s,e:x.syl[j].e,c:x.syl[j].c,g:col.get(r)}}))})});
+    const col=new Map();let gn=0;SY.forEach((x,k)=>{if(!mark[k].size)return;out.set(x.i,[...mark[k]].sort((a,b)=>a-b).map(j=>{const r=fnd(k+':'+j);if(!col.has(r))col.set(r,gn++);return {s:x.syl[j].s,e:x.syl[j].e,c:x.syl[j].c,g:col.get(r)}}).reduce((acc,t)=>{const l=acc[acc.length-1];if(l&&l.g===t.g&&l.e===t.s)l.e=t.e;else acc.push(t);return acc},[]))})});
   return out}
 function rhTxt(line,seg,list,mode){
   if(mode==='smart')return (list&&list.length)?rhTxtG(line,seg,list,t=>`rh rh${t.g%10} ex`):seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:esc(x.t)).join('');
@@ -659,7 +662,8 @@ function placeVerseBtns(vs){const box=$('#verseBtns');if(!box)return;const ch=$(
   box.innerHTML=vs.map(v=>{const el=ch[v.idx];if(!el)return'';return `<button class="vbtn" data-i="${v.idx}" style="top:${el.offsetTop+Math.round(el.offsetHeight/2)-11}px" aria-label="Analiza wersu ${v.no}">✦</button>`}).join('');
   box.querySelectorAll('.vbtn').forEach(b=>b.onclick=()=>sheetWers(+b.dataset.i))}
 let sel={s:0,e:0},sheetRe=null;
-function trackSel(){const b=$('#body');if(document.activeElement===b){sel={s:b.selectionStart,e:b.selectionEnd};selBar()}}
+let selT=null;
+function trackSel(){const b=$('#body');if(document.activeElement===b){sel={s:b.selectionStart,e:b.selectionEnd};clearTimeout(selT);selT=setTimeout(selBar,160)}}
 function curVerse(){const b=$('#body'),v=b.value,idx=v.slice(0,Math.min(sel.s,v.length)).split('\n').length-1,lines=v.split('\n'),l=lines[idx]||'';
   const OD=findOdrzut(lines);if(OD&&idx>=OD.at)return null;
   if(!l.trim()||isLabel(l)||/^\s*(#|\/\/)/.test(l)||/^-[^\s-]/.test(l))return null;
@@ -670,7 +674,7 @@ function selBar(){const bar=$('#selbar'),b=$('#body');if(!bar||!cur)return;
   const cv=curVerse(),t=b.value.slice(sel.s,sel.e).trim();
   const word=sel.e>sel.s&&t&&t.length<=40&&/[a-ząćęłńóśźż]/i.test(t)&&!t.includes('\n');
   if(!cv&&!word){bar.hidden=true;return}
-  bar.hidden=false;bar.style.top=($('#tools').offsetHeight||44)+'px';
+  bar.hidden=false;$('#selwrap').style.top=($('#tools').offsetHeight||44)+'px';
   $('#selw').textContent=word?'„'+t+'”':(cv?'Wers '+cv.no:'');
   bar.dataset.idx=cv?cv.idx:''}
 function selWord(){const b=$('#body');return b.value.slice(sel.s,sel.e).trim()}
@@ -1017,8 +1021,8 @@ function sheetWers(idx,ai){const L=warLinie(),l=L[idx];if(!l)return;const R=warA
   $('#wF').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('#wF').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));wersAI(idx,b.dataset.f)});
   if(ai){const w=$('#wF');if(w&&w.scrollIntoView)setTimeout(()=>w.scrollIntoView({block:'center'}),60)}}
 function aiCall(system,user,max){const k=ls('nt-akey');if(!k)return Promise.reject(new Error('Wpisz klucz API w menu ⋯ → Klucz API Claude'));
-  return fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-5-5',max_tokens:max||2000,system,messages:[{role:'user',content:user}]})})
-    .then(r=>r.json().then(j=>{if(!r.ok)throw new Error((j.error&&j.error.message)||('HTTP '+r.status));return (j.content||[]).map(x=>x.text||'').join('').trim()}))}
+  return fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-5-5',max_tokens:Math.max(max||2000,3500),system,messages:[{role:'user',content:user}]})})
+    .then(r=>r.json().then(j=>{if(!r.ok)throw new Error((j.error&&j.error.message)||('HTTP '+r.status));const t=(j.content||[]).filter(x=>x.type==='text').map(x=>x.text||'').join('').trim();if(!t)throw new Error('Model nie zwrócił tekstu (stop_reason: '+(j.stop_reason||'?')+', bloki: '+((j.content||[]).map(x=>x.type).join(',')||'brak')+'). Spróbuj ponownie.');return t}))}
 function warAnalizaAI(){const o=$('#warAIo'),b=$('#body');o.innerHTML='<div class="hint">Analizuję…</div>';
   const txt=b.value.split('\n').map((l,i)=>(i+1)+': '+l).join('\n').slice(0,6000);
   aiCall('Jesteś redaktorem tekstów piosenek i poezji. Znasz polskie środki stylistyczne: epitet, metafora, porównanie, inwersja, oksymoron, hiperbola, ironia, antyteza, apostrofa, metonimia, neologizm, frazeologizm, onomatopeja, aliteracja. Odpowiadasz zwięźle po polsku.','Wskaż w tekście (numeracja linii na początku) konkretne użycia środków stylistycznych: epitetów, metafor, inwersji, oksymoronów, ironii, antytez, metonimii, neologizmów. Format: jedna linia na znalezisko: "linia N | środek | cytat | krótkie wyjaśnienie". Bez wstępu. Nie wymyślaj, jeśli czegoś nie ma.\n\n'+txt,1800)
@@ -1030,6 +1034,7 @@ function wersAI(idx,fig){const o=$('#wOut'),b=$('#body'),v=b.value,L=v.split('\n
   aiCall('Jesteś współautorem tekstów rapowych i poetyckich po polsku. Zachowujesz sens, rytm i (jeśli to możliwe) liczbę sylab oraz końcówkę rymującą się wersu. Odpowiadasz wyłącznie listą wariantów, jeden w linii, bez numeracji i komentarzy.',
     `Kontekst:\n${ctx}\n\nWers: "${line}"\nŚrodek stylistyczny: ${SRODKI[fig].n} (${SRODKI[fig].d})\nZaproponuj 8 wariantów tego wersu z użyciem tego środka.`,900)
   .then(t=>{const A=t.split('\n').map(x=>x.replace(/^[\-\*\d\.\)\s"„]+|["”]+$/g,'').trim()).filter(Boolean).slice(0,10);
+    if(!A.length){o.innerHTML='<div class="hint">Pusta odpowiedź modelu: '+esc(t.slice(0,300))+'</div>';return}
     o.innerHTML=A.map(x=>`<div class="wr" data-t="${esc(x)}">${esc(x)} <i>${sylText(x)} syl.</i></div>`).join('');
     o.querySelectorAll('.wr').forEach(r=>r.onclick=()=>{const L2=b.value.split('\n');L2[idx]=r.dataset.t;b.value=L2.join('\n');edit();closeSheet();showTab('text')})})
   .catch(e=>{o.innerHTML='<div class="hint" style="color:var(--danger)">'+esc(e.message)+'</div>'})}
