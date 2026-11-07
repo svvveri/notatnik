@@ -163,7 +163,7 @@ body[data-view="edit"] #fab{display:none}
 .pomcats{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}.pomcats button{padding:6px 12px;border-radius:999px;border:1px solid var(--line);font-size:13.5px;white-space:normal;text-align:left;line-height:1.25}.pomcats button.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
 #selbar{position:sticky;z-index:3;display:flex;align-items:center;gap:8px;padding-top:7px;padding-bottom:7px;background:var(--bg);border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
 #selbar[hidden]{display:none}#selw{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;color:var(--fg)}
-.ln{display:flex;gap:12px;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer;line-height:1.35}.ln div{flex:1;min-width:0}.ln span{flex:none;max-width:36%;font-size:12.5px;color:var(--dim);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ln b{font-weight:700;color:var(--acc)}
+.ln.ro{cursor:default}.ln{display:flex;gap:12px;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer;line-height:1.35}.ln div{flex:1;min-width:0}.ln span{flex:none;max-width:36%;font-size:12.5px;color:var(--dim);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ln b{font-weight:700;color:var(--acc)}
 .rsec{margin:0 0 22px}.rsec h3{margin:6px 0 4px;font:700 19px/1.2 var(--font-d)}.rsec h3 span{font:400 13px var(--font);color:var(--dim);margin-left:8px}
 .ranch{display:flex;gap:6px;align-items:center;margin:6px 0 10px;color:var(--dim);font-size:13px}.ranch button{padding:3px 11px;border-radius:999px;border:1px solid var(--line);color:var(--acc);font-size:14px}
 .rc.rare{color:var(--dim);font-weight:400}.rc:not(.rare):not(.more){font-weight:600}
@@ -709,6 +709,18 @@ function drawPomysly(q){const box=$('#rres');const w=q.trim();
   if(!ls('nt-akey')){box.innerHTML=cats+'<div class="hint">Pomysły generuje model Claude. Wpisz swój klucz API w menu (⋯ → Klucz API Claude), a pojawią się synonimy, wyrażenia i slang do „'+esc(w)+'”.</div>';wire();return}
   box.innerHTML=cats+'<div class="hint">Szukam pomysłów do „'+esc(w)+'”…</div>';wire();
   pomGet(w).then(o=>{if(lastR&&lastR.q===q&&rmode==='pom'){box.innerHTML=cats+(body(o)||'<div class="hint">Brak wyników.</div>');wire()}}).catch(e=>{if(lastR&&lastR.q===q&&rmode==='pom'){box.innerHTML=cats+'<div class="hint" style="color:var(--danger)">Nie udało się pobrać pomysłów ('+esc(e.message||'błąd')+').</div>';wire()}})}
+/* ---- zewnętrzne źródła: poezja z Wolnych Lektur (domena publiczna), konteksty z Wikipedii ---- */
+let WLP=null;const CTX=new Map();
+function loadWL(){if(!WLP)WLP=Promise.all([fetch('lin/wl.txt').then(r=>{if(!r.ok)throw 0;return r.text()}),fetch('lin/wl_meta.txt').then(r=>r.text())]).then(([a,b])=>{
+  const meta=new Map();b.split('\n').forEach(x=>{const p=x.split('\t');meta.set(p[0],{a:p[1]||'',t:p[2]||''})});
+  const L=[];a.split('\n').forEach(x=>{const i=x.indexOf('\t');if(i<0)return;const t=x.slice(i+1),n=t.toLowerCase().replace(/[^a-ząćęłńóśźż]+/g,' ').trim(),ws=n.split(' ');L.push({p:x.slice(0,i),t,n:' '+n+' ',lw:ws[ws.length-1]})});
+  return {L,meta}}).catch(()=>{WLP=null;return null});return WLP}
+function wlSearch(W,k,qlast){const sk=skelOf(k.tail),qt=trailOf(k.tail).slice(-1),has=[],rh=[],cls=new Map();
+  const m=x=>({t:x.t,m:W.meta.get(x.p)||{a:'',t:''}});const needle=' '+qlast+' ';
+  for(const x of W.L){if(has.length<80&&x.n.includes(needle))has.push(m(x));
+    if(rh.length<120&&x.lw&&x.lw!==qlast){let c=cls.get(x.lw);if(c===undefined){const rk=rkey(x.lw);c=!!(rk&&skelOf(rk.tail)===sk&&trailOf(rk.tail).slice(-1)===qt);cls.set(x.lw,c)}if(c)rh.push(m(x))}}
+  return {has,rh}}
+function loadCtx(w){const ch=(w[0]||'').charCodeAt(0).toString(16);if(!CTX.has(ch))CTX.set(ch,fetch('ctx/'+ch+'.txt').then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>{const m=new Map();t.split('\n').forEach(l=>{const p=l.split('\t');if(p.length>=3)m.set(p[0],{b:p[1]?p[1].split(' '):[],a:p[2]?p[2].split(' '):[]})});return m}).catch(()=>{CTX.delete(ch);return null}));return CTX.get(ch)}
 function ownLines(k,qlast){const has=[],rh=[],bef=new Map(),aft=new Map(),near=new Map();const inc=(m,w)=>m.set(w,(m.get(w)||0)+1);
   const sk=skelOf(k.tail);
   for(const n of T.values()){for(const l of n.tresc.split('\n')){if(!l.trim()||isLabel(l)||/^\s*(#|\/\/|https?:)/.test(l))continue;
@@ -743,11 +755,18 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
   else if(rmode==='pom'){$('#rsyl').innerHTML='';drawPomysly(q);return}
   else if(rmode==='lin'){$('#rsyl').innerHTML='';const qw=wordsOf(q).slice(-1)[0]||'';
     const ln=a=>a.map(x=>`<div class="ln" data-id="${esc(x.n.id)}"><div>${hl(x.l,qw)}</div><span>${esc(x.n.tytul||'Bez tytułu')}</span></div>`).join('');
-    html=(OL.has.length?`<div class="rsec"><h3>Linie ze słowem „${esc(qw)}”<span>${OL.has.length}</span></h3>${ln(OL.has)}</div>`:'')+
-      (OL.rh.length?`<div class="rsec"><h3>Linie rymujące się<span>${OL.rh.length}</span></h3>${ln(OL.rh)}</div>`:'')||'<div class="hint">W Twoich tekstach nie ma jeszcze linii z tym słowem ani rymujących się z nim.</div>'}
+    if(lastR.WL===undefined){lastR.WL=null;const L0=lastR;loadWL().then(W=>{L0.WL=W?wlSearch(W,k,qw):false;if(lastR===L0&&rmode==='lin')drawRymy()})}
+    const lw=a=>a.map(x=>`<div class="ln ro"><div>${hl(x.t,qw)}</div><span>${esc(x.m.a)}${x.m.a&&x.m.t&&x.m.t!==x.m.a?', ':''}${esc(x.m.t===x.m.a?'':x.m.t)}</span></div>`).join('');
+    const W=lastR.WL;
+    html=(OL.has.length?`<div class="rsec"><h3>Twoje teksty: linie ze słowem „${esc(qw)}”<span>${OL.has.length}</span></h3>${ln(OL.has)}</div>`:'')+
+      (OL.rh.length?`<div class="rsec"><h3>Twoje teksty: linie rymujące się<span>${OL.rh.length}</span></h3>${ln(OL.rh)}</div>`:'')+
+      (W?((W.has.length?`<div class="rsec"><h3>Poezja (Wolne Lektury): linie ze słowem<span>${W.has.length}</span></h3>${lw(W.has)}</div>`:'')+(W.rh.length?`<div class="rsec"><h3>Poezja (Wolne Lektury): linie rymujące się<span>${W.rh.length}</span></h3>${lw(W.rh)}</div>`:'')):W===false?'<div class="hint">Nie udało się wczytać poezji (brak sieci?).</div>':'<div class="hint">Wczytuję poezję z Wolnych Lektur…</div>')}
   else if(rmode==='kon'){$('#rsyl').innerHTML='';
     const cc=(t,a)=>a.length?`<div class="rsec"><h3>${t}<span>${a.length}</span></h3><div class="rcs">${a.map(c=>`<button class="rc ${c.c>1?'':'rare'}" data-p="${esc(c.p)}">${esc(c.p)}${c.c>1?`<i>${c.c}</i>`:''}</button>`).join('')}</div></div>`:'';
-    html=cc('Słowa przed',OL.bef)+cc('Słowa po',OL.aft)+cc('Słowa w tej samej linii',OL.near)||'<div class="hint">W Twoich tekstach nie ma jeszcze tego słowa.</div>'}
+    if(lastR.CX===undefined){lastR.CX=null;const L0=lastR,w=wordsOf(q).slice(-1)[0]||'';loadCtx(w).then(m=>{L0.CX=m?(m.get(w)||{b:[],a:[]}):false;if(lastR===L0&&rmode==='kon')drawRymy()})}
+    const X=lastR.CX,wc=(t,a)=>a&&a.length?`<div class="rsec"><h3>${t}<span>${a.length}</span></h3><div class="rcs">${a.map(p=>`<button class="rc" data-p="${esc(p)}">${esc(p)}</button>`).join('')}</div></div>`:'';
+    html=cc('Twoje teksty: słowa przed',OL.bef)+cc('Twoje teksty: słowa po',OL.aft)+cc('Twoje teksty: słowa w tej samej linii',OL.near)+
+      (X?wc('Wikipedia: słowa przed',X.b)+wc('Wikipedia: słowa po',X.a):X===false?'<div class="hint">Nie udało się wczytać kontekstów (brak sieci?).</div>':'<div class="hint">Wczytuję konteksty…</div>')}
   else{$('#rsyl').innerHTML='';
     html=sec('m',MODES.find(m=>m[0]===rmode)[1],MOPIS[rmode],R[rmode])||'<div class="hint">Nic nie znalazłam w tym rodzaju.</div>'}
   $('#rres').innerHTML=html;
