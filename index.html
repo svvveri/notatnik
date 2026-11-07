@@ -844,7 +844,7 @@ function pomGet(w){const key='nt-pom1:'+w.toLowerCase();if(POM.has(key))return P
   POM.set(key,p);p.catch(()=>POM.delete(key));return p}
 function drawPomysly(q){const box=$('#rres');const w=q.trim();
   const cats=`<div class="pomcats" id="pomCats">${POMK.map(([id,l])=>`<button data-c="${id}" class="${pomCat===id?'on':''}">${l}</button>`).join('')}</div>`;
-  const body=o=>{const mj=(pomCat==='sto'||pomCat==='sz')?`<div class="shBtns"><a class="lnkbtn" href="${mjUrl(w)}" target="_blank" rel="noopener">„${esc(w)}” na miejski.pl ↗</a></div>`:'';const L=(t,a)=>Array.isArray(a)&&a.length?`<div class="rsec"><h3>${t}<span>${a.length}</span></h3><div class="rcs">${a.map(x=>`<button class="rc" data-p="${esc(String(x))}">${esc(String(x))}</button>`).join('')}</div></div>`:'';
+  const body=o=>{const mj=(pomCat==='sto'||pomCat==='sz')?mjBtns(w):'';const L=(t,a)=>Array.isArray(a)&&a.length?`<div class="rsec"><h3>${t}<span>${a.length}</span></h3><div class="rcs">${a.map(x=>`<button class="rc" data-p="${esc(String(x))}">${esc(String(x))}</button>`).join('')}</div></div>`:'';
     return pomCat==='syn'?L('Synonimy',o.synonimy)+L('Antonimy',o.antonimy)+L('Skojarzenia słowne',o.skojarzenia):
       pomCat==='wto'?L('Wyrażenia oznaczające to samo',o.wyrazenia_to_samo):pomCat==='wz'?L('Wyrażenia z tymi słowami',o.wyrazenia_z):
       pomCat==='sto'?L('Slang oznaczający to samo',o.slang_to_samo)+mj:L('Slang z tymi słowami',o.slang_z)+mj};
@@ -1192,12 +1192,14 @@ function usage(p){const ws=wordsOf(p),out=[];
   return out}
 function hl(l,p){const e=esc(l);try{return e.replace(new RegExp('('+p.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<b>$1</b>')}catch(_){return e}}
 const mjUrl=p=>'https://www.miejski.pl/slowo-'+encodeURIComponent(p.trim()).replace(/%20/g,'+');
+const mjSearch=p=>'https://www.google.com/search?q='+encodeURIComponent('site:miejski.pl "'+p.trim()+'"');
+const mjBtns=p=>`<div class="shBtns"><a class="lnkbtn" href="${mjUrl(p)}" target="_blank" rel="noopener">Hasło „${esc(p)}” na miejski.pl ↗</a></div><div class="shBtns"><a class="lnkbtn" href="${mjSearch(p)}" target="_blank" rel="noopener">Szukaj na miejski.pl (jeśli nie ma hasła) ↗</a></div>`;
 function wordCard(p){const k=rkey(p),ex=usage(p);
   openSheet(`<div class="shHead"><h3>${esc(p)}</h3><button class="x" id="x" aria-label="Zamknij">×</button></div>
   <div class="wc">wymowa <b>${esc(k?k.f:'')}</b> · ${sylText(p)} sylab</div>
   ${ex.length?`<div class="wh">W Twoich tekstach</div><div id="exList">`+ex.map(e=>`<div class="ex"><span>${esc(e.t)}</span>${hl(e.l,p)}</div>`).join('')+'</div>':'<p class="hint">Jeszcze nie użyłeś tego słowa w żadnym tekście.</p>'}
   <div class="shBtns"><button id="wcR">Rymy do tego</button><button class="pri" id="wcA">+ Na ścianę</button></div>
-  <div class="shBtns"><a class="lnkbtn" href="${mjUrl(p)}" target="_blank" rel="noopener">Slang: sprawdź na miejski.pl ↗</a></div>`);
+  ${mjBtns(p)}`);
   $('#x').onclick=closeSheet;$('#wcA').onclick=()=>{addToWall(p);closeSheet();drawRymy()};
   $('#wcR').onclick=()=>{closeSheet();$('#rq').value=p;szukajRymow(p)}}
 
