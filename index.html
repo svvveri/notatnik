@@ -7,7 +7,7 @@
 <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png">
 <title>Notatnik tekstów</title>
 <style>
-html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:#0f0f10}
+html{background:#0f0f10;overscroll-behavior:none}
 body{margin:0}[hidden]{display:none!important}
 /* Układ: jak Apple Notes na iPhonie. Lista w zaokrąglonych grupach (tagi = filtry) → edytor z przyklejonym paskiem (BPM, tonacja, adlib, rymy) i zakładką „Ściana rymów”. Od 860 px: lista i edytor obok siebie. */
 :root{
@@ -37,7 +37,7 @@ input,textarea{font:inherit;color:var(--fg)}
 svg{display:block}
 :focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
 .gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-#app{height:100%;display:grid;grid-template-columns:minmax(0,1fr)}
+#app{position:fixed;inset:0;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);background:var(--ground)}
 .pane{min-width:0;min-height:0;display:flex;flex-direction:column}
 #listPane{background:var(--ground)}
 #editPane{display:none;background:var(--bg)}
@@ -370,6 +370,7 @@ function isLabel(l){const s=l.trim();if(!s||s.length>40)return false;
   if(/^\[[^\]]+\]$/.test(s))return true;
   const t=s.replace(/^\[|\]$/g,'').replace(/:$/,'').trim(),w=t.split(/\s+/).length;
   if(w<=4&&/^(?:\S+\s+)?(?:pre[- ]?hook|pre[- ]?chorus|przedrefren|hook|refren|ref|chorus|verse|zwrotka|bridge|intro|outro|interlude|skit)(?:\s+\S+)?$/i.test(t))return true;
+  if(w<=4&&!/[,.!?;]/.test(t)&&/^(?:pre[- ]?hook|pre[- ]?chorus|przedrefren|hook|refren|chorus|verse|zwrotka|bridge|intro|outro)(?=$|[\s:(\-–x\d])/i.test(t))return true;
   return s.endsWith(':')&&w<=2}
 const labName=l=>l.trim().replace(/^\[|\]$/g,'').replace(/:$/,'').trim();
 /* ---- fonetyka i rymy (deterministycznie, bez AI) ---- */
@@ -716,8 +717,11 @@ function bindAudio(){document.querySelectorAll('#sheet .aud').forEach(box=>{cons
 /* ---- metronom ---- */
 const MET={ctx:null,id:null,next:0,i:0,bpm:90};
 const MIC='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>';
-function metClick(t,acc){const c=MET.ctx,o=c.createOscillator(),g=c.createGain();o.type='square';o.frequency.value=acc?1600:1000;
-  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.35,t+.002);g.gain.exponentialRampToValueAtTime(.0001,t+.05);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+.06)}
+function metClick(t,acc){const c=MET.ctx,f=acc?392:294,g=c.createGain(),lp=c.createBiquadFilter();
+  lp.type='lowpass';lp.frequency.value=1400;lp.Q.value=.3;
+  g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(acc?.5:.36,t+.006);g.gain.exponentialRampToValueAtTime(.0001,t+.16);
+  g.connect(lp);lp.connect(c.destination);
+  [[1,1],[2,.22]].forEach(([m,v])=>{const o=c.createOscillator(),h=c.createGain();o.type='sine';o.frequency.value=f*m;h.gain.value=v;o.connect(h);h.connect(g);o.start(t);o.stop(t+.2)})}
 function metStart(bpm,onBeat){metStop();const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return false;
   try{MET.ctx=MET.ctx||new AC();if(MET.ctx.resume)MET.ctx.resume()}catch(e){return false}
   MET.bpm=bpm;MET.i=0;MET.next=MET.ctx.currentTime+.08;
