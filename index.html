@@ -218,6 +218,7 @@ body[data-view="edit"] #fab{display:none}
 #keyGrid button{padding:12px 0;border-radius:11px;background:var(--chip);font-size:16px;font-weight:600}
 #keyGrid button.on{background:var(--acc-fill);color:var(--on-acc)}
 #mirror .vw.sm.va{background:hsl(50 95% 55% / .30)}#mirror .vw.sm.ve{background:hsl(125 62% 50% / .28)}#mirror .vw.sm.vi{background:hsl(0 0% 62% / .30)}#mirror .vw.sm.vo{background:hsl(2 78% 58% / .30)}#mirror .vw.sm.vu{background:hsl(212 82% 60% / .30)}
+#mirror .ch{color:hsl(275 75% 72%);text-decoration:underline dotted hsl(275 75% 72% / .7);text-underline-offset:3px}
 #mirror .vw{border-radius:3px}
 #mirror .va{background:hsl(50 95% 55% / .50)}#mirror .ve{background:hsl(125 62% 50% / .45)}#mirror .vi{background:hsl(0 0% 62% / .42)}#mirror .vo{background:hsl(2 78% 58% / .48)}#mirror .vu{background:hsl(212 82% 60% / .48)}
 #mirror .rh{border-radius:4px;background:hsl(var(--rc) 70% 52% / .38);}
@@ -317,7 +318,7 @@ body[data-view="edit"] #fab{display:none}
           <div id="mirror" aria-hidden="true"></div>
           <div id="labBtns"></div>
           <div id="verseBtns"></div>
-          <textarea id="body" spellcheck="false" placeholder="Pisz… Nawias ( ) to adlib, „Refren:” albo „Verse 1” zaczyna część." aria-label="Tekst"></textarea>
+          <textarea id="body" spellcheck="false" placeholder="Pisz… Nawias ( ) to adlib, WIELKIE LITERY to chórki, „Refren:” albo „Verse 1” zaczyna część." aria-label="Tekst"></textarea>
         </div>
       </div>
       <div id="wall" class="gut" hidden>
@@ -603,17 +604,20 @@ function rhymeSyl(lines,odAt){const secs=[];let cur=[];
         if(ok){const f0=p+':'+ai;for(let k=0;k<L;k++){mark[p].add(ai+k);mark[q].add(bi+k);uni(f0,p+':'+(ai+k));uni(f0,q+':'+(bi+k))}}}}
     const col=new Map();let gn=0;SY.forEach((x,k)=>{if(!mark[k].size)return;out.set(x.i,[...mark[k]].sort((a,b)=>a-b).map(j=>{const r=fnd(k+':'+j);if(!col.has(r))col.set(r,gn++);return {s:x.syl[j].s,e:x.syl[j].e,c:x.syl[j].c,g:col.get(r)}}).reduce((acc,t)=>{const l=acc[acc.length-1];if(l&&l.g===t.g&&l.e===t.s)l.e=t.e;else acc.push(t);return acc},[]))})});
   return out}
+/* chórki: WIELKIE LITERY (min. 2 litery w słowie) = kilka wokali; liczą się jak zwykły tekst, tylko inny kolor */
+const CHRX=/(?<![A-Za-ząćęłńóśźżĄĆĘŁŃÓŚŹŻ])([A-ZĄĆĘŁŃÓŚŹŻ]{2,}(?:[\s,.!?'-]+[A-ZĄĆĘŁŃÓŚŹŻ]{2,})*)(?![A-Za-ząćęłńóśźżĄĆĘŁŃÓŚŹŻ])/g;
+const chEsc=t=>esc(t).replace(CHRX,'<span class="ch">$1</span>');
 function rhTxt(line,seg,list,mode){
-  if(mode==='smart')return (list&&list.length)?rhTxtG(line,seg,list,t=>`rh rh${t.g%10} ex`):seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:esc(x.t)).join('');
+  if(mode==='smart')return (list&&list.length)?rhTxtG(line,seg,list,t=>`rh rh${t.g%10} ex`):seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:chEsc(x.t)).join('');
   if(mode==='all')return seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:vowHtml(x.t)).join('');
-  if(!list||!list.length)return seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:esc(x.t)).join('');
+  if(!list||!list.length)return seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:chEsc(x.t)).join('');
   return rhTxtG(line,seg,list)}
 function rhTxtG(line,seg,list,cf){if(!list||!list.length)return seg.map(x=>x.ad?`<span class="ad">${esc(x.t)}</span>`:esc(x.t)).join('');
   let pos=0,h='';
   for(const x of seg){const st=pos,en=pos+x.t.length;pos=en;
     if(x.ad){h+=`<span class="ad">${esc(x.t)}</span>`;continue}
-    let p=st;for(const t of list){if(t.s<st||t.e>en)continue;h+=esc(line.slice(p,t.s))+`<span class="${cf?cf(t):'rh rh'+t.c+' '+t.k}">${esc(line.slice(t.s,t.e))}</span>`;p=t.e}
-    h+=esc(line.slice(p,en))}
+    let p=st;for(const t of list){if(t.s<st||t.e>en)continue;h+=chEsc(line.slice(p,t.s))+`<span class="${cf?cf(t):'rh rh'+t.c+' '+t.k}">${chEsc(line.slice(t.s,t.e))}</span>`;p=t.e}
+    h+=chEsc(line.slice(p,en))}
   return h}
 function findOdrzut(lines){
   const mk=/^\s*(-{3,}|={3,}|\*{3,}|_{3,}|\/{3,}|#{3,}|(odrzuty|odrzut|szkice|notatki|pomysły|na później|reszta)\s*:?)\s*$/i;
@@ -645,8 +649,8 @@ function refit(){const b=$('#body');b.style.height='auto';b.style.height=Math.ma
     if(kd==='cm')return `<div class="ml cm">${esc(l)}</div>`;
     if(kd==='st'){odN++;return `<div class="ml st">${esc(l)}<i>odrzut</i></div>`}
     const p=parseLine(l);
-    const isV=p.hasMain||p.ad>0;   // wers złożony wyłącznie z adlibu też jest wersem
-    if(isV){wers++;syl+=p.hasMain?p.main:p.ad;sec.n++;verses.push({idx,no:sec.n,sec:sec.name})}
+    const isV=p.hasMain;   // linia z samym adlibem (w nawiasie) nie jest wersem
+    if(isV){wers++;syl+=p.main;sec.n++;verses.push({idx,no:sec.n,sec:sec.name})}
     adSyl+=p.ad;
     const no=(VS.nums&&isV)?`<span class="no">${sec.n}</span>`:'';
     const txt=rhTxt(l,p.seg,RC.get(idx),VS.rhm);
@@ -668,7 +672,8 @@ function trackSel(){const b=$('#body');if(document.activeElement===b){sel={s:b.s
 function curVerse(){const b=$('#body'),v=b.value,idx=v.slice(0,Math.min(sel.s,v.length)).split('\n').length-1,lines=v.split('\n'),l=lines[idx]||'';
   const OD=findOdrzut(lines);if(OD&&idx>=OD.at)return null;
   if(!l.trim()||isLabel(l)||/^\s*(#|\/\/)/.test(l)||/^-[^\s-]/.test(l))return null;
-  let no=0;for(let i=0;i<=idx;i++){if(isLabel(lines[i]))no=0;else if(lines[i].trim()&&!/^\s*(#|\/\/)/.test(lines[i])&&!/^-[^\s-]/.test(lines[i]))no++}
+  if(!parseLine(l).hasMain)return null;
+  let no=0;for(let i=0;i<=idx;i++){if(isLabel(lines[i]))no=0;else if(lines[i].trim()&&!/^\s*(#|\/\/)/.test(lines[i])&&!/^-[^\s-]/.test(lines[i])&&parseLine(lines[i]).hasMain)no++}
   return {idx,no}}
 function selBar(){const bar=$('#selbar'),b=$('#body');if(!bar||!cur)return;
   if(tab!=='text'){bar.hidden=true;return}
@@ -990,7 +995,7 @@ function warAnaliza(){const L=warLinie(),out=[],strophes=[];let cur=[];
   return out}
 const TYP={refren:8,hook:8,chorus:8,zwrotka:16,verse:16,bridge:4,'pre-hook':4,prehook:4,przedrefren:4};
 function warStruct(){const L=warLinie(),out=[];let cur={name:'Początek',v:[]};
-  L.forEach(l=>{if(l.lab){if(cur.v.length||cur.name!=='Początek')out.push(cur);cur={name:labName(l.t),v:[]};return}if(!l.skip&&(l.ws.length||l.adv))cur.v.push(l)});if(cur.v.length||out.length===0)out.push(cur);
+  L.forEach(l=>{if(l.lab){if(cur.v.length||cur.name!=='Początek')out.push(cur);cur={name:labName(l.t),v:[]};return}if(!l.skip&&l.ws.length)cur.v.push(l)});if(cur.v.length||out.length===0)out.push(cur);
   return out.filter(x=>x.v.length).map(x=>{const sy=x.v.map(l=>l.ws.length?sylText(l.t):parseLine(l.t).ad),av=sy.reduce((a,b)=>a+b,0)/sy.length;let letters=[],n=0;
     x.v.forEach((l,i)=>{let g=null;for(let j=i-1;j>=0;j--){if(l.last&&x.v[j].last&&warRhyme(x.v[j].last,l.last)){g=letters[j];break}}letters.push(g||String.fromCharCode(97+(n++%26)))});
     const key=x.name.toLowerCase().split(/\s+/)[0].replace(/[:\d]/g,'');return {name:x.name,n:x.v.length,av,sch:letters.join('').slice(0,24),typ:TYP[key]}})}
@@ -1008,7 +1013,7 @@ function sheetWarsztat(){const n=T.get(cur);if(!n)return;const R=warAnaliza(),st
   $('#sheet').querySelectorAll('.wr[data-l]').forEach(r=>r.onclick=()=>warGoto(+r.dataset.l))}
 function warGoto(ln){const b=$('#body'),L=b.value.split('\n');let s=0;for(let i=0;i<ln-1;i++)s+=L[i].length+1;closeSheet();showTab('text');b.focus();try{b.setSelectionRange(s,s+(L[ln-1]||'').length)}catch(_){}sel={s,e:s+(L[ln-1]||'').length}}
 function sheetWers(idx,ai){const L=warLinie(),l=L[idx];if(!l)return;const R=warAnaliza().filter(r=>r.lines.includes(idx+1));
-  let secName='Początek',no=0;for(let i=0;i<=idx;i++){if(L[i].lab){secName=labName(L[i].t);no=0}else if(!L[i].skip&&(L[i].ws.length||L[i].adv))no++}
+  let secName='Początek',no=0;for(let i=0;i<=idx;i++){if(L[i].lab){secName=labName(L[i].t);no=0}else if(!L[i].skip&&L[i].ws.length)no++}
   const rh=R.filter(r=>r.f==='rym'&&r.lines.length===2),fg=R.filter(r=>r.f!=='rym'&&r.f!=='bialy'),sc=R.filter(r=>r.f==='rym'&&r.lines.length===1);
   const last=l.last,figs=['epitet','porownanie','hiperbola','oksymoron','metafora','inwersja','anafora','onomatopeja','aliteracja','ironia','antyteza'];
   openSheet(`<div class="shHead"><h3>Wers ${no} · ${esc(secName)}</h3><button class="x" id="x" aria-label="Zamknij">×</button></div><div class="warbody">
