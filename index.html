@@ -951,13 +951,13 @@ async function rymCompute(q,noExt,full){
   /* podobieństwo całej końcówki słowa do szukanego (ą≈o, ę≈e), żeby „ciemno” stało przed „tobą” przy „mną” */
   const nz=f=>f.replace(/[ąęó]/g,c=>c==='ą'?'o':c==='ę'?'e':'u'),qn=nz(qlast);
   const wsim=w=>Math.min(8,sufLen(nz(w),qn));
-  const qsyl=fastSyl(qlast);
+  const qsyl=fastSyl(qlast);let S2=null;
   const add=(g,p,own,sl,i,ex,sg)=>{if(!p||seen.has(g+p))return;if(g!=='wie'&&p.split(' ').pop()===qlast)return;seen.add(g+p);
     const rk=FQR?FQR.get(p):undefined;if(!full&&rk===undefined&&!own&&!sg&&R[g].length>=8000&&wsim(p.split(' ').pop())<=1)return;R[g].push({p,own:!!own,sg:!!sg,sl2:!sg&&!!(S2&&S2.has(p)),sl,i,sc:(ex?1e7:0)+(rk===undefined?0:200000-Math.min(rk,200000))+sl*15000-(g==='ry'||g==='bl'||g==='dok'?Math.min(4,Math.abs(fastSyl(p.replace(/ /g,''))-qsyl))*14000:0)+(g==='ry'||g==='bl'||g==='dok'?wsim(p.split(' ').pop())*90000:0)+(own?4000:0)-Math.min(i,2999)/10})};
   out.dok.forEach(c=>{add('dok',c.p,1,k.tail.length,0,1);add('ry',c.p,1,k.tail.length,0,1);});
   out.aso.forEach(c=>{if(shape(c.k.tail))add(close(c.k.tail)?'bl':'ry',c.p,1,c.sim||0,0,0)});
   out.spo.forEach(c=>add('spo',c.p,1,0,0,0));out.wie.forEach(c=>add('wie',c.p,1,c.sl||0,0,0));
-  const [idx,fq,slg,S2]=await Promise.all([loadIdx(),loadFreq(),loadSlang(),loadSlang2()]);let loadErr=!idx;
+  const [idx,fq,slg,S2x]=await Promise.all([loadIdx(),loadFreq(),loadSlang(),loadSlang2()]);S2=S2x;let loadErr=!idx;
   if(fq&&!FQR){FQR=new Map();for(let j=0;j<fq.length;j++)FQR.set(fq[j],j)}
   if(idx){const lv=vowelsOf(k.tail),last=SKE[lv[lv.length-1]]||lv[lv.length-1];
     let sks=nv>=2?[skelOf(k.tail)]:Object.keys(idx).filter(s=>s!=='_pos'&&s.endsWith(last));
