@@ -731,10 +731,11 @@ function autoLabel(e){if(!VS.autolab||!e||e.isComposing||e.inputType!=='insertTe
   let le=v.indexOf('\n',pos);if(le<0)le=v.length;const line=v.slice(ls0,le);
   if(line.length!==1||!/\p{L}|\d/u.test(line))return;
   const lines=v.split('\n'),idx=v.slice(0,ls0).split('\n').length-1;
-  if(idx===0){if(v.trim().length!==1)return}
-  else{if(lines[idx-1].trim()||(idx>=2&&!lines[idx-2].trim())||(idx>=2&&isLabel(lines[idx-2]))||idx<2)return;
+  let p=idx-1;while(p>=0&&!lines[p].trim())p--;
+  if(p<0){if(v.trim().length!==1)return}
+  else{if(p>=idx-1||isLabel(lines[p]))return;
     if(lines[idx+1]!==undefined&&lines[idx+1].trim())return;
-    const OD=findOdrzut(lines);if(OD&&idx>=OD.at)return}
+    const OD=findOdrzut(lines);if(OD&&OD.mark&&idx>=OD.at)return}
   const name=labGuess(lines,idx);
   b.value=v.slice(0,ls0)+name+'\n'+v.slice(ls0);const np=pos+name.length+1;b.setSelectionRange(np,np)}
 function labelClick(){const b=$('#body');if(!cur||b.selectionStart!==b.selectionEnd)return;
