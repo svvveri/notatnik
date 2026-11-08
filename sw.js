@@ -1,5 +1,5 @@
 /* Offline: aplikacja z sieci, gdy jest dostępna (zawsze świeża), z pamięci podręcznej, gdy offline; słownik i ikony z pamięci. */
-const V = 'nt-v76';
+const V = 'nt-v77';
 const FILES = ['./', 'index.html', 'drive.js', 'config.js', 'manifest.webmanifest', 'rym/idx.json', 'icon-180.png', 'icon-192.png', 'icon-512.png'];
 const STATIC = /\.(gz|png)$/;
 self.addEventListener('install', e => { e.waitUntil(caches.open(V).then(c => c.addAll(FILES)).then(() => self.skipWaiting())); });

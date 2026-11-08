@@ -341,7 +341,7 @@ label.lfull{display:flex;gap:8px;align-items:center;margin:4px 0 10px;color:var(
         <textarea id="wallTa" spellcheck="false" placeholder="Wypisuj rymy, skojarzenia i całe rodziny rymów…" aria-label="Ściana rymów"></textarea>
       </div>
       <div id="empty">Wybierz tekst z listy albo dodaj nowy.</div>
-      <div class="credit gut" id="credit">Słownik rymów: SJP.pl (CC BY 4.0), części mowy: Morfeusz 2 / SGJP (BSD), poezja: Wolne Lektury i Wikiźródła (domena publiczna)</div>
+      <div class="credit gut" id="credit">Słownik rymów: SJP.pl (CC BY 4.0), części mowy: Morfeusz 2 / SGJP (BSD), poezja: Wolne Lektury i Wikiźródła (domena publiczna), lista haseł slangu: miejski.pl</div>
     </div>
   </section>
 </div>
@@ -920,7 +920,8 @@ function loadShard(sk){if(!SH.has(sk))SH.set(sk,gzTxt('rym/v_'+sk+'.txt').then(t
   t.split('\n').forEach(l=>{const i=l.indexOf('\t');if(i>0)m.set(l.slice(0,i),l.slice(i+1).split(' ').map(x=>{const w=x.slice(1);POSM.set(w,x.charCodeAt(0)-48);return w}))});return m}).catch(()=>{SH.delete(sk);return null}));return SH.get(sk)}
 let SLP=null;
 function loadSlang(){if(!SLP)SLP=gzTxt('rym/slang.txt').then(t=>{const bySk=new Map();
-  t.split('\n').forEach(w=>{if(!w)return;const f=fon(w);if(!vowelsOf(f).length)return;const tl=tailFrom(f,2),sk=skelOf(tl);let m=bySk.get(sk);if(!m)bySk.set(sk,m=new Map());(m.get(tl)||m.set(tl,[]).get(tl)).push(w)});return bySk}).catch(()=>{SLP=null;return null});return SLP}
+  t.split('\n').forEach(w=>{if(!w)return;const f=fon(w.replace(/ /g,''));if(!vowelsOf(f).length)return;const tl=tailFrom(f,2),sk=skelOf(tl);let m=bySk.get(sk);if(!m)bySk.set(sk,m=new Map());(m.get(tl)||m.set(tl,[]).get(tl)).push(w)});return bySk}).catch(()=>{SLP=null;return null});return SLP}
+let SL2=null;function loadSlang2(){if(!SL2)SL2=gzTxt('rym/slang2.txt').then(t=>new Set(t.split('\n'))).catch(()=>{SL2=null;return null});return SL2}
 function loadFreq(){if(!FQ)FQ=gzTxt('rym/freq.txt').then(t=>t.split('\n')).catch(()=>{FQ=null;return null});return FQ}
 function ensureDict(){return Promise.all([loadIdx(),loadFreq()])}
 const fastSyl=w=>{const a=w.match(/[aeiouyąęó]/g),b=w.match(/i[aeiouyąęó]/g);return Math.max(1,(a?a.length:0)-(b?b.length:0))};
@@ -933,7 +934,7 @@ let rExp=new Set(),rBusy=0,FQS=null,FQR=null;
 /* część mowy: maska z Morfeusza2/SGJP (1 rzeczownik, 2 czasownik, 4 przymiotnik, 8 przysłówek, 32 forma słownikowa) */
 let rpos=ls('nt-rpos')||'all',rlem=ls('nt-rlem')==='1',rrare=ls('nt-rrare')==='1',rsort=ls('nt-rsort')||'q',rlast='all',rslang=ls('nt-rslang')==='1',lsub=ls('nt-lsub')||'has',lfull=ls('nt-lfull')!=='0';
 const POSL=[['all','Wszystkie'],['1','Rzeczowniki'],['2','Czasowniki'],['4','Przymiotniki'],['8','Przysłówki']];
-const posOn=()=>rpos!=='all'||rlem,vis=c=>(rrare||c.b||c.own||c.sg)&&(!rslang||c.sg)&&pf(c),pf=c=>{if(!posOn())return true;const m=POSM.get(c.p);if(m==null)return false;return (rpos==='all'||(m&+rpos))&&(!rlem||(m&32))?true:false};
+const posOn=()=>rpos!=='all'||rlem,vis=c=>(rrare||c.b||c.own||c.sg||c.sl2)&&(!rslang||c.sg||c.sl2)&&pf(c),pf=c=>{if(!posOn())return true;const m=POSM.get(c.p);if(m==null)return false;return (rpos==='all'||(m&+rpos))&&(!rlem||(m&32))?true:false};
 const PFM=new Set(['all','mez','zen','dak','dok','aso','spo','wie']);
 const sylLabel=n=>n===1?'1 sylaba':(n>=2&&n<=4?n+' sylaby':n+' sylab');
 const trailOf=t=>t.replace(/^.*[aeiouyąę]/,''),stemOf=t=>t.slice(0,t.length-trailOf(t).length);
@@ -952,11 +953,11 @@ async function rymCompute(q,noExt,full){
   const wsim=w=>Math.min(8,sufLen(nz(w),qn));
   const qsyl=fastSyl(qlast);
   const add=(g,p,own,sl,i,ex,sg)=>{if(!p||seen.has(g+p))return;if(g!=='wie'&&p.split(' ').pop()===qlast)return;seen.add(g+p);
-    const rk=FQR?FQR.get(p):undefined;if(!full&&rk===undefined&&!own&&!sg&&R[g].length>=8000&&wsim(p.split(' ').pop())<=1)return;R[g].push({p,own:!!own,sg:!!sg,sl,i,sc:(ex?1e7:0)+(rk===undefined?0:200000-Math.min(rk,200000))+sl*15000-(g==='ry'||g==='bl'||g==='dok'?Math.min(4,Math.abs(fastSyl(p.replace(/ /g,''))-qsyl))*14000:0)+(g==='ry'||g==='bl'||g==='dok'?wsim(p.split(' ').pop())*90000:0)+(own?4000:0)-Math.min(i,2999)/10})};
+    const rk=FQR?FQR.get(p):undefined;if(!full&&rk===undefined&&!own&&!sg&&R[g].length>=8000&&wsim(p.split(' ').pop())<=1)return;R[g].push({p,own:!!own,sg:!!sg,sl2:!sg&&!!(S2&&S2.has(p)),sl,i,sc:(ex?1e7:0)+(rk===undefined?0:200000-Math.min(rk,200000))+sl*15000-(g==='ry'||g==='bl'||g==='dok'?Math.min(4,Math.abs(fastSyl(p.replace(/ /g,''))-qsyl))*14000:0)+(g==='ry'||g==='bl'||g==='dok'?wsim(p.split(' ').pop())*90000:0)+(own?4000:0)-Math.min(i,2999)/10})};
   out.dok.forEach(c=>{add('dok',c.p,1,k.tail.length,0,1);add('ry',c.p,1,k.tail.length,0,1);});
   out.aso.forEach(c=>{if(shape(c.k.tail))add(close(c.k.tail)?'bl':'ry',c.p,1,c.sim||0,0,0)});
   out.spo.forEach(c=>add('spo',c.p,1,0,0,0));out.wie.forEach(c=>add('wie',c.p,1,c.sl||0,0,0));
-  const [idx,fq,slg]=await Promise.all([loadIdx(),loadFreq(),loadSlang()]);let loadErr=!idx;
+  const [idx,fq,slg,S2]=await Promise.all([loadIdx(),loadFreq(),loadSlang(),loadSlang2()]);let loadErr=!idx;
   if(fq&&!FQR){FQR=new Map();for(let j=0;j<fq.length;j++)FQR.set(fq[j],j)}
   if(idx){const lv=vowelsOf(k.tail),last=SKE[lv[lv.length-1]]||lv[lv.length-1];
     let sks=nv>=2?[skelOf(k.tail)]:Object.keys(idx).filter(s=>s!=='_pos'&&s.endsWith(last));
@@ -1101,7 +1102,7 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
   {const pr=$('#rpos');if(pr){if(!PFM.has(rmode))pr.innerHTML='';else{pr.innerHTML='<div class="rps">'+POSL.map(([id,l])=>`<button class="${rpos===id?'on':''}" data-p="${id}">${l}</button>`).join('')+'</div><div class="rtg">'+`<button class="lem ${rlem?'on':''}" data-l="1" title="tylko formy podstawowe: mianownik, bezokolicznik">Tylko formy słownikowe</button><button class="sl ${rslang?'on':''}" data-g="1" title="tylko słowa z miejskiego słownika slangu">Tylko slang</button><button class="rar ${rrare?'on':''}" data-r="1" title="domyślnie widać tylko słowa potoczne">Rzadkie słowa</button><button class="srt ${rsort==='q'?'on':''}" data-s="1" title="sortowanie: od najlepszego rymu albo według liczby sylab">${rsort==='q'?'Dokładne na wierzchu':'Wszystkie razem'}</button>`+'</div>';
       pr.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(b.dataset.s){rsort=rsort==='q'?'s':'q';ls('nt-rsort',rsort)}else if(b.dataset.g){rslang=!rslang;ls('nt-rslang',rslang?'1':'0')}else if(b.dataset.r){rrare=!rrare;ls('nt-rrare',rrare?'1':'0');if(rrare&&lastR&&!lastR.full){szukajRymow(lastR.q,true);return}}else if(b.dataset.l){rlem=!rlem;ls('nt-rlem',rlem?'1':'0')}else{rpos=b.dataset.p;ls('nt-rpos',rpos)}rExp=new Set();drawRymy()})}}}
   const n=T.get(cur),wall=(n&&n.sciana||'').toLowerCase();
-  const chip=c=>`<button class="rc ${wall.includes(c.p.toLowerCase())?'added':''} ${c.b?'':'rare'}${c.f?' fq':''}" data-p="${esc(c.p)}"${c.sg?' data-sg="1"':''}>${esc(c.p)}${c.own?'<i>●</i>':''}${c.sg?'<i title="slang">◆</i>':''}</button>`;
+  const chip=c=>`<button class="rc ${wall.includes(c.p.toLowerCase())?'added':''} ${c.b?'':'rare'}${c.f?' fq':''}" data-p="${esc(c.p)}"${c.sg?' data-sg="1"':''}>${esc(c.p)}${c.own?'<i>●</i>':''}${c.sg?'<i title="slang">◆</i>':c.sl2?'<i title="znane też jako slang (miejski.pl)">◇</i>':''}</button>`;
   const QT={2:'Bliskie rymy: ta sama ostatnia samogłoska, przedostatnia z tej samej rodziny albo inne spółgłoski',1:'Dalsze rymy: zgadza się tylko ostatnia samogłoska',0:'Pozostałe'};
   const grp=(items,pre)=>{const by={};items.forEach(c=>{const s2=Math.min(7,c.s);(by[s2]=by[s2]||[]).push(c)});const ss=Object.keys(by).map(Number).sort((a,b)=>a-b);
     return `<div class="ranch"><span>sylaby:</span>${ss.map(s2=>`<button data-go="g-${pre}-${s2}">${s2===7?'7+':s2}</button>`).join('')}</div>`+
