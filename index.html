@@ -102,9 +102,7 @@ body[data-view="edit"] #fab{display:none}
 #tools::-webkit-scrollbar{display:none}
 #tools>*{flex:none}
 #tools .ico:disabled{opacity:.3}
-#tools .sp{flex:1 0 8px}
-#tools .x{display:none}#tools.open{flex-wrap:wrap;overflow:visible}#tools.open .x{display:inline-flex}#tools{gap:6px}#tools .ico{width:30px}#tools .sp{flex:1 0 2px}
-#moreT{display:inline-flex;align-items:center;gap:4px}#moreT svg{transition:transform .15s}#tools.open #moreT svg{transform:rotate(180deg)}
+#tools .sp{flex:1 0 8px}#tools{gap:6px}#tools .ico{width:30px}#tools .sp{flex:1 0 2px}
 .pill{flex:none;padding:5px 11px;border-radius:999px;border:1px solid var(--line);font-size:13.5px;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
 .pill.set{color:var(--fg);border-color:var(--acc)}
 .pill.set b{color:var(--acc);font-weight:700}
@@ -302,11 +300,8 @@ html{touch-action:pan-x pan-y}#scroll{touch-action:pan-y}
         <button id="redoBtn" class="ico" type="button" aria-label="Ponów" title="Ponów"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button>
         <button id="bpmBtn" class="pill" type="button" title="Tempo bitu"></button>
         <button id="keyBtn" class="pill" type="button" title="Tonacja"></button>
-        <button id="rhBtn" class="pill x" type="button" title="Włącz/wyłącz kolorowanie rymujących się sylab">Kolory</button>
-        <button id="recBtn" class="pill x" type="button" title="Nagrania głosowe do tego tekstu">Nagrania</button>
         <span class="sp"></span>
         <button id="adBtn" class="pill ad" type="button" title="Zaznacz fragment: nawias = adlib. Dotknięcie w nawiasie go zdejmuje. Bez zaznaczenia: cały wers.">( ) adlib</button>
-        <button id="moreT" class="pill" aria-label="Więcej: kolory, nagrania" type="button" aria-expanded="false" title="Kolory, nagrania"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
       </div>
       <div id="selwrap"><div id="selbar" class="gut" hidden><span id="selw"></span><button id="selWers" class="pill" type="button">✦ Analiza</button><button id="selAI" class="pill" type="button">✦ AI</button><button id="selRy" class="pill ry" type="button">Rymy</button><button id="selAd" class="pill ad" type="button">( ) adlib</button><button id="selWall" class="pill" type="button">+ ściana</button></div></div>
       <div id="page" class="gut" hidden>
@@ -558,7 +553,7 @@ function renderTools(){const n=T.get(cur);if(!n)return;
   b.innerHTML=n.bpm?`<b>${n.bpm}</b> BPM`:'BPM';b.classList.toggle('set',!!n.bpm);
   const km=n.klucz?String(n.klucz).split(' '):null;
   k.innerHTML=km?`<b>${esc(km[0])}</b> ${esc(km.slice(1).join(' '))}`:'Tonacja';k.classList.toggle('set',!!km);
-  const rb=$('#recBtn'),rc=(n.nagrania||[]).length;rb.innerHTML=rc?`<b>♪ ${rc}</b> nagr.`:'♪ Nagrania';rb.classList.toggle('set',!!rc);undoState()}
+  undoState()}
 /* odrzuty: wersy "na dole" (luźne myśli po głównym tekście). Wykrywane po: znaczniku (---, odrzuty:), dwóch pustych liniach przed blokiem bez nagłówka, albo końcowym krótkim bloku, który nie rymuje się z resztą */
 const RKC=new Map();function rk1(w){let r=RKC.get(w);if(r===undefined){r=rkey(w)||null;RKC.set(w,r)}return r}
 /* kolorowanie rymów w tekście: w obrębie sekcji słowa o tej samej końcówce (dokładny rym, także wewnątrz wersu) i końcówki wersów zgodne samogłoskowo (asonans) dostają wspólny kolor */
@@ -1098,11 +1093,12 @@ function sheetMore(){const n=T.get(cur);if(!n)return;
   <div class="seg wide" id="ffSeg"><button data-f="sys" class="${VS.ff==='sys'?'on':''}">System</button><button data-f="serif" class="${VS.ff==='serif'?'on':''}">Szeryfowy</button><button data-f="mono" class="${VS.ff==='mono'?'on':''}">Mono</button></div>
   <div class="row"><span>Kolorowanie rymów</span></div><div class="seg wide" id="rhSeg"><button data-r="smart" class="${VS.rhm==='smart'?'on':''}">Rymy</button><button data-r="all" class="${VS.rhm==='all'?'on':''}">Wszystkie sylaby</button><button data-r="grp" class="${VS.rhm==='grp'?'on':''}">Grupy rymów</button><button data-r="off" class="${VS.rhm==='off'?'on':''}">Wył.</button></div>${sw('swNums',VS.nums,'Numery wersów (w sekcji)')}${sw('swSyl',VS.syl,'Liczniki sylab przy wersach')}
   <div class="row" style="flex-wrap:wrap"><span>Klucz API Claude (zakładka Pomysły)</span><input type="password" id="akey" autocomplete="off" placeholder="sk-ant-…" value="${esc(ls('nt-akey')||'')}" style="flex:1 1 100%;margin-top:6px;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--chip)"><div class="hint" style="flex:1 1 100%">Zostaje tylko w tej przeglądarce na telefonie. Bez niego zakładka Pomysły nie działa.</div></div>
+  <div class="shBtns"><button id="recAll">♪ Nagrania do tego tekstu (${(n.nagrania||[]).length})</button></div>
   <div class="shBtns"><button id="impBtn">Importuj z pliku (.json)</button><button id="syncBtn">Synchronizuj teraz</button></div>
   <div class="shBtns"><button id="exOne">Zapisz ten tekst (.txt)</button><button id="exAll">Kopia wszystkich (.json)</button></div>
   <div class="hint" id="exMsg"></div>
   <div class="shBtns"><button class="danger" id="delBtn">Usuń ten tekst</button></div>`);
-  $('#x').onclick=closeSheet;
+  $('#x').onclick=closeSheet;$('#recAll').onclick=()=>sheetRec();
   $('#akey').onchange=e=>{ls('nt-akey',e.target.value.trim())};
   $('#fsR').oninput=e=>{VS.fs=+e.target.value;$('#fsV').textContent=VS.fs;ls('nt-fs',VS.fs);applyView()};
   $('#ffSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{VS.ff=b.dataset.f;ls('nt-ff',VS.ff);$('#ffSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));applyView()});
@@ -1238,15 +1234,14 @@ function wire(){
   $('#q').oninput=e=>{query=e.target.value;renderList()};
   $('#fab').onclick=nowy;$('#back').onclick=closeNote;$('#moreBtn').onclick=sheetMore;$('#starBtn').onclick=toggleStar;
   $('#undoBtn').onclick=()=>{clearTimeout(hT);histPush();histApply(hist.i-1)};$('#redoBtn').onclick=()=>histApply(hist.i+1);
-  $('#recBtn').onclick=()=>sheetRec();$('#sortBtn').onclick=()=>{sortMode=sortMode==='edit'?'new':sortMode==='new'?'az':'edit';ls('nt-sort',sortMode);renderList()};
+  $('#sortBtn').onclick=()=>{sortMode=sortMode==='edit'?'new':sortMode==='new'?'az':'edit';ls('nt-sort',sortMode);renderList()};
   $('#impFile').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const n=window.NT.importJSON(await f.text());$('#exMsg')&&($('#exMsg').textContent=n<0?'To nie jest poprawny plik .json.':'Zaimportowano: '+n+' tekstów.')};
   $('#recFile').onchange=async e=>{const fs=[...e.target.files];e.target.value='';for(const f of fs){const d=await new Promise(r=>{const u=URL.createObjectURL(f),au=new Audio();au.preload='metadata';au.onloadedmetadata=()=>{r(au.duration);URL.revokeObjectURL(u)};au.onerror=()=>{r(0);URL.revokeObjectURL(u)};au.src=u});
     await saveAudio(f,isFinite(d)?d:0,f.name.replace(/\.[^.]+$/,''))}};
   swipeInit();pinchInit();$('#anBtn').onclick=()=>sheetWarsztat();
-  {const mt=$('#moreT'),tl=$('#tools');const set=o=>{tl.classList.toggle('open',o);mt.setAttribute('aria-expanded',o);ls('nt-tools',o?'1':'0')};set(ls('nt-tools')==='1');mt.onclick=()=>set(!tl.classList.contains('open'))}
   $('#sugg').addEventListener('pointerdown',e=>e.preventDefault());
   $('#tabText').onclick=()=>showTab('text');$('#tabWall').onclick=()=>showTab('wall');
-  $('#bpmBtn').onclick=sheetBpm;$('#rhBtn').onclick=()=>{if(VS.rhm==='off'){VS.rhm=ls('nt-rhm0')||'smart'}else{ls('nt-rhm0',VS.rhm);VS.rhm='off'}ls('nt-rhm',VS.rhm);applyView()};$('#keyBtn').onclick=sheetKey;
+  $('#bpmBtn').onclick=sheetBpm;$('#keyBtn').onclick=sheetKey;
   $('#rForm').onsubmit=e=>{e.preventDefault();szukajRymow($('#rq').value);$('#rq').blur()};
   ['selRy','selAd','selWall','selWers','selAI'].forEach(id=>{const e=$('#'+id);e.addEventListener('pointerdown',ev=>ev.preventDefault());e.addEventListener('mousedown',ev=>ev.preventDefault())});
   $('#selRy').onclick=()=>{$('#selbar').hidden=true;rymyDlaMiejsca()};
