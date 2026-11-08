@@ -870,10 +870,13 @@ async function szukajRymow(raw){const q=String(raw).trim();if(!q)return;const my
   const qf=fon(qlast),fv=f=>{const m=f.search(/[aeiouyąę]/);return m<0?f:f.slice(m)},qI=fv(qf),qN=vowelsOf(qf).length;
   const ideal=w=>{const f=fon(w);return vowelsOf(f).length===qN&&fv(f)===qI};
   const close=(key)=>{const t=trailOf(key);return !(t===qtr||(t&&qtr&&t[t.length-1]===qtr[qtr.length-1]))};
+  /* kształt końcówki musi się zgadzać: słowo kończące się samogłoską rymuje się tylko ze słowem kończącym się samogłoską (ludzie ≠ rozumiem), a kończące się spółgłoską tylko ze spółgłoską */
+  const CG={m:'N',n:'N','ń':'N',l:'L','ł':'L',k:'K',g:'K',t:'T',d:'T',p:'P',b:'P',f:'F',w:'F',s:'S',z:'S','ś':'S','ź':'S',c:'S','ć':'S',h:'H',r:'R',j:'J'},cg=ch=>CG[ch]||ch;
+  const shape=key=>{const t=trailOf(key);if((t==='')!==(qtr===''))return false;if(!t||!close(key))return true;return cg(t[t.length-1])===cg(qtr[qtr.length-1])};
   const add=(g,p,own,sl,i,ex,sg)=>{if(!p||seen.has(g+p))return;if(g!=='wie'&&p.split(' ').pop()===qlast)return;seen.add(g+p);
     const rk=FQR?FQR.get(p):undefined;R[g].push({p,own:!!own,sg:!!sg,sl,i,sc:(ex?1e7:0)+(sg?190000:rk===undefined?0:200000-Math.min(rk,200000))+sl*15000+(own?4000:0)-Math.min(i,2999)/10})};
   out.dok.forEach(c=>{add('dok',c.p,1,k.tail.length,0,1);add('ry',c.p,1,k.tail.length,0,1);if(!c.p.includes(' ')&&ideal(c.p))add('ide',c.p,1,k.tail.length,0,1)});
-  out.aso.forEach(c=>add(close(c.k.tail)?'bl':'ry',c.p,1,c.sim||0,0,0));
+  out.aso.forEach(c=>{if(shape(c.k.tail))add(close(c.k.tail)?'bl':'ry',c.p,1,c.sim||0,0,0)});
   out.spo.forEach(c=>add('spo',c.p,1,0,0,0));out.wie.forEach(c=>add('wie',c.p,1,c.sl||0,0,0));
   const [idx,fq,slg]=await Promise.all([loadIdx(),loadFreq(),loadSlang()]);let loadErr=!idx;
   if(fq&&!FQR){FQR=new Map();for(let j=0;j<fq.length;j++)FQR.set(fq[j],j)}
@@ -881,7 +884,7 @@ async function szukajRymow(raw){const q=String(raw).trim();if(!q)return;const my
     const sks=nv>=2?[skelOf(k.tail)]:Object.keys(idx).filter(s=>s.endsWith(last));
     const parts=await Promise.all(sks.map(loadShard));if(parts.some(x=>!x))loadErr=true;
     const qv=vowelsOf(k.f);
-    parts.forEach(m=>{if(!m)return;for(const [key,ws] of m){const ex=nv>=2?key===k.tail:key.endsWith(k.tail),cl=close(key),sl=cl?sufLen(stemOf(key),stemOf(k.tail)):sufLen(key,k.tail);
+    parts.forEach(m=>{if(!m)return;for(const [key,ws] of m){if(!shape(key))continue;const ex=nv>=2?key===k.tail:key.endsWith(k.tail),cl=close(key),sl=cl?sufLen(stemOf(key),stemOf(k.tail)):sufLen(key,k.tail);
       if(cl&&nv<2&&sl<2)continue;
       const lim=Math.min(ws.length,ex?4000:(sl>=2?1500:300));
       for(let i=0;i<lim;i++){const w=ws[i];if(w===qlast)continue;
@@ -889,7 +892,7 @@ async function szukajRymow(raw){const q=String(raw).trim();if(!q)return;const my
         if(qv.length>=3&&fastSyl(w)>=3&&(ex||sl>=2)&&i<400){const wv=vowelsOf(fon(w));let m3=0;while(m3<wv.length&&m3<qv.length&&wv[wv.length-1-m3]===qv[qv.length-1-m3])m3++;if(m3>=3)add('wie',w,0,m3*10+sl,i,1)}}}})}
   if(slg){const lv=vowelsOf(k.tail),last=SKE[lv[lv.length-1]]||lv[lv.length-1];
     const sks=nv>=2?[skelOf(k.tail)]:[...slg.keys()].filter(x=>x.endsWith(last));
-    for(const sk of sks){const m=slg.get(sk);if(!m)continue;for(const [key,ws] of m){
+    for(const sk of sks){const m=slg.get(sk);if(!m)continue;for(const [key,ws] of m){if(!shape(key))continue;
       const ex=nv>=2?key===k.tail:key.endsWith(k.tail),cl=close(key),sl=cl?sufLen(stemOf(key),stemOf(k.tail)):sufLen(key,k.tail);if(cl&&nv<2&&sl<2)continue;
       ws.forEach((w,i)=>{if(w===qlast)return;add(cl?'bl':'ry',w,0,sl,i,ex&&!cl,1);if(ex){add('dok',w,0,sl,i,1,1);if(ideal(w))add('ide',w,0,sl,i,1,1)}})}}}
   if(fq){if(!FQS)FQS=new Set(fq.slice(0,12000));
