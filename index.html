@@ -760,13 +760,14 @@ function sheetBpm(after){const n=T.get(cur);if(!n)return;let v=n.bpm||90;const t
   <div class="bpmUnit">BPM</div>
   <button class="tap" id="tap">Stuknij w rytm</button>
   <button class="pill" id="metT" type="button" style="align-self:center">▶ Odsłuch metronomu</button>
+  ${metSpdRow()}
   <p class="hint" id="th">Stukaj kilka razy w tempo bitu, a policzę BPM. Jeden takt 4/4 to ${(240/v).toFixed(1).replace('.',',')} s.</p>
   <div class="shBtns"><button id="clr">Wyczyść</button><button class="pri" id="ok">Gotowe</button></div>`);
   const inp=$('#bpmIn'),set=x=>{v=Math.max(40,Math.min(240,Math.round(x)||90));inp.value=v;if(MET.id)metStart(v);$('#th').textContent=`Jeden takt 4/4 to ${(240/v).toFixed(1).replace('.',',')} s.`};
   $('#m').onclick=()=>set(v-1);$('#p').onclick=()=>set(v+1);inp.onchange=()=>set(+inp.value);
   $('#tap').onclick=()=>{const t=performance.now();if(taps.length&&t-taps[taps.length-1]>2500)taps.length=0;taps.push(t);if(taps.length>7)taps.shift();
     if(taps.length>=3){const d=(taps[taps.length-1]-taps[0])/(taps.length-1);set(60000/d)}};
-  $('#x').onclick=closeSheet;
+  $('#x').onclick=closeSheet;metSpdBind(()=>metStart(v));
   $('#metT').onclick=()=>{if(MET.id){metStop();$('#metT').textContent='▶ Odsłuch metronomu'}else if(metStart(v)){$('#metT').textContent='■ Stop metronomu'}else $('#th').textContent='Ta przeglądarka nie pozwala na dźwięk.'};
   $('#clr').onclick=()=>{n.bpm=null;touch(n);renderTools();refit();renderList();closeSheet();if(after)after()};
   $('#ok').onclick=()=>{n.bpm=v;touch(n);renderTools();refit();renderList();closeSheet();if(after)after()}}
@@ -1140,7 +1141,11 @@ function metStart(bpm,onBeat){metStop();const AC=window.AudioContext||window.web
   try{if(MET.ctx&&MET.ctx.state==='closed')MET.ctx=null;MET.ctx=MET.ctx||new AC();if(MET.ctx.resume)MET.ctx.resume()}catch(e){return false}
   MET.bpm=bpm;MET.i=0;MET.next=MET.ctx.currentTime+.08;
   MET.id=setInterval(()=>{while(MET.next<MET.ctx.currentTime+.15){metClick(MET.next,MET.i%4===0);const bi=MET.i;
-    if(onBeat)setTimeout(()=>onBeat(bi),Math.max(0,(MET.next-MET.ctx.currentTime)*1000));MET.next+=60/MET.bpm;MET.i++}},25);return true}
+    if(onBeat)setTimeout(()=>onBeat(bi),Math.max(0,(MET.next-MET.ctx.currentTime)*1000));MET.next+=60/MET.bpm*metSpd();MET.i++}},25);return true}
+/* szybkość metronomu: 1 = zgodnie z BPM, 2 = dwa razy wolniej (klik co 2 uderzenia) */
+function metSpd(){return ls('nt-metx')==='2'?2:1}
+function metSpdRow(){const f=metSpd();return `<div class="row"><span>Szybkość metronomu</span><div class="seg" id="mSp"><button data-s="1" class="${f===1?'on':''}">normalnie</button><button data-s="2" class="${f===2?'on':''}">2× wolniej</button></div></div>`}
+function metSpdBind(restart){$('#mSp').querySelectorAll('button').forEach(b=>b.onclick=()=>{ls('nt-metx',b.dataset.s);$('#mSp').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));if(MET.id&&restart)restart()})}
 function metStop(){if(MET.id){clearInterval(MET.id);MET.id=null}try{if(MET.sil)MET.sil.pause()}catch(e){}}
 function placeLabBtns(secs){const box=$('#labBtns');if(!box)return;const ch=$('#mirror').children;
   box.innerHTML=secs.filter(x=>!x.implicit).map(x=>{const el=ch[x.idx];if(!el)return'';
@@ -1152,12 +1157,13 @@ function sheetPart(idx,name,msg){const n=T.get(cur);if(!n)return;sheetRe=m=>shee
   openSheet(`<div class="shHead"><h3>Nagraj: ${esc(name)}</h3><button class="x" id="x" aria-label="Zamknij">×</button></div>
   <div class="row"><span>Tempo</span><button class="pill ${bpm?'set':''}" id="pBpm" type="button">${bpm?`<b>${bpm}</b> BPM · zmień`:'Ustaw tempo'}</button></div>
   <div class="row"><span>Metronom</span><button class="sw ${met?'on':''}" id="pMet" role="switch" aria-checked="${met}" aria-label="Metronom"></button></div>
+  ${metSpdRow()}
   <div class="row"><span>Odliczanie (uderzeń)</span><div class="seg" id="pCnt">${[0,2,4].map(c=>`<button data-c="${c}" class="${cnt===c?'on':''}">${c||'brak'}</button>`).join('')}</div></div>
   <div class="partTxt">${lines.length?lines.map(l=>`<div>${esc(l)||'&nbsp;'}</div>`).join(''):'<div class="hint">Ta część nie ma jeszcze tekstu.</div>'}</div>
   <div class="hint" id="recMsg">${esc(msg||(bpm?'Metronom może wyciekać do mikrofonu, więc lepiej w słuchawkach. Jeśli bit leci z innego urządzenia, wyłącz metronom.':'Bez tempa metronom nie zagra. Ustaw je wyżej.'))}</div>
   <div class="shBtns"><button id="recGo">● Nagraj</button><button id="pTest">▶ Metronom</button></div>
   ${takes.length?`<div id="recList">`+takes.map(r=>`<div class="rec"><div class="recT"><b>${esc(r.nazwa)}</b><span>${new Date(r.ts).toLocaleDateString('pl-PL',{day:'numeric',month:'numeric'})}${r.sek?' · '+fmtSek(r.sek):''}</span><button class="rdel" data-id="${esc(r.id)}">Usuń</button></div><div class="aud" data-id="${esc(r.id)}"><button class="pill play" type="button">▶ Odtwórz</button><span class="dur"></span></div></div>`).join('')+'</div>':''}`);
-  $('#x').onclick=closeSheet;bindAudio();
+  $('#x').onclick=closeSheet;bindAudio();metSpdBind(()=>metStart(bpm));
   $('#pBpm').onclick=()=>{closeSheet();sheetBpm(()=>sheetPart(idx,name))};
   $('#pMet').onclick=()=>{const v=ls('nt-met')==='0';ls('nt-met',v?'1':'0');$('#pMet').classList.toggle('on',v);$('#pMet').setAttribute('aria-checked',v)};
   $('#pCnt').querySelectorAll('button').forEach(b=>b.onclick=()=>{ls('nt-cnt',b.dataset.c);$('#pCnt').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b))});
