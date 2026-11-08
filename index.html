@@ -650,8 +650,14 @@ function endRhymes(S,SY,out){
   grp.forEach(G=>{const strong=G.m.every(x=>x.e.n>=2)&&G.m.every(a=>G.m.every(b=>a===b||endSim(a.e,b.e)>=2));
     G.m.forEach(x=>{const w=x.e.w,use=strong?w.slice(-2):w.slice(-1),a=use[0].s,e=use[use.length-1].e;const cur=out.get(x.li)||[];
       if(cur.some(t=>t.s<e&&t.e>a))return;cur.push({s:a,e,c:use[use.length-1].c,g:G.gid});cur.sort((p,q)=>p.s-q.s);out.set(x.li,cur)})})}
-function rhymeSyl(lines,odAt){const secs=[];let cur=[];
+/* wers niedokończony: kończy się „…”/„...” albo jest wyraźnie krótszy niż reszta sekcji i niż wers równoległy w drugiej strofie (np. same chórki „MOI LUUUDZIE”, do których dopiszesz resztę) */
+function unfAll(lines,odAt){const secs=[];let cur=[];
   lines.forEach((l,i)=>{if(odAt>=0&&i>=odAt)return;if(isLabel(l)){if(cur.length)secs.push(cur);cur=[];return}if(!l.trim()||/^\s*(#|\/\/)/.test(l)||/^-[^\s-]/.test(l)||/^\s*https?:/i.test(l))return;cur.push(i)});if(cur.length)secs.push(cur);
+  const U=new Set();secs.forEach(S=>{const sy=S.map(i=>sylText(lines[i]));S.forEach((i,k)=>{if(/(\.\.\.|…)\s*$/.test(lines[i])){U.add(i);return}});
+    if(S.length<4)return;const med=[...sy].sort((a,b)=>a-b)[Math.floor(sy.length/2)],n=S.length,h=n>=8&&n%2===0?n/2:(n>=8?4:0);
+    S.forEach((i,k)=>{if(U.has(i)||sy[k]<1)return;if(sy[k]>med*0.5)return;if(h){const j=k>=h?k-h:k+h;if(j<n&&sy[j]&&sy[k]>sy[j]*0.5)return}U.add(i)})});return U}
+function rhymeSyl(lines,odAt){const secs=[];let cur=[];const UNF=unfAll(lines,odAt);
+  lines.forEach((l,i)=>{if(odAt>=0&&i>=odAt)return;if(UNF.has(i))return;if(isLabel(l)){if(cur.length)secs.push(cur);cur=[];return}if(!l.trim()||/^\s*(#|\/\/)/.test(l)||/^-[^\s-]/.test(l)||/^\s*https?:/i.test(l))return;cur.push(i)});if(cur.length)secs.push(cur);
   const out=new Map();
   secs.forEach(S=>{const SY=S.map(i=>{const l=lines[i],pr=pairsOf(l),re=/[a-ząćęłńóśźżéèäöü']+/gi;let m;const words=[];
       while((m=re.exec(l))){const st=m.index;if(pr.some(([a,z])=>st>=a&&st<=z))continue;const ss=vowSyl(m[0].toLowerCase());if(ss.length)words.push({st,ss,wt:m[0].toLowerCase().replace(/([aeiouyąęó])\1{2,}/g,'$1')})}
@@ -1144,7 +1150,7 @@ function warAnaliza(){const L=warLinie(),out=[],strophes=[];let cur=[];
     for(const k in ini)if(ini[k].length>=3){add('aliteracja',n,`„${ini[k].slice(0,4).join(' ')}”`);break}});
   return out}
 const TYP={refren:8,hook:8,chorus:8,zwrotka:16,verse:16,bridge:4,'pre-hook':4,prehook:4,przedrefren:4};
-function warStruct(){return warForma().map(x=>{const sy=x.v.map(l=>l.sy),av=sy.reduce((a,b)=>a+b,0)/sy.length,key=x.name.toLowerCase().split(/\s+/)[0].replace(/[:\d]/g,'');return {name:x.name,n:x.v.length,av,sch:fmtSch(x),typ:TYP[key],first:x.v[0].i+1,last:x.v[x.v.length-1].i+1,raw:x.sch}})}
+function warStruct(){return warForma().map(x=>{const sy=x.v.filter(l=>!l.unf).map(l=>l.sy),av=sy.reduce((a,b)=>a+b,0)/(sy.length||1),key=x.name.toLowerCase().split(/\s+/)[0].replace(/[:\d]/g,'');return {name:x.name,n:x.v.length,av,sch:fmtSch(x),typ:TYP[key],first:x.v[0].i+1,last:x.v[x.v.length-1].i+1,raw:x.sch}})}
 /* ---- forma wg Pata Pattisona ---- */
 const PAT='Zasady, z których korzystasz (Pat Pattison, Writing Better Lyrics): 1) Pokazuj, potem mów: konkretny obraz zmysłowy (wzrok, słuch, węch, smak, dotyk, wnętrze ciała, ruch ciała) wygrywa z abstrakcją i komentarzem. 2) Metafora to zderzenie rzeczy, które do siebie nie pasują; najmocniejsze są czasowniki; trzymaj się jednego pola skojarzeń i zakotwicz w realnej scenie. 3) Unikaj klisz (utarte frazy, rymy i obrazy); zamiast tego własny, konkretny obraz. 4) Każda kolejna zwrotka dokłada nową informację (zasada pudełek), refren ma ważyć więcej po każdej zwrotce. 5) Pozycje mocy to pierwsza i ostatnia linia sekcji oraz każda zmiana struktury; ostatnia linia przed refrenem decyduje, jak słyszymy refren. 6) Refren powinien być neutralny: bez czasu i bez osoby, żeby zwrotki mogły go przemalować. 7) Forma ma służyć treści (prozodia): liczba linii, długość linii, rytm, schemat rymów i typ rymu razem dają stabilność (parzysta liczba, dopasowane długości, rym doskonały) albo niestabilność (nieparzysta, różne długości, rym niedokładny). Stabilna forma pasuje do pewności, niestabilna do niepokoju i tęsknoty. 8) Typy rymu to odcienie rozwiązania: doskonały, rodzinny (podobne spółgłoski), addytywny, asonans, konsonans. 9) Dwuwersy aabb ciągle po sobie brzmią marszowo, więc przełamuj je rymem krzyżowym, krótszą linią albo dłuższą linią. 10) Sprawdzaj punkt widzenia (ja, ty, my, on/ona) i czas; narrator z „ja” potrzebuje powodu, żeby opowiadać.';
 const SCH={aaab:['zawieszony, domykany powtórką','trzy rymy i czwarta linia z innym zakończeniem (często powtarzanym): powtórka daje punkt oparcia'],aaaa:['bardzo stabilny','monorym domyka każdą linię; uważaj na monotonię'],aabb:['stabilny','dwuwersy domykają się od razu i zatrzymują ruch'],abab:['stabilny','rym krzyżowy: oczekiwanie i rozwiązanie'],xaxa:['dość stabilny','rymują się tylko linie parzyste, typowo dla piosenki'],abaa:['zwodniczo domknięty','ostatni rym wraca niespodziewanie'],aaba:['zawieszony','rym wraca dopiero na końcu, ruch niedomknięty'],abba:['zawieszony','okalający: środek domyka się szybciej niż całość'],aaax:['niestabilny','ostatnia linia bez rymu pcha do następnej sekcji'],axax:['niestabilny','rymują się nieparzyste, brak domknięcia'],xaax:['niestabilny','rym w środku, brzegi wiszą'],xxxx:['najbardziej niestabilny','bez rymów, ruch nigdy się nie domyka']};
@@ -1152,15 +1158,15 @@ const SCH={aaab:['zawieszony, domykany powtórką','trzy rymy i czwarta linia z 
 function warEndG(){const lines=$('#body').value.split('\n'),OD=findOdrzut(lines),odAt=OD?OD.at:-1;let RC;try{RC=rhymeSyl(lines,odAt)}catch(_){RC=new Map()}
   return i=>{const t=RC.get(i);if(!t||!t.length)return null;const l=lines[i],pr=pairsOf(l),re=/[a-ząćęłńóśźżéèäöü']+/gi;let m,end=0;while((m=re.exec(l))){if(pr.some(([a,z])=>m.index>=a&&m.index<=z))continue;end=m.index+m[0].length}
     const x=t[t.length-1];return x.e>=end?x.g:null}}
-function warForma(){const L=warLinie(),out=[],EG=warEndG();let cur=null;
+function warForma(){const L=warLinie(),out=[],EG=warEndG(),bl=$('#body').value.split('\n'),OD0=findOdrzut(bl),UF=unfAll(bl,OD0?OD0.at:-1);let cur=null;
   const push=()=>{if(cur&&cur.v.length)out.push(cur)};
   L.forEach(l=>{if(l.lab){push();cur={name:labName(l.t),v:[],br:[]};return}if(!cur)cur={name:'Początek',v:[],br:[]};
     if(!l.t.trim()&&!l.skip){}
     if(!l.t.trim()){if(cur.v.length&&cur.br[cur.br.length-1]!==cur.v.length)cur.br.push(cur.v.length);return}
-    if(l.skip||!l.ws.length)return;cur.v.push({i:l.i,t:l.t,ws:l.ws,last:l.last,sy:sylText(l.t),g:EG(l.i)})});push();
-  out.forEach(x=>{const ls=x.v;x.br=x.br.filter(k=>k>0&&k<ls.length);const wc={};ls.forEach(l=>{if(l.last)wc[l.last]=(wc[l.last]||0)+1});
-    const keys=ls.map((l,i)=>l.g!=null?'g'+l.g:(l.last&&l.last.length>1&&wc[l.last]>=2?'w'+l.last:'u'+i)),cnt={};keys.forEach(c=>cnt[c]=(cnt[c]||0)+1);const map={};let k=0;
-    x.sch=keys.map(c=>{if(cnt[c]===1)return 'x';if(!map[c])map[c]=String.fromCharCode(97+k++);return map[c]}).join('');
+    if(l.skip||!l.ws.length)return;cur.v.push({i:l.i,t:l.t,ws:l.ws,last:l.last,sy:sylText(l.t),g:EG(l.i),unf:UF.has(l.i)})});push();
+  out.forEach(x=>{const ls=x.v;x.br=x.br.filter(k=>k>0&&k<ls.length);const wc={};ls.forEach(l=>{if(l.last&&!l.unf)wc[l.last]=(wc[l.last]||0)+1});
+    const keys=ls.map((l,i)=>l.unf?'u'+i:l.g!=null?'g'+l.g:(l.last&&l.last.length>1&&wc[l.last]>=2?'w'+l.last:'u'+i)),cnt={};keys.forEach(c=>cnt[c]=(cnt[c]||0)+1);const map={};let k=0;
+    x.sch=keys.map((c,i)=>{if(ls[i].unf)return '…';if(cnt[c]===1)return 'x';if(!map[c])map[c]=String.fromCharCode(97+k++);return map[c]}).join('');
     const ks=x.name.toLowerCase().split(/\s+/)[0].replace(/[:\d]/g,'');x.ref=/^(refren|hook|chorus)$/.test(ks)});
   return out}
 const STRN={2:'dystych',3:'tercyna',4:'katren',5:'pięciowersowa',6:'sekstyna',7:'septyma',8:'oktawa'};
@@ -1175,9 +1181,10 @@ function warOsoba(v){const c={p1:0,p2:0,p3:0,past:0,fut:0},hit=[];v.forEach(l=>{
 function warFormaHtml(){const S=warForma();if(!S.length)return '';
   const q=t=>esc(t.length>46?t.slice(0,44)+'…':t),med=a=>{const b=a.slice().sort((x,y)=>x-y);return b[Math.floor(b.length/2)]};
   /* 1. stabilność */
-  const stab=S.map(x=>{const n=x.v.length,sy=x.v.map(l=>l.sy),par=n%2===0,pt=schParts(x),uni=pt.length>1&&pt.every(q=>q===pt[0]),d=SCH[uni?pt[0]:x.sch];let notes=[];
+  const stab=S.map(x=>{const n=x.v.length,uf=x.v.filter(l=>l.unf),sy=x.v.filter(l=>!l.unf).map(l=>l.sy),par=n%2===0,pt=schParts(x),uni=pt.length>1&&pt.every(q=>q===pt[0]),d=SCH[uni?pt[0]:x.sch];let notes=[];
     notes.push(`${n} ${n===1?'linia':'linii'}${strName(x)?' ('+strName(x)+')':''} (${par?'parzysta: stabilnie':'nieparzysta: ruch idzie dalej'})`);
-    if(n>=2){const a=sy[n-2],b=sy[n-1];notes.push(`długości ${sy.join('·')}`+(b-a<=-2?`; ostatnia krótsza o ${a-b}: niestabilnie, sekcja zawisa`:b-a>=2?`; ostatnia dłuższa: domyka mocniej`:'; wyrównane: stabilnie'))}
+    if(uf.length)notes.push('do dokończenia: linia '+uf.map(l=>l.i+1).join(', ')+' (pominięta w schemacie)');
+    if(sy.length>=2){const nn=sy.length,a=sy[nn-2],b=sy[nn-1];notes.push(`długości ${sy.join('·')}`+(b-a<=-2?`; ostatnia krótsza o ${a-b}: niestabilnie, sekcja zawisa`:b-a>=2?`; ostatnia dłuższa: domyka mocniej`:'; wyrównane: stabilnie'))}
     const g=d?`${d[0]}: ${d[1]}`:(n>=2?(par&&x.sch.slice(-1)!=='x'?'raczej stabilny: parzysta liczba i rym na końcu':'raczej niestabilny: koniec bez rymu lub nieparzysta liczba linii'):'');
     return `<div class="wr" data-l="${x.v[0].i+1}"><b>${esc(x.name)}</b> schemat <code class="sch">${esc(fmtSch(x))}</code>${uni?` (${pt.length}× ${esc(pt[0].toUpperCase())})`:''}${g?' · '+esc(g):''}<br><i>${esc(notes.join(' · '))}</i></div>`}).join('');
   /* maszerujące dwuwersy */
