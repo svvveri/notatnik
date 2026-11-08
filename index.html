@@ -157,6 +157,8 @@ body[data-view="edit"] #fab{display:none}
 #rinfo b{color:var(--fg);font-weight:600}
 #rmodes{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -2px 10px;padding:0 2px}
 #rmodes::-webkit-scrollbar{display:none}
+#rtype{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 8px}#rtype button{padding:4px 11px;border-radius:999px;border:1px solid var(--line);font-size:13px;color:var(--dim)}#rtype button b{font-weight:400;margin-left:5px;font-variant-numeric:tabular-nums}#rtype button.on{color:var(--acc);border-color:var(--acc)}
+#rinfo .mu{color:var(--dim)}
 #rmodes button{flex:none;padding:5px 11px;border-radius:999px;border:1px solid var(--line);font-size:13.5px;white-space:nowrap}
 #rmodes button b{font-weight:400;color:var(--dim);margin-left:5px;font-variant-numeric:tabular-nums}
 #rmodes button.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
@@ -331,6 +333,7 @@ label.lfull{display:flex;gap:8px;align-items:center;margin:4px 0 10px;color:var(
         <div id="rinfo"></div>
         <div id="rmodes" role="tablist" aria-label="Rodzaj rymu"></div>
         <div id="rsyl" aria-label="Liczba sylab"></div>
+        <div id="rtype" role="tablist" aria-label="Rodzaj rymu"></div>
         <div id="rpos" aria-label="Część mowy"></div>
         <div id="rres"><div class="hint">Wpisz słowo albo końcówkę wersu. Podpowiedzi biorą się z fonetyki i z Twoich tekstów.</div></div>
         <div class="wallHead"><h3>Twoja ściana</h3><span>dotknij rymu wyżej, żeby go tu dopisać</span></div>
@@ -503,7 +506,7 @@ function renderAll(){renderChips();renderList()}
 
 /* ---- edytor ---- */
 function swipeInit(){const sc=$('#scroll');let x0=0,y0=0,t0=0,ok=false;
-  const skip=el=>!!(el&&el.closest&&el.closest('#rmodes,#rsyl,#rpos,.ranch,#tools,#selbar,#wallTa,#title,.partTxt,input'));
+  const skip=el=>!!(el&&el.closest&&el.closest('#rmodes,#rsyl,#rtype,#rpos,.ranch,#tools,#selbar,#wallTa,#title,.partTxt,input'));
   const go=dx=>{const b=$('#body');
     if(tab==='text'&&dx<0){ok=false;if(sel.e>sel.s&&document.activeElement===b)rymyDlaMiejsca();else showTab('wall');slideIn('wall',1)}
     else if(tab==='wall'&&dx>0){ok=false;showTab('text');slideIn('page',-1)}};
@@ -927,7 +930,7 @@ const accOf=p=>{const w=p.split(' ').pop(),n=fastSyl(w);return n<2?'mez':(n>=3&&
 const MOPIS={mez:'rym męski: akcent na ostatniej sylabie, słowa jednosylabowe (np. wół – dół)',zen:'rym żeński: akcent na przedostatniej sylabie, zgodne co najmniej dwie ostatnie sylaby (np. brama – sama)',dak:'rym daktyliczny: akcent na trzeciej sylabie od końca, rzadki w polszczyźnie (np. polityka – matematyka)',dok:'rym dokładny (pełny): głoski od ostatniej akcentowanej samogłoski brzmią tak samo (np. słowa – mowa)',aso:'asonans (rym niedokładny): zgodne samogłoski, różne spółgłoski (np. słońce – łące)',spo:'konsonans (rym niedokładny): zgodne spółgłoski, inne samogłoski',wie:'rym bogaty (głęboki): rymują się trzy i więcej sylab od końca, a w skrajnym przypadku całe frazy (rym składany, pantorym), często jako asonans, np. „na kolanach siedzę – zakochana jesteś”. Pokazuję też końcówki wersów z Twoich tekstów',ali:'ten sam początek oraz ten sam układ samogłosek'};
 let rExp=new Set(),rBusy=0,FQS=null,FQR=null;
 /* część mowy: maska z Morfeusza2/SGJP (1 rzeczownik, 2 czasownik, 4 przymiotnik, 8 przysłówek, 32 forma słownikowa) */
-let rpos=ls('nt-rpos')||'all',rlem=ls('nt-rlem')==='1',rrare=ls('nt-rrare')==='1',rsort=ls('nt-rsort')||'q',lsub=ls('nt-lsub')||'has',lfull=ls('nt-lfull')!=='0';
+let rpos=ls('nt-rpos')||'all',rlem=ls('nt-rlem')==='1',rrare=ls('nt-rrare')==='1',rsort=ls('nt-rsort')||'q',rlast='all',lsub=ls('nt-lsub')||'has',lfull=ls('nt-lfull')!=='0';
 const POSL=[['all','Wszystkie'],['1','Rzeczowniki'],['2','Czasowniki'],['4','Przymiotniki'],['8','Przysłówki']];
 const posOn=()=>rpos!=='all'||rlem,vis=c=>(rrare||c.b||c.own||c.sg)&&pf(c),pf=c=>{if(!posOn())return true;const m=POSM.get(c.p);if(m==null)return false;return (rpos==='all'||(m&+rpos))&&(!rlem||(m&32))?true:false};
 const PFM=new Set(['all','mez','zen','dak','dok','aso','wie']);
@@ -1071,14 +1074,19 @@ function ownLines(k,qlast){const has=[],rh=[],bef=new Map(),aft=new Map(),near=n
 async function genSearch(q){const tok=ls('nt-gkey');if(!tok)return false;const r=await fetch('https://api.genius.com/search?per_page=20&q='+encodeURIComponent(q)+'&access_token='+encodeURIComponent(tok));if(!r.ok)throw new Error('Genius: HTTP '+r.status);const j=await r.json();
   return (j.response.hits||[]).filter(h=>h.type==='song').map(h=>({a:h.result.primary_artist.name,t:h.result.title,u:h.result.url}))}
 function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
-  $('#rinfo').innerHTML=`<b>${esc(q)}</b> · wymowa <b>${esc(k.f)}</b> · rdzeń rymu <b>${esc(k.tail)}</b> · <a href="https://www.google.com/search?q=${encodeURIComponent('site:bibliotekapiosenki.pl "'+q+'"')}" target="_blank" rel="noopener">szukaj w piosenkach ↗</a>`+(loadErr?'<br><span style="color:var(--danger)">Nie udało się pobrać części słownika (brak sieci?). Pokazuję to, co jest w pamięci.</span>':'');
+  $('#rinfo').innerHTML=`<b>${esc(q)}</b> <span class="mu" title="wymowa">· ${esc(k.f)}</span> <span class="mu" title="rdzeń rymu">· ${esc(k.tail)}</span>`+(loadErr?'<br><span style="color:var(--danger)">Nie udało się pobrać części słownika (brak sieci?). Pokazuję to, co jest w pamięci.</span>':'');
   if(!lastR.OL)lastR.OL=ownLines(k,wordsOf(q).slice(-1)[0]||'');const OL=lastR.OL;
   if(!lastR.POOL){const mm=new Map();[...R.ry,...R.bl].forEach(c=>{if(!mm.has(c.p))mm.set(c.p,c)});lastR.POOL=[...mm.values()].sort((a,b)=>b.sc-a.sc);lastR.ACC={mez:[],zen:[],dak:[]};lastR.POOL.forEach(c=>lastR.ACC[accOf(c.p)].push(c));
     /* dokładne: ten sam rodzaj akcentu co szukane słowo (męskie z męskim, żeńskie z żeńskim); asonanse: reszta zgodna samogłoskowo */
     const qa=accOf(wordsOf(q).slice(-1)[0]||q);lastR.DOK=R.dok.filter(c=>accOf(c.p)===qa);const dk=new Set(lastR.DOK.map(c=>c.p));lastR.ASO=lastR.POOL.filter(c=>!dk.has(c.p))}
   const ACC=lastR.ACC,fl=a=>a.filter(vis).length,cnt={mez:fl(ACC.mez),zen:fl(ACC.zen),dak:fl(ACC.dak),all:fl(R.ry)+fl(R.bl)+fl(R.ph||[]),aso:fl(lastR.ASO),dok:fl(lastR.DOK),spo:R.spo.length,wie:fl(R.wie),ali:R.ali.length+R.sal.length,pom:0,lin:OL.has.length+OL.rh.length,kon:OL.bef.length+OL.aft.length};
-  $('#rmodes').innerHTML=MODES.map(([id,l])=>`<button role="tab" class="${rmode===id?'on':''}" data-m="${id}">${l}${id==='pom'?'':`<b>${cnt[id]}</b>`}</button>`).join('');
-  $('#rmodes').querySelectorAll('button').forEach(b=>b.onclick=()=>{rmode=b.dataset.m;rsyl='all';rExp=new Set();drawRymy()});
+  /* góra: 5 zakładek jak w AZRhymes; rodzaje rymu to filtry w obrębie zakładki Rymy */
+  const RTYPES=['all','mez','zen','dak','dok','aso','spo','wie'],inRym=RTYPES.includes(rmode);if(inRym)rlast=rmode;
+  const TOP=[['rym','Rymy',cnt.all],['ali','Aliteracje',cnt.ali],['pom','Pomysły',null],['lin','Piosenki',cnt.lin],['kon','Konteksty',cnt.kon]];
+  $('#rmodes').innerHTML=TOP.map(([id,l,n])=>`<button role="tab" class="${(id==='rym'?inRym:rmode===id)?'on':''}" data-m="${id}">${l}${n===null?'':`<b>${n}</b>`}</button>`).join('');
+  $('#rmodes').querySelectorAll('button').forEach(b=>b.onclick=()=>{rmode=b.dataset.m==='rym'?rlast:b.dataset.m;rsyl='all';rExp=new Set();drawRymy()});
+  const rt=$('#rtype');if(rt){if(!inRym)rt.innerHTML='';else{rt.innerHTML=RTYPES.map(id=>{const l=id==='all'?'Wszystkie':MODES.find(m=>m[0]===id)[1];return `<button role="tab" class="${rmode===id?'on':''}" data-m="${id}">${l}<b>${cnt[id]}</b></button>`}).join('');
+    rt.querySelectorAll('button').forEach(b=>b.onclick=()=>{rmode=b.dataset.m;rsyl='all';rExp=new Set();drawRymy()})}}
   {const pr=$('#rpos');if(pr){if(!PFM.has(rmode))pr.innerHTML='';else{pr.innerHTML=POSL.map(([id,l])=>`<button class="${rpos===id?'on':''}" data-p="${id}">${l}</button>`).join('')+`<button class="lem ${rlem?'on':''}" data-l="1" title="tylko formy podstawowe: mianownik, bezokolicznik">Tylko formy słownikowe</button><button class="rar ${rrare?'on':''}" data-r="1" title="domyślnie widać tylko słowa potoczne">Rzadkie słowa</button><button class="srt ${rsort==='q'?'on':''}" data-s="1" title="sortowanie: od najlepszego rymu albo według liczby sylab">${rsort==='q'?'Dokładne na wierzchu':'Wszystkie razem'}</button>`;
       pr.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(b.dataset.s){rsort=rsort==='q'?'s':'q';ls('nt-rsort',rsort)}else if(b.dataset.r){rrare=!rrare;ls('nt-rrare',rrare?'1':'0')}else if(b.dataset.l){rlem=!rlem;ls('nt-rlem',rlem?'1':'0')}else{rpos=b.dataset.p;ls('nt-rpos',rpos)}rExp=new Set();drawRymy()})}}}
   const n=T.get(cur),wall=(n&&n.sciana||'').toLowerCase();
