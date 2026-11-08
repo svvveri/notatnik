@@ -942,7 +942,7 @@ function altSpell(q){const ws=wordsOf(q);if(!ws.length)return null;const w=ws[ws
 async function rymCompute(q,noExt){
   ownRV();const base=findRhymes(q,noExt);if(!base)return null;
   const {k,out}=base,qws=wordsOf(q),qlast=qws[qws.length-1],nv=vowelsOf(k.tail).length,qtr=trailOf(k.tail);
-  const R={ry:[],bl:[],ide:[],dok:[],spo:[],wie:[],ali:[],sal:[]},seen=new Set([qlast]);
+  const R={ry:[],bl:[],ide:[],dok:[],spo:[],wie:[],ali:[],sal:[],mz:[]},seen=new Set([qlast]);
   const close=(key)=>{const t=trailOf(key);return !(t===qtr||(t&&qtr&&t[t.length-1]===qtr[qtr.length-1]))};
   /* kształt końcówki musi się zgadzać: słowo kończące się samogłoską rymuje się tylko ze słowem kończącym się samogłoską (ludzie ≠ rozumiem), a kończące się spółgłoską tylko ze spółgłoską */
   const CG={m:'N',n:'N','ń':'N',l:'L','ł':'L',k:'K',g:'K',t:'T',d:'T',p:'P',b:'P',f:'F',w:'F',s:'S',z:'S','ś':'S','ź':'S',c:'S','ć':'S',h:'H',r:'R',j:'J'},cg=ch=>CG[ch]||ch;
@@ -970,6 +970,11 @@ async function rymCompute(q,noExt){
       for(let i=0;i<lim;i++){const w=ws[i];if(w===qlast)continue;
         add(cl?'bl':'ry',w,0,sl,i,ex&&!cl);if(ex){add('dok',w,0,sl,i,1);}
         if(qv.length>=3&&fastSyl(w)>=3&&(ex||sl>=2)&&i<400){const wv=vowelsOf(fon(w));let m3=0;while(m3<wv.length&&m3<qv.length&&wv[wv.length-1-m3]===qv[qv.length-1-m3])m3++;if(m3>=3)add('wie',w,0,m3*10+sl,i,1)}}}})}
+  /* rymy męskie do słowa 2+ sylabowego: jednosylabowe słowa, które rymują się z ostatnią sylabą („ludzie” – „gdzie”) */
+  if(idx&&nv>=2){const fl=fon(qlast),ix=[];for(let i=0;i<fl.length;i++)if(/[aeiouyąę]/.test(fl[i]))ix.push(i);
+    if(ix.length>=2){const rest=fl.slice(ix[ix.length-2]+1),lv1=fl[ix[ix.length-1]],sk1=SKE[lv1]||lv1,qtl=fl.slice(ix[ix.length-1]+1);
+      if(idx[sk1]){const m1=await loadShard(sk1);if(m1)for(const [key,ws] of m1){const ex=key.endsWith(rest),ok=ex||(qtl===''?/[aeiouyąę]$/.test(key):key.endsWith(lv1+qtl));if(!ok)continue;
+        const lim=Math.min(ws.length,ex?200:60);for(let i=0;i<lim;i++){const w=ws[i];if(w===qlast)continue;add('mz',w,0,rest.length,i,ex)}}}}}
   if(slg){const lv=vowelsOf(k.tail),last=SKE[lv[lv.length-1]]||lv[lv.length-1];
     const sks=nv>=2?[skelOf(k.tail)]:[...slg.keys()].filter(x=>x.endsWith(last));
     for(const sk of sks){const m=slg.get(sk);if(!m)continue;for(const [key,ws] of m){if(!shape(key))continue;
@@ -989,8 +994,11 @@ async function rymCompute(q,noExt){
 /* jakość rymu 3/2/1/0: samogłoski ostatnich dwóch sylab (ę liczy się jak e) i spółgłoski między nimi (ciemną, piękną: „mn”/„kn” kończą się tak samo jak w „ze mną”).
    3 = samogłoski zgodne i spółgłoski między nimi kończą się tak samo; 2 = samogłoski zgodne, ale spółgłoski inne, albo przedostatnia samogłoska z tej samej rodziny (e, i, y) przy zgodnych spółgłoskach; 1 = zgodna tylko ostatnia samogłoska */
 const vN=v=>v==='ę'?'e':v,FRONT=new Set(['e','i','y']);
-function qvOf(t){const f=fon(wordsOf(t).join('')),ix=[];for(let i=0;i<f.length;i++)if(/[aeiouyąę]/.test(f[i]))ix.push(i);const v=ix.map((i,k)=>k===ix.length-1&&f[i]==='ą'?'o':vN(f[i]));v.mid=ix.length>=2?f.slice(ix[ix.length-2]+1,ix[ix.length-1]):'';return v}
-function qualOf(p,qvs){const D=Math.min(2,qvs.length);if(!D)return 3;const cv=qvOf(p);let m=0;const L=Math.min(D,cv.length);while(m<L&&cv[cv.length-1-m]===qvs[qvs.length-1-m])m++;
+function qvOf(t){const f=fon(wordsOf(t).join('')),ix=[];for(let i=0;i<f.length;i++)if(/[aeiouyąę]/.test(f[i]))ix.push(i);const v=ix.map((i,k)=>k===ix.length-1&&f[i]==='ą'?'o':vN(f[i]));v.mid=ix.length>=2?f.slice(ix[ix.length-2]+1,ix[ix.length-1]):'';v.rest=ix.length>=2?f.slice(ix[ix.length-2]+1):'';return v}
+function qualOf(p,qvs){const D=Math.min(2,qvs.length);if(!D)return 3;const cv=qvOf(p);
+  /* słowo jednosylabowe (rym męski): pełny rym, gdy całe pasuje do ostatniej sylaby szukanego słowa (ludzie – gdzie) */
+  if(D===2&&cv.length===1&&qvs.rest){const f=fon(wordsOf(p).join(''));return f.endsWith(qvs.rest)?3:cv[0]===qvs[qvs.length-1]?2:0}
+  let m=0;const L=Math.min(D,cv.length);while(m<L&&cv[cv.length-1-m]===qvs[qvs.length-1-m])m++;
   const midOk=D<2||(cv.mid.slice(-1)===qvs.mid.slice(-1));
   if(m>=D)return midOk?3:2;
   if(m>=1){const a=cv[cv.length-2],b=qvs[qvs.length-2];return a&&b&&FRONT.has(a)&&FRONT.has(b)&&midOk?2:1}return 0}
@@ -1077,7 +1085,7 @@ async function genSearch(q){const tok=ls('nt-gkey');if(!tok)return false;const r
 function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
   $('#rinfo').innerHTML=`<b>${esc(q)}</b> <span class="mu" title="wymowa">· ${esc(k.f)}</span> <span class="mu" title="rdzeń rymu">· ${esc(k.tail)}</span>`+(loadErr?'<br><span style="color:var(--danger)">Nie udało się pobrać części słownika (brak sieci?). Pokazuję to, co jest w pamięci.</span>':'');
   if(!lastR.OL)lastR.OL=ownLines(k,wordsOf(q).slice(-1)[0]||'');const OL=lastR.OL;
-  if(!lastR.POOL){const mm=new Map();[...R.ry,...R.bl].forEach(c=>{if(!mm.has(c.p))mm.set(c.p,c)});lastR.POOL=[...mm.values()].sort((a,b)=>b.sc-a.sc);lastR.ACC={mez:[],zen:[],dak:[]};lastR.POOL.forEach(c=>lastR.ACC[accOf(c.p)].push(c));
+  if(!lastR.POOL){const mm=new Map();[...R.ry,...R.bl].forEach(c=>{if(!mm.has(c.p))mm.set(c.p,c)});lastR.POOL=[...mm.values()].sort((a,b)=>b.sc-a.sc);lastR.ACC={mez:[],zen:[],dak:[]};lastR.POOL.forEach(c=>lastR.ACC[accOf(c.p)].push(c));{const have=new Set(lastR.ACC.mez.map(c=>c.p));(R.mz||[]).forEach(c=>{if(!have.has(c.p)){have.add(c.p);lastR.ACC.mez.push(c)}});lastR.ACC.mez.sort((a,b)=>b.q-a.q||b.sc-a.sc)}
     /* dokładne: ten sam rodzaj akcentu co szukane słowo (męskie z męskim, żeńskie z żeńskim); asonanse: reszta zgodna samogłoskowo */
     const qa=accOf(wordsOf(q).slice(-1)[0]||q);lastR.DOK=R.dok.filter(c=>accOf(c.p)===qa);const dk=new Set(lastR.DOK.map(c=>c.p));lastR.ASO=lastR.POOL.filter(c=>!dk.has(c.p))}
   const ACC=lastR.ACC,fl=a=>a.filter(vis).length,cnt={mez:fl(ACC.mez),zen:fl(ACC.zen),dak:fl(ACC.dak),all:fl(R.ry)+fl(R.bl)+fl(R.ph||[]),aso:fl(lastR.ASO),dok:fl(lastR.DOK),spo:fl(R.spo),wie:fl(R.wie),ali:R.ali.length+R.sal.length,pom:0,lin:OL.has.length+OL.rh.length,kon:OL.bef.length+OL.aft.length};
