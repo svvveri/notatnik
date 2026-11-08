@@ -887,9 +887,10 @@ const MOPIS={mez:'rym męski: akcent na ostatniej sylabie, słowa jednosylabowe 
 let rExp=new Set(),rBusy=0,FQS=null,FQR=null;
 const sylLabel=n=>n===1?'1 sylaba':(n>=2&&n<=4?n+' sylaby':n+' sylab');
 const trailOf=t=>t.replace(/^.*[aeiouyąę]/,''),stemOf=t=>t.slice(0,t.length-trailOf(t).length);
-async function szukajRymow(raw){const q=String(raw).trim();if(!q)return;const my=++rBusy;
-  ownRV();const base=findRhymes(q);if(!base){$('#rres').innerHTML='<div class="hint">Nie widzę tu samogłoski, więc nie ma z czym rymować.</div>';return}
-  $('#rres').innerHTML='<div class="hint">Szukam rymów…</div>';
+/* AZRhymes liczy samogłoski wg pisowni: „Reymont” = e,y,o, więc końcówka „y,o” (horyzont, dyskont, Szymon). Drugie czytanie: wygaszamy jota w ey/ay/oy/uy */
+function altSpell(q){const ws=wordsOf(q);if(!ws.length)return null;const w=ws[ws.length-1],a=w.replace(/([aeou])y(?=[^aeiouyąęó]|$)/g,'y');return a!==w?a:null}
+async function rymCompute(q){
+  ownRV();const base=findRhymes(q);if(!base)return null;
   const {k,out}=base,qws=wordsOf(q),qlast=qws[qws.length-1],nv=vowelsOf(k.tail).length,qtr=trailOf(k.tail);
   const R={ry:[],bl:[],ide:[],dok:[],spo:[],wie:[],ali:[],sal:[]},seen=new Set([qlast]);
   const qf=fon(qlast),fv=f=>{const m=f.search(/[aeiouyąę]/);return m<0?f:f.slice(m)},qI=fv(qf),qN=vowelsOf(qf).length;
@@ -933,9 +934,16 @@ async function szukajRymow(raw){const q=String(raw).trim();if(!q)return;const my
     for(let j=0;j<fq.length;j++){const w=fq[j];if(w===qlast||w.length<3)continue;
       if(R.ali.length<400&&w.startsWith(pre)&&w.length>3)add('ali',w,0,0,j,0);
       if(R.sal.length<400){const v=FQK.V[j],n=Math.min(v.length,qvs.length);if(n&&v.slice(0,n)===qvs.slice(0,n)&&(v.length>=qvs.length||v.length>=1)&&v.length<=qvs.length+1)add('sal',w,0,0,j,0)}}}
+  return {k,R,loadErr}}
+async function szukajRymow(raw){const q=String(raw).trim();if(!q)return;const my=++rBusy;
+  $('#rres').innerHTML='<div class="hint">Szukam rymów…</div>';
+  const r1=await rymCompute(q);if(!r1){$('#rres').innerHTML='<div class="hint">Nie widzę tu samogłoski, więc nie ma z czym rymować.</div>';return}
+  const {k,R,loadErr}=r1;let le=loadErr;const al=altSpell(q);
+  if(al){const r2=await rymCompute(al);if(r2){le=le||r2.loadErr;const orig=(wordsOf(q).slice(-1)[0])||'';
+    for(const g in R){const have=new Set(R[g].map(c=>c.p));r2.R[g].forEach(c=>{if(c.p!==orig&&!have.has(c.p)){have.add(c.p);R[g].push(c)}})}}}
   if(my!==rBusy)return;
   for(const g in R){R[g].sort((a,b)=>b.sc-a.sc||a.p.length-b.p.length);R[g].forEach(c=>{c.s=fastSyl(c.p.replace(/ /g,''));c.b=!FQS||FQS.has(c.p)||c.own})}
-  lastR={q,k,R,loadErr};rmode='all';rsyl='all';rExp=new Set();pushRecent(q);drawRymy()}
+  lastR={q,k,R,loadErr:le};rmode='all';rsyl='all';rExp=new Set();pushRecent(q);drawRymy()}
 const POMK=[['syn','Synonimy i inne skojarzenia słowne'],['wto','Wyrażenia oznaczające to samo'],['wz','Wyrażenia z tymi słowami'],['sto','Slang oznaczający to samo'],['sz','Slang z tymi słowami']];
 let pomCat=ls('nt-pomcat')||'syn';const POM=new Map();
 function jsonFix(t){try{return JSON.parse(t)}catch(_){}
