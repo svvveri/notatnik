@@ -534,7 +534,7 @@ function showTab(t){tab=t;const n=T.get(cur);
 function openNote(id){const n=T.get(id);if(!n)return;cur=id;view('edit');lastR=null;
   $('#title').value=n.tytul;$('#body').value=n.tresc;$('#wallTa').value=n.sciana||'';$('#rq').value='';drawRecents();$('#rinfo').innerHTML='';$('#rmodes').innerHTML='';$('#rsyl').innerHTML='';
   $('#date').textContent=new Date(n.zmieniono).toLocaleString('pl-PL',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
-  showTab('text');renderTags();renderTools();histReset();starState();refit();renderList()}
+  lastBody=n.tresc;  showTab('text');renderTags();renderTools();histReset();starState();refit();renderList()}
 function closeNote(){flush(cur);cur=null;view('list');renderAll()}
 function renderTags(){const n=T.get(cur);if(!n)return;
   $('#tags').innerHTML=(n.tagi||[]).map(t=>`<span class="tchip">${esc(t)}<button data-x="${esc(t)}" aria-label="Usuń tag ${esc(t)}">×</button></span>`).join('')+
@@ -741,9 +741,11 @@ function autoLabel(e){if(!VS.autolab||!e||!cur||!/^insert/.test(e.inputType||'')
   const name=labGuess(lines,idx);
   b.value=v.slice(0,ls0)+name+'\n'+v.slice(ls0);const np=pos+name.length+1;b.setSelectionRange(np,np)}
 /* po skasowaniu całego tekstu części znika też jej znacznik, chyba że ma nagrania */
+let lastBody;
 function dropEmptyLabel(e){if(!VS.autolab||!e||!cur||!/^delete/.test(e.inputType||''))return;
   const b=$('#body');if(b.selectionStart!==b.selectionEnd)return;const v=b.value,pos=b.selectionStart,lines=v.split('\n'),c=v.slice(0,pos).split('\n').length-1;
-  let L=c;while(L>=0&&!isLabel(lines[L]))L--;if(L<0||L===c)return;
+  const nlJoin=lastBody!==undefined&&lastBody===v.slice(0,pos)+'\n'+v.slice(pos);
+  let L=c;while(L>=0&&!isLabel(lines[L]))L--;if(L<0)return;if(L===c&&!nlJoin)return;
   let e2=L+1;while(e2<lines.length&&!isLabel(lines[e2]))e2++;
   for(let k=L+1;k<e2;k++)if(lines[k].trim())return;
   const n=T.get(cur),nm=labName(lines[L]);if(n&&(n.nagrania||[]).some(r=>r.czesc===nm))return;
@@ -1288,7 +1290,7 @@ function wordCard(p){const k=rkey(p),ex=usage(p);
 
 /* ---- start ---- */
 function wire(){
-  $('#title').oninput=edit;$('#body').oninput=e=>{autoLabel(e);dropEmptyLabel(e);edit()};$('#body').addEventListener('click',labelClick);
+  $('#title').oninput=edit;$('#body').oninput=e=>{autoLabel(e);dropEmptyLabel(e);edit();lastBody=$('#body').value};$('#body').addEventListener('click',labelClick);
   $('#wallTa').oninput=()=>{const n=T.get(cur);if(!n)return;n.sciana=$('#wallTa').value;touch(n);wallFit()};
   $('#title').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();$('#body').focus()}};
   $('#q').oninput=e=>{query=e.target.value;renderList()};
