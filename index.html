@@ -1178,12 +1178,13 @@ const P1=/^(ja|mnie|mi|mną|mój|moja|moje|moi|moich|moim|my|nas|nam|nami|nasz|n
   P3=/^(on|ona|ono|oni|one|jego|jej|ich|im|go|nią|nim|nimi)$/,
   PAST=/^(był|była|było|były|byli)$|(łem|łam|łeś|łaś|liśmy|łyśmy|liście|łyście)$/,FUT=/^będ(ę|ziesz|zie|ziemy|ziecie|ą)$/;
 function warOsoba(v){const c={p1:0,p2:0,p3:0,past:0,fut:0},hit=[];v.forEach(l=>{let f=false;l.ws.forEach(w=>{if(P1.test(w)){c.p1++;f=true}else if(P2.test(w)){c.p2++;f=true}else if(P3.test(w)){c.p3++;f=true}if(PAST.test(w)){c.past++;f=true}if(FUT.test(w)){c.fut++;f=true}});if(f)hit.push(l.i+1)});return {c,hit}}
+const gnoMap=()=>{const m=new Map();warForma().forEach(x=>x.v.forEach((l,j)=>m.set(l.i+1,j+1)));return m};
 function warFormaHtml(){const S=warForma();if(!S.length)return '';
   const q=t=>esc(t.length>46?t.slice(0,44)+'…':t),med=a=>{const b=a.slice().sort((x,y)=>x-y);return b[Math.floor(b.length/2)]};
   /* 1. stabilność */
   const stab=S.map(x=>{const n=x.v.length,uf=x.v.filter(l=>l.unf),sy=x.v.filter(l=>!l.unf).map(l=>l.sy),par=n%2===0,pt=schParts(x),uni=pt.length>1&&pt.every(q=>q===pt[0]),d=SCH[uni?pt[0]:x.sch];let notes=[];
     notes.push(`${n} ${n===1?'linia':'linii'}${strName(x)?' ('+strName(x)+')':''} (${par?'parzysta: stabilnie':'nieparzysta: ruch idzie dalej'})`);
-    if(uf.length)notes.push('do dokończenia: linia '+uf.map(l=>l.i+1).join(', ')+' (pominięta w schemacie)');
+    if(uf.length)notes.push('do dokończenia: wers '+uf.map(l=>x.v.indexOf(l)+1).join(', ')+' (pominięty w schemacie)');
     if(sy.length>=2){const nn=sy.length,a=sy[nn-2],b=sy[nn-1];notes.push(`długości ${sy.join('·')}`+(b-a<=-2?`; ostatnia krótsza o ${a-b}: niestabilnie, sekcja zawisa`:b-a>=2?`; ostatnia dłuższa: domyka mocniej`:'; wyrównane: stabilnie'))}
     const g=d?`${d[0]}: ${d[1]}`:(n>=2?(par&&x.sch.slice(-1)!=='x'?'raczej stabilny: parzysta liczba i rym na końcu':'raczej niestabilny: koniec bez rymu lub nieparzysta liczba linii'):'');
     return `<div class="wr" data-l="${x.v[0].i+1}"><b>${esc(x.name)}</b> schemat <code class="sch">${esc(fmtSch(x))}</code>${uni?` (${pt.length}× ${esc(pt[0].toUpperCase())})`:''}${g?' · '+esc(g):''}<br><i>${esc(notes.join(' · '))}</i></div>`}).join('');
@@ -1214,24 +1215,24 @@ function warKlisze(){if(!KLS)KLS=KLISZE.map(f=>({f,k:f.split(' ').map(kst)}));co
   const S=warLinie().filter(l=>!l.skip&&l.ws.length);for(let i=1;i<S.length;i++){const a=S[i-1].last,b=S[i].last;if(!a||!b)continue;const A=kst(a),B=kst(b);
     for(const [x,y] of KRYM){if((A===kst(x)&&B===kst(y))||(A===kst(y)&&B===kst(x))){out.push({l:S[i].i+1,f:'rym '+x+' – '+y,t:S[i].t,rym:1});break}}}
   return out}
-function warKliszeHtml(){const K=warKlisze();
+function warKliszeHtml(){const K=warKlisze(),gm=gnoMap();
   return `<div class="wcard"><h4>Klisze</h4><div class="hint">Klisza to utarta fraza, obraz lub rym, który słuchacz zna na pamięć, więc przestaje słuchać. Pattison radzi: zastąp ją własnym, konkretnym obrazem zmysłowym (zobacz, jak wygląda, pachnie, brzmi to, o czym mówisz). Klisza bywa w porządku, gdy kontekst nadaje jej nowe znaczenie.</div>
-  ${K.length?K.map(x=>`<div class="wr" data-l="${x.l}"><b>linia ${x.l}</b> ${x.rym?'utarty rym':'klisza'}: „${esc(x.f)}”<br><i>${esc(x.t.length>60?x.t.slice(0,58)+'…':x.t)}</i></div>`).join(''):'<div class="hint">Nie znalazłam znanych klisz z mojej listy. Lista nie jest kompletna, więc poniżej możesz poprosić model o drugie spojrzenie.</div>'}
+  ${K.length?K.map(x=>`<div class="wr" data-l="${x.l}"><b>wers ${gm.get(x.l)||x.l}</b> ${x.rym?'utarty rym':'klisza'}: „${esc(x.f)}”<br><i>${esc(x.t.length>60?x.t.slice(0,58)+'…':x.t)}</i></div>`).join(''):'<div class="hint">Nie znalazłam znanych klisz z mojej listy. Lista nie jest kompletna, więc poniżej możesz poprosić model o drugie spojrzenie.</div>'}
   <div class="shBtns"><button id="warKl">Poproś AI o szukanie klisz i konkretnych zamienników</button></div><div id="warKlo"></div></div>`}
 function warKliszeAI(){const o=$('#warKlo');o.innerHTML='<div class="hint">Szukam…</div>';const txt=$('#body').value.split('\n').map((l,i)=>(i+1)+': '+l).join('\n').slice(0,6000);
   aiCall('Jesteś redaktorem tekstów piosenek. '+PAT+' Odpowiadasz zwięźle po polsku.','Wskaż w tekście (numeracja linii na początku) klisze: utarte frazy, obrazy, metafory i rymy, które słuchacz zna na pamięć. Dla każdej napisz w jednej linii w formacie „linia N: klisza → pomysł na konkretny obraz zmysłowy w jej miejsce”. Jeśli nie ma klisz, napisz to.\n\n'+txt,1200)
   .then(t=>{o.innerHTML=esc(t).split('\n').filter(x=>x.trim()).map(x=>{const m=x.match(/linia\s*(\d+)/i);return `<div class="wr" ${m?`data-l="${m[1]}"`:''}>${x}</div>`}).join('');o.querySelectorAll('.wr[data-l]').forEach(r=>r.onclick=()=>warGoto(+r.dataset.l))})
   .catch(e=>{o.innerHTML='<div class="hint" style="color:var(--danger)">'+esc(e.message)+'</div>'})}
 function warFigChip(f){return SRODKI[f]?SRODKI[f].n:f}
-function sheetWarsztat(){const n=T.get(cur);if(!n)return;const R=warAnaliza(),st=warStruct();const by={};R.filter(r=>r.f!=='rym').forEach(r=>(by[r.f]=by[r.f]||[]).push(r));
-  const rhy=st.filter(x=>x.n>=2&&/[a-wyz]/.test(x.raw)).map(x=>({lines:[x.first],note:`${x.name}, linie ${x.first}–${x.last} → schemat ${x.sch}`})),wh=st.filter(x=>x.n>=2&&!/[a-wyz]/.test(x.raw)).map(x=>({lines:[x.first],note:`${x.name}, linie ${x.first}–${x.last} → bez rymów końcowych (wiersz biały lub wolny)`}));
+function sheetWarsztat(){const n=T.get(cur);if(!n)return;const GM=gnoMap();const R=warAnaliza(),st=warStruct();const by={};R.filter(r=>r.f!=='rym').forEach(r=>(by[r.f]=by[r.f]||[]).push(r));
+  const rhy=st.filter(x=>x.n>=2&&/[a-wyz]/.test(x.raw)).map(x=>({lines:[x.first],note:`${x.name}, wersy 1–${x.n} → schemat ${x.sch}`})),wh=st.filter(x=>x.n>=2&&!/[a-wyz]/.test(x.raw)).map(x=>({lines:[x.first],note:`${x.name}, wersy 1–${x.n} → bez rymów końcowych (wiersz biały lub wolny)`}));
   const html=`<div class="shHead"><h3>Warsztat</h3><button class="x" id="x" aria-label="Zamknij">×</button></div><div class="warbody">
   <div class="wcard"><h4>Struktura utworu</h4>${st.length?st.map(x=>`<div class="wrow"><b>${esc(x.name)}</b><span>${x.n} wersów${x.typ&&x.n!==x.typ?` <i>(zwykle ok. ${x.typ})</i>`:''} · śr. ${x.av.toFixed(1).replace('.',',')} sylab${x.n>=3?' · schemat <code class="sch">'+esc(x.sch)+'</code>':''}</span></div>`).join(''):'<div class="hint">Napisz kilka wersów.</div>'}
    <div class="hint">Odrzuty (luźne wersy na dole) nie wchodzą do liczenia. Oddziel je pustą linią podwójnie albo linią <code>---</code>.</div></div>
   <div class="wcard"><h4>Rymy w strofach</h4>${rhy.length?rhy.map(r=>`<div class="wr" data-l="${r.lines[0]}">${esc(r.note)}</div>`).join(''):'<div class="hint">Brak wykrytych rymów końcowych.</div>'}${wh.map(r=>`<div class="wr" data-l="${r.lines[0]}">${esc(r.note)}</div>`).join('')}</div>
   ${warFormaHtml()}
   ${warKliszeHtml()}
-  <div class="wcard"><h4>Środki stylistyczne</h4>${Object.keys(by).length?Object.keys(by).map(f=>`<details class="wd"><summary>${esc(warFigChip(f))} <span>${by[f].length}</span></summary>${by[f].slice(0,25).map(r=>`<div class="wr" data-l="${r.lines[0]}"><b>${r.lines.length>1?'linie '+r.lines.join(', '):'linia '+r.lines[0]}</b> ${esc(r.note)}</div>`).join('')}<p class="hint">${esc((SRODKI[f]||{}).d||'')}</p></details>`).join(''):'<div class="hint">Nic nie wykryłam regułami. Spróbuj analizy AI poniżej.</div>'}
+  <div class="wcard"><h4>Środki stylistyczne</h4>${Object.keys(by).length?Object.keys(by).map(f=>`<details class="wd"><summary>${esc(warFigChip(f))} <span>${by[f].length}</span></summary>${by[f].slice(0,25).map(r=>`<div class="wr" data-l="${r.lines[0]}"><b>${r.lines.length>1?'wersy '+r.lines.map(q=>GM.get(q)||q).join(', '):'wers '+(GM.get(r.lines[0])||r.lines[0])}</b> ${esc(r.note)}</div>`).join('')}<p class="hint">${esc((SRODKI[f]||{}).d||'')}</p></details>`).join(''):'<div class="hint">Nic nie wykryłam regułami. Spróbuj analizy AI poniżej.</div>'}
    <div class="shBtns"><button id="warAI">Analiza AI (epitety, metafory, inwersje, ironia…)</button></div><div id="warAIo">${warAI||''}</div></div>
   <details class="wcard wd"><summary>Słownik środków stylistycznych</summary>${Object.keys(SRODKI).map(f=>{const x=SRODKI[f];return `<details class="wd"><summary>${esc(x.n)}</summary><p>${esc(x.d)}</p><p><b>Do czego:</b> ${esc(x.f)}</p><p><b>Przykład:</b> ${esc(x.e)}</p></details>`}).join('')}</details></div>`;
   openSheet(html);$('#x').onclick=closeSheet;$('#warAI').onclick=warAnalizaAI;$('#warKl').onclick=warKliszeAI;
@@ -1243,7 +1244,7 @@ function sheetWers(idx,ai){const L=warLinie(),l=L[idx];if(!l)return;const R=warA
   const last=l.last,figs=['epitet','porownanie','hiperbola','oksymoron','metafora','inwersja','anafora','onomatopeja','aliteracja','ironia','antyteza'];
   openSheet(`<div class="shHead"><h3>Wers ${no} · ${esc(secName)}</h3><button class="x" id="x" aria-label="Zamknij">×</button></div><div class="warbody">
    <div class="wline">${esc(l.t.trim())}</div><div class="hint">${sylText(l.t)} sylab${last?` · końcówka „${esc(last)}” (wymowa ${esc((rkey(last)||{}).tail||'')})`:''}</div>
-   <div class="wcard"><h4>Rymy tego wersu</h4>${rh.length?rh.map(r=>{const o=r.lines.find(x=>x!==idx+1);return `<div class="wr" data-l="${o}"><b>wers w linii ${o}</b> ${esc(r.note)}<br><i>${esc((L[o-1]||{}).t||'')}</i></div>`}).join(''):'<div class="hint">Ten wers nie rymuje się końcówką z innym wersem w strofie.</div>'}${sc.map(r=>`<div class="hint">${esc(r.note)}</div>`).join('')}</div>
+   <div class="wcard"><h4>Rymy tego wersu</h4>${rh.length?rh.map(r=>{const o=r.lines.find(x=>x!==idx+1);return `<div class="wr" data-l="${o}"><b>wers ${(gnoMap().get(o))||o}</b> ${esc(r.note)}<br><i>${esc((L[o-1]||{}).t||'')}</i></div>`}).join(''):'<div class="hint">Ten wers nie rymuje się końcówką z innym wersem w strofie.</div>'}${sc.map(r=>`<div class="hint">${esc(r.note)}</div>`).join('')}</div>
    ${(()=>{const k=warKlisze().filter(x=>x.l===idx+1);return k.length?`<div class="wcard"><h4>Klisza w tym wersie</h4>${k.map(x=>`<div class="hint">${x.rym?'Utarty rym':'Klisza'}: „${esc(x.f)}”. Zamień na konkretny obraz zmysłowy.</div>`).join('')}</div>`:''})()}
    <div class="wcard"><h4>Środki w tym wersie</h4>${fg.length?fg.map(r=>`<details class="wd"><summary>${esc(warFigChip(r.f))} <span>${esc(r.note)}</span></summary><p>${esc((SRODKI[r.f]||{}).d||'')}</p></details>`).join(''):'<div class="hint">Nic nie wykryłam regułami.</div>'}</div>
    <div class="shBtns"><button id="wRy">Rymy do „${esc(last||'…')}”</button></div>
