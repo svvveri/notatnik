@@ -485,7 +485,7 @@ function renderList(){
     const pre=(n.tresc.split('\n').find(l=>l.trim()&&!isLabel(l)&&!/^\s*(#|\/\/|https?:)/.test(l))||'').trim();
     const dt=new Date(sortMode==='new'?n.utworzono:n.zmieniono).toLocaleDateString('pl-PL',{day:'numeric',month:'numeric',year:'2-digit'});
     const nr=(n.nagrania||[]).length;
-    const meta=(n.tagi||[]).slice(0,3).map(t=>`<span class="tg">${esc(t)}</span>`).join('')+(n.bpm?`<span class="mk">${n.bpm} BPM</span>`:'')+(n.klucz?`<span class="mk">${esc(n.klucz)}</span>`:'')+(nr?`<span class="mk">♪ ${nr}</span>`:'');
+    const meta=(n.tagi||[]).slice(0,3).map(t=>`<span class="tg">${esc(t)}</span>`).join('')+(n.bpm?`<span class="mk">${n.bpm} BPM</span>`:'')+(n.klucz?`<span class="mk">${esc(keyFmt(n.klucz))}</span>`:'')+(nr?`<span class="mk">♪ ${nr}</span>`:'');
     h+=`<div class="note ${cur===n.id?'on':''}" data-id="${esc(n.id)}"><div class="tt">${esc(n.tytul||'Bez tytułu')}${n.gwiazdka?'<span class="st">★</span>':''}</div><div class="sub"><b>${dt}</b>${esc(pre)}</div>${meta?`<div class="meta">${meta}</div>`:''}</div>`});
   $('#notes').innerHTML=h+'</div>';
   document.querySelectorAll('.note').forEach(e=>e.onclick=()=>openNote(e.dataset.id))}
@@ -552,7 +552,7 @@ function addTag(raw){const n=T.get(cur);if(!n)return;
 function renderTools(){const n=T.get(cur);if(!n)return;
   const b=$('#bpmBtn'),k=$('#keyBtn');
   b.innerHTML=n.bpm?`<b>${n.bpm}</b> BPM`:'BPM';b.classList.toggle('set',!!n.bpm);
-  const km=n.klucz?String(n.klucz).split(' '):null;
+  const km=n.klucz?keyFmt(n.klucz).split(' '):null;
   k.innerHTML=km?`<b>${esc(km[0])}</b> ${esc(km.slice(1).join(' '))}`:'Tonacja';k.classList.toggle('set',!!km);
   undoState()}
 /* odrzuty: wersy "na dole" (luźne myśli po głównym tekście). Wykrywane po: znaczniku (---, odrzuty:), dwóch pustych liniach przed blokiem bez nagłówka, albo końcowym krótkim bloku, który nie rymuje się z resztą */
@@ -804,17 +804,19 @@ function sheetBpm(after){const n=T.get(cur);if(!n)return;let v=n.bpm||90;const t
   $('#metT').onclick=()=>{if(MET.id){metStop();$('#metT').textContent='▶ Odsłuch metronomu'}else if(metStart(v)){$('#metT').textContent='■ Stop metronomu'}else $('#th').textContent='Ta przeglądarka nie pozwala na dźwięk.'};
   $('#clr').onclick=()=>{n.bpm=null;touch(n);renderTools();refit();renderList();closeSheet();if(after)after()};
   $('#ok').onclick=()=>{n.bpm=v;touch(n);renderTools();refit();renderList();closeSheet();if(after)after()}}
+/* tonacja: zapisywana jako „A minor” / „C major”; stare zapisy „moll”/„dur” są czytane i wyświetlane po nowemu */
+const keyFmt=k=>String(k||'').replace(/\bmoll\b/,'minor').replace(/\bdur\b/,'major');
 const NUTY=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 function sheetKey(){const n=T.get(cur);if(!n)return;
-  let [root,mode]=n.klucz?String(n.klucz).split(' '):['A','moll'];if(!NUTY.includes(root))root='A';if(mode!=='dur')mode='moll';
+  let [root,mode]=n.klucz?keyFmt(n.klucz).split(' '):['A','minor'];if(!NUTY.includes(root))root='A';if(mode!=='major')mode='minor';
   const draw=()=>{$('#keyGrid').innerHTML=NUTY.map(x=>`<button class="${x===root?'on':''}" data-n="${x}">${x}</button>`).join('');
-    $('#kDur').classList.toggle('on',mode==='dur');$('#kMoll').classList.toggle('on',mode==='moll');
+    $('#kDur').classList.toggle('on',mode==='major');$('#kMoll').classList.toggle('on',mode==='minor');
     $('#keyGrid').querySelectorAll('button').forEach(b=>b.onclick=()=>{root=b.dataset.n;draw()})};
   openSheet(`<div class="shHead"><h3>Tonacja</h3><button class="x" id="x" aria-label="Zamknij">×</button></div>
-  <div class="seg wide"><button id="kMoll">moll</button><button id="kDur">dur</button></div>
+  <div class="seg wide"><button id="kMoll">minor</button><button id="kDur">major</button></div>
   <div id="keyGrid"></div>
   <div class="shBtns"><button id="clr">Wyczyść</button><button class="pri" id="ok">Gotowe</button></div>`);
-  draw();$('#kDur').onclick=()=>{mode='dur';draw()};$('#kMoll').onclick=()=>{mode='moll';draw()};
+  draw();$('#kDur').onclick=()=>{mode='major';draw()};$('#kMoll').onclick=()=>{mode='minor';draw()};
   $('#x').onclick=closeSheet;
   $('#clr').onclick=()=>{n.klucz=null;touch(n);renderTools();renderList();closeSheet()};
   $('#ok').onclick=()=>{n.klucz=root+' '+mode;touch(n);renderTools();renderList();closeSheet()}}
