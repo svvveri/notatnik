@@ -179,6 +179,7 @@ html{touch-action:pan-x pan-y}#scroll{touch-action:pan-y}
 .rsec{margin:0 0 22px}.rsec h3{margin:6px 0 4px;font:700 19px/1.2 var(--font-d)}.rsec h3 span{font:400 13px var(--font);color:var(--dim);margin-left:8px}
 #ow{margin:2px 0 12px;padding:10px 12px;border-radius:12px;background:var(--chip)}#ow .owr{display:flex;gap:10px;align-items:baseline}#ow .owo{font-weight:600}#ow .dim{color:var(--dim);font-weight:400}#ow #owT{margin-left:auto;font-variant-numeric:tabular-nums;font-size:20px}#ow .owb{display:flex;gap:8px;margin:8px 0}#ow .owb button{padding:6px 14px;border-radius:999px;border:1px solid var(--line);color:var(--acc)}#ow .owb .pri{background:var(--acc);color:#fff;border-color:var(--acc)}#ow .owh{font-size:13px;color:var(--dim)}
 code.sch{white-space:pre;letter-spacing:.12em;font-weight:600}
+label.lfull{display:flex;gap:8px;align-items:center;margin:4px 0 10px;color:var(--dim);font-size:14px}#lsub b{font-weight:500;color:var(--dim)}
 #rpos{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 6px}#rpos button{padding:3px 11px;border-radius:999px;border:1px solid var(--line);color:var(--dim);font-size:13px}#rpos button.on{color:var(--acc);border-color:var(--acc)}#rpos .lem{margin-left:auto}#rpos .rar{border-style:dashed}
 .ranch{display:flex;gap:6px;align-items:center;margin:6px 0 10px;color:var(--dim);font-size:13px}.ranch button{padding:3px 11px;border-radius:999px;border:1px solid var(--line);color:var(--acc);font-size:14px}
 .rc.rare{color:var(--dim);font-weight:400}.rc:not(.rare):not(.more){font-weight:600}
@@ -921,7 +922,7 @@ const accOf=p=>{const w=p.split(' ').pop(),n=fastSyl(w);return n<2?'mez':(n>=3&&
 const MOPIS={mez:'rym męski: akcent na ostatniej sylabie, słowa jednosylabowe (np. wół – dół)',zen:'rym żeński: akcent na przedostatniej sylabie, zgodne co najmniej dwie ostatnie sylaby (np. brama – sama)',dak:'rym daktyliczny: akcent na trzeciej sylabie od końca, rzadki w polszczyźnie (np. polityka – matematyka)',dok:'rym dokładny (pełny): głoski od ostatniej akcentowanej samogłoski brzmią tak samo (np. słowa – mowa)',aso:'asonans (rym niedokładny): zgodne samogłoski, różne spółgłoski (np. słońce – łące)',spo:'konsonans (rym niedokładny): zgodne spółgłoski, inne samogłoski',wie:'rym bogaty (głęboki): rymują się trzy i więcej sylab od końca, a w skrajnym przypadku całe frazy (rym składany, pantorym), często jako asonans, np. „na kolanach siedzę – zakochana jesteś”. Pokazuję też końcówki wersów z Twoich tekstów',ali:'ten sam początek oraz ten sam układ samogłosek'};
 let rExp=new Set(),rBusy=0,FQS=null,FQR=null;
 /* część mowy: maska z Morfeusza2/SGJP (1 rzeczownik, 2 czasownik, 4 przymiotnik, 8 przysłówek, 32 forma słownikowa) */
-let rpos=ls('nt-rpos')||'all',rlem=ls('nt-rlem')==='1',rrare=ls('nt-rrare')==='1',rsort=ls('nt-rsort')||'q';
+let rpos=ls('nt-rpos')||'all',rlem=ls('nt-rlem')==='1',rrare=ls('nt-rrare')==='1',rsort=ls('nt-rsort')||'q',lsub=ls('nt-lsub')||'has',lfull=ls('nt-lfull')!=='0';
 const POSL=[['all','Wszystkie'],['1','Rzeczowniki'],['2','Czasowniki'],['4','Przymiotniki'],['8','Przysłówki']];
 const posOn=()=>rpos!=='all'||rlem,vis=c=>(rrare||c.b||c.own||c.sg)&&pf(c),pf=c=>{if(!posOn())return true;const m=POSM.get(c.p);if(m==null)return false;return (rpos==='all'||(m&+rpos))&&(!rlem||(m&32))?true:false};
 const PFM=new Set(['all','mez','zen','dak','dok','aso','wie']);
@@ -1088,13 +1089,19 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
     if(!html)html='<div class="hint">Brak aliteracji.</div>'}
   else if(rmode==='pom'){$('#rsyl').innerHTML='';drawPomysly(q);return}
   else if(rmode==='lin'){$('#rsyl').innerHTML='';const qw=wordsOf(q).slice(-1)[0]||'';
-    const ln=a=>a.map(x=>`<div class="ln" data-id="${esc(x.n.id)}"><div>${hl(x.l,qw)}</div><span>${esc(x.n.tytul||'Bez tytułu')}</span></div>`).join('');
+    const tail=t=>lfull?t:t.split(/\s+/).slice(-3).join(' ');
+    const ln=a=>a.map(x=>`<div class="ln" data-id="${esc(x.n.id)}"><div>${hl(tail(x.l),qw)}</div><span>${esc(x.n.tytul||'Bez tytułu')}</span></div>`).join('');
     if(lastR.WL===undefined){lastR.WL=null;const L0=lastR;loadWL().then(W=>{L0.WL=W?wlSearch(W,k,qw):false;if(lastR===L0&&rmode==='lin')drawRymy()})}
-    const lw=a=>a.map(x=>`<div class="ln ro"><div>${hl(x.t,qw)}</div><span>${esc(x.m.a)}${x.m.a&&x.m.t&&x.m.t!==x.m.a?', ':''}${esc(x.m.t===x.m.a?'':x.m.t)}</span></div>`).join('');
-    const W=lastR.WL;
-    html=(OL.has.length?`<div class="rsec"><h3>Twoje teksty: linie ze słowem „${esc(qw)}”<span>${OL.has.length}</span></h3>${ln(OL.has)}</div>`:'')+
-      (OL.rh.length?`<div class="rsec"><h3>Twoje teksty: linie rymujące się<span>${OL.rh.length}</span></h3>${ln(OL.rh)}</div>`:'')+
-      (W?((W.has.length?`<div class="rsec"><h3>Poezja (Wolne Lektury): linie ze słowem<span>${W.has.length}</span></h3>${lw(W.has)}</div>`:'')+(W.rh.length?`<div class="rsec"><h3>Poezja (Wolne Lektury): linie rymujące się<span>${W.rh.length}</span></h3>${lw(W.rh)}</div>`:'')):W===false?'<div class="hint">Nie udało się wczytać poezji (brak sieci?).</div>':'<div class="hint">Wczytuję poezję z Wolnych Lektur…</div>')}
+    const lw=a=>a.map(x=>`<div class="ln ro"><div>${hl(tail(x.t),qw)}</div><span>${esc(x.m.a)}${x.m.a&&x.m.t&&x.m.t!==x.m.a?', ':''}${esc(x.m.t===x.m.a?'':x.m.t)}</span></div>`).join('');
+    const W=lastR.WL,wlN=a=>W&&W[a]?W[a].length:0;
+    const sec2=(t,arr,body)=>arr&&arr.length?`<div class="rsec"><h3>${t}<span>${arr.length}</span></h3>${body}</div>`:'';
+    const has=lsub==='has';
+    const wlPart=W?(has?sec2('Poezja (Wolne Lektury): linie ze słowem',W.has,lw(W.has)):sec2('Poezja (Wolne Lektury): linie rymujące się',W.rh,lw(W.rh))):W===false?'<div class="hint">Nie udało się wczytać poezji (brak sieci?).</div>':'<div class="hint">Wczytuję poezję z Wolnych Lektur…</div>';
+    const ownArr=has?OL.has:OL.rh;
+    html=`<div class="pomcats" id="lsub"><button data-s="has" class="${has?'on':''}">Teksty zawierające<b> ${OL.has.length+wlN('has')}</b></button><button data-s="rh" class="${has?'':'on'}">Teksty rymujące się<b> ${OL.rh.length+wlN('rh')}</b></button></div>`+
+      (has?'':`<label class="lfull"><input type="checkbox" id="lfull" ${lfull?'checked':''}> Pełne linie</label>`)+
+      sec2(has?`Twoje teksty: linie ze słowem „${esc(qw)}”`:'Twoje teksty: linie rymujące się',ownArr,ln(ownArr))+wlPart+
+      `<div class="shBtns"><a class="lnkbtn" href="https://www.google.com/search?q=${encodeURIComponent('site:bibliotekapiosenki.pl "'+qw+'"')}" target="_blank" rel="noopener">Szukaj „${esc(qw)}” w piosenkach (bibliotekapiosenki.pl) ↗</a></div>`}
   else if(rmode==='kon'){$('#rsyl').innerHTML='';
     const cc=(t,a)=>a.length?`<div class="rsec"><h3>${t}<span>${a.length}</span></h3><div class="rcs">${a.map(c=>`<button class="rc ${c.c>1?'':'rare'}" data-p="${esc(c.p)}">${esc(c.p)}${c.c>1?`<i>${c.c}</i>`:''}</button>`).join('')}</div></div>`:'';
     if(lastR.CX===undefined){lastR.CX=null;const L0=lastR,w=wordsOf(q).slice(-1)[0]||'';loadCtx(w).then(m=>{L0.CX=m?(m.get(w)||{b:[],a:[]}):false;if(lastR===L0&&rmode==='kon')drawRymy()})}
@@ -1107,6 +1114,7 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
   if(posOn()&&PFM.has(rmode))html='<div class="hint">Filtr części mowy ukrywa slang i słowa bez znanej części mowy.</div>'+(html||'<div class="hint">Nic nie pasuje do tego filtra.</div>');
   $('#rres').innerHTML=html;
   $('#rres').querySelectorAll('.rc').forEach(b=>b.onclick=()=>{if(b.dataset.x){rExp.add(b.dataset.x);drawRymy();return}wordCard(b.dataset.p,!!b.dataset.sg)});
+  $('#rres').querySelectorAll('#lsub button').forEach(b=>b.onclick=()=>{lsub=b.dataset.s;ls('nt-lsub',lsub);drawRymy()});const lf=$('#lfull');if(lf)lf.onchange=()=>{lfull=lf.checked;ls('nt-lfull',lfull?'1':'0');drawRymy()};
   $('#rres').querySelectorAll('.ln').forEach(b=>b.onclick=()=>{openNote(b.dataset.id);showTab('text')});
   $('#rres').querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{const e=document.getElementById(b.dataset.go);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})})}
 /* ---- Warsztat: środki stylistyczne i rymy w Twoim tekście (wiedza z artykułów agrochowski.pl, streszczona własnymi słowami) ---- */
