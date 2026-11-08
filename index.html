@@ -179,7 +179,7 @@ html{touch-action:pan-x pan-y}#scroll{touch-action:pan-y}
 .rsec{margin:0 0 22px}.rsec h3{margin:6px 0 4px;font:700 19px/1.2 var(--font-d)}.rsec h3 span{font:400 13px var(--font);color:var(--dim);margin-left:8px}
 #ow{margin:2px 0 12px;padding:10px 12px;border-radius:12px;background:var(--chip)}#ow .owr{display:flex;gap:10px;align-items:baseline}#ow .owo{font-weight:600}#ow .dim{color:var(--dim);font-weight:400}#ow #owT{margin-left:auto;font-variant-numeric:tabular-nums;font-size:20px}#ow .owb{display:flex;gap:8px;margin:8px 0}#ow .owb button{padding:6px 14px;border-radius:999px;border:1px solid var(--line);color:var(--acc)}#ow .owb .pri{background:var(--acc);color:#fff;border-color:var(--acc)}#ow .owh{font-size:13px;color:var(--dim)}
 code.sch{white-space:pre;letter-spacing:.12em;font-weight:600}
-#rpos{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 6px}#rpos button{padding:3px 11px;border-radius:999px;border:1px solid var(--line);color:var(--dim);font-size:13px}#rpos button.on{color:var(--acc);border-color:var(--acc)}#rpos .lem{margin-left:auto}
+#rpos{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 6px}#rpos button{padding:3px 11px;border-radius:999px;border:1px solid var(--line);color:var(--dim);font-size:13px}#rpos button.on{color:var(--acc);border-color:var(--acc)}#rpos .lem{margin-left:auto}#rpos .rar{border-style:dashed}
 .ranch{display:flex;gap:6px;align-items:center;margin:6px 0 10px;color:var(--dim);font-size:13px}.ranch button{padding:3px 11px;border-radius:999px;border:1px solid var(--line);color:var(--acc);font-size:14px}
 .rc.rare{color:var(--dim);font-weight:400}.rc:not(.rare):not(.more){font-weight:600}
 #rsyl{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -2px 12px;padding:0 2px}
@@ -433,9 +433,10 @@ function fon(w){
 const vowelsOf=f=>f.match(/[aeiouyąę]/g)||[];
 function tailFrom(f,k){let c=0;for(let i=f.length-1;i>=0;i--){if(VW.includes(f[i])&&++c===k)return f.slice(i)}return f}
 function wordsOf(t){return (t.toLowerCase().match(/[a-ząćęłńóśźżéèäöü']+/g)||[]).map(w=>w.replace(/([aeiouyąęó])\1{2,}/g,'$1')).filter(w=>/[aeiouyąęó]/.test(w))}
-function rkey(phrase){const ws=wordsOf(phrase);if(!ws.length)return null;
-  const fl=fon(ws[ws.length-1]),f=ws.map(fon).join(''),nv=vowelsOf(fl).length;
-  const tail=tailFrom(fl,nv>=2?2:1);
+/* jednosylabowe słowo na końcu („mną”) rymuje się razem z poprzednim słowem („ze mną” = e,ą), więc tail sięga przez granicę słów; noExt=true daje stare, szerokie liczenie */
+function rkey(phrase,noExt){const ws=wordsOf(phrase);if(!ws.length)return null;
+  const fl=fon(ws[ws.length-1]),f=ws.map(fon).join(''),nv=vowelsOf(fl).length,ext=!noExt&&nv<2&&ws.length>=2&&vowelsOf(fon(ws[ws.length-2])).length>0;
+  const tail=tailFrom(ext?fon(ws[ws.length-2])+fl:fl,nv>=2||ext?2:1);
   return {f,tail,V:vowelsOf(f),cons:tail.replace(/[aeiouyąę]/g,''),sv:vowelsOf(tail)[0]||''}}
 /* słownik kandydatów: słowa i końcówki wersów (2-3 słowa) z Twoich tekstów */
 let RV=null;
@@ -447,7 +448,7 @@ function buildRV(texts){const m=new Map();
     if(ws.length>=2)add(ws.slice(-2).join(' '),'k');if(ws.length>=3)add(ws.slice(-3).join(' '),'k')}));
   RV=[...m.values()];return RV}
 function sufLen(a,b){let n=0;while(n<a.length&&n<b.length&&a[a.length-1-n]===b[b.length-1-n])n++;return n}
-function findRhymes(q){const k=rkey(q);if(!k)return null;const ql=q.toLowerCase().trim();
+function findRhymes(q,noExt){const k=rkey(q,noExt);if(!k)return null;const ql=q.toLowerCase().trim();
   const out={dok:[],aso:[],wie:[],spo:[]};const qws=wordsOf(q),qw=qws.join(' '),qlast=qws[qws.length-1];
   for(const c of RV){if(c.p===qw||c.p===ql)continue;const ck=c.k,cl=c.p.split(' ').pop();if(cl===qlast)continue;
     c.sim=sufLen([...ck.tail],[...k.tail]);
@@ -920,16 +921,16 @@ const accOf=p=>{const w=p.split(' ').pop(),n=fastSyl(w);return n<2?'mez':(n>=3&&
 const MOPIS={mez:'rym męski: akcent na ostatniej sylabie, słowa jednosylabowe (np. wół – dół)',zen:'rym żeński: akcent na przedostatniej sylabie, zgodne co najmniej dwie ostatnie sylaby (np. brama – sama)',dak:'rym daktyliczny: akcent na trzeciej sylabie od końca, rzadki w polszczyźnie (np. polityka – matematyka)',dok:'rym dokładny (pełny): głoski od ostatniej akcentowanej samogłoski brzmią tak samo (np. słowa – mowa)',aso:'asonans (rym niedokładny): zgodne samogłoski, różne spółgłoski (np. słońce – łące)',spo:'konsonans (rym niedokładny): zgodne spółgłoski, inne samogłoski',wie:'rym bogaty (głęboki): rymują się trzy i więcej sylab od końca, a w skrajnym przypadku całe frazy (rym składany, pantorym), często jako asonans, np. „na kolanach siedzę – zakochana jesteś”. Pokazuję też końcówki wersów z Twoich tekstów',ali:'ten sam początek oraz ten sam układ samogłosek'};
 let rExp=new Set(),rBusy=0,FQS=null,FQR=null;
 /* część mowy: maska z Morfeusza2/SGJP (1 rzeczownik, 2 czasownik, 4 przymiotnik, 8 przysłówek, 32 forma słownikowa) */
-let rpos=ls('nt-rpos')||'all',rlem=ls('nt-rlem')==='1';
+let rpos=ls('nt-rpos')||'all',rlem=ls('nt-rlem')==='1',rrare=ls('nt-rrare')==='1';
 const POSL=[['all','Wszystkie'],['1','Rzeczowniki'],['2','Czasowniki'],['4','Przymiotniki'],['8','Przysłówki']];
-const posOn=()=>rpos!=='all'||rlem,pf=c=>{if(!posOn())return true;const m=POSM.get(c.p);if(m==null)return false;return (rpos==='all'||(m&+rpos))&&(!rlem||(m&32))?true:false};
+const posOn=()=>rpos!=='all'||rlem,vis=c=>(rrare||c.b||c.own||c.sg)&&pf(c),pf=c=>{if(!posOn())return true;const m=POSM.get(c.p);if(m==null)return false;return (rpos==='all'||(m&+rpos))&&(!rlem||(m&32))?true:false};
 const PFM=new Set(['all','mez','zen','dak','dok','aso','wie']);
 const sylLabel=n=>n===1?'1 sylaba':(n>=2&&n<=4?n+' sylaby':n+' sylab');
 const trailOf=t=>t.replace(/^.*[aeiouyąę]/,''),stemOf=t=>t.slice(0,t.length-trailOf(t).length);
 /* AZRhymes liczy samogłoski wg pisowni: „Reymont” = e,y,o, więc końcówka „y,o” (horyzont, dyskont, Szymon). Drugie czytanie: wygaszamy jota w ey/ay/oy/uy */
 function altSpell(q){const ws=wordsOf(q);if(!ws.length)return null;const w=ws[ws.length-1],a=w.replace(/([aeou])y(?=[^aeiouyąęó]|$)/g,'y');return a!==w?a:null}
-async function rymCompute(q){
-  ownRV();const base=findRhymes(q);if(!base)return null;
+async function rymCompute(q,noExt){
+  ownRV();const base=findRhymes(q,noExt);if(!base)return null;
   const {k,out}=base,qws=wordsOf(q),qlast=qws[qws.length-1],nv=vowelsOf(k.tail).length,qtr=trailOf(k.tail);
   const R={ry:[],bl:[],ide:[],dok:[],spo:[],wie:[],ali:[],sal:[]},seen=new Set([qlast]);
   const close=(key)=>{const t=trailOf(key);return !(t===qtr||(t&&qtr&&t[t.length-1]===qtr[qtr.length-1]))};
@@ -939,8 +940,9 @@ async function rymCompute(q){
   /* podobieństwo całej końcówki słowa do szukanego (ą≈o, ę≈e), żeby „ciemno” stało przed „tobą” przy „mną” */
   const nz=f=>f.replace(/[ąęó]/g,c=>c==='ą'?'o':c==='ę'?'e':'u'),qn=nz(qlast);
   const wsim=w=>Math.min(8,sufLen(nz(w),qn));
+  const qsyl=fastSyl(qlast);
   const add=(g,p,own,sl,i,ex,sg)=>{if(!p||seen.has(g+p))return;if(g!=='wie'&&p.split(' ').pop()===qlast)return;seen.add(g+p);
-    const rk=FQR?FQR.get(p):undefined;if(rk===undefined&&!own&&!sg&&R[g].length>=8000&&wsim(p.split(' ').pop())<=1)return;R[g].push({p,own:!!own,sg:!!sg,sl,i,sc:(ex?1e7:0)+(rk===undefined?0:200000-Math.min(rk,200000))+sl*15000+(g==='ry'||g==='bl'||g==='dok'?wsim(p.split(' ').pop())*90000:0)+(own?4000:0)-Math.min(i,2999)/10})};
+    const rk=FQR?FQR.get(p):undefined;if(rk===undefined&&!own&&!sg&&R[g].length>=8000&&wsim(p.split(' ').pop())<=1)return;R[g].push({p,own:!!own,sg:!!sg,sl,i,sc:(ex?1e7:0)+(rk===undefined?0:200000-Math.min(rk,200000))+sl*15000-(g==='ry'||g==='bl'||g==='dok'?Math.min(4,Math.abs(fastSyl(p.replace(/ /g,''))-qsyl))*14000:0)+(g==='ry'||g==='bl'||g==='dok'?wsim(p.split(' ').pop())*90000:0)+(own?4000:0)-Math.min(i,2999)/10})};
   out.dok.forEach(c=>{add('dok',c.p,1,k.tail.length,0,1);add('ry',c.p,1,k.tail.length,0,1);});
   out.aso.forEach(c=>{if(shape(c.k.tail))add(close(c.k.tail)?'bl':'ry',c.p,1,c.sim||0,0,0)});
   out.spo.forEach(c=>add('spo',c.p,1,0,0,0));out.wie.forEach(c=>add('wie',c.p,1,c.sl||0,0,0));
@@ -961,7 +963,7 @@ async function rymCompute(q){
     for(const sk of sks){const m=slg.get(sk);if(!m)continue;for(const [key,ws] of m){if(!shape(key))continue;
       const ex=nv>=2?key===k.tail:key.endsWith(k.tail),cl=close(key),sl=cl?sufLen(stemOf(key),stemOf(k.tail)):sufLen(key,k.tail);if(cl&&nv<2&&sl<2)continue;
       ws.forEach((w,i)=>{if(w===qlast)return;add(cl?'bl':'ry',w,0,sl,i,ex&&!cl,1);if(ex){add('dok',w,0,sl,i,1,1);}})}}}
-  if(fq){if(!FQS)FQS=new Set(fq.slice(0,12000));
+  if(fq){if(!FQS)FQS=new Set(fq.slice(0,80000));
     if(!FQK||FQK.nv!==nv){const A=new Array(fq.length),V=new Array(fq.length);for(let j=0;j<fq.length;j++){const f=fon(fq[j]);A[j]=tailFrom(f,nv>=2?2:1);V[j]=vowelsOf(f).join('')}A.nv=nv;A.V=V;FQK=A}
     const cs=k.tail.replace(/[aeiouyąę]/g,''),sv=vowelsOf(k.tail).join('');
     if(cs.length>=2)for(let j=0;j<fq.length&&R.spo.length<500;j++){const t=FQK[j];if(t&&t!==k.tail&&t.replace(/[aeiouyąę]/g,'')===cs&&vowelsOf(t).join('')!==sv&&fq[j].length>2)add('spo',fq[j],0,0,j,0)}
@@ -972,14 +974,28 @@ async function rymCompute(q){
       if(R.ali.length<400&&w.startsWith(pre)&&w.length>3)add('ali',w,0,0,j,0);
       if(R.sal.length<400){const v=FQK.V[j],n=Math.min(v.length,qvs.length);if(n&&v.slice(0,n)===qvs.slice(0,n)&&(v.length>=qvs.length||v.length>=1)&&v.length<=qvs.length+1)add('sal',w,0,0,j,0)}}}
   return {k,R,loadErr}}
+/* rymy wielowyrazowe: dla słowa 2+ sylabowego szuka fraz „krótkie słowo + jednosylabowe słowo”, w których zgadza się każda sylaba od końca (ciemną = ze mną) */
+async function phraseRhymes(q){try{const ws=wordsOf(q);if(ws.length!==1)return [];const fq=await loadFreq();if(!fq)return [];const fl=fon(ws[0]),vs=vowelsOf(fl);if(vs.length<2)return [];
+  const idxs=[];for(let i=fl.length-1;i>=0;i--)if(/[aeiouyąę]/.test(fl[i]))idxs.push(i);const rest=fl.slice(idxs[1]+1),v1=vs[vs.length-2];if(!rest||rest.length<2)return [];
+  /* druga część frazy: jednosylabowe słowo kończące się tak jak ostatnia sylaba (mną, gdzie); pierwsza: słowo, które w prawdziwych tekstach (Wikipedia) stoi tuż przed nim i kończy się tą samą samogłoską co przedostatnia sylaba szukanego słowa */
+  const W2=[];for(let j=0;j<Math.min(fq.length,15000);j++){const w=fq[j];if(!/^[a-ząćęłńóśźż]+$/.test(w)||w===ws[0])continue;const f=fon(w);if(vowelsOf(f).length===1&&f.endsWith(rest))W2.push([w,j])}
+  const out=[];for(const [w2,j2] of W2.slice(0,12)){const m=await loadCtx(w2);const e=m&&m.get(w2);if(!e)continue;
+    e.b.slice(0,60).forEach((f,i)=>{const fv=vowelsOf(fon(f));if(!fv.length||fv[fv.length-1]!==v1||f===w2||f.length>7||!/^[a-ząćęłńóśźż]+$/.test(f))return;out.push({p:f+' '+w2,own:false,sg:false,sl:3,i,sc:1e6-i*5000-j2*5})})}
+  /* przyimki z narzędnikiem + zaimek w narzędniku (ze mną, przed tobą): pewna, częsta składnia, której nie ma w ctx (przyimki są tam odfiltrowane) */
+  const INSTR=new Set(['mną','tobą','nią','nim','nami','wami','nimi','sobą']),PREP=['ze','za','przed','przede','nad','nade','pod','pode','między','przeze','z'];
+  W2.forEach(([w2,j2])=>{if(!INSTR.has(w2))return;PREP.forEach((f,i)=>{const fv=vowelsOf(fon(f));if(fv.length&&fv[fv.length-1]===v1&&!out.some(o=>o.p===f+' '+w2))out.push({p:f+' '+w2,own:false,sg:false,sl:3,i,sc:1.2e6-i*2000,})})});
+  out.sort((a,b)=>b.sc-a.sc);return out.slice(0,60)}catch(_){return []}}
+function mergeR(R,r2,orig){for(const g in R){const have=new Set(R[g].map(c=>c.p));(r2.R[g]||[]).forEach(c=>{if(c.p!==orig&&!have.has(c.p)){have.add(c.p);R[g].push(c)}})}}
 async function szukajRymow(raw){const q=String(raw).trim();if(!q)return;const my=++rBusy;
   $('#rres').innerHTML='<div class="hint">Szukam rymów…</div>';
   const r1=await rymCompute(q);if(!r1){$('#rres').innerHTML='<div class="hint">Nie widzę tu samogłoski, więc nie ma z czym rymować.</div>';return}
-  const {k,R,loadErr}=r1;let le=loadErr;const al=altSpell(q);
-  if(al){const r2=await rymCompute(al);if(r2){le=le||r2.loadErr;const orig=(wordsOf(q).slice(-1)[0])||'';
-    for(const g in R){const have=new Set(R[g].map(c=>c.p));r2.R[g].forEach(c=>{if(c.p!==orig&&!have.has(c.p)){have.add(c.p);R[g].push(c)}})}}}
+  const {k,R,loadErr}=r1;let le=loadErr;const al=altSpell(q),orig=(wordsOf(q).slice(-1)[0])||'';
+  if(al){const r2=await rymCompute(al);if(r2){le=le||r2.loadErr;mergeR(R,r2,orig)}}
+  /* „ze mną”: oprócz dokładnego rymu z poprzednim słowem pokazujemy też szerszy rym samej ostatniej sylaby */
+  const w0=wordsOf(q);if(w0.length>=2&&vowelsOf(fon(w0[w0.length-1])).length<2){const r3=await rymCompute(q,true);if(r3){le=le||r3.loadErr;mergeR(R,r3,orig)}}
+  R.ph=await phraseRhymes(q);
   if(my!==rBusy)return;
-  for(const g in R){R[g].sort((a,b)=>b.sc-a.sc||a.p.length-b.p.length);R[g].forEach(c=>{c.s=fastSyl(c.p.replace(/ /g,''));c.b=!FQS||FQS.has(c.p)||c.own})}
+  for(const g in R){R[g].sort((a,b)=>b.sc-a.sc||a.p.length-b.p.length);R[g].forEach(c=>{c.s=fastSyl(c.p.replace(/ /g,''));c.b=!FQS||FQS.has(c.p)||c.own||g==='ph'||(c.sc>=1e7&&FQR&&FQR.get(c.p)<140000)})}
   lastR={q,k,R,loadErr:le};rmode='all';rsyl='all';rExp=new Set();pushRecent(q);drawRymy()}
 const POMK=[['syn','Synonimy i inne skojarzenia słowne'],['wto','Wyrażenia oznaczające to samo'],['wz','Wyrażenia z tymi słowami'],['sto','Slang oznaczający to samo'],['sz','Slang z tymi słowami']];
 let pomCat=ls('nt-pomcat')||'syn';const POM=new Map();
@@ -1037,14 +1053,14 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
   if(!lastR.POOL){const mm=new Map();[...R.ry,...R.bl].forEach(c=>{if(!mm.has(c.p))mm.set(c.p,c)});lastR.POOL=[...mm.values()].sort((a,b)=>b.sc-a.sc);lastR.ACC={mez:[],zen:[],dak:[]};lastR.POOL.forEach(c=>lastR.ACC[accOf(c.p)].push(c));
     /* dokładne: ten sam rodzaj akcentu co szukane słowo (męskie z męskim, żeńskie z żeńskim); asonanse: reszta zgodna samogłoskowo */
     const qa=accOf(wordsOf(q).slice(-1)[0]||q);lastR.DOK=R.dok.filter(c=>accOf(c.p)===qa);const dk=new Set(lastR.DOK.map(c=>c.p));lastR.ASO=lastR.POOL.filter(c=>!dk.has(c.p))}
-  const ACC=lastR.ACC,fl=a=>posOn()?a.filter(pf).length:a.length,cnt={mez:fl(ACC.mez),zen:fl(ACC.zen),dak:fl(ACC.dak),all:fl(R.ry)+fl(R.bl),aso:fl(lastR.ASO),dok:fl(lastR.DOK),spo:R.spo.length,wie:fl(R.wie),ali:R.ali.length+R.sal.length,pom:0,lin:OL.has.length+OL.rh.length,kon:OL.bef.length+OL.aft.length};
+  const ACC=lastR.ACC,fl=a=>a.filter(vis).length,cnt={mez:fl(ACC.mez),zen:fl(ACC.zen),dak:fl(ACC.dak),all:fl(R.ry)+fl(R.bl)+fl(R.ph||[]),aso:fl(lastR.ASO),dok:fl(lastR.DOK),spo:R.spo.length,wie:fl(R.wie),ali:R.ali.length+R.sal.length,pom:0,lin:OL.has.length+OL.rh.length,kon:OL.bef.length+OL.aft.length};
   $('#rmodes').innerHTML=MODES.map(([id,l])=>`<button role="tab" class="${rmode===id?'on':''}" data-m="${id}">${l}${id==='pom'?'':`<b>${cnt[id]}</b>`}</button>`).join('');
   $('#rmodes').querySelectorAll('button').forEach(b=>b.onclick=()=>{rmode=b.dataset.m;rsyl='all';rExp=new Set();drawRymy()});
-  {const pr=$('#rpos');if(pr){if(!PFM.has(rmode))pr.innerHTML='';else{pr.innerHTML=POSL.map(([id,l])=>`<button class="${rpos===id?'on':''}" data-p="${id}">${l}</button>`).join('')+`<button class="lem ${rlem?'on':''}" data-l="1" title="tylko formy podstawowe: mianownik, bezokolicznik">Tylko formy słownikowe</button>`;
-      pr.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(b.dataset.l){rlem=!rlem;ls('nt-rlem',rlem?'1':'0')}else{rpos=b.dataset.p;ls('nt-rpos',rpos)}rExp=new Set();drawRymy()})}}}
+  {const pr=$('#rpos');if(pr){if(!PFM.has(rmode))pr.innerHTML='';else{pr.innerHTML=POSL.map(([id,l])=>`<button class="${rpos===id?'on':''}" data-p="${id}">${l}</button>`).join('')+`<button class="lem ${rlem?'on':''}" data-l="1" title="tylko formy podstawowe: mianownik, bezokolicznik">Tylko formy słownikowe</button><button class="rar ${rrare?'on':''}" data-r="1" title="domyślnie widać tylko słowa potoczne">Rzadkie słowa</button>`;
+      pr.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(b.dataset.r){rrare=!rrare;ls('nt-rrare',rrare?'1':'0')}else if(b.dataset.l){rlem=!rlem;ls('nt-rlem',rlem?'1':'0')}else{rpos=b.dataset.p;ls('nt-rpos',rpos)}rExp=new Set();drawRymy()})}}}
   const n=T.get(cur),wall=(n&&n.sciana||'').toLowerCase();
   const chip=c=>`<button class="rc ${wall.includes(c.p.toLowerCase())?'added':''} ${c.b?'':'rare'}" data-p="${esc(c.p)}"${c.sg?' data-sg="1"':''}>${esc(c.p)}${c.own?'<i>●</i>':''}${c.sg?'<i title="slang">◆</i>':''}</button>`;
-  const sec=(sk,title,desc,items)=>{if(PFM.has(rmode))items=items.filter(pf);if(!items.length)return '';
+  const sec=(sk,title,desc,items)=>{if(PFM.has(rmode))items=items.filter(vis);if(!items.length)return '';
     const by={};items.forEach(c=>{const s=Math.min(7,c.s);(by[s]=by[s]||[]).push(c)});const ss=Object.keys(by).map(Number).sort((a,b)=>a-b);
     return `<div class="rsec"><h3>${title}<span>${items.length}${items.length>=400?'+':''} wyników</span></h3>${desc?`<div class="hint">${desc}</div>`:''}
       <div class="ranch"><span>sylaby:</span>${ss.map(s=>`<button data-go="g-${sk}-${s}">${s===7?'7+':s}</button>`).join('')}</div>`+
@@ -1054,7 +1070,7 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
   let html='';
   if(rmode==='all'){$('#rsyl').innerHTML='';
     const pl=a=>a.filter(c=>!c.sg),sg=[...R.ry,...R.bl].filter(c=>c.sg).sort((a,b)=>b.sc-a.sc);
-    html=sec('ry','Rymy z języka polskiego','',pl(R.ry))+sec('bl','Rymy niedokładne','asonanse: zgodne samogłoski, podobne końcówki',pl(R.bl))+sec('sg','Rymy ze slangu','słowa z miejskiego słownika slangu (◆)',sg);
+    html=sec('ry','Rymy z języka polskiego','',pl(R.ry))+sec('ph','Rymy wielowyrazowe','dwa słowa, w których zgadza się każda sylaba od końca z całym szukanym słowem (np. „ciemną” – „ze mną”)',R.ph||[])+sec('bl','Rymy niedokładne','asonanse: zgodne samogłoski, podobne końcówki',pl(R.bl))+sec('sg','Rymy ze slangu','słowa z miejskiego słownika slangu (◆)',sg);
     if(!html)html='<div class="hint">Nic nie znalazłam. Zerknij do zakładek Spółgłoskowe i Aliteracje.</div>'}
   else if(rmode==='ali'){$('#rsyl').innerHTML='';
     html=sec('al','Aliteracje',MOPIS.ali,R.ali)+sec('sa','Samogłoskowe aliteracje','ten sam układ samogłosek, inne spółgłoski',R.sal);
