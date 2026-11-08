@@ -1122,8 +1122,7 @@ function warAnaliza(){const L=warLinie(),out=[],strophes=[];let cur=[];
     const sch=letters.join(''),rymuje=n<S.length;
     let name='';if(sch==='aabb')name='parzysty';else if(sch==='abab')name='krzyżowy';else if(sch==='abba')name='okalający';else if(sch==='aaaa')name='monorym';
     const first=S[0].i+1,last=S[S.length-1].i+1;
-    if(!rymuje){const sy=S.map(l=>sylText(l.t)),av=sy.reduce((a,b)=>a+b,0)/sy.length,sd=Math.sqrt(sy.reduce((a,b)=>a+(b-av)*(b-av),0)/sy.length);
-      add('bialy',[first],`Strofa ${si+1} (linie ${first}–${last}): bez rymów końcowych, ${sd<=1.6?'regularny rytm: wiersz biały':'nieregularna długość: wiersz wolny'} (średnio ${av.toFixed(1).replace('.',',')} sylab)`)}
+    if(!rymuje){}
     else add('rym',[first],`Strofa ${si+1} (linie ${first}–${last}): schemat ${sch}${name?' ('+name+')':''}, rymy: ${[...types].join(', ')}`);
     // typ akcentu i gramatyczność dla par
     S.forEach((l,i)=>{for(let j=0;j<i;j++){if(letters[j]===letters[i]){const a=S[j].last,b=l.last,r=warRhyme(a,b);if(!r)continue;const sa=sylWord(a),sb=sylWord(b);
@@ -1149,6 +1148,8 @@ function warAnaliza(){const L=warLinie(),out=[],strophes=[];let cur=[];
     const fr=FRAZ.find(f=>tl.includes(f));if(fr)add('frazeologizm',n,`„${fr}”`);
     const ini={};[...new Set(l.ws)].filter(w=>w.length>2).forEach(w=>{const k=w.slice(0,2);(ini[k]=ini[k]||[]).push(w)});
     for(const k in ini)if(ini[k].length>=3){add('aliteracja',n,`„${ini[k].slice(0,4).join(' ')}”`);break}});
+  try{warForma().forEach(x=>{if(x.v.length<3||x.sch.split('').some(c=>c!=='x'&&c!=='…'))return;const fin=x.v.filter(l=>!l.unf),sy=fin.map(l=>l.sy),av=sy.reduce((a,b)=>a+b,0)/sy.length,sd=Math.sqrt(sy.reduce((a,b)=>a+(b-av)*(b-av),0)/sy.length);
+    add('bialy',[x.v[0].i+1],`${x.name}: bez rymów końcowych, ${sd<=1.6?'regularny rytm: wiersz biały':'nieregularna długość: wiersz wolny'} (średnio ${av.toFixed(1).replace('.',',')} sylab)`)})}catch(_){}
   return out}
 const TYP={refren:8,hook:8,chorus:8,zwrotka:16,verse:16,bridge:4,'pre-hook':4,prehook:4,przedrefren:4};
 function warStruct(){return warForma().map(x=>{const sy=x.v.filter(l=>!l.unf).map(l=>l.sy),av=sy.reduce((a,b)=>a+b,0)/(sy.length||1),key=x.name.toLowerCase().split(/\s+/)[0].replace(/[:\d]/g,'');return {name:x.name,n:x.v.length,av,sch:fmtSch(x),typ:TYP[key],first:x.v[0].i+1,last:x.v[x.v.length-1].i+1,raw:x.sch}})}
