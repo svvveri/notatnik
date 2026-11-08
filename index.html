@@ -290,7 +290,7 @@ html{touch-action:pan-x pan-y}#scroll{touch-action:pan-y}
   <section class="pane" id="editPane">
     <div id="bar" class="gut">
       <button id="back" aria-label="Wróć do listy"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg>Teksty</button>
-      <div class="seg" role="tablist" aria-label="Widok"><button id="tabText" role="tab" class="on" aria-selected="true">Tekst</button><button id="tabWall" role="tab" aria-selected="false">Ściana</button></div>
+      <div class="seg" role="tablist" aria-label="Widok"><button id="tabText" role="tab" class="on" aria-selected="true">Tekst</button><button id="tabWall" role="tab" aria-selected="false">Warsztat</button></div>
       <span class="sp"></span>
       <span id="save" aria-live="polite"></span>
       <button id="starBtn" class="ico" aria-label="Ulubione" aria-pressed="false" title="Ulubione"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></button>
@@ -303,11 +303,10 @@ html{touch-action:pan-x pan-y}#scroll{touch-action:pan-y}
         <button id="bpmBtn" class="pill" type="button" title="Tempo bitu"></button>
         <button id="keyBtn" class="pill" type="button" title="Tonacja"></button>
         <button id="rhBtn" class="pill x" type="button" title="Włącz/wyłącz kolorowanie rymujących się sylab">Kolory</button>
-        <button id="warBtn" class="pill x" type="button" title="Środki stylistyczne i rymy w tym tekście">Warsztat</button>
         <button id="recBtn" class="pill x" type="button" title="Nagrania głosowe do tego tekstu">Nagrania</button>
         <span class="sp"></span>
         <button id="adBtn" class="pill ad" type="button" title="Zaznacz fragment: nawias = adlib. Dotknięcie w nawiasie go zdejmuje. Bez zaznaczenia: cały wers.">( ) adlib</button>
-        <button id="moreT" class="pill" aria-label="Więcej: kolory, warsztat, nagrania" type="button" aria-expanded="false" title="Tempo, tonacja, kolory, warsztat, nagrania"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+        <button id="moreT" class="pill" aria-label="Więcej: kolory, nagrania" type="button" aria-expanded="false" title="Kolory, nagrania"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
       </div>
       <div id="selwrap"><div id="selbar" class="gut" hidden><span id="selw"></span><button id="selWers" class="pill" type="button">✦ Analiza</button><button id="selAI" class="pill" type="button">✦ AI</button><button id="selRy" class="pill ry" type="button">Rymy</button><button id="selAd" class="pill ad" type="button">( ) adlib</button><button id="selWall" class="pill" type="button">+ ściana</button></div></div>
       <div id="page" class="gut" hidden>
@@ -325,6 +324,7 @@ html{touch-action:pan-x pan-y}#scroll{touch-action:pan-y}
         </div>
       </div>
       <div id="wall" class="gut" hidden>
+        <button id="anBtn" class="lnkbtn" type="button" style="width:100%;margin-bottom:10px">Analiza tego tekstu: struktura, rymy w strofach, środki stylistyczne</button>
         <form id="rForm" class="search"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg><input id="rq" type="search" placeholder="Słowo albo końcówka wersu" autocomplete="off" enterkeyhint="search" aria-label="Szukaj rymu"></form>
         <div id="rinfo"></div>
         <div id="rmodes" role="tablist" aria-label="Rodzaj rymu"></div>
@@ -1242,11 +1242,11 @@ function wire(){
   $('#impFile').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const n=window.NT.importJSON(await f.text());$('#exMsg')&&($('#exMsg').textContent=n<0?'To nie jest poprawny plik .json.':'Zaimportowano: '+n+' tekstów.')};
   $('#recFile').onchange=async e=>{const fs=[...e.target.files];e.target.value='';for(const f of fs){const d=await new Promise(r=>{const u=URL.createObjectURL(f),au=new Audio();au.preload='metadata';au.onloadedmetadata=()=>{r(au.duration);URL.revokeObjectURL(u)};au.onerror=()=>{r(0);URL.revokeObjectURL(u)};au.src=u});
     await saveAudio(f,isFinite(d)?d:0,f.name.replace(/\.[^.]+$/,''))}};
-  swipeInit();pinchInit();
+  swipeInit();pinchInit();$('#anBtn').onclick=()=>sheetWarsztat();
   {const mt=$('#moreT'),tl=$('#tools');const set=o=>{tl.classList.toggle('open',o);mt.setAttribute('aria-expanded',o);ls('nt-tools',o?'1':'0')};set(ls('nt-tools')==='1');mt.onclick=()=>set(!tl.classList.contains('open'))}
   $('#sugg').addEventListener('pointerdown',e=>e.preventDefault());
   $('#tabText').onclick=()=>showTab('text');$('#tabWall').onclick=()=>showTab('wall');
-  $('#bpmBtn').onclick=sheetBpm;$('#rhBtn').onclick=()=>{if(VS.rhm==='off'){VS.rhm=ls('nt-rhm0')||'smart'}else{ls('nt-rhm0',VS.rhm);VS.rhm='off'}ls('nt-rhm',VS.rhm);applyView()};$('#warBtn').onclick=()=>sheetWarsztat();$('#keyBtn').onclick=sheetKey;
+  $('#bpmBtn').onclick=sheetBpm;$('#rhBtn').onclick=()=>{if(VS.rhm==='off'){VS.rhm=ls('nt-rhm0')||'smart'}else{ls('nt-rhm0',VS.rhm);VS.rhm='off'}ls('nt-rhm',VS.rhm);applyView()};$('#keyBtn').onclick=sheetKey;
   $('#rForm').onsubmit=e=>{e.preventDefault();szukajRymow($('#rq').value);$('#rq').blur()};
   ['selRy','selAd','selWall','selWers','selAI'].forEach(id=>{const e=$('#'+id);e.addEventListener('pointerdown',ev=>ev.preventDefault());e.addEventListener('mousedown',ev=>ev.preventDefault())});
   $('#selRy').onclick=()=>{$('#selbar').hidden=true;rymyDlaMiejsca()};
