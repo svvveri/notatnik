@@ -921,7 +921,7 @@ const accOf=p=>{const w=p.split(' ').pop(),n=fastSyl(w);return n<2?'mez':(n>=3&&
 const MOPIS={mez:'rym męski: akcent na ostatniej sylabie, słowa jednosylabowe (np. wół – dół)',zen:'rym żeński: akcent na przedostatniej sylabie, zgodne co najmniej dwie ostatnie sylaby (np. brama – sama)',dak:'rym daktyliczny: akcent na trzeciej sylabie od końca, rzadki w polszczyźnie (np. polityka – matematyka)',dok:'rym dokładny (pełny): głoski od ostatniej akcentowanej samogłoski brzmią tak samo (np. słowa – mowa)',aso:'asonans (rym niedokładny): zgodne samogłoski, różne spółgłoski (np. słońce – łące)',spo:'konsonans (rym niedokładny): zgodne spółgłoski, inne samogłoski',wie:'rym bogaty (głęboki): rymują się trzy i więcej sylab od końca, a w skrajnym przypadku całe frazy (rym składany, pantorym), często jako asonans, np. „na kolanach siedzę – zakochana jesteś”. Pokazuję też końcówki wersów z Twoich tekstów',ali:'ten sam początek oraz ten sam układ samogłosek'};
 let rExp=new Set(),rBusy=0,FQS=null,FQR=null;
 /* część mowy: maska z Morfeusza2/SGJP (1 rzeczownik, 2 czasownik, 4 przymiotnik, 8 przysłówek, 32 forma słownikowa) */
-let rpos=ls('nt-rpos')||'all',rlem=ls('nt-rlem')==='1',rrare=ls('nt-rrare')==='1';
+let rpos=ls('nt-rpos')||'all',rlem=ls('nt-rlem')==='1',rrare=ls('nt-rrare')==='1',rsort=ls('nt-rsort')||'q';
 const POSL=[['all','Wszystkie'],['1','Rzeczowniki'],['2','Czasowniki'],['4','Przymiotniki'],['8','Przysłówki']];
 const posOn=()=>rpos!=='all'||rlem,vis=c=>(rrare||c.b||c.own||c.sg)&&pf(c),pf=c=>{if(!posOn())return true;const m=POSM.get(c.p);if(m==null)return false;return (rpos==='all'||(m&+rpos))&&(!rlem||(m&32))?true:false};
 const PFM=new Set(['all','mez','zen','dak','dok','aso','wie']);
@@ -974,6 +974,14 @@ async function rymCompute(q,noExt){
       if(R.ali.length<400&&w.startsWith(pre)&&w.length>3)add('ali',w,0,0,j,0);
       if(R.sal.length<400){const v=FQK.V[j],n=Math.min(v.length,qvs.length);if(n&&v.slice(0,n)===qvs.slice(0,n)&&(v.length>=qvs.length||v.length>=1)&&v.length<=qvs.length+1)add('sal',w,0,0,j,0)}}}
   return {k,R,loadErr}}
+/* jakość rymu 3/2/1/0: samogłoski ostatnich dwóch sylab (ę liczy się jak e) i spółgłoski między nimi (ciemną, piękną: „mn”/„kn” kończą się tak samo jak w „ze mną”).
+   3 = samogłoski zgodne i spółgłoski między nimi kończą się tak samo; 2 = samogłoski zgodne, ale spółgłoski inne, albo przedostatnia samogłoska z tej samej rodziny (e, i, y) przy zgodnych spółgłoskach; 1 = zgodna tylko ostatnia samogłoska */
+const vN=v=>v==='ę'?'e':v,FRONT=new Set(['e','i','y']);
+function qvOf(t){const f=fon(wordsOf(t).join('')),ix=[];for(let i=0;i<f.length;i++)if(/[aeiouyąę]/.test(f[i]))ix.push(i);const v=ix.map(i=>vN(f[i]));v.mid=ix.length>=2?f.slice(ix[ix.length-2]+1,ix[ix.length-1]):'';return v}
+function qualOf(p,qvs){const D=Math.min(2,qvs.length);if(!D)return 3;const cv=qvOf(p);let m=0;const L=Math.min(D,cv.length);while(m<L&&cv[cv.length-1-m]===qvs[qvs.length-1-m])m++;
+  const midOk=D<2||(cv.mid.slice(-1)===qvs.mid.slice(-1));
+  if(m>=D)return midOk?3:2;
+  if(m>=1){const a=cv[cv.length-2],b=qvs[qvs.length-2];return a&&b&&FRONT.has(a)&&FRONT.has(b)&&midOk?2:1}return 0}
 /* rymy wielowyrazowe: dla słowa 2+ sylabowego szuka fraz „krótkie słowo + jednosylabowe słowo”, w których zgadza się każda sylaba od końca (ciemną = ze mną) */
 async function phraseRhymes(q){try{const ws=wordsOf(q);if(ws.length!==1)return [];const fq=await loadFreq();if(!fq)return [];const fl=fon(ws[0]),vs=vowelsOf(fl);if(vs.length<2)return [];
   const idxs=[];for(let i=fl.length-1;i>=0;i--)if(/[aeiouyąę]/.test(fl[i]))idxs.push(i);const rest=fl.slice(idxs[1]+1),v1=vs[vs.length-2];if(!rest||rest.length<2)return [];
@@ -995,7 +1003,8 @@ async function szukajRymow(raw){const q=String(raw).trim();if(!q)return;const my
   const w0=wordsOf(q);if(w0.length>=2&&vowelsOf(fon(w0[w0.length-1])).length<2){const r3=await rymCompute(q,true);if(r3){le=le||r3.loadErr;mergeR(R,r3,orig)}}
   R.ph=await phraseRhymes(q);
   if(my!==rBusy)return;
-  for(const g in R){R[g].sort((a,b)=>b.sc-a.sc||a.p.length-b.p.length);R[g].forEach(c=>{c.s=fastSyl(c.p.replace(/ /g,''));c.b=!FQS||FQS.has(c.p)||c.own||g==='ph'||(c.sc>=1e7&&FQR&&FQR.get(c.p)<140000)})}
+  const qvs=qvOf(q);
+  for(const g in R){R[g].forEach(c=>{c.q=qualOf(c.p,qvs)});R[g].sort((a,b)=>b.q-a.q||b.sc-a.sc||a.p.length-b.p.length);R[g].forEach(c=>{c.s=fastSyl(c.p.replace(/ /g,''));c.b=!FQS||FQS.has(c.p)||c.own||g==='ph'||(c.sc>=1e7&&FQR&&FQR.get(c.p)<140000)})}
   lastR={q,k,R,loadErr:le};rmode='all';rsyl='all';rExp=new Set();pushRecent(q);drawRymy()}
 const POMK=[['syn','Synonimy i inne skojarzenia słowne'],['wto','Wyrażenia oznaczające to samo'],['wz','Wyrażenia z tymi słowami'],['sto','Slang oznaczający to samo'],['sz','Slang z tymi słowami']];
 let pomCat=ls('nt-pomcat')||'syn';const POM=new Map();
@@ -1056,16 +1065,18 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
   const ACC=lastR.ACC,fl=a=>a.filter(vis).length,cnt={mez:fl(ACC.mez),zen:fl(ACC.zen),dak:fl(ACC.dak),all:fl(R.ry)+fl(R.bl)+fl(R.ph||[]),aso:fl(lastR.ASO),dok:fl(lastR.DOK),spo:R.spo.length,wie:fl(R.wie),ali:R.ali.length+R.sal.length,pom:0,lin:OL.has.length+OL.rh.length,kon:OL.bef.length+OL.aft.length};
   $('#rmodes').innerHTML=MODES.map(([id,l])=>`<button role="tab" class="${rmode===id?'on':''}" data-m="${id}">${l}${id==='pom'?'':`<b>${cnt[id]}</b>`}</button>`).join('');
   $('#rmodes').querySelectorAll('button').forEach(b=>b.onclick=()=>{rmode=b.dataset.m;rsyl='all';rExp=new Set();drawRymy()});
-  {const pr=$('#rpos');if(pr){if(!PFM.has(rmode))pr.innerHTML='';else{pr.innerHTML=POSL.map(([id,l])=>`<button class="${rpos===id?'on':''}" data-p="${id}">${l}</button>`).join('')+`<button class="lem ${rlem?'on':''}" data-l="1" title="tylko formy podstawowe: mianownik, bezokolicznik">Tylko formy słownikowe</button><button class="rar ${rrare?'on':''}" data-r="1" title="domyślnie widać tylko słowa potoczne">Rzadkie słowa</button>`;
-      pr.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(b.dataset.r){rrare=!rrare;ls('nt-rrare',rrare?'1':'0')}else if(b.dataset.l){rlem=!rlem;ls('nt-rlem',rlem?'1':'0')}else{rpos=b.dataset.p;ls('nt-rpos',rpos)}rExp=new Set();drawRymy()})}}}
+  {const pr=$('#rpos');if(pr){if(!PFM.has(rmode))pr.innerHTML='';else{pr.innerHTML=POSL.map(([id,l])=>`<button class="${rpos===id?'on':''}" data-p="${id}">${l}</button>`).join('')+`<button class="lem ${rlem?'on':''}" data-l="1" title="tylko formy podstawowe: mianownik, bezokolicznik">Tylko formy słownikowe</button><button class="rar ${rrare?'on':''}" data-r="1" title="domyślnie widać tylko słowa potoczne">Rzadkie słowa</button><button class="srt ${rsort==='q'?'on':''}" data-s="1" title="sortowanie: od najlepszego rymu albo według liczby sylab">${rsort==='q'?'Wg jakości':'Wg sylab'}</button>`;
+      pr.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(b.dataset.s){rsort=rsort==='q'?'s':'q';ls('nt-rsort',rsort)}else if(b.dataset.r){rrare=!rrare;ls('nt-rrare',rrare?'1':'0')}else if(b.dataset.l){rlem=!rlem;ls('nt-rlem',rlem?'1':'0')}else{rpos=b.dataset.p;ls('nt-rpos',rpos)}rExp=new Set();drawRymy()})}}}
   const n=T.get(cur),wall=(n&&n.sciana||'').toLowerCase();
   const chip=c=>`<button class="rc ${wall.includes(c.p.toLowerCase())?'added':''} ${c.b?'':'rare'}" data-p="${esc(c.p)}"${c.sg?' data-sg="1"':''}>${esc(c.p)}${c.own?'<i>●</i>':''}${c.sg?'<i title="slang">◆</i>':''}</button>`;
+  const QL={3:['pełne','Pełny rym: zgadzają się samogłoski ostatnich sylab'],2:['bliskie','Bliski rym: ta sama ostatnia samogłoska, przedostatnia z tej samej rodziny'],1:['dalsze','Rym końcówki: zgadza się tylko ostatnia samogłoska'],0:['inne','Pozostałe']};
   const sec=(sk,title,desc,items)=>{if(PFM.has(rmode))items=items.filter(vis);if(!items.length)return '';
-    const by={};items.forEach(c=>{const s=Math.min(7,c.s);(by[s]=by[s]||[]).push(c)});const ss=Object.keys(by).map(Number).sort((a,b)=>a-b);
+    const byq=rsort==='q'&&!['al','sa'].includes(sk)&&items[0].q!==undefined,gk=c=>byq?c.q:Math.min(7,c.s),by={};items.forEach(c=>{const k2=gk(c);(by[k2]=by[k2]||[]).push(c)});
+    const ss=Object.keys(by).map(Number).sort((a,b)=>byq?b-a:a-b);
     return `<div class="rsec"><h3>${title}<span>${items.length}${items.length>=400?'+':''} wyników</span></h3>${desc?`<div class="hint">${desc}</div>`:''}
-      <div class="ranch"><span>sylaby:</span>${ss.map(s=>`<button data-go="g-${sk}-${s}">${s===7?'7+':s}</button>`).join('')}</div>`+
-      ss.map(s=>{const all=by[s],key=sk+s,lim=rExp.has(key)?1000:48;
-        return `<div class="rg" id="g-${sk}-${s}"><h4>${sylLabel(s)}${s===7?'+':''}<span>${all.length}</span></h4><div class="rcs">`+all.slice(0,lim).map(chip).join('')+
+      <div class="ranch"><span>${byq?'jakość:':'sylaby:'}</span>${ss.map(s2=>`<button data-go="g-${sk}-${s2}">${byq?QL[s2][0]:(s2===7?'7+':s2)}</button>`).join('')}</div>`+
+      ss.map(s2=>{const all=by[s2],key=sk+s2,lim=rExp.has(key)?1000:48;
+        return `<div class="rg" id="g-${sk}-${s2}"><h4>${byq?QL[s2][1]:sylLabel(s2)+(s2===7?'+':'')}<span>${all.length}</span></h4><div class="rcs">`+all.slice(0,lim).map(chip).join('')+
         (all.length>lim?`<button class="rc more" data-x="${key}">więcej…</button>`:'')+`</div></div>`}).join('')+'</div>'};
   let html='';
   if(rmode==='all'){$('#rsyl').innerHTML='';
@@ -1282,26 +1293,25 @@ function warAnalizaAI(){const o=$('#warAIo'),b=$('#body');o.innerHTML='<div clas
     o.querySelectorAll('.wr[data-l]').forEach(r=>r.onclick=()=>warGoto(+r.dataset.l))})
   .catch(e=>{o.innerHTML='<div class="hint" style="color:var(--danger)">'+esc(e.message)+'</div>'})}
 const sufL=(a,b)=>{let i=0;while(i<a.length&&i<b.length&&a[a.length-1-i]===b[b.length-1-i])i++;return i};
-/* jakość rymu = ile ostatnich sylab zgadza się samogłoskowo z końcówką wersu: „ciemną” = „ze mną” (e,ą = e,ą: pełny rym), „zimną” (i,ą) tylko częściowo */
-const mDepth=(w,refv)=>{const cv=vowelsOf(fon(w));let k=0;while(k<cv.length&&k<refv.length&&cv[cv.length-1-k]===refv[refv.length-1-k])k++;return k};
-async function dokKand(dk){try{const r=await rymCompute(dk.ref.last);const refv=vowelsOf(fon(wordsOf(dk.ref.t).slice(-2).join(' ')));const D=Math.min(2,refv.length);if(!r)return {list:[],full:[],part:[],D,refv};
-  const need=Math.min(3,dk.ref.last.length),seen=new Set(),full=[],part=[];
-  [...r.R.dok,...r.R.ry].filter(c=>!c.sg&&FQR&&FQR.get(c.p)<20000&&!/ /.test(c.p)&&c.p.length>2).sort((x,y)=>y.sc-x.sc).forEach(c=>{if(seen.has(c.p)||sufL(c.p,dk.ref.last)<need)return;seen.add(c.p);const d=mDepth(c.p,refv);if(d>=Math.min(D,vowelsOf(fon(c.p)).length))full.push(c.p);else if(d>=1)part.push(c.p)});
-  return {list:full.concat(part),full,part,D,refv}}catch(_){return {list:[],full:[],part:[],D:2,refv:[]}}}
+/* kandydaci na zakończenie dokańczanego wersu: te same słowa i ta sama kolejność (jakość rymu, potem częstość i długość), które widać w zakładce Rymy; słownik rymów z końcówki wersu odniesienia („ze mną”) */
+async function dokKand(dk){try{const r=await rymCompute(dk.ref.t);if(!r)return {list:[],full:[],part:[],qvs:[]};const qvs=qvOf(dk.ref.t),seen=new Set(),all=[];
+  const cur=wordsOf(dk.ref.t).slice(-1)[0];
+  [...r.R.dok,...r.R.ry,...r.R.bl].filter(c=>!c.sg&&FQR&&FQR.get(c.p)<40000&&!/ /.test(c.p)&&c.p.length>2&&c.p!==cur).forEach(c=>{if(seen.has(c.p))return;seen.add(c.p);all.push({p:c.p,q:qualOf(c.p,qvs),sc:c.sc})});
+  all.sort((x,y)=>y.q-x.q||y.sc-x.sc);const list=all.filter(x=>x.q>=1).slice(0,60),map=new Map(list.map(x=>[x.p,x.q]));
+  return {list:list.map(x=>x.p),full:list.filter(x=>x.q>=3).map(x=>x.p),part:list.filter(x=>x.q<3).map(x=>x.p),qmap:map,qvs}}catch(_){return {list:[],full:[],part:[],qvs:[]}}}
 function wersAI(idx,fig,sel,dk){const o=$(sel||'#wOut'),b=$('#body'),v=b.value,L=v.split('\n'),line=(L[idx]||'').trim();if(!line){o.innerHTML='<div class="hint">Pusty wers.</div>';return}
   const ctx=L.slice(Math.max(0,idx-4),idx+4).join('\n');o.innerHTML='<div class="hint">Szukam wariantów…</div>';
   const FS=(()=>{try{const S=warForma();for(const x of S){const j=x.v.findIndex(l=>l.i===idx);if(j>=0){const nx=S[S.indexOf(x)+1];return `Sekcja: ${x.name}, schemat rymów ${x.sch}, wers ${j+1} z ${x.v.length}`+(j===0?' (pierwszy: pozycja mocy)':j===x.v.length-1?' (ostatni: pozycja mocy'+(nx&&nx.ref&&!x.ref?', trigger przed refrenem':'')+')':'')+(x.ref?'; to refren, powinien być neutralny (bez czasu i osoby)':'')+'.'}}}catch(_){}return ''})();
   const dok=fig==='dokoncz'&&dk;
-  (async()=>{const KD=dok?await dokKand(dk):{list:[],full:[],part:[],D:2,refv:[]},cand=KD.list;
+  (async()=>{const KD=dok?await dokKand(dk):{list:[],full:[],part:[],qvs:[]},cand=KD.list;
     const start=dok?line.replace(/(\.\.\.|…)\s*$/,'').trim():line;
-    const user=`Kontekst:\n${ctx}\n${FS}\n\nWers: "${start}"\n`+(dok?`Wers jest NIEDOKOŃCZONY: zostaw jego początek dokładnie tak, jak jest, i dopisz dalszy ciąg.\nDokończenie ma się rymować DOKŁADNIE (te same głoski od ostatniej akcentowanej samogłoski, bez rymów niedokładnych i bez asonansów) z końcówką wersu: "${dk.ref.t.trim()}", czyli na „${dk.ref.last}”. ${cand.length?`OSTATNIE SŁOWO każdego wersu musi być jednym z tych słów (najpierw pełne rymy, potem tylko częściowe): ${KD.full.slice(0,30).join(', ')}${KD.part.length?' || częściowe: '+KD.part.slice(0,15).join(', '):''}. Wybieraj przede wszystkim pełne rymy. Każdy wers kończy się INNYM słowem (bez powtórzeń); jeśli słów jest mniej niż 8, napisz tyle wersów, ile jest słów. `:''}Cały wers ma mieć około ${dk.target} sylab, czyli dopisz około ${dk.need}. Zaproponuj 8 pełnych, sensownych i skończonych wersów (początek i dokończenie), każdy w osobnej linii, każdy kończy się pełnym słowem.`:`Środek stylistyczny: ${SRODKI[fig].n} (${SRODKI[fig].d})\nZaproponuj 8 wariantów tego wersu z użyciem tego środka.`);
+    const user=`Kontekst:\n${ctx}\n${FS}\n\nWers: "${start}"\n`+(dok?`Wers jest NIEDOKOŃCZONY: zostaw jego początek dokładnie tak, jak jest, i dopisz dalszy ciąg.\nDokończenie ma się rymować DOKŁADNIE (te same głoski od ostatniej akcentowanej samogłoski, bez rymów niedokładnych i bez asonansów) z końcówką wersu: "${dk.ref.t.trim()}", czyli na „${dk.ref.last}”. ${cand.length?`OSTATNIE SŁOWO każdego wersu musi być jednym z tych słów (lista jest uporządkowana od najlepiej rymujących się; wybieraj z początku listy, ale nie ograniczaj się do pierwszych słów): ${cand.slice(0,45).join(', ')}. Każdy wers kończy się INNYM słowem (bez powtórzeń); jeśli słów jest mniej niż 8, napisz tyle wersów, ile jest słów. `:''}Cały wers ma mieć około ${dk.target} sylab, czyli dopisz około ${dk.need}. Zaproponuj 8 pełnych, sensownych i skończonych wersów (początek i dokończenie), każdy w osobnej linii, każdy kończy się pełnym słowem.`:`Środek stylistyczny: ${SRODKI[fig].n} (${SRODKI[fig].d})\nZaproponuj 8 wariantów tego wersu z użyciem tego środka.`);
     return aiCall('Jesteś współautorem tekstów rapowych i poetyckich po polsku. Zachowujesz sens, rytm i (jeśli to możliwe) liczbę sylab oraz końcówkę rymującą się wersu. '+PAT+' Odpowiadasz wyłącznie listą wariantów, jeden w linii, bez numeracji i komentarzy.',user,1200).then(t=>({t,cand,KD}))})()
   .then(({t,cand,KD})=>{let A=t.split('\n').map(x=>x.replace(/^[\-\*\d\.\)\s"„]+|["”]+$/g,'').trim()).filter(Boolean).slice(0,12),weak=[];
     if(dok){const known=w=>(typeof POSM!=='undefined'&&POSM.has(w))||(FQR&&FQR.has(w)),ok=[],bad=[];
-      const used=new Set(),part=[];A.forEach(x=>{const ws=wordsOf(x),lw=ws[ws.length-1]||'',sy=sylText(x)+elongN(x);const base=lw.length>2&&known(lw)&&sufL(lw,dk.ref.last)>=Math.min(3,dk.ref.last.length)&&Math.abs(sy-dk.target)<=3;
-        const d=mDepth(lw,KD.refv),full=base&&d>=Math.min(KD.D,vowelsOf(fon(lw)).length),par=base&&!full&&d>=1;
+      const used=new Set(),part=[],qm=KD.qmap||new Map();A.forEach(x=>{const ws=wordsOf(x),lw=ws[ws.length-1]||'',sy=sylText(x)+elongN(x);const base=lw.length>2&&known(lw)&&qm.has(lw)&&Math.abs(sy-dk.target)<=3,q=base?qm.get(lw):0,full=base&&q>=2,par=base&&q===1;
         if((full||par)&&used.has(lw))return;if(full||par)used.add(lw);(full?ok:par?part:bad).push(x)});
-      ok.sort((x,y)=>Math.abs(sylText(x)+elongN(x)-dk.target)-Math.abs(sylText(y)+elongN(y)-dk.target));A=ok;weak=bad;A.part=part}
+      const lwq=x=>{const w=wordsOf(x);return qm.get(w[w.length-1])||0};ok.sort((x,y)=>lwq(y)-lwq(x)||Math.abs(sylText(x)+elongN(x)-dk.target)-Math.abs(sylText(y)+elongN(y)-dk.target));A=ok;weak=bad;A.part=part}
     if(!A.length&&!weak.length){o.innerHTML='<div class="hint">Pusta odpowiedź modelu: '+esc(t.slice(0,300))+'</div>';return}
     const row=(x,w,pt)=>`<div class="wr" ${w?'style="opacity:.55"':pt?'style="opacity:.8"':''} data-t="${esc(x)}">${esc(x)} <i>${sylText(x)} syl.${w?' · słabszy rym':pt?' · rym częściowy':''}</i></div>`;
     const pr=A.part||[];o.innerHTML=(dok&&!A.length&&!pr.length?'<div class="hint">Model nie trafił dokładnego rymu na „'+esc(dk.ref.last)+'”. Spróbuj jeszcze raz. Poniżej słabsze propozycje.</div>':'')+A.map(x=>row(x)).join('')+pr.map(x=>row(x,0,1)).join('')+(dok?weak.slice(0,3).map(x=>row(x,1)).join(''):'');
