@@ -178,6 +178,7 @@ html{touch-action:pan-x pan-y}#scroll{touch-action:pan-y}
 .ln.ro{cursor:default}.ln{display:flex;gap:12px;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer;line-height:1.35}.ln div{flex:1;min-width:0}.ln span{flex:none;max-width:36%;font-size:12.5px;color:var(--dim);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ln b{font-weight:700;color:var(--acc)}
 .rsec{margin:0 0 22px}.rsec h3{margin:6px 0 4px;font:700 19px/1.2 var(--font-d)}.rsec h3 span{font:400 13px var(--font);color:var(--dim);margin-left:8px}
 #ow{margin:2px 0 12px;padding:10px 12px;border-radius:12px;background:var(--chip)}#ow .owr{display:flex;gap:10px;align-items:baseline}#ow .owo{font-weight:600}#ow .dim{color:var(--dim);font-weight:400}#ow #owT{margin-left:auto;font-variant-numeric:tabular-nums;font-size:20px}#ow .owb{display:flex;gap:8px;margin:8px 0}#ow .owb button{padding:6px 14px;border-radius:999px;border:1px solid var(--line);color:var(--acc)}#ow .owb .pri{background:var(--acc);color:#fff;border-color:var(--acc)}#ow .owh{font-size:13px;color:var(--dim)}
+code.sch{white-space:pre;letter-spacing:.12em;font-weight:600}
 #rpos{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 6px}#rpos button{padding:3px 11px;border-radius:999px;border:1px solid var(--line);color:var(--dim);font-size:13px}#rpos button.on{color:var(--acc);border-color:var(--acc)}#rpos .lem{margin-left:auto}
 .ranch{display:flex;gap:6px;align-items:center;margin:6px 0 10px;color:var(--dim);font-size:13px}.ranch button{padding:3px 11px;border-radius:999px;border:1px solid var(--line);color:var(--acc);font-size:14px}
 .rc.rare{color:var(--dim);font-weight:400}.rc:not(.rare):not(.more){font-weight:600}
@@ -1143,23 +1144,29 @@ function warAnaliza(){const L=warLinie(),out=[],strophes=[];let cur=[];
     for(const k in ini)if(ini[k].length>=3){add('aliteracja',n,`„${ini[k].slice(0,4).join(' ')}”`);break}});
   return out}
 const TYP={refren:8,hook:8,chorus:8,zwrotka:16,verse:16,bridge:4,'pre-hook':4,prehook:4,przedrefren:4};
-function warStruct(){const L=warLinie(),out=[];let cur={name:'Początek',v:[]};
-  L.forEach(l=>{if(l.lab){if(cur.v.length||cur.name!=='Początek')out.push(cur);cur={name:labName(l.t),v:[]};return}if(!l.skip&&l.ws.length)cur.v.push(l)});if(cur.v.length||out.length===0)out.push(cur);
-  return out.filter(x=>x.v.length).map(x=>{const sy=x.v.map(l=>l.ws.length?sylText(l.t):parseLine(l.t).ad),av=sy.reduce((a,b)=>a+b,0)/sy.length;let letters=[],n=0;
-    x.v.forEach((l,i)=>{let g=null;for(let j=i-1;j>=0;j--){if(l.last&&x.v[j].last&&warRhyme(x.v[j].last,l.last)){g=letters[j];break}}letters.push(g||String.fromCharCode(97+(n++%26)))});
-    const key=x.name.toLowerCase().split(/\s+/)[0].replace(/[:\d]/g,'');return {name:x.name,n:x.v.length,av,sch:letters.join('').slice(0,24),typ:TYP[key]}})}
-
-/* ---- forma wg Pata Pattisona: stabilność, pozycje mocy, osoba i czas ---- */
+function warStruct(){return warForma().map(x=>{const sy=x.v.map(l=>l.sy),av=sy.reduce((a,b)=>a+b,0)/sy.length,key=x.name.toLowerCase().split(/\s+/)[0].replace(/[:\d]/g,'');return {name:x.name,n:x.v.length,av,sch:fmtSch(x),typ:TYP[key],first:x.v[0].i+1,last:x.v[x.v.length-1].i+1,raw:x.sch}})}
+/* ---- forma wg Pata Pattisona ---- */
 const PAT='Zasady, z których korzystasz (Pat Pattison, Writing Better Lyrics): 1) Pokazuj, potem mów: konkretny obraz zmysłowy (wzrok, słuch, węch, smak, dotyk, wnętrze ciała, ruch ciała) wygrywa z abstrakcją i komentarzem. 2) Metafora to zderzenie rzeczy, które do siebie nie pasują; najmocniejsze są czasowniki; trzymaj się jednego pola skojarzeń i zakotwicz w realnej scenie. 3) Unikaj klisz (utarte frazy, rymy i obrazy); zamiast tego własny, konkretny obraz. 4) Każda kolejna zwrotka dokłada nową informację (zasada pudełek), refren ma ważyć więcej po każdej zwrotce. 5) Pozycje mocy to pierwsza i ostatnia linia sekcji oraz każda zmiana struktury; ostatnia linia przed refrenem decyduje, jak słyszymy refren. 6) Refren powinien być neutralny: bez czasu i bez osoby, żeby zwrotki mogły go przemalować. 7) Forma ma służyć treści (prozodia): liczba linii, długość linii, rytm, schemat rymów i typ rymu razem dają stabilność (parzysta liczba, dopasowane długości, rym doskonały) albo niestabilność (nieparzysta, różne długości, rym niedokładny). Stabilna forma pasuje do pewności, niestabilna do niepokoju i tęsknoty. 8) Typy rymu to odcienie rozwiązania: doskonały, rodzinny (podobne spółgłoski), addytywny, asonans, konsonans. 9) Dwuwersy aabb ciągle po sobie brzmią marszowo, więc przełamuj je rymem krzyżowym, krótszą linią albo dłuższą linią. 10) Sprawdzaj punkt widzenia (ja, ty, my, on/ona) i czas; narrator z „ja” potrzebuje powodu, żeby opowiadać.';
-const SCH={aaaa:['bardzo stabilny','monorym domyka każdą linię; uważaj na monotonię'],aabb:['stabilny','dwuwersy domykają się od razu i zatrzymują ruch'],abab:['stabilny','rym krzyżowy: oczekiwanie i rozwiązanie'],xaxa:['dość stabilny','rymują się tylko linie parzyste, typowo dla piosenki'],abaa:['zwodniczo domknięty','ostatni rym wraca niespodziewanie'],aaba:['zawieszony','rym wraca dopiero na końcu, ruch niedomknięty'],abba:['zawieszony','okalający: środek domyka się szybciej niż całość'],aaax:['niestabilny','ostatnia linia bez rymu pcha do następnej sekcji'],axax:['niestabilny','rymują się nieparzyste, brak domknięcia'],xaax:['niestabilny','rym w środku, brzegi wiszą'],xxxx:['najbardziej niestabilny','bez rymów, ruch nigdy się nie domyka']};
-function warForma(){const L=warLinie(),out=[];let cur=null;
+const SCH={aaab:['zawieszony, domykany powtórką','trzy rymy i czwarta linia z innym zakończeniem (często powtarzanym): powtórka daje punkt oparcia'],aaaa:['bardzo stabilny','monorym domyka każdą linię; uważaj na monotonię'],aabb:['stabilny','dwuwersy domykają się od razu i zatrzymują ruch'],abab:['stabilny','rym krzyżowy: oczekiwanie i rozwiązanie'],xaxa:['dość stabilny','rymują się tylko linie parzyste, typowo dla piosenki'],abaa:['zwodniczo domknięty','ostatni rym wraca niespodziewanie'],aaba:['zawieszony','rym wraca dopiero na końcu, ruch niedomknięty'],abba:['zawieszony','okalający: środek domyka się szybciej niż całość'],aaax:['niestabilny','ostatnia linia bez rymu pcha do następnej sekcji'],axax:['niestabilny','rymują się nieparzyste, brak domknięcia'],xaax:['niestabilny','rym w środku, brzegi wiszą'],xxxx:['najbardziej niestabilny','bez rymów, ruch nigdy się nie domyka']};
+/* schemat rymów bierze grupy z kolorowania rymów (to samo, co widać w tekście), a identyczne końcówki wersów (np. „moi ludzie”) liczy jako jeden rym */
+function warEndG(){const lines=$('#body').value.split('\n'),OD=findOdrzut(lines),odAt=OD?OD.at:-1;let RC;try{RC=rhymeSyl(lines,odAt)}catch(_){RC=new Map()}
+  return i=>{const t=RC.get(i);if(!t||!t.length)return null;const l=lines[i],pr=pairsOf(l),re=/[a-ząćęłńóśźżéèäöü']+/gi;let m,end=0;while((m=re.exec(l))){if(pr.some(([a,z])=>m.index>=a&&m.index<=z))continue;end=m.index+m[0].length}
+    const x=t[t.length-1];return x.e>=end?x.g:null}}
+function warForma(){const L=warLinie(),out=[],EG=warEndG();let cur=null;
   const push=()=>{if(cur&&cur.v.length)out.push(cur)};
-  L.forEach(l=>{if(l.lab){push();cur={name:labName(l.t),v:[]};return}if(!cur)cur={name:'Początek',v:[]};if(l.skip||!l.ws.length)return;cur.v.push({i:l.i,t:l.t,ws:l.ws,last:l.last,sy:sylText(l.t)})});push();
-  out.forEach(x=>{const ls=x.v,letters=[];let n=0;ls.forEach((l,i)=>{let g=null;for(let j=i-1;j>=0;j--){if(l.last&&ls[j].last&&warRhyme(ls[j].last,l.last)){g=letters[j];break}}letters.push(g||'#'+(n++))});
-    const cnt={};letters.forEach(c=>cnt[c]=(cnt[c]||0)+1);const map={};let k=0;
-    x.sch=letters.map(c=>{if(cnt[c]===1)return 'x';if(!map[c])map[c]=String.fromCharCode(97+k++);return map[c]}).join('');
+  L.forEach(l=>{if(l.lab){push();cur={name:labName(l.t),v:[],br:[]};return}if(!cur)cur={name:'Początek',v:[],br:[]};
+    if(!l.t.trim()&&!l.skip){}
+    if(!l.t.trim()){if(cur.v.length&&cur.br[cur.br.length-1]!==cur.v.length)cur.br.push(cur.v.length);return}
+    if(l.skip||!l.ws.length)return;cur.v.push({i:l.i,t:l.t,ws:l.ws,last:l.last,sy:sylText(l.t),g:EG(l.i)})});push();
+  out.forEach(x=>{const ls=x.v;x.br=x.br.filter(k=>k>0&&k<ls.length);const wc={};ls.forEach(l=>{if(l.last)wc[l.last]=(wc[l.last]||0)+1});
+    const keys=ls.map((l,i)=>l.g!=null?'g'+l.g:(l.last&&l.last.length>1&&wc[l.last]>=2?'w'+l.last:'u'+i)),cnt={};keys.forEach(c=>cnt[c]=(cnt[c]||0)+1);const map={};let k=0;
+    x.sch=keys.map(c=>{if(cnt[c]===1)return 'x';if(!map[c])map[c]=String.fromCharCode(97+k++);return map[c]}).join('');
     const ks=x.name.toLowerCase().split(/\s+/)[0].replace(/[:\d]/g,'');x.ref=/^(refren|hook|chorus)$/.test(ks)});
   return out}
+const STRN={2:'dystych',3:'tercyna',4:'katren',5:'pięciowersowa',6:'sekstyna',7:'septyma',8:'oktawa'};
+const strName=x=>{const pt=schParts(x),n=x.v.length;if(pt.length>1&&pt.every(q=>q.length===pt[0].length)&&STRN[pt[0].length])return pt.length+'× '+STRN[pt[0].length];return STRN[n]||''};
+const fmtSch=x=>{const s=x.sch.toUpperCase().split(''),cuts=new Set(x.br||[]);if(!cuts.size&&s.length>=8)for(let i=4;i<s.length;i+=4)cuts.add(i);return s.map((c,i)=>(cuts.has(i)?' ':'')+c).join('')};
+const schParts=x=>{const cuts=[...new Set(x.br&&x.br.length?x.br:(x.sch.length>=8?Array.from({length:Math.floor((x.sch.length-1)/4)},(_,i)=>(i+1)*4):[]))].sort((a,b)=>a-b),o=[];let a=0;cuts.concat([x.sch.length]).forEach(c=>{if(c>a)o.push(x.sch.slice(a,c));a=c});return o};
 const P1=/^(ja|mnie|mi|mną|mój|moja|moje|moi|moich|moim|my|nas|nam|nami|nasz|nasza|nasze|jestem|jesteśmy|mam|mamy|chcę|chcemy|wiem|wiemy|mogę|możemy|będę|będziemy|muszę|idę|jadę|czuję|widzę|słyszę|kocham|lubię)$|(łem|łam|liśmy|łyśmy)$/,
   P2=/^(ty|ci|cię|ciebie|tobie|tobą|twój|twoja|twoje|twoi|twoich|wy|was|wam|wasz|jesteś|jesteście|masz|macie|chcesz|wiesz|możesz|będziesz|musisz|idziesz|czujesz|widzisz|słyszysz|kochasz|lubisz)$|(łeś|łaś|liście|łyście)$/,
   P3=/^(on|ona|ono|oni|one|jego|jej|ich|im|go|nią|nim|nimi)$/,
@@ -1168,11 +1175,11 @@ function warOsoba(v){const c={p1:0,p2:0,p3:0,past:0,fut:0},hit=[];v.forEach(l=>{
 function warFormaHtml(){const S=warForma();if(!S.length)return '';
   const q=t=>esc(t.length>46?t.slice(0,44)+'…':t),med=a=>{const b=a.slice().sort((x,y)=>x-y);return b[Math.floor(b.length/2)]};
   /* 1. stabilność */
-  const stab=S.map(x=>{const n=x.v.length,sy=x.v.map(l=>l.sy),par=n%2===0,d=SCH[x.sch];let notes=[];
-    notes.push(`${n} ${n===1?'linia':'linii'} (${par?'parzysta: stabilnie':'nieparzysta: ruch idzie dalej'})`);
+  const stab=S.map(x=>{const n=x.v.length,sy=x.v.map(l=>l.sy),par=n%2===0,pt=schParts(x),uni=pt.length>1&&pt.every(q=>q===pt[0]),d=SCH[uni?pt[0]:x.sch];let notes=[];
+    notes.push(`${n} ${n===1?'linia':'linii'}${strName(x)?' ('+strName(x)+')':''} (${par?'parzysta: stabilnie':'nieparzysta: ruch idzie dalej'})`);
     if(n>=2){const a=sy[n-2],b=sy[n-1];notes.push(`długości ${sy.join('·')}`+(b-a<=-2?`; ostatnia krótsza o ${a-b}: niestabilnie, sekcja zawisa`:b-a>=2?`; ostatnia dłuższa: domyka mocniej`:'; wyrównane: stabilnie'))}
     const g=d?`${d[0]}: ${d[1]}`:(n>=2?(par&&x.sch.slice(-1)!=='x'?'raczej stabilny: parzysta liczba i rym na końcu':'raczej niestabilny: koniec bez rymu lub nieparzysta liczba linii'):'');
-    return `<div class="wr" data-l="${x.v[0].i+1}"><b>${esc(x.name)}</b> schemat <code>${esc(x.sch)}</code>${g?' · '+esc(g):''}<br><i>${esc(notes.join(' · '))}</i></div>`}).join('');
+    return `<div class="wr" data-l="${x.v[0].i+1}"><b>${esc(x.name)}</b> schemat <code class="sch">${esc(fmtSch(x))}</code>${uni?` (${pt.length}× ${esc(pt[0].toUpperCase())})`:''}${g?' · '+esc(g):''}<br><i>${esc(notes.join(' · '))}</i></div>`}).join('');
   /* maszerujące dwuwersy */
   const cpl=S.filter(x=>x.v.length>=4&&/^((.)\2)+$/.test(x.sch.replace(/[^a-z]/g,'')) && x.sch.length>=4 && /^(aabb|aabbcc|aabbccdd)$/.test(x.sch)||false);
   const march=S.length>=2&&S.filter(x=>/^aabb(cc)?(dd)?$/.test(x.sch)).length>=Math.max(2,Math.ceil(S.length*0.7));
@@ -1210,11 +1217,11 @@ function warKliszeAI(){const o=$('#warKlo');o.innerHTML='<div class="hint">Szuka
   .catch(e=>{o.innerHTML='<div class="hint" style="color:var(--danger)">'+esc(e.message)+'</div>'})}
 function warFigChip(f){return SRODKI[f]?SRODKI[f].n:f}
 function sheetWarsztat(){const n=T.get(cur);if(!n)return;const R=warAnaliza(),st=warStruct();const by={};R.filter(r=>r.f!=='rym').forEach(r=>(by[r.f]=by[r.f]||[]).push(r));
-  const rhy=R.filter(r=>r.f==='rym'&&/schemat/.test(r.note)),wh=R.filter(r=>r.f==='bialy');
+  const rhy=st.filter(x=>x.n>=2&&/[a-wyz]/.test(x.raw)).map(x=>({lines:[x.first],note:`${x.name}, linie ${x.first}–${x.last} → schemat ${x.sch}`})),wh=st.filter(x=>x.n>=2&&!/[a-wyz]/.test(x.raw)).map(x=>({lines:[x.first],note:`${x.name}, linie ${x.first}–${x.last} → bez rymów końcowych (wiersz biały lub wolny)`}));
   const html=`<div class="shHead"><h3>Warsztat</h3><button class="x" id="x" aria-label="Zamknij">×</button></div><div class="warbody">
-  <div class="wcard"><h4>Struktura utworu</h4>${st.length?st.map(x=>`<div class="wrow"><b>${esc(x.name)}</b><span>${x.n} wersów${x.typ&&x.n!==x.typ?` <i>(zwykle ok. ${x.typ})</i>`:''} · śr. ${x.av.toFixed(1).replace('.',',')} sylab${x.n>=3?' · schemat <code>'+esc(x.sch)+'</code>':''}</span></div>`).join(''):'<div class="hint">Napisz kilka wersów.</div>'}
+  <div class="wcard"><h4>Struktura utworu</h4>${st.length?st.map(x=>`<div class="wrow"><b>${esc(x.name)}</b><span>${x.n} wersów${x.typ&&x.n!==x.typ?` <i>(zwykle ok. ${x.typ})</i>`:''} · śr. ${x.av.toFixed(1).replace('.',',')} sylab${x.n>=3?' · schemat <code class="sch">'+esc(x.sch)+'</code>':''}</span></div>`).join(''):'<div class="hint">Napisz kilka wersów.</div>'}
    <div class="hint">Odrzuty (luźne wersy na dole) nie wchodzą do liczenia. Oddziel je pustą linią podwójnie albo linią <code>---</code>.</div></div>
-  <div class="wcard"><h4>Rymy w strofach</h4>${rhy.length?rhy.map(r=>`<div class="wr" data-l="${r.lines[0]}">${esc(r.note.replace(/^Strofa (\d+) \(linie ([^)]*)\): /,'Strofa $1, linie $2 → '))}</div>`).join(''):'<div class="hint">Brak wykrytych rymów końcowych.</div>'}${wh.map(r=>`<div class="wr" data-l="${r.lines[0]}">${esc(r.note.replace(/^Strofa (\d+) \(linie ([^)]*)\): /,'Strofa $1, linie $2 → '))}</div>`).join('')}</div>
+  <div class="wcard"><h4>Rymy w strofach</h4>${rhy.length?rhy.map(r=>`<div class="wr" data-l="${r.lines[0]}">${esc(r.note)}</div>`).join(''):'<div class="hint">Brak wykrytych rymów końcowych.</div>'}${wh.map(r=>`<div class="wr" data-l="${r.lines[0]}">${esc(r.note)}</div>`).join('')}</div>
   ${warFormaHtml()}
   ${warKliszeHtml()}
   <div class="wcard"><h4>Środki stylistyczne</h4>${Object.keys(by).length?Object.keys(by).map(f=>`<details class="wd"><summary>${esc(warFigChip(f))} <span>${by[f].length}</span></summary>${by[f].slice(0,25).map(r=>`<div class="wr" data-l="${r.lines[0]}"><b>${r.lines.length>1?'linie '+r.lines.join(', '):'linia '+r.lines[0]}</b> ${esc(r.note)}</div>`).join('')}<p class="hint">${esc((SRODKI[f]||{}).d||'')}</p></details>`).join(''):'<div class="hint">Nic nie wykryłam regułami. Spróbuj analizy AI poniżej.</div>'}
