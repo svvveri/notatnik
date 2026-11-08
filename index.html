@@ -740,6 +740,15 @@ function autoLabel(e){if(!VS.autolab||!e||!cur||!/^insert/.test(e.inputType||'')
     const OD=findOdrzut(lines);if(OD&&OD.mark&&idx>=OD.at)return}
   const name=labGuess(lines,idx);
   b.value=v.slice(0,ls0)+name+'\n'+v.slice(ls0);const np=pos+name.length+1;b.setSelectionRange(np,np)}
+/* po skasowaniu całego tekstu części znika też jej znacznik, chyba że ma nagrania */
+function dropEmptyLabel(e){if(!VS.autolab||!e||!cur||!/^delete/.test(e.inputType||''))return;
+  const b=$('#body');if(b.selectionStart!==b.selectionEnd)return;const v=b.value,pos=b.selectionStart,lines=v.split('\n'),c=v.slice(0,pos).split('\n').length-1;
+  let L=c;while(L>=0&&!isLabel(lines[L]))L--;if(L<0||L===c)return;
+  let e2=L+1;while(e2<lines.length&&!isLabel(lines[e2]))e2++;
+  for(let k=L+1;k<e2;k++)if(lines[k].trim())return;
+  const n=T.get(cur),nm=labName(lines[L]);if(n&&(n.nagrania||[]).some(r=>r.czesc===nm))return;
+  lines.splice(L,c-L+1);while(L>0&&L<lines.length&&!lines[L].trim()&&!lines[L-1].trim())lines.splice(L,1);labRenum(lines);b.value=lines.join('\n');
+  const np=lines.slice(0,L).reduce((a,x)=>a+x.length+1,0);b.setSelectionRange(np,np)}
 function labelClick(){const b=$('#body');if(!cur||b.selectionStart!==b.selectionEnd)return;
   const v=b.value,pos=b.selectionStart,idx=v.slice(0,pos).split('\n').length-1,l=v.split('\n')[idx];
   if(l&&isLabel(l)){b.blur();sheetLabel(idx)}}
@@ -1279,7 +1288,7 @@ function wordCard(p){const k=rkey(p),ex=usage(p);
 
 /* ---- start ---- */
 function wire(){
-  $('#title').oninput=edit;$('#body').oninput=e=>{autoLabel(e);edit()};$('#body').addEventListener('click',labelClick);
+  $('#title').oninput=edit;$('#body').oninput=e=>{autoLabel(e);dropEmptyLabel(e);edit()};$('#body').addEventListener('click',labelClick);
   $('#wallTa').oninput=()=>{const n=T.get(cur);if(!n)return;n.sciana=$('#wallTa').value;touch(n);wallFit()};
   $('#title').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();$('#body').focus()}};
   $('#q').oninput=e=>{query=e.target.value;renderList()};
