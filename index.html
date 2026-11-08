@@ -1022,6 +1022,8 @@ async function szukajRymow(raw){const q=String(raw).trim();if(!q)return;const my
   /* „ze mną”: oprócz dokładnego rymu z poprzednim słowem pokazujemy też szerszy rym samej ostatniej sylaby */
   const w0=wordsOf(q);if(w0.length>=2&&vowelsOf(fon(w0[w0.length-1])).length<2){const r3=await rymCompute(q,true);if(r3){le=le||r3.loadErr;mergeR(R,r3,orig)}}
   R.ph=await phraseRhymes(q);
+  /* rymy męskie (jednosylabowe) też trafiają na główną listę, tylko niżej według jakości */
+  {const have=new Set(R.ry.map(c=>c.p));R.mz.forEach(c=>{if(!have.has(c.p)){have.add(c.p);R.ry.push(c)}})}
   if(my!==rBusy)return;
   const qvs=qvOf(q);
   for(const g in R){R[g].forEach(c=>{c.q=qualOf(c.p,qvs)});R[g].sort((a,b)=>b.q-a.q||b.sc-a.sc||a.p.length-b.p.length);R[g].forEach(c=>{c.s=fastSyl(c.p.replace(/ /g,''));c.b=!FQS||FQS.has(c.p)||c.own||g==='ph'||(c.sc>=1e7&&FQR&&FQR.get(c.p)<140000);const rk=FQR?FQR.get(c.p):undefined;c.f=rk!==undefined&&rk<10000})}
