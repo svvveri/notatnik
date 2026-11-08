@@ -199,9 +199,10 @@ html{touch-action:pan-x pan-y}#scroll{touch-action:pan-y}
 
 /* ---- arkusz ---- */
 #sheetBg{position:fixed;inset:0;background:rgba(0,0,0,.38);display:flex;align-items:flex-end;justify-content:center;z-index:20}
-#sheet{background:var(--bg);width:100%;max-width:440px;border-radius:18px 18px 0 0;padding:16px max(16px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:12px;box-shadow:0 -6px 30px var(--shadow)}
+#sheet{background:var(--bg);width:100%;max-width:440px;border-radius:18px 18px 0 0;padding:16px max(16px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:12px;box-shadow:0 -6px 30px var(--shadow);max-height:calc(100dvh - 24px);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 @media (min-width:860px){#sheetBg{align-items:center}#sheet{border-radius:18px}}
-.shHead{display:flex;align-items:center;justify-content:space-between}
+.shHead{display:flex;align-items:center;justify-content:space-between;position:sticky;top:-16px;z-index:2;background:var(--bg);margin:-16px 0 0;padding:16px 0 6px;flex:none}
+#sheet>*{flex-shrink:0}
 .shHead h3{margin:0;font:700 20px/1.2 var(--font-d)}
 .shHead .x{font-size:24px;color:var(--dim);width:34px;height:34px}
 #sheet p{margin:0;font-size:15.5px;line-height:1.45}
