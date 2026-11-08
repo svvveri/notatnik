@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="pl"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#1c1c1e">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Teksty"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -159,7 +159,7 @@ body[data-view="edit"] #fab{display:none}
 #rmodes button b{font-weight:400;color:var(--dim);margin-left:5px;font-variant-numeric:tabular-nums}
 #rmodes button.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
 #rmodes button.on b{color:inherit;opacity:.6}
-#scroll{touch-action:pan-y}
+html{touch-action:pan-x pan-y}#scroll{touch-action:pan-y}
 .lnkbtn{display:block;text-align:center;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--chip);color:var(--acc);font-weight:600;text-decoration:none}
 .wcard{margin:0 0 14px;padding:12px 12px 6px;border-radius:14px;background:var(--bg);border:1px solid var(--line)}.wcard h4{margin:0 0 8px;font:700 15px var(--font-d)}
 .wrow{display:flex;flex-direction:column;gap:2px;padding:7px 0;border-top:1px solid var(--line)}.wrow:first-of-type{border-top:0}.wrow b{font-size:15px}.wrow span{font-size:13.5px;color:var(--dim)}.wrow i{font-style:normal;color:var(--acc)}
@@ -504,6 +504,24 @@ function swipeInit(){const sc=$('#scroll');let x0=0,y0=0,t0=0,ok=false;
     if(Date.now()-t0>900)return;
     if(Math.abs(dx)>=64&&Math.abs(dx)>=Math.abs(dy)*2){const b=$('#body');if(tab==='text'&&document.activeElement===b&&b.selectionEnd>b.selectionStart&&dx>0)return;go(dx)}},{passive:true});
   sc.addEventListener('touchend',()=>{ok=false},{passive:true});sc.addEventListener('touchcancel',()=>{ok=false},{passive:true})}
+/* szczypanie = rozmiar tekstu (zoom przeglądarki wyłączony, bo w stałym układzie nie dało się go cofnąć) */
+function pinchInit(){const sc=$('#scroll');let d0=0,f0=0,on=false,raf=0,pend=null,wf=0,wT=null;
+  const dist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY)||1;
+  const relY=y=>y-sc.getBoundingClientRect().top;
+  const setFs=(f,my)=>{f=Math.max(12,Math.min(36,Math.round(f)));if(f===VS.fs)return;const k=f/VS.fs,a=sc.scrollTop+my;VS.fs=f;
+    document.documentElement.style.setProperty('--fs',f+'px');
+    if(tab==='wall')wallFit();else{const b=$('#body');b.style.height='auto';b.style.height=Math.max(b.scrollHeight,Math.round(window.innerHeight*.46))+'px'}
+    sc.scrollTop=Math.max(0,a*k-my)};
+  const flush=()=>{cancelAnimationFrame(raf);if(pend){setFs(pend[0],pend[1]);pend=null}};
+  const done=()=>{ls('nt-fs',VS.fs);const v=$('#fsV'),r=$('#fsR');if(v)v.textContent=VS.fs;if(r)r.value=VS.fs;applyView()};
+  sc.addEventListener('touchstart',e=>{if(e.touches.length===2){on=true;d0=dist(e.touches);f0=VS.fs}},{passive:true});
+  sc.addEventListener('touchmove',e=>{if(!on||e.touches.length!==2)return;e.preventDefault();const t=e.touches;
+    pend=[f0*dist(t)/d0,relY((t[0].clientY+t[1].clientY)/2)];cancelAnimationFrame(raf);raf=requestAnimationFrame(flush)},{passive:false});
+  const end=e=>{if(!on||e.touches.length>=2)return;on=false;flush();done()};
+  sc.addEventListener('touchend',end,{passive:true});sc.addEventListener('touchcancel',end,{passive:true});
+  sc.addEventListener('wheel',e=>{if(!e.ctrlKey)return;e.preventDefault();if(!wT)wf=VS.fs;wf=Math.max(12,Math.min(36,wf*Math.exp(-e.deltaY/120)));
+    setFs(wf,relY(e.clientY));clearTimeout(wT);wT=setTimeout(()=>{wT=null;done()},250)},{passive:false});
+  ['gesturestart','gesturechange','gestureend'].forEach(t=>document.addEventListener(t,e=>e.preventDefault(),{passive:false}))}
 function slideIn(id,dir){const el=document.getElementById(id);if(!el||!el.animate)return;el.animate([{transform:`translateX(${dir*38}px)`,opacity:.2},{transform:'none',opacity:1}],{duration:220,easing:'cubic-bezier(.2,.8,.2,1)'})}
 function showTab(t){tab=t;const n=T.get(cur);
   $('#tabText').classList.toggle('on',t==='text');$('#tabWall').classList.toggle('on',t==='wall');
@@ -1073,7 +1091,7 @@ async function zapisz(filename,data){let d=null;try{d=await claude.use('download
 function sheetMore(){const n=T.get(cur);if(!n)return;
   const sw=(id,on,l)=>`<div class="row"><span>${l}</span><button class="sw ${on?'on':''}" id="${id}" role="switch" aria-checked="${on}" aria-label="${l}"></button></div>`;
   openSheet(`<div class="shHead"><h3>Widok i eksport</h3><button class="x" id="x" aria-label="Zamknij">×</button></div>
-  <div class="row"><span>Rozmiar</span><input type="range" id="fsR" min="14" max="26" step="1" value="${VS.fs}" aria-label="Rozmiar tekstu"><span id="fsV">${VS.fs}</span></div>
+  <div class="row"><span>Rozmiar</span><input type="range" id="fsR" min="12" max="36" step="1" value="${VS.fs}" aria-label="Rozmiar tekstu"><span id="fsV">${VS.fs}</span></div>
   <div class="seg wide" id="ffSeg"><button data-f="sys" class="${VS.ff==='sys'?'on':''}">System</button><button data-f="serif" class="${VS.ff==='serif'?'on':''}">Szeryfowy</button><button data-f="mono" class="${VS.ff==='mono'?'on':''}">Mono</button></div>
   <div class="row"><span>Kolorowanie rymów</span></div><div class="seg wide" id="rhSeg"><button data-r="smart" class="${VS.rhm==='smart'?'on':''}">Rymy</button><button data-r="all" class="${VS.rhm==='all'?'on':''}">Wszystkie sylaby</button><button data-r="grp" class="${VS.rhm==='grp'?'on':''}">Grupy rymów</button><button data-r="off" class="${VS.rhm==='off'?'on':''}">Wył.</button></div>${sw('swNums',VS.nums,'Numery wersów (w sekcji)')}${sw('swSyl',VS.syl,'Liczniki sylab przy wersach')}
   <div class="row" style="flex-wrap:wrap"><span>Klucz API Claude (zakładka Pomysły)</span><input type="password" id="akey" autocomplete="off" placeholder="sk-ant-…" value="${esc(ls('nt-akey')||'')}" style="flex:1 1 100%;margin-top:6px;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--chip)"><div class="hint" style="flex:1 1 100%">Zostaje tylko w tej przeglądarce na telefonie. Bez niego zakładka Pomysły nie działa.</div></div>
@@ -1221,7 +1239,7 @@ function wire(){
   $('#impFile').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const n=window.NT.importJSON(await f.text());$('#exMsg')&&($('#exMsg').textContent=n<0?'To nie jest poprawny plik .json.':'Zaimportowano: '+n+' tekstów.')};
   $('#recFile').onchange=async e=>{const fs=[...e.target.files];e.target.value='';for(const f of fs){const d=await new Promise(r=>{const u=URL.createObjectURL(f),au=new Audio();au.preload='metadata';au.onloadedmetadata=()=>{r(au.duration);URL.revokeObjectURL(u)};au.onerror=()=>{r(0);URL.revokeObjectURL(u)};au.src=u});
     await saveAudio(f,isFinite(d)?d:0,f.name.replace(/\.[^.]+$/,''))}};
-  swipeInit();
+  swipeInit();pinchInit();
   $('#tabText').onclick=()=>showTab('text');$('#tabWall').onclick=()=>showTab('wall');
   $('#bpmBtn').onclick=sheetBpm;$('#rhBtn').onclick=()=>{if(VS.rhm==='off'){VS.rhm=ls('nt-rhm0')||'smart'}else{ls('nt-rhm0',VS.rhm);VS.rhm='off'}ls('nt-rhm',VS.rhm);applyView()};$('#warBtn').onclick=()=>sheetWarsztat();$('#keyBtn').onclick=sheetKey;$('#rymBtn').onclick=rymyDlaMiejsca;
   $('#rForm').onsubmit=e=>{e.preventDefault();szukajRymow($('#rq').value);$('#rq').blur()};
