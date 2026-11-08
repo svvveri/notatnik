@@ -1060,6 +1060,9 @@ function ownLines(k,qlast){const has=[],rh=[],bef=new Map(),aft=new Map(),near=n
     const lw=ws[ws.length-1];if(lw&&lw!==qlast){const rk=rkey(lw);if(rk&&skelOf(rk.tail)===sk&&(trailOf(rk.tail).slice(-1)===trailOf(k.tail).slice(-1))&&rh.length<120)rh.push({n,l})}}}
   const top=m=>[...m.entries()].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],'pl')).slice(0,80).map(x=>({p:x[0],c:x[1]}));
   return {has,rh,bef:top(bef),aft:top(aft),near:top(near)}}
+/* utwory z Genius: ich wyszukiwarka dopasowuje tytuły i (przy dłuższych frazach) treść tekstów; API nie podaje linii, tylko utwory i adresy */
+async function genSearch(q){const tok=ls('nt-gkey');if(!tok)return false;const r=await fetch('https://api.genius.com/search?per_page=20&q='+encodeURIComponent(q)+'&access_token='+encodeURIComponent(tok));if(!r.ok)throw new Error('Genius: HTTP '+r.status);const j=await r.json();
+  return (j.response.hits||[]).filter(h=>h.type==='song').map(h=>({a:h.result.primary_artist.name,t:h.result.title,u:h.result.url}))}
 function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
   $('#rinfo').innerHTML=`<b>${esc(q)}</b> · wymowa <b>${esc(k.f)}</b> · rdzeń rymu <b>${esc(k.tail)}</b> · <a href="https://www.google.com/search?q=${encodeURIComponent('site:bibliotekapiosenki.pl "'+q+'"')}" target="_blank" rel="noopener">szukaj w piosenkach ↗</a>`+(loadErr?'<br><span style="color:var(--danger)">Nie udało się pobrać części słownika (brak sieci?). Pokazuję to, co jest w pamięci.</span>':'');
   if(!lastR.OL)lastR.OL=ownLines(k,wordsOf(q).slice(-1)[0]||'');const OL=lastR.OL;
@@ -1104,10 +1107,12 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
     const sec2=(t,arr,body)=>arr&&arr.length?`<div class="rsec"><h3>${t}<span>${arr.length}</span></h3>${body}</div>`:'';
     const has=lsub==='has';
     const wlPart=W?(has?sec2('Poezja (Wolne Lektury): linie ze słowem',W.has,lw(W.has)):sec2('Poezja (Wolne Lektury): linie rymujące się',W.rh,lw(W.rh))):W===false?'<div class="hint">Nie udało się wczytać poezji (brak sieci?).</div>':'<div class="hint">Wczytuję poezję z Wolnych Lektur…</div>';
+    if(lastR.GN===undefined){lastR.GN=null;const L0=lastR;genSearch(q).then(r=>{L0.GN=r;if(lastR===L0&&rmode==='lin')drawRymy()}).catch(e=>{L0.GN={err:e.message||'błąd'};if(lastR===L0&&rmode==='lin')drawRymy()})}
+    const G=lastR.GN,gnPart=!has?'':G===false?'<div class="hint">Utwory z Genius: wpisz token w menu (⋯ → Token Genius), a pojawią się tu piosenki ze słowem lub frazą „'+esc(q)+'”.</div>':G===null?'<div class="hint">Szukam utworów w Genius…</div>':G.err?'<div class="hint" style="color:var(--danger)">Genius: '+esc(G.err)+'</div>':(G.length?`<div class="rsec"><h3>Piosenki (Genius)<span>${G.length}</span></h3><div class="hint">Utwory, w których wyszukiwarka Genius znalazła „${esc(q)}” w tytule lub tekście. Przy krótkich słowach przeważają tytuły, przy dłuższych frazach też treść. Linii nie pokazuję, bo to cudze teksty: kliknij, żeby zobaczyć utwór na genius.com.</div>${G.map(x=>`<div class="ln"><div><a href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.t)}</a></div><span>${esc(x.a)}</span></div>`).join('')}</div>`:'<div class="hint">Genius nie znalazł utworów dla „'+esc(q)+'”.</div>');
     const ownArr=has?OL.has:OL.rh;
     html=`<div class="pomcats" id="lsub"><button data-s="has" class="${has?'on':''}">Teksty zawierające<b> ${OL.has.length+wlN('has')}</b></button><button data-s="rh" class="${has?'':'on'}">Teksty rymujące się<b> ${OL.rh.length+wlN('rh')}</b></button></div>`+
       (has?'':`<label class="lfull"><input type="checkbox" id="lfull" ${lfull?'checked':''}> Pełne linie</label>`)+
-      sec2(has?`Twoje teksty: linie ze słowem „${esc(qw)}”`:'Twoje teksty: linie rymujące się',ownArr,ln(ownArr))+wlPart+
+      sec2(has?`Twoje teksty: linie ze słowem „${esc(qw)}”`:'Twoje teksty: linie rymujące się',ownArr,ln(ownArr))+gnPart+wlPart+
       `<div class="shBtns"><a class="lnkbtn" href="https://www.google.com/search?q=${encodeURIComponent('site:bibliotekapiosenki.pl "'+qw+'"')}" target="_blank" rel="noopener">Szukaj „${esc(qw)}” w piosenkach (bibliotekapiosenki.pl) ↗</a></div>`}
   else if(rmode==='kon'){$('#rsyl').innerHTML='';
     const cc=(t,a)=>a.length?`<div class="rsec"><h3>${t}<span>${a.length}</span></h3><div class="rcs">${a.map(c=>`<button class="rc ${c.c>1?'':'rare'}" data-p="${esc(c.p)}">${esc(c.p)}${c.c>1?`<i>${c.c}</i>`:''}</button>`).join('')}</div></div>`:'';
@@ -1364,6 +1369,7 @@ function sheetMore(){const n=T.get(cur);if(!n)return;
   <div class="row"><span>Rozmiar</span><input type="range" id="fsR" min="12" max="36" step="1" value="${VS.fs}" aria-label="Rozmiar tekstu"><span id="fsV">${VS.fs}</span></div>
   <div class="seg wide" id="ffSeg"><button data-f="sys" class="${VS.ff==='sys'?'on':''}">System</button><button data-f="serif" class="${VS.ff==='serif'?'on':''}">Szeryfowy</button><button data-f="mono" class="${VS.ff==='mono'?'on':''}">Mono</button></div>
   <div class="row"><span>Kolorowanie rymów</span></div><div class="seg wide" id="rhSeg"><button data-r="smart" class="${VS.rhm==='smart'?'on':''}">Rymy</button><button data-r="all" class="${VS.rhm==='all'?'on':''}">Sylaby</button><button data-r="grp" class="${VS.rhm==='grp'?'on':''}">Grupy</button><button data-r="off" class="${VS.rhm==='off'?'on':''}">Wył.</button></div>${sw('swNums',VS.nums,'Numery wersów (w sekcji)')}${sw('swSyl',VS.syl,'Liczniki sylab przy wersach')}${sw('swAuto',VS.autolab,'Auto-znaczniki części (Zwrotka, Refren)')}
+  <div class="row" style="flex-wrap:wrap"><span>Token Genius (zakładka Piosenki)</span><input type="password" id="gkey" autocomplete="off" placeholder="Client Access Token z genius.com/api-clients" value="${esc(ls('nt-gkey')||'')}" style="flex:1 1 100%;margin-top:6px;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--chip)"><div class="hint" style="flex:1 1 100%">Zostaje tylko w tej przeglądarce. Pokazuje utwory z Genius, w których znalazło się Twoje słowo albo fraza.</div></div>
   <div class="row" style="flex-wrap:wrap"><span>Klucz API Claude (zakładka Pomysły)</span><input type="password" id="akey" autocomplete="off" placeholder="sk-ant-…" value="${esc(ls('nt-akey')||'')}" style="flex:1 1 100%;margin-top:6px;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--chip)"><div class="hint" style="flex:1 1 100%">Zostaje tylko w tej przeglądarce na telefonie. Bez niego zakładka Pomysły nie działa.</div></div>
   <div class="shBtns"><button id="recAll">♪ Nagrania do tego tekstu (${(n.nagrania||[]).length})</button></div>
   <div class="shBtns"><button id="impBtn">Importuj z pliku (.json)</button><button id="syncBtn">Synchronizuj teraz</button></div>
@@ -1371,7 +1377,7 @@ function sheetMore(){const n=T.get(cur);if(!n)return;
   <div class="hint" id="exMsg"></div>
   <div class="shBtns"><button class="danger" id="delBtn">Usuń ten tekst</button></div>`);
   $('#x').onclick=closeSheet;$('#recAll').onclick=()=>sheetRec();
-  $('#akey').onchange=e=>{ls('nt-akey',e.target.value.trim())};
+  $('#akey').onchange=e=>{ls('nt-akey',e.target.value.trim())};$('#gkey').onchange=e=>{ls('nt-gkey',e.target.value.trim())};
   $('#fsR').oninput=e=>{VS.fs=+e.target.value;$('#fsV').textContent=VS.fs;ls('nt-fs',VS.fs);applyView()};
   $('#ffSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{VS.ff=b.dataset.f;ls('nt-ff',VS.ff);$('#ffSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));applyView()});
   const tog=(id,k,key)=>$(id).onclick=()=>{VS[k]=!VS[k];ls(key,VS[k]?'1':'0');$(id).classList.toggle('on',VS[k]);$(id).setAttribute('aria-checked',VS[k]);applyView()};
