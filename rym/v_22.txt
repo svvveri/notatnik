@@ -1,10 +1,10 @@
-ębńęć	ziębnięć oziębnięć zziębnięć naziębnięć wyziębnięć przeziębnięć
-ęcńęć	bęcnięć
-ędńęć	więdnięć uwiędnięć zwiędnięć powiędnięć nadwiędnięć przewiędnięć przywiędnięć
-ęgńęć	gęgnięć lęgnięć sięgnięć ulęgnięć przęgnięć wylęgnięć zalęgnięć dosięgnięć sprzęgnięć wprzęgnięć zasięgnięć doprzęgnięć odprzęgnięć wyprzęgnięć zaprzęgnięć przysięgnięć rozprzęgnięć przeprzęgnięć przyprzęgnięć sprzysięgnięć odprzysięgnięć poprzysięgnięć wyprzysięgnięć zaprzysięgnięć krzywoprzysięgnięć
-ęhńęć	tęchnięć otęchnięć stęchnięć zatęchnięć
-ękńęć	pęknięć mikropęknięć stęknięć brzdęknięć jęknięć lęknięć klęknięć kwęknięć mięknięć ulęknięć zlęknięć brzęknięć odjęknięć uklęknięć wyjęknięć wylęknięć zalęknięć zmięknięć dźwięknięć nadpęknięć namięknięć obrzęknięć odmięknięć odstęknięć rozpęknięć szczęknięć wymięknięć wysięknięć nabrzęknięć pobrzęknięć podmięknięć przelęknięć rozmięknięć zabrzęknięć przemięknięć przyklęknięć
-ęstńęć	gęstnięć zgęstnięć chrzęstnięć
-ęwźęć	przedsięwzięć
-ęśńęć	wklęśnięć klęśnięć sklęśnięć chrzęśnięć zaklęśnięć
-ęźńęć	więźnięć grzęźnięć uwięźnięć ugrzęźnięć zagrzęźnięć
+ębńęć	1ziębnięć 1oziębnięć 1zziębnięć 1naziębnięć 1wyziębnięć 1przeziębnięć
+ęcńęć	1bęcnięć
+ędńęć	1więdnięć 1uwiędnięć 1zwiędnięć 1powiędnięć 1nadwiędnięć 1przewiędnięć 1przywiędnięć
+ęgńęć	1gęgnięć 1lęgnięć 1sięgnięć 1ulęgnięć 1przęgnięć 1wylęgnięć 1zalęgnięć 1dosięgnięć 1sprzęgnięć 1wprzęgnięć 1zasięgnięć 1doprzęgnięć 1odprzęgnięć 1wyprzęgnięć 1zaprzęgnięć 1przysięgnięć 1rozprzęgnięć 1przeprzęgnięć 1przyprzęgnięć 1sprzysięgnięć 1odprzysięgnięć 1poprzysięgnięć 1wyprzysięgnięć 1zaprzysięgnięć 1krzywoprzysięgnięć
+ęhńęć	1tęchnięć 1otęchnięć 1stęchnięć 1zatęchnięć
+ękńęć	1pęknięć 1mikropęknięć 1stęknięć 1brzdęknięć 1jęknięć 1lęknięć 1klęknięć 1kwęknięć 1mięknięć 1ulęknięć 1zlęknięć 1brzęknięć 1odjęknięć 1uklęknięć 1wyjęknięć 1wylęknięć 1zalęknięć 1zmięknięć 1dźwięknięć 1nadpęknięć 1namięknięć 1obrzęknięć 1odmięknięć @odstęknięć 1rozpęknięć 1szczęknięć 1wymięknięć @wysięknięć 1nabrzęknięć 1pobrzęknięć 1podmięknięć 1przelęknięć 1rozmięknięć 1zabrzęknięć 1przemięknięć 1przyklęknięć
+ęstńęć	1gęstnięć 1zgęstnięć 1chrzęstnięć
+ęwźęć	1przedsięwzięć
+ęśńęć	1wklęśnięć 1klęśnięć 1sklęśnięć 1chrzęśnięć 1zaklęśnięć
+ęźńęć	1więźnięć 1grzęźnięć 1uwięźnięć 1ugrzęźnięć 1zagrzęźnięć

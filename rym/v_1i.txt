@@ -1,139 +1,139 @@
-ąbi	trąbi zatrąbi odtrąbi roztrąbi obrąbi otrąbi strąbi wtrąbi obtrąbi potrąbi wytrąbi
-ąbik	trąbik głąbik
-ąbiss	trąbisz zatrąbisz odtrąbisz wytrąbisz roztrąbisz obrąbisz otrąbisz strąbisz wtrąbisz obtrąbisz potrąbisz
-ąbić	trąbić zatrąbić odtrąbić wytrąbić roztrąbić wtrąbić potrąbić obrąbić otrąbić strąbić obtrąbić
-ąbił	zatrąbił trąbił wytrąbił roztrąbił obrąbił otrąbił strąbił wtrąbił obtrąbił odtrąbił potrąbił
-ąbki	ząbki gąbki trąbki gołąbki rąbki wrąbki otrąbki dąbki głąbki urąbki obrąbki bezrąbki jarząbki białoząbki jastrząbki świerząbki dziewosłąbki
-ąbli	bąbli
-ąbrńi	krnąbrni niekrnąbrni
-ąbski	dąbski kodrąbski niedąbski niekodrąbski
-ąbskih	dąbskich kodrąbskich niedąbskich niekodrąbskich
-ąbskim	dąbskim kodrąbskim niedąbskim niekodrąbskim
-ąbńic	zrąbnic
-ąbńij	rąbnij
-ącki	kącki łącki grzmiącki dębowołącki niekącki niełącki niegrzmiącki niedębowołącki
-ąckih	kąckich łąckich niekąckich niełąckich grzmiąckich dębowołąckich niegrzmiąckich niedębowołąckich
-ąckim	kąckim łąckim niekąckim niełąckim grzmiąckim dębowołąckim niegrzmiąckim niedębowołąckim
-ączki	pączki obrączki rączki gorączki śpiączki nierozłączki miesiączki bączki rzeżączki zajączki bolączki sprzączki pajączki mączki strączki tysiączki złączki drżączki sączki łączki obłączki pałączki wysączki bieżączki kabłączki rżniączki dwuzłączki minipączki przełączki przyłączki ziębiączki krwawiączki wyrwirączki szybkozłączki świerzbiączki
-ączlik	mączlik
-ączńi	nierozłączni rozłączni nieodłączni łączni złączni wyłączni mączni odłączni niemączni niełączni tysiączni niezłączni przełączni przyłączni niewyłączni dwutysiączni nietysiączni nieprzełączni nieprzyłączni szybkozłączni niedwutysiączni nieszybkozłączni dziesięciotysiączni niedziesięciotysiączni
-ączńic	łącznic mącznic wyłącznic kabłącznic miesiącznic przełącznic
-ączńik	przełącznik wyłącznik łącznik włącznik załącznik mącznik złącznik mikroprzełącznik rącznik rozłącznik dołącznik odłącznik połącznik tysiącznik mikrowłącznik
-ądki	porządki żołądki grządki obrządki prządki nieporządki łabądki rządki przylądki wielbłądki nogoprządki gądki sądki rozsądki nierozsądki praporządki przedżołądki
-ądli	żądli użądli pożądli bezżądli niebezżądli
-ądlic	żądlic
-ądlij	użądlij żądlij pożądlij
-ądliss	żądlisz użądlisz pożądlisz
-ądlić	użądlić żądlić pożądlić
-ądlił	użądlił żądlił pożądlił
-ądzki	irządzki cielądzki goniądzki grudziądzki nieirządzki niecielądzki niegoniądzki niegrudziądzki
-ądzkih	irządzkich cielądzkich goniądzkich grudziądzkich nieirządzkich niecielądzkich niegoniądzkich niegrudziądzkich
-ądzkim	irządzkim cielądzkim goniądzkim grudziądzkim nieirządzkim niecielądzkim niegoniądzkim niegrudziądzkim
-ądzmi	pieniądzmi
-ądćiś	skądciś
-ądńi	rozsądni porządni żądni przesądni praworządni nierozsądni podsądni rządni nieporządni samorządni sądni niesądni nieżądni bezrządni nierządni niepodsądni niebezrządni nieprzesądni światłożądni niesamorządni niepraworządni nieświatłożądni
-ądńic	nierządnic prądnic turboprądnic
-ądńij	oglądnij rozglądnij przeglądnij zaglądnij przyglądnij wyglądnij doglądnij spoglądnij wglądnij podglądnij
-ądńik	wielbłądnik
-ądńiś	porządniś
-ądśi	skądsi
-ądśiś	skądsiś
-ądźi	sądzi rządzi osądzi wyrządzi błądzi urządzi przyrządzi zarządzi sporządzi wielbłądzi rozsądzi zbłądzi zabłądzi przesądzi posądzi zasądzi oporządzi porządzi zrządzi rozporządzi narządzi pobłądzi wyporządzi odsądzi wysądzi nabłądzi obrządzi przysądzi rozrządzi śródlądzi współrządzi niewielbłądzi współzarządzi
-ądźic	wielbłądzic
-ądźih	wielbłądzich niewielbłądzich
-ądźik	trądzik przyrządzik grądzik rządzik poglądzik wielbłądzik
-ądźim	wielbłądzim niewielbłądzim
-ądźiss	sądzisz rządzisz urządzisz błądzisz osądzisz zabłądzisz wyrządzisz sporządzisz przyrządzisz zbłądzisz zarządzisz posądzisz pobłądzisz zasądzisz porządzisz rozsądzisz oporządzisz przesądzisz rozporządzisz odsądzisz wysądzisz zrządzisz nabłądzisz narządzisz obrządzisz przysądzisz rozrządzisz wyporządzisz współrządzisz współzarządzisz
-ądźić	rządzić sądzić urządzić wyrządzić przyrządzić sporządzić osądzić zarządzić błądzić zabłądzić zbłądzić posądzić oporządzić przesądzić rozsądzić porządzić zasądzić pobłądzić rozporządzić zrządzić odsądzić wysądzić nabłądzić narządzić obrządzić przysądzić rozrządzić wyporządzić współrządzić współzarządzić
-ądźił	sądził rządził urządził zarządził wyrządził sporządził zabłądził przyrządził zbłądził osądził błądził pobłądził zasądził posądził przesądził rozsądził zrządził rozporządził narządził oporządził porządził odsądził wysądził nabłądził obrządził przysądził rozrządził wyporządził współrządził współzarządził
-ąfli	fąfli
-ągi	pociągi wyciągi posągi dziwolągi pstrągi lachociągi osiągi wodociągi ściągi rurociągi przeciągi ciągi drągi zaciągi gazociągi naciągi korkociągi odciągi sągi taśmociągi okoniopstrągi szelągi podciągi zawciągi otągi siągi spągi urągi morągi strągi uciągi wasągi wciągi dociągi fasiągi obciągi raciągi dziabągi rozciągi szelbągi zaprzągi linociągi parociągi ropociągi rybociągi szelbiągi grubociągi krwiściągi małpidrągi naftociągi paszociągi przeprzągi wielociągi węglociągi ślinociągi ciepłociągi lutniociągi miazgociągi strunociągi tarczociągi przeciwciągi retrodziwolągi
-ągli	zaokrągli ciągli krągli okrągli przeciągli pociągli sprzągli nieciągli niekrągli półciągli rozciągli wyokrągli nieokrągli półokrągli niepociągli niepółciągli nierozciągli nieprzeciągli niepółokrągli płaskookrągli niepłaskookrągli
-ąglic	ciąglic
-ąglij	zaokrąglij wyokrąglij
-ąglik	wąglik krąglik
-ąglin	miąglin
-ągliss	zaokrąglisz wyokrąglisz
-ąglizn	krąglizn
-ąglić	zaokrąglić wyokrąglić
-ąglił	zaokrąglił wyokrąglił
-ągwi	chorągwi stągwi
-ągńic	spągnic wyciągnic
-ągńij	wyciągnij ciągnij ściągnij pociągnij wciągnij podciągnij zaciągnij obciągnij odciągnij przyciągnij naciągnij przeciągnij rozciągnij powściągnij osiągnij dociągnij nadciągnij ociągnij uciągnij
-ągńik	ciągnik wyciągnik wciągnik obciągnik podciągnik rozciągnik miniciągnik przyciągnik mikrociągnik
-ąhwi	warząchwi
-ąhńij	wtrząchnij spąchnij trząchnij otrząchnij strząchnij potrząchnij wytrząchnij
-ąki	pająki mąki bąki rozłąki łąki pąki strąki wsiąki pałąki obłąki kabłąki półbąki podsiąki przesiąki
-ąkli	pąkli wsiąkli ąkli mąkli siąkli brząkli nieąkli osiąkli nasiąkli wysiąkli podsiąkli zabrząkli nieosiąkli niewsiąkli przesiąkli nienasiąkli niewysiąkli niepodsiąkli nieprzesiąkli
-ąkwi	pąkwi
-ąkńij	chrząknij wsiąknij nasiąknij brzdąknij przesiąknij bąknij siąknij brząknij krząknij odbąknij osiąknij wybąknij zająknij wysiąknij podsiąknij przebąknij zabrząknij odchrząknij
-ąpi	nastąpi zastąpi wystąpi ustąpi postąpi wstąpi skąpi zstąpi dostąpi przystąpi odstąpi rozstąpi przestąpi poskąpi siąpi podstąpi rząpi pąpi żąpi krąpi obstąpi nieskąpi rozsiąpi wniebowstąpi współwystąpi
-ąpic	rząpic skąpic
-ąpik	rząpik
-ąpiss	zastąpisz wystąpisz postąpisz wstąpisz ustąpisz przystąpisz dostąpisz odstąpisz skąpisz nastąpisz poskąpisz przestąpisz zstąpisz rozstąpisz siąpisz obstąpisz podstąpisz rozsiąpisz wniebowstąpisz współwystąpisz
-ąpić	zastąpić wystąpić postąpić wstąpić nastąpić ustąpić przystąpić odstąpić dostąpić rozstąpić zstąpić skąpić przestąpić poskąpić siąpić obstąpić podstąpić rozsiąpić wniebowstąpić współwystąpić
-ąpił	nastąpił postąpił wystąpił wstąpił zastąpił ustąpił zstąpił przystąpił odstąpił dostąpił skąpił poskąpił przestąpił rozstąpił siąpił obstąpił podstąpił rozsiąpił wniebowstąpił współwystąpił
-ąpski	skąpski nieskąpski
-ąpskih	skąpskich nieskąpskich
-ąpskim	skąpskim nieskąpskim
-ąpńij	stąpnij tąpnij
-ąpśi	skąpsi najskąpsi nieskąpsi nienajskąpsi
-ąski	przekąski wąski zakąski kąski gąski grząski niewąski śląski ksiąski morąski połąski elbląski libiąski lubiąski raciąski przywąski równowąski trzyciąski dolnośląski górnośląski południowogórnośląski kląski trząski nieśląski potrząski niegrząski nieksiąski niemorąski niepołąski nieelbląski nielibiąski nielubiąski nieraciąski nieprzywąski nierównowąski nietrzyciąski niedolnośląski niegórnośląski niepołudniowogórnośląski
-ąskih	wąskich grząskich śląskich ksiąskich morąskich połąskich elbląskich libiąskich lubiąskich niewąskich raciąskich nieśląskich przywąskich niegrząskich nieksiąskich niemorąskich niepołąskich równowąskich trzyciąskich dolnośląskich górnośląskich nieelbląskich nielibiąskich nielubiąskich nieraciąskich nieprzywąskich nierównowąskich nietrzyciąskich niedolnośląskich niegórnośląskich południowogórnośląskich niepołudniowogórnośląskich
-ąskim	wąskim grząskim śląskim niewąskim ksiąskim morąskim połąskim elbląskim libiąskim lubiąskim raciąskim nieśląskim przywąskim niegrząskim nieksiąskim niemorąskim niepołąskim równowąskim trzyciąskim dolnośląskim górnośląskim nieelbląskim nielibiąskim nielubiąskim nieraciąskim nieprzywąskim nierównowąskim nietrzyciąskim niedolnośląskim niegórnośląskim południowogórnośląskim niepołudniowogórnośląskim
-ąstki	cząstki chrząstki piąstki antycząstki nanocząstki kwazicząstki makrocząstki mikrocząstki quasicząstki
-ąstńi	chrząstni niechrząstni
-ąstńic	chrząstnic
-ąstńij	chrząstnij
-ąstńik	prząstnik chrząstnik
-ątki	szczątki piątki dziesiątki pamiątki początki dziewiątki wyjątki wątki zakątki pięćdziesiątki majątki pieczątki sześćdziesiątki osiemdziesiątki siedemdziesiątki zaczątki świątki dziewięćdziesiątki prątki prapoczątki kątki wziątki łątki rozprątki użątki pałątki splątki wrzątki karłątki kipiątki lśniątki kawalątki prazaczątki antypoczątki makroszczątki dwudziestkipiątki
-ątli	wątli nadwątli niewątli
-ątlic	wątlic
-ątlij	wątlij
-ątlik	pątlik wątlik
-ątliss	wątlisz nadwątlisz
-ątlić	nadwątlić wątlić
-ątlił	wątlił nadwątlił
-ątpi	wątpi zwątpi
-ątpiss	wątpisz zwątpisz
-ątpić	wątpić zwątpić
-ątpił	wątpił zwątpił
-ątwi	mątwi klątwi
-ątwij	klątwij
-ątwik	mątwik
-ątwiss	klątwisz
-ątwić	klątwić
-ątwił	klątwił
-ątńi	trójkątni nakątni pokątni przekątni nienakątni niepokątni ostrokątni ośmiokątni równokątni wielokątni wąskokątni czterokątni czworokątni pięciokątni prostokątni przedprątni ukośnokątni wiernokątni nieprzekątni nietrójkątni siedmiokątni szerokokątni sześciokątni nieostrokątni nieośmiokątni nierównokątni niewielokątni niewąskokątni rozwartokątni nieczterokątni nieczworokątni niepięciokątni nieprostokątni nieprzedprątni nieukośnokątni niewiernokątni dwudziestokątni dziesięciokątni dziewięciokątni niesiedmiokątni nieszerokokątni niesześciokątni nierozwartokątni ultraszerokokątni niedwudziestokątni niedziesięciokątni niedziewięciokątni nieultraszerokokątni
-ątńic	kątnic pięćdziesiątnic
-ątńictf	pątnictw
-ątńij	sprzątnij uprzątnij zakrzątnij oprzątnij wyprzątnij zaprzątnij
-ątńik	kątnik pątnik plątnik prątnik pokątnik wrzątnik świątnik nibyprątnik
-ątżńic	jątrznic
-ązki	obowiązki związki wiązki gałązki podwiązki zawiązki nawiązki nitrozwiązki azozwiązki neozwiązki przewiązki homozwiązki pseudozwiązki wszechzwiązki nitrozozwiązki
-ązwi	gązwi
-ąći	mąci potrąci trąci wtrąci strąci wytrąci odtrąci zmąci zamąci namąci przetrąci utrąci prąci piąci dziewiąci pomąci obtrąci rozmąci zatrąci niepiąci roztrąci dziesiąci niedziesiąci niedziewiąci pięćdziesiąci osiemdziesiąci sześćdziesiąci siedemdziesiąci niepięćdziesiąci dziewięćdziesiąci nieosiemdziesiąci niesześćdziesiąci niesiedemdziesiąci niedziewięćdziesiąci
-ąćik	trójkącik kącik czworokącik prostokącik fotokącik
-ąćin	kącin
-ąćisk	kącisk
-ąćiss	wtrącisz mącisz potrącisz strącisz odtrącisz wytrącisz zmącisz zamącisz trącisz utrącisz przetrącisz namącisz pomącisz obtrącisz rozmącisz zatrącisz roztrącisz
-ąćić	wtrącić strącić potrącić wytrącić mącić odtrącić zmącić utrącić przetrącić zamącić trącić namącić pomącić obtrącić rozmącić zatrącić roztrącić
-ąćił	potrącił wtrącił strącił wytrącił odtrącił mącił trącił namącił zamącił zmącił przetrącił utrącił pomącił obtrącił rozmącił zatrącił roztrącił
-ąśi	ukąsi przekąsi rąsi odkąsi zakąsi bezwąsi rudowąsi siwowąsi białowąsi długowąsi jasnowąsi czarnowąsi krótkowąsi niebezwąsi nierudowąsi niesiwowąsi niebiałowąsi niedługowąsi niejasnowąsi nieczarnowąsi niekrótkowąsi
-ąśik	wąsik dąsik
-ąśisk	wąsisk
-ąśiss	przekąsisz ukąsisz odkąsisz zakąsisz
-ąśić	przekąsić ukąsić zakąsić odkąsić
-ąśił	ukąsił przekąsił zakąsił odkąsił
-ąślic	prząślic
-ąśćic	chrząścic
-ąśńic	prząśnic trząśnic chrząśnic samoprząśnic
-ąśńij	potrząśnij otrząśnij wstrząśnij strząśnij przetrząśnij wytrząśnij chrząśnij utrząśnij obtrząśnij zatrząśnij roztrząśnij przytrząśnij
-ąśńik	chąśnik pląśnik
-ąźli	rozwiąźli nierozwiąźli
-ążki	książki wstążki krążki pieniążki prążki cążki drążki posążki zalążki obcążki ciążki rzęsokrążki wielokrążki audioksiążki wasążki pociążki pstrążki sprzążki szelążki uprzążki wydrążki doprzążki półkrążki wrzeciążki fotoksiążki przeprzążki przyprzążki mikroksiążki
-ążli	drążli
-ążńi	sążni drążni nadążni zalążni szelążni domokrążni nienadążni nieszelążni niedomokrążni
-ążńic	drążnic książnic obcążnic pieniążnic
-ążńik	obciążnik krążnik
-ążśi	miążsi niemiążsi
+ąbi	2trąbi 2zatrąbi 2odtrąbi 2roztrąbi 2obrąbi 2otrąbi 2strąbi 2wtrąbi 2obtrąbi @potrąbi 2wytrąbi
+ąbik	Qtrąbik Qgłąbik
+ąbiss	2trąbisz 2zatrąbisz 2odtrąbisz 2wytrąbisz 2roztrąbisz 2obrąbisz 2otrąbisz 2strąbisz 2wtrąbisz 2obtrąbisz @potrąbisz
+ąbić	Rtrąbić Rzatrąbić Rodtrąbić Rwytrąbić Rroztrąbić Rwtrąbić @potrąbić Robrąbić Rotrąbić Rstrąbić Robtrąbić
+ąbił	2zatrąbił 2trąbił 2wytrąbił 2roztrąbił 2obrąbił 2otrąbił 2strąbił 2wtrąbił 2obtrąbił 2odtrąbił @potrąbił
+ąbki	1ząbki 1gąbki 1trąbki 1gołąbki 1rąbki @wrąbki Qotrąbki 1dąbki 1głąbki 1urąbki 1obrąbki @bezrąbki 1jarząbki @białoząbki 1jastrząbki 1świerząbki @dziewosłąbki
+ąbli	1bąbli
+ąbrńi	4krnąbrni 4niekrnąbrni
+ąbski	Tdąbski Tkodrąbski Tniedąbski Tniekodrąbski
+ąbskih	4dąbskich 4kodrąbskich 4niedąbskich 4niekodrąbskich
+ąbskim	4dąbskim 4kodrąbskim 4niedąbskim 4niekodrąbskim
+ąbńic	1zrąbnic
+ąbńij	2rąbnij
+ącki	Tkącki Tłącki Tgrzmiącki Tdębowołącki Tniekącki Tniełącki Tniegrzmiącki Tniedębowołącki
+ąckih	4kąckich 4łąckich 4niekąckich 4niełąckich 4grzmiąckich 4dębowołąckich 4niegrzmiąckich 4niedębowołąckich
+ąckim	4kąckim 4łąckim 4niekąckim 4niełąckim 4grzmiąckim 4dębowołąckim 4niegrzmiąckim 4niedębowołąckim
+ączki	1pączki 1obrączki 1rączki 1gorączki 1śpiączki 1nierozłączki 1miesiączki 1bączki 1rzeżączki 1zajączki 1bolączki 1sprzączki 1pajączki 1mączki 1strączki 1tysiączki 1złączki 1drżączki 1sączki 1łączki 1obłączki 1pałączki @wysączki 1bieżączki 1kabłączki 1rżniączki 1dwuzłączki 1minipączki 1przełączki 1przyłączki 1ziębiączki 1krwawiączki @wyrwirączki @szybkozłączki 1świerzbiączki
+ączlik	Qmączlik
+ączńi	4nierozłączni 4rozłączni 4nieodłączni 5łączni 4złączni 4wyłączni 4mączni 5odłączni 4niemączni 4niełączni 4tysiączni 4niezłączni 4przełączni 4przyłączni 4niewyłączni 4dwutysiączni 4nietysiączni @nieprzełączni 4nieprzyłączni 4szybkozłączni @niedwutysiączni @nieszybkozłączni 4dziesięciotysiączni @niedziesięciotysiączni
+ączńic	1łącznic 1mącznic 1wyłącznic 1kabłącznic 1miesiącznic 1przełącznic
+ączńik	Qprzełącznik Qwyłącznik Qłącznik Qwłącznik Qzałącznik Qmącznik Qzłącznik Qmikroprzełącznik Qrącznik Qrozłącznik Qdołącznik Qodłącznik @połącznik Qtysiącznik Qmikrowłącznik
+ądki	Qporządki 1żołądki 1grządki 1obrządki 1prządki 1nieporządki @łabądki 1rządki 1przylądki 1wielbłądki @nogoprządki Qgądki 1sądki 1rozsądki 1nierozsądki Qpraporządki 1przedżołądki
+ądli	2żądli 2użądli 2pożądli 4bezżądli 4niebezżądli
+ądlic	@żądlic
+ądlij	2użądlij 2żądlij 2pożądlij
+ądliss	2żądlisz 2użądlisz 2pożądlisz
+ądlić	Rużądlić Rżądlić Rpożądlić
+ądlił	2użądlił 2żądlił 2pożądlił
+ądzki	Tirządzki Tcielądzki Tgoniądzki Tgrudziądzki Tnieirządzki Tniecielądzki Tniegoniądzki Tniegrudziądzki
+ądzkih	4irządzkich 4cielądzkich 4goniądzkich 4grudziądzkich 4nieirządzkich 4niecielądzkich 4niegoniądzkich 4niegrudziądzkich
+ądzkim	4irządzkim 4cielądzkim 4goniądzkim 4grudziądzkim 4nieirządzkim 4niecielądzkim 4niegoniądzkim 4niegrudziądzkim
+ądzmi	@pieniądzmi
+ądćiś	Xskądciś
+ądńi	4rozsądni 4porządni 4żądni 4przesądni 4praworządni 4nierozsądni 5podsądni 4rządni 4nieporządni 4samorządni 4sądni 4niesądni 4nieżądni 4bezrządni 4nierządni 4niepodsądni 4niebezrządni 4nieprzesądni 4światłożądni 4niesamorządni 4niepraworządni 4nieświatłożądni
+ądńic	1nierządnic 1prądnic 1turboprądnic
+ądńij	2oglądnij 2rozglądnij 2przeglądnij 2zaglądnij 2przyglądnij 2wyglądnij 2doglądnij 2spoglądnij 2wglądnij 2podglądnij
+ądńik	Qwielbłądnik
+ądńiś	Qporządniś
+ądśi	@skądsi
+ądśiś	Xskądsiś
+ądźi	2sądzi 2rządzi 2osądzi 2wyrządzi 2błądzi 2urządzi 2przyrządzi 2zarządzi 2sporządzi Twielbłądzi 2rozsądzi 2zbłądzi 2zabłądzi 2przesądzi 2posądzi 2zasądzi 2oporządzi 2porządzi 2zrządzi 2rozporządzi 2narządzi 2pobłądzi 2wyporządzi 2odsądzi 2wysądzi 2nabłądzi 2obrządzi 2przysądzi 2rozrządzi 1śródlądzi 2współrządzi Tniewielbłądzi 2współzarządzi
+ądźic	1wielbłądzic
+ądźih	4wielbłądzich 4niewielbłądzich
+ądźik	Qtrądzik Qprzyrządzik Qgrądzik Qrządzik Qpoglądzik @wielbłądzik
+ądźim	4wielbłądzim 4niewielbłądzim
+ądźiss	2sądzisz 2rządzisz 2urządzisz 2błądzisz 2osądzisz 2zabłądzisz 2wyrządzisz 2sporządzisz 2przyrządzisz 2zbłądzisz 2zarządzisz 2posądzisz 2pobłądzisz 2zasądzisz 2porządzisz 2rozsądzisz 2oporządzisz 2przesądzisz 2rozporządzisz 2odsądzisz 2wysądzisz 2zrządzisz 2nabłądzisz 2narządzisz 2obrządzisz 2przysądzisz 2rozrządzisz 2wyporządzisz 2współrządzisz 2współzarządzisz
+ądźić	Rrządzić Rsądzić Rurządzić Rwyrządzić Rprzyrządzić Rsporządzić Rosądzić Rzarządzić Rbłądzić Rzabłądzić Rzbłądzić Rposądzić Roporządzić Rprzesądzić Rrozsądzić Rporządzić Rzasądzić Rpobłądzić Rrozporządzić Rzrządzić Rodsądzić Rwysądzić Rnabłądzić Rnarządzić Robrządzić Rprzysądzić Rrozrządzić Rwyporządzić Rwspółrządzić Rwspółzarządzić
+ądźił	2sądził 2rządził 2urządził 2zarządził 2wyrządził 2sporządził 2zabłądził 2przyrządził 2zbłądził 2osądził 2błądził 2pobłądził 2zasądził 2posądził 2przesądził 2rozsądził 2zrządził 2rozporządził 2narządził 2oporządził 2porządził 2odsądził 2wysądził 2nabłądził 2obrządził 2przysądził 2rozrządził 2wyporządził 2współrządził 2współzarządził
+ąfli	1fąfli
+ągi	1pociągi 1wyciągi 1posągi 1dziwolągi 1pstrągi @lachociągi 1osiągi Qwodociągi 1ściągi 1rurociągi 1przeciągi 1ciągi 1drągi 1zaciągi 1gazociągi 1naciągi 1korkociągi 1odciągi 1sągi 1taśmociągi 1okoniopstrągi 1szelągi 1podciągi 1zawciągi @otągi 1siągi 1spągi 1urągi 1morągi 1strągi 1uciągi 1wasągi 1wciągi 1dociągi @fasiągi 1obciągi @raciągi @dziabągi 1rozciągi 1szelbągi @zaprzągi 1linociągi 1parociągi 1ropociągi 1rybociągi 1szelbiągi @grubociągi 1krwiściągi 1małpidrągi 1naftociągi @paszociągi @przeprzągi 1wielociągi 1węglociągi @ślinociągi 1ciepłociągi 1lutniociągi 1miazgociągi 1strunociągi @tarczociągi 1przeciwciągi @retrodziwolągi
+ągli	2zaokrągli 4ciągli 5krągli 6okrągli 4przeciągli 4pociągli 1sprzągli 4nieciągli 4niekrągli 4półciągli 4rozciągli 2wyokrągli 4nieokrągli 4półokrągli 4niepociągli @niepółciągli 4nierozciągli 4nieprzeciągli 4niepółokrągli 4płaskookrągli @niepłaskookrągli
+ąglic	1ciąglic
+ąglij	2zaokrąglij 2wyokrąglij
+ąglik	Qwąglik Qkrąglik
+ąglin	@miąglin
+ągliss	2zaokrąglisz 2wyokrąglisz
+ąglizn	1krąglizn
+ąglić	Rzaokrąglić Rwyokrąglić
+ąglił	2zaokrąglił 2wyokrąglił
+ągwi	1chorągwi 1stągwi
+ągńic	1spągnic @wyciągnic
+ągńij	2wyciągnij 2ciągnij 2ściągnij 2pociągnij 2wciągnij 2podciągnij 2zaciągnij 2obciągnij 2odciągnij 2przyciągnij 2naciągnij 2przeciągnij 2rozciągnij 2powściągnij 2osiągnij 2dociągnij 2nadciągnij 2ociągnij 2uciągnij
+ągńik	Qciągnik Qwyciągnik Qwciągnik Qobciągnik Qpodciągnik @rozciągnik Qminiciągnik @przyciągnik Qmikrociągnik
+ąhwi	1warząchwi
+ąhńij	2wtrząchnij 2spąchnij 2trząchnij 2otrząchnij 2strząchnij 2potrząchnij 2wytrząchnij
+ąki	1pająki 1mąki 1bąki 1rozłąki 1łąki 1pąki 1strąki 1wsiąki 1pałąki 1obłąki 1kabłąki 1półbąki 1podsiąki 1przesiąki
+ąkli	1pąkli 6wsiąkli @ąkli 1mąkli 2siąkli @brząkli @nieąkli 6osiąkli 6nasiąkli 6wysiąkli 6podsiąkli @zabrząkli 4nieosiąkli 4niewsiąkli 6przesiąkli 4nienasiąkli 4niewysiąkli 4niepodsiąkli 4nieprzesiąkli
+ąkwi	@pąkwi
+ąkńij	2chrząknij 2wsiąknij 2nasiąknij 2brzdąknij 2przesiąknij 2bąknij 2siąknij 2brząknij 2krząknij 2odbąknij 2osiąknij 2wybąknij 2zająknij 2wysiąknij 2podsiąknij 2przebąknij 2zabrząknij 2odchrząknij
+ąpi	2nastąpi 2zastąpi 2wystąpi 2ustąpi 2postąpi 2wstąpi 7skąpi 2zstąpi 2dostąpi 2przystąpi 2odstąpi 2rozstąpi 2przestąpi 2poskąpi 2siąpi 2podstąpi @rząpi @pąpi 1żąpi 1krąpi 2obstąpi 4nieskąpi 2rozsiąpi @wniebowstąpi 2współwystąpi
+ąpic	1rząpic 1skąpic
+ąpik	Qrząpik
+ąpiss	2zastąpisz 2wystąpisz 2postąpisz 2wstąpisz 2ustąpisz 2przystąpisz 2dostąpisz 2odstąpisz 2skąpisz 2nastąpisz 2poskąpisz 2przestąpisz 2zstąpisz 2rozstąpisz 2siąpisz 2obstąpisz 2podstąpisz 2rozsiąpisz @wniebowstąpisz 2współwystąpisz
+ąpić	Rzastąpić Rwystąpić Rpostąpić Rwstąpić Rnastąpić Rustąpić Rprzystąpić Rodstąpić Rdostąpić Rrozstąpić Rzstąpić Rskąpić Rprzestąpić Rposkąpić Rsiąpić Robstąpić Rpodstąpić Rrozsiąpić @wniebowstąpić Rwspółwystąpić
+ąpił	2nastąpił 2postąpił 2wystąpił 2wstąpił 2zastąpił 2ustąpił 2zstąpił 2przystąpił 2odstąpił 2dostąpił 2skąpił 2poskąpił 2przestąpił 2rozstąpił 2siąpił 2obstąpił 2podstąpił 2rozsiąpił @wniebowstąpił 2współwystąpił
+ąpski	Tskąpski Tnieskąpski
+ąpskih	4skąpskich 4nieskąpskich
+ąpskim	4skąpskim 4nieskąpskim
+ąpńij	2stąpnij 2tąpnij
+ąpśi	4skąpsi 4najskąpsi 4nieskąpsi @nienajskąpsi
+ąski	1przekąski Twąski 1zakąski 1kąski 1gąski Tgrząski Tniewąski Uśląski Tksiąski Tmorąski Tpołąski Telbląski Tlibiąski Tlubiąski Traciąski Tprzywąski Trównowąski Ttrzyciąski Tdolnośląski Tgórnośląski Tpołudniowogórnośląski 1kląski Utrząski Tnieśląski 1potrząski Tniegrząski Tnieksiąski Tniemorąski Tniepołąski Tnieelbląski Tnielibiąski Tnielubiąski Tnieraciąski Tnieprzywąski Tnierównowąski Tnietrzyciąski Tniedolnośląski Tniegórnośląski @niepołudniowogórnośląski
+ąskih	4wąskich 4grząskich 5śląskich 4ksiąskich 4morąskich 4połąskich 4elbląskich 4libiąskich 4lubiąskich 4niewąskich 4raciąskich 4nieśląskich 4przywąskich 4niegrząskich 4nieksiąskich 4niemorąskich 4niepołąskich 4równowąskich 4trzyciąskich 4dolnośląskich 4górnośląskich 4nieelbląskich 4nielibiąskich 4nielubiąskich 4nieraciąskich 4nieprzywąskich 4nierównowąskich 4nietrzyciąskich 4niedolnośląskich 4niegórnośląskich 4południowogórnośląskich @niepołudniowogórnośląskich
+ąskim	4wąskim 4grząskim 5śląskim 4niewąskim 4ksiąskim 4morąskim 4połąskim 4elbląskim 4libiąskim 4lubiąskim 4raciąskim 4nieśląskim 4przywąskim 4niegrząskim 4nieksiąskim 4niemorąskim 4niepołąskim 4równowąskim 4trzyciąskim 4dolnośląskim 4górnośląskim 4nieelbląskim 4nielibiąskim 4nielubiąskim 4nieraciąskim 4nieprzywąskim 4nierównowąskim 4nietrzyciąskim 4niedolnośląskim 4niegórnośląskim 4południowogórnośląskim @niepołudniowogórnośląskim
+ąstki	1cząstki 1chrząstki 1piąstki 1antycząstki 1nanocząstki 1kwazicząstki 1makrocząstki 1mikrocząstki 1quasicząstki
+ąstńi	4chrząstni 4niechrząstni
+ąstńic	1chrząstnic
+ąstńij	2chrząstnij
+ąstńik	@prząstnik Qchrząstnik
+ątki	Qszczątki 1piątki 1dziesiątki 1pamiątki Qpoczątki 1dziewiątki 1wyjątki 1wątki 1zakątki 1pięćdziesiątki 1majątki 1pieczątki 1sześćdziesiątki 1osiemdziesiątki 1siedemdziesiątki 1zaczątki 1świątki 1dziewięćdziesiątki 1prątki 1prapoczątki 1kątki 1wziątki 1łątki 1rozprątki 1użątki @pałątki 1splątki 1wrzątki @karłątki 1kipiątki @lśniątki 1kawalątki 1prazaczątki Qantypoczątki Qmakroszczątki @dwudziestkipiątki
+ątli	6wątli 2nadwątli 4niewątli
+ątlic	1wątlic
+ątlij	2wątlij
+ątlik	Qpątlik Qwątlik
+ątliss	2wątlisz 2nadwątlisz
+ątlić	Rnadwątlić Rwątlić
+ątlił	2wątlił 2nadwątlił
+ątpi	3wątpi 2zwątpi
+ątpiss	2wątpisz 2zwątpisz
+ątpić	Rwątpić Rzwątpić
+ątpił	2wątpił 2zwątpił
+ątwi	1mątwi 2klątwi
+ątwij	2klątwij
+ątwik	Qmątwik
+ątwiss	2klątwisz
+ątwić	Rklątwić
+ątwił	2klątwił
+ątńi	4trójkątni 4nakątni 4pokątni 5przekątni 4nienakątni 4niepokątni 4ostrokątni 4ośmiokątni 4równokątni 4wielokątni 4wąskokątni 5czterokątni 4czworokątni 4pięciokątni 4prostokątni 4przedprątni 4ukośnokątni 4wiernokątni 4nieprzekątni 4nietrójkątni 4siedmiokątni 4szerokokątni 4sześciokątni 4nieostrokątni 4nieośmiokątni 4nierównokątni 4niewielokątni 4niewąskokątni 4rozwartokątni @nieczterokątni 4nieczworokątni 4niepięciokątni 4nieprostokątni 4nieprzedprątni @nieukośnokątni 4niewiernokątni 4dwudziestokątni 4dziesięciokątni 4dziewięciokątni 4niesiedmiokątni 4nieszerokokątni 4niesześciokątni 4nierozwartokątni 4ultraszerokokątni 4niedwudziestokątni 4niedziesięciokątni 4niedziewięciokątni @nieultraszerokokątni
+ątńic	1kątnic 1pięćdziesiątnic
+ątńictf	1pątnictw
+ątńij	2sprzątnij 2uprzątnij 2zakrzątnij 2oprzątnij 2wyprzątnij 2zaprzątnij
+ątńik	Qkątnik Qpątnik Qplątnik Qprątnik Qpokątnik Qwrzątnik Qświątnik Qnibyprątnik
+ątżńic	@jątrznic
+ązki	1obowiązki 1związki 1wiązki 1gałązki 1podwiązki 1zawiązki 1nawiązki 1nitrozwiązki 1azozwiązki 1neozwiązki 1przewiązki 1homozwiązki 1pseudozwiązki 1wszechzwiązki 1nitrozozwiązki
+ązwi	1gązwi
+ąći	2mąci 2potrąci 2trąci 2wtrąci 2strąci 2wytrąci 2odtrąci 2zmąci 2zamąci 2namąci 2przetrąci 2utrąci 1prąci 4piąci 4dziewiąci 2pomąci 2obtrąci 2rozmąci 2zatrąci 1niepiąci 2roztrąci 4dziesiąci @niedziesiąci @niedziewiąci 4pięćdziesiąci 4osiemdziesiąci 4sześćdziesiąci 4siedemdziesiąci @niepięćdziesiąci 4dziewięćdziesiąci @nieosiemdziesiąci @niesześćdziesiąci @niesiedemdziesiąci @niedziewięćdziesiąci
+ąćik	Qtrójkącik Qkącik @czworokącik Qprostokącik Qfotokącik
+ąćin	1kącin
+ąćisk	@kącisk
+ąćiss	2wtrącisz 2mącisz 2potrącisz 2strącisz 2odtrącisz 2wytrącisz 2zmącisz 2zamącisz 2trącisz 2utrącisz 2przetrącisz 2namącisz 2pomącisz 2obtrącisz 2rozmącisz 2zatrącisz 2roztrącisz
+ąćić	Rwtrącić Rstrącić Rpotrącić Rwytrącić Rmącić Rodtrącić Rzmącić Rutrącić Rprzetrącić Rzamącić Rtrącić Rnamącić Rpomącić Robtrącić Rrozmącić Rzatrącić Rroztrącić
+ąćił	2potrącił 2wtrącił 2strącił 2wytrącił 2odtrącił 2mącił 2trącił 2namącił 2zamącił 2zmącił 2przetrącił 2utrącił 2pomącił 2obtrącił 2rozmącił 2zatrącił 2roztrącił
+ąśi	2ukąsi 2przekąsi 1rąsi 2odkąsi 2zakąsi 4bezwąsi 4rudowąsi 4siwowąsi 4białowąsi 4długowąsi @jasnowąsi @czarnowąsi 5krótkowąsi 4niebezwąsi 4nierudowąsi 4niesiwowąsi 4niebiałowąsi 4niedługowąsi @niejasnowąsi @nieczarnowąsi 4niekrótkowąsi
+ąśik	Qwąsik Qdąsik
+ąśisk	1wąsisk
+ąśiss	2przekąsisz 2ukąsisz 2odkąsisz 2zakąsisz
+ąśić	Rprzekąsić Rukąsić Rzakąsić Rodkąsić
+ąśił	2ukąsił 2przekąsił 2zakąsił 2odkąsił
+ąślic	1prząślic
+ąśćic	1chrząścic
+ąśńic	1prząśnic 1trząśnic @chrząśnic 1samoprząśnic
+ąśńij	2potrząśnij 2otrząśnij 2wstrząśnij 2strząśnij 2przetrząśnij 2wytrząśnij 2chrząśnij 2utrząśnij 2obtrząśnij 2zatrząśnij 2roztrząśnij 2przytrząśnij
+ąśńik	@chąśnik @pląśnik
+ąźli	5rozwiąźli 4nierozwiąźli
+ążki	1książki 1wstążki 1krążki 1pieniążki 1prążki Qcążki 1drążki 1posążki 1zalążki Qobcążki 1ciążki @rzęsokrążki 1wielokrążki 1audioksiążki 1wasążki 1pociążki 1pstrążki 1sprzążki 1szelążki 1uprzążki @wydrążki 1doprzążki 1półkrążki @wrzeciążki 1fotoksiążki 1przeprzążki 1przyprzążki 1mikroksiążki
+ążli	@drążli
+ążńi	1sążni 1drążni 4nadążni 1zalążni 4szelążni 4domokrążni 4nienadążni 4nieszelążni 4niedomokrążni
+ążńic	1drążnic 1książnic @obcążnic @pieniążnic
+ążńik	Qobciążnik Qkrążnik
+ążśi	4miążsi 4niemiążsi

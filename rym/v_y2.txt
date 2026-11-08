@@ -1,100 +1,100 @@
-ybrńęć	wybrnięć przybrnięć
-ybłęt	przybłęd
-ybńęć	chybnięć
-ycńęć	hycnięć
-ydlęć	bydlęć zbydlęć
-ydęp	wydęb
-ydęć	wydęć
-ydńęć	brzydnięć obrzydnięć zbrzydnięć
-ydźwjęcs	przydźwięcz
-ydźwjęk	wydźwięk przydźwięk
-ygjęć	wygięć przygięć przodowygięć
-ygnęp	przygnęb
-ygęp	moczygęb parzygęb
-ygłęp	wygłęb
-ygńęć	rozstrzygnięć dygnięć drygnięć frygnięć rzygnięć stygnięć ostygnięć podrygnięć wyrzygnięć wystygnięć wzdrygnięć zastygnięć zestygnięć przestygnięć współrozstrzygnięć
-yhńęć	wzdychnięć prychnięć czmychnięć odstrychnięć wystrychnięć rozstrychnięć
-yjęcs	wyjęcz
-yjęć	przyjęć wyjęć
-yklęcs	wyklęcz
-yklęk	przyklęk
-yklęć	wyklęć
-ykręt	wykręt
-ykręć	wykręć przykręć
-ykńęć	wstrzyknięć pstryknięć tyknięć cyknięć bryknięć bzyknięć myknięć pyknięć ryknięć syknięć łyknięć ksyknięć pryknięć psyknięć smyknięć styknięć tryknięć krzyknięć nawyknięć odryknięć odwyknięć okrzyknięć prztyknięć skrzyknięć strzyknięć wysmyknięć odkrzyknięć ostrzyknięć pierdyknięć przywyknięć wykrzyknięć zakrzyknięć nastrzyknięć obstrzyknięć przesmyknięć wystrzyknięć zastrzyknięć przekrzyknięć
-ykśęstf	arcyksięstw
-ykśężn	arcyksiężn
-ylgńęć	przylgnięć
-ylęgł	wylęgł
-ylęk	wylęg
-ymjędl	wymiędl
-ymjękł	wymiękł
-ymjęt	marzymięt
-ymjęć	wymięć przymięć
-ymkńęć	przymknięć wymknięć półprzymknięć
-ymskńęć	wymsknięć
-ymsńęć	rymsnięć
-ymęcs	wymęcz
-ymńęć	rymnięć zżymnięć
-yndńęć	dryndnięć
-ynkńęć	trynknięć
-ynęt	przynęt
-ynęć	przynęć
-yphńęć	wypchnięć
-ypjękss	wypiększ
-ypjętsz	wypiętrz
-ypjęć	wypięć przypięć
-ypręsz	wypręż
-ypsńęć	wypsnięć
-ypęt	wypęd
-ypęć	wypędź przypędź
-ypńęć	skrzypnięć rypnięć sypnięć łypnięć chrypnięć ochrypnięć schrypnięć szczypnięć pochrypnięć uszczypnięć zachrypnięć podszczypnięć przyszczypnięć
-ypżędł	wyprzędł
-ypżęgł	wyprzęgł przyprzęgł
-ypżęk	wyprzęg
-ypżęsz	wyprzęż przyprzęż
-ypżęt	wyprzęd
-ypżęć	wyprzędź
-yrgńęć	pyrgnięć smyrgnięć szmyrgnięć
-yrkńęć	fyrknięć tyrknięć
-yrpńęć	tyrpnięć
-yrtńęć	wykopyrtnięć
-yręcs	wyręcz
-yręk	wyręk
-yręp	wyręb
-yręsz	nadwyręż
-yrńęć	fyrnięć smyrnięć
-yrżńęć	wyrżnięć przyrżnięć
-yshńęć	wyschnięć przyschnięć
-yskńęć	pysknięć odpysknięć
-ystęp	występ przystęp miniwystęp
-ystżęp	wystrzęp
-ysęp	wysęp
-ythńęć	wytchnięć
-ytkńęć	wytknięć przytknięć
-ytęp	wytęp przytęp
-ytęsz	wytęż
-ytńęć	zgrzytnięć
-ytżęś	wytrzęś przytrzęś
-ywdźęcs	wywdzięcz
-ywnętsz	wywnętrz
-ywęss	wywęsz
-ywęć	przywędź
-yzgńęć	bryzgnięć obryzgnięć rozbryzgnięć
-yzńęć	bryznięć
-yćpńęć	wyćpnięć
-yćęstf	zwycięstw
-yćęsz	przezwycięż zwycięż
-yćęć	wycięć przycięć
-yńęć	odpłynięć wypłynięć płynięć słynięć opłynięć spłynięć upłynięć wpłynięć dopłynięć napłynięć popłynięć wychynięć zapłynięć zasłynięć nadpłynięć podpłynięć rozpłynięć przepłynięć przypłynięć
-yśwjęć	wyświęć
-yśęk	wysięk wysięg
-yśękł	wysiękł
-yśęstf	krzywoprzysięstw
-yśńęć	pryśnięć łyśnięć błyśnięć tryśnięć przyśnięć wtryśnięć natryśnięć odbłyśnięć odpryśnięć wybłyśnięć wypryśnięć wytryśnięć zabłyśnięć rozbłyśnięć rozpryśnięć roztryśnięć zachłyśnięć przebłyśnięć
-yźębł	wyziębł
-yźęp	wyzięb
-yźńęć	bryźnięć obryźnięć rozbryźnięć
-yżęć	wyżęć
-yżęś	wyrzęź
-yżńęć	wyrznięć przyrznięć
+ybrńęć	1wybrnięć 1przybrnięć
+ybłęt	1przybłęd
+ybńęć	1chybnięć
+ycńęć	1hycnięć
+ydlęć	2bydlęć 2zbydlęć
+ydęp	2wydęb
+ydęć	1wydęć
+ydńęć	1brzydnięć 1obrzydnięć 1zbrzydnięć
+ydźwjęcs	2przydźwięcz
+ydźwjęk	Qwydźwięk Qprzydźwięk
+ygjęć	1wygięć 1przygięć @przodowygięć
+ygnęp	2przygnęb
+ygęp	1moczygęb @parzygęb
+ygłęp	2wygłęb
+ygńęć	1rozstrzygnięć 1dygnięć 1drygnięć 1frygnięć 1rzygnięć 1stygnięć 1ostygnięć 1podrygnięć 1wyrzygnięć 1wystygnięć 1wzdrygnięć 1zastygnięć 1zestygnięć 1przestygnięć 1współrozstrzygnięć
+yhńęć	@wzdychnięć 1prychnięć 1czmychnięć 1odstrychnięć 1wystrychnięć 1rozstrychnięć
+yjęcs	2wyjęcz
+yjęć	1przyjęć 1wyjęć
+yklęcs	2wyklęcz
+yklęk	Qprzyklęk
+yklęć	1wyklęć
+ykręt	Qwykręt
+ykręć	2wykręć 2przykręć
+ykńęć	1wstrzyknięć 1pstryknięć 1tyknięć 1cyknięć 1bryknięć 1bzyknięć 1myknięć 1pyknięć 1ryknięć 1syknięć 1łyknięć 1ksyknięć @pryknięć 1psyknięć 1smyknięć 1styknięć 1tryknięć 1krzyknięć 1nawyknięć 1odryknięć 1odwyknięć 1okrzyknięć 1prztyknięć 1skrzyknięć 1strzyknięć 1wysmyknięć 1odkrzyknięć @ostrzyknięć 1pierdyknięć 1przywyknięć 1wykrzyknięć 1zakrzyknięć 1nastrzyknięć 1obstrzyknięć 1przesmyknięć 1wystrzyknięć 1zastrzyknięć @przekrzyknięć
+ykśęstf	1arcyksięstw
+ykśężn	1arcyksiężn
+ylgńęć	1przylgnięć
+ylęgł	@wylęgł
+ylęk	Qwylęg
+ymjędl	2wymiędl
+ymjękł	2wymiękł
+ymjęt	1marzymięt
+ymjęć	1wymięć 1przymięć
+ymkńęć	1przymknięć 1wymknięć @półprzymknięć
+ymskńęć	1wymsknięć
+ymsńęć	1rymsnięć
+ymęcs	2wymęcz
+ymńęć	1rymnięć 1zżymnięć
+yndńęć	1dryndnięć
+ynkńęć	1trynknięć
+ynęt	1przynęt
+ynęć	2przynęć
+yphńęć	1wypchnięć
+ypjękss	@wypiększ
+ypjętsz	2wypiętrz
+ypjęć	1wypięć 1przypięć
+ypręsz	2wypręż
+ypsńęć	1wypsnięć
+ypęt	Qwypęd
+ypęć	2wypędź 2przypędź
+ypńęć	1skrzypnięć 1rypnięć 1sypnięć 1łypnięć 1chrypnięć 1ochrypnięć 1schrypnięć 1szczypnięć 1pochrypnięć 1uszczypnięć 1zachrypnięć 1podszczypnięć 1przyszczypnięć
+ypżędł	@wyprzędł
+ypżęgł	@wyprzęgł @przyprzęgł
+ypżęk	Qwyprzęg
+ypżęsz	@wyprzęż @przyprzęż
+ypżęt	Qwyprzęd
+ypżęć	2wyprzędź
+yrgńęć	1pyrgnięć 1smyrgnięć 1szmyrgnięć
+yrkńęć	1fyrknięć 1tyrknięć
+yrpńęć	1tyrpnięć
+yrtńęć	1wykopyrtnięć
+yręcs	2wyręcz
+yręk	1wyręk
+yręp	Qwyręb
+yręsz	2nadwyręż
+yrńęć	@fyrnięć @smyrnięć
+yrżńęć	1wyrżnięć 1przyrżnięć
+yshńęć	1wyschnięć 1przyschnięć
+yskńęć	@pysknięć 1odpysknięć
+ystęp	Qwystęp Qprzystęp Qminiwystęp
+ystżęp	2wystrzęp
+ysęp	2wysęp
+ythńęć	1wytchnięć
+ytkńęć	1wytknięć 1przytknięć
+ytęp	2wytęp 2przytęp
+ytęsz	2wytęż
+ytńęć	1zgrzytnięć
+ytżęś	2wytrzęś 2przytrzęś
+ywdźęcs	2wywdzięcz
+ywnętsz	2wywnętrz
+ywęss	2wywęsz
+ywęć	2przywędź
+yzgńęć	1bryzgnięć 1obryzgnięć @rozbryzgnięć
+yzńęć	1bryznięć
+yćpńęć	@wyćpnięć
+yćęstf	1zwycięstw
+yćęsz	2przezwycięż 2zwycięż
+yćęć	1wycięć 1przycięć
+yńęć	1odpłynięć 1wypłynięć 1płynięć 1słynięć 1opłynięć 1spłynięć 1upłynięć 1wpłynięć 1dopłynięć 1napłynięć 1popłynięć 1wychynięć 1zapłynięć 1zasłynięć 1nadpłynięć 1podpłynięć 1rozpłynięć 1przepłynięć 1przypłynięć
+yśwjęć	2wyświęć
+yśęk	Qwysięk Qwysięg
+yśękł	@wysiękł
+yśęstf	1krzywoprzysięstw
+yśńęć	1pryśnięć 1łyśnięć 1błyśnięć 1tryśnięć 1przyśnięć 1wtryśnięć 1natryśnięć 1odbłyśnięć 1odpryśnięć 1wybłyśnięć 1wypryśnięć 1wytryśnięć 1zabłyśnięć 1rozbłyśnięć 1rozpryśnięć 1roztryśnięć 1zachłyśnięć 1przebłyśnięć
+yźębł	@wyziębł
+yźęp	2wyzięb
+yźńęć	1bryźnięć 1obryźnięć 1rozbryźnięć
+yżęć	1wyżęć
+yżęś	2wyrzęź
+yżńęć	1wyrznięć 1przyrznięć

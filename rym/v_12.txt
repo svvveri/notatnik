@@ -1,10 +1,10 @@
-ąbńęć	rąbnięć
-ądńęć	oglądnięć siądnięć osiądnięć usiądnięć wglądnięć wsiądnięć zsiądnięć doglądnięć dosiądnięć nasiądnięć obsiądnięć posiądnięć wyglądnięć wysiądnięć zaglądnięć zasiądnięć podglądnięć podsiądnięć rozglądnięć rozsiądnięć spoglądnięć przeglądnięć przyglądnięć przysiądnięć współposiądnięć
-ągńęć	osiągnięć niedociągnięć pociągnięć podciągnięć ściągnięć obciągnięć zaciągnięć rozciągnięć wyciągnięć ciągnięć ociągnięć uciągnięć wciągnięć dociągnięć naciągnięć odciągnięć nadciągnięć powściągnięć przeciągnięć przyciągnięć
-ąhńęć	spąchnięć trząchnięć otrząchnięć strząchnięć wtrząchnięć potrząchnięć wytrząchnięć
-ąkńęć	chrząknięć zająknięć bąknięć siąknięć brząknięć krząknięć odbąknięć osiąknięć wsiąknięć wybąknięć brzdąknięć dosiąknięć nasiąknięć wysiąknięć podsiąknięć przebąknięć zabrząknięć odchrząknięć przesiąknięć
-ąpńęć	tąpnięć stąpnięć
-ąstńęć	chrząstnięć
-ątńęć	oprzątnięć sprzątnięć uprzątnięć wyprzątnięć zakrzątnięć zaprzątnięć
-ąśńęć	potrząśnięć wstrząśnięć chrząśnięć otrząśnięć strząśnięć utrząśnięć obtrząśnięć wytrząśnięć zatrząśnięć roztrząśnięć przetrząśnięć przytrząśnięć
-ąźńęć	grząźnięć niegrząźnięć
+ąbńęć	1rąbnięć
+ądńęć	1oglądnięć 1siądnięć 1osiądnięć 1usiądnięć 1wglądnięć 1wsiądnięć 1zsiądnięć 1doglądnięć 1dosiądnięć 1nasiądnięć 1obsiądnięć 1posiądnięć 1wyglądnięć 1wysiądnięć 1zaglądnięć 1zasiądnięć 1podglądnięć 1podsiądnięć 1rozglądnięć 1rozsiądnięć 1spoglądnięć 1przeglądnięć 1przyglądnięć 1przysiądnięć 1współposiądnięć
+ągńęć	1osiągnięć 1niedociągnięć 1pociągnięć 1podciągnięć 1ściągnięć 1obciągnięć 1zaciągnięć 1rozciągnięć 1wyciągnięć 1ciągnięć 1ociągnięć 1uciągnięć 1wciągnięć 1dociągnięć 1naciągnięć 1odciągnięć 1nadciągnięć 1powściągnięć 1przeciągnięć 1przyciągnięć
+ąhńęć	1spąchnięć 1trząchnięć 1otrząchnięć 1strząchnięć 1wtrząchnięć 1potrząchnięć 1wytrząchnięć
+ąkńęć	1chrząknięć 1zająknięć 1bąknięć 1siąknięć 1brząknięć 1krząknięć 1odbąknięć 1osiąknięć 1wsiąknięć 1wybąknięć 1brzdąknięć @dosiąknięć 1nasiąknięć 1wysiąknięć 1podsiąknięć 1przebąknięć 1zabrząknięć 1odchrząknięć 1przesiąknięć
+ąpńęć	1tąpnięć 1stąpnięć
+ąstńęć	1chrząstnięć
+ątńęć	1oprzątnięć 1sprzątnięć 1uprzątnięć 1wyprzątnięć 1zakrzątnięć 1zaprzątnięć
+ąśńęć	1potrząśnięć 1wstrząśnięć 1chrząśnięć 1otrząśnięć 1strząśnięć 1utrząśnięć 1obtrząśnięć 1wytrząśnięć 1zatrząśnięć 1roztrząśnięć 1przetrząśnięć 1przytrząśnięć
+ąźńęć	@grząźnięć @niegrząźnięć
