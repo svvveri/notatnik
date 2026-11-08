@@ -1265,14 +1265,24 @@ function warAnalizaAI(){const o=$('#warAIo'),b=$('#body');o.innerHTML='<div clas
   .then(t=>{warAI='<div class="wf"><h4>Analiza AI</h4>'+esc(t).split('\n').filter(x=>x.trim()).map(x=>{const m=x.match(/linia\s*(\d+)/i);return `<div class="wr" ${m?`data-l="${m[1]}"`:''}>${x}</div>`}).join('')+'</div>';o.innerHTML=warAI;
     o.querySelectorAll('.wr[data-l]').forEach(r=>r.onclick=()=>warGoto(+r.dataset.l))})
   .catch(e=>{o.innerHTML='<div class="hint" style="color:var(--danger)">'+esc(e.message)+'</div>'})}
+const sufL=(a,b)=>{let i=0;while(i<a.length&&i<b.length&&a[a.length-1-i]===b[b.length-1-i])i++;return i};
+async function dokKand(dk){try{const r=await rymCompute(dk.ref.last);if(!r)return [];const need=Math.min(3,dk.ref.last.length),seen=new Set(),out=[];
+  [...r.R.dok,...r.R.ry].filter(c=>!c.sg&&FQR&&FQR.get(c.p)<20000&&!/ /.test(c.p)&&c.p.length>2).sort((x,y)=>y.sc-x.sc).forEach(c=>{if(!seen.has(c.p)&&sufL(c.p,dk.ref.last)>=need){seen.add(c.p);out.push(c.p)}});return out}catch(_){return []}}
 function wersAI(idx,fig,sel,dk){const o=$(sel||'#wOut'),b=$('#body'),v=b.value,L=v.split('\n'),line=(L[idx]||'').trim();if(!line){o.innerHTML='<div class="hint">Pusty wers.</div>';return}
   const ctx=L.slice(Math.max(0,idx-4),idx+4).join('\n');o.innerHTML='<div class="hint">Szukam wariantów…</div>';
   const FS=(()=>{try{const S=warForma();for(const x of S){const j=x.v.findIndex(l=>l.i===idx);if(j>=0){const nx=S[S.indexOf(x)+1];return `Sekcja: ${x.name}, schemat rymów ${x.sch}, wers ${j+1} z ${x.v.length}`+(j===0?' (pierwszy: pozycja mocy)':j===x.v.length-1?' (ostatni: pozycja mocy'+(nx&&nx.ref&&!x.ref?', trigger przed refrenem':'')+')':'')+(x.ref?'; to refren, powinien być neutralny (bez czasu i osoby)':'')+'.'}}}catch(_){}return ''})();
-  aiCall('Jesteś współautorem tekstów rapowych i poetyckich po polsku. Zachowujesz sens, rytm i (jeśli to możliwe) liczbę sylab oraz końcówkę rymującą się wersu. '+PAT+' Odpowiadasz wyłącznie listą wariantów, jeden w linii, bez numeracji i komentarzy.',
-    `Kontekst:\n${ctx}\n${FS}\n\nWers: "${line}"\n${fig==='dokoncz'&&dk?`Wers jest NIEDOKOŃCZONY: zostaw jego początek dokładnie tak, jak jest, i dopisz dalszy ciąg.\nDokończenie ma się rymować (brzmieniowo, jak w kolorowaniu rymów) z końcówką wersu: "${dk.ref.t.trim()}" (rym na „${dk.ref.last}”). Cały wers ma mieć około ${dk.target} sylab, czyli dopisz około ${dk.need}. Zaproponuj 8 pełnych wersów (początek i dokończenie), każdy w osobnej linii.`:`Środek stylistyczny: ${SRODKI[fig].n} (${SRODKI[fig].d})\nZaproponuj 8 wariantów tego wersu z użyciem tego środka.`}`,900)
-  .then(t=>{const A=t.split('\n').map(x=>x.replace(/^[\-\*\d\.\)\s"„]+|["”]+$/g,'').trim()).filter(Boolean).slice(0,10);
-    if(!A.length){o.innerHTML='<div class="hint">Pusta odpowiedź modelu: '+esc(t.slice(0,300))+'</div>';return}
-    o.innerHTML=A.map(x=>`<div class="wr" data-t="${esc(x)}">${esc(x)} <i>${sylText(x)} syl.</i></div>`).join('');
+  const dok=fig==='dokoncz'&&dk;
+  (async()=>{const cand=dok?await dokKand(dk):[];
+    const start=dok?line.replace(/(\.\.\.|…)\s*$/,'').trim():line;
+    const user=`Kontekst:\n${ctx}\n${FS}\n\nWers: "${start}"\n`+(dok?`Wers jest NIEDOKOŃCZONY: zostaw jego początek dokładnie tak, jak jest, i dopisz dalszy ciąg.\nDokończenie ma się rymować DOKŁADNIE (te same głoski od ostatniej akcentowanej samogłoski, bez rymów niedokładnych i bez asonansów) z końcówką wersu: "${dk.ref.t.trim()}", czyli na „${dk.ref.last}”. ${cand.length?`OSTATNIE SŁOWO każdego wersu musi być jednym z tych słów: ${cand.slice(0,40).join(', ')}. ${cand.length<8?'Słów jest mało, więc wolno je powtarzać w różnych wersach. ':''}`:''}Cały wers ma mieć około ${dk.target} sylab, czyli dopisz około ${dk.need}. Zaproponuj 8 pełnych, sensownych i skończonych wersów (początek i dokończenie), każdy w osobnej linii, każdy kończy się pełnym słowem.`:`Środek stylistyczny: ${SRODKI[fig].n} (${SRODKI[fig].d})\nZaproponuj 8 wariantów tego wersu z użyciem tego środka.`);
+    return aiCall('Jesteś współautorem tekstów rapowych i poetyckich po polsku. Zachowujesz sens, rytm i (jeśli to możliwe) liczbę sylab oraz końcówkę rymującą się wersu. '+PAT+' Odpowiadasz wyłącznie listą wariantów, jeden w linii, bez numeracji i komentarzy.',user,1200).then(t=>({t,cand}))})()
+  .then(({t,cand})=>{let A=t.split('\n').map(x=>x.replace(/^[\-\*\d\.\)\s"„]+|["”]+$/g,'').trim()).filter(Boolean).slice(0,12),weak=[];
+    if(dok){const known=w=>(typeof POSM!=='undefined'&&POSM.has(w))||(FQR&&FQR.has(w)),ok=[],bad=[];
+      A.forEach(x=>{const ws=wordsOf(x),lw=ws[ws.length-1]||'',sy=sylText(x)+elongN(x);const good=lw.length>2&&known(lw)&&sufL(lw,dk.ref.last)>=Math.min(3,dk.ref.last.length)&&Math.abs(sy-dk.target)<=3;(good?ok:bad).push(x)});
+      ok.sort((x,y)=>Math.abs(sylText(x)+elongN(x)-dk.target)-Math.abs(sylText(y)+elongN(y)-dk.target));A=ok;weak=bad}
+    if(!A.length&&!weak.length){o.innerHTML='<div class="hint">Pusta odpowiedź modelu: '+esc(t.slice(0,300))+'</div>';return}
+    const row=(x,w)=>`<div class="wr" ${w?'style="opacity:.55"':''} data-t="${esc(x)}">${esc(x)} <i>${sylText(x)} syl.${w?' · słabszy rym':''}</i></div>`;
+    o.innerHTML=(dok&&!A.length?'<div class="hint">Model nie trafił dokładnego rymu na „'+esc(dk.ref.last)+'”. Spróbuj jeszcze raz. Poniżej słabsze propozycje.</div>':'')+A.map(x=>row(x)).join('')+(dok?weak.slice(0,3).map(x=>row(x,1)).join(''):'');
     o.querySelectorAll('.wr').forEach(r=>r.onclick=()=>{const L2=b.value.split('\n');L2[idx]=r.dataset.t;b.value=L2.join('\n');edit();closeSheet();showTab('text')})})
   .catch(e=>{o.innerHTML='<div class="hint" style="color:var(--danger)">'+esc(e.message)+'</div>'})}
 function addToWall(p){const n=T.get(cur);if(!n)return;const ta=$('#wallTa'),v=ta.value;
