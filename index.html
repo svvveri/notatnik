@@ -302,7 +302,6 @@ html{touch-action:pan-x pan-y}#scroll{touch-action:pan-y}
         <button id="bpmBtn" class="pill" type="button" title="Tempo bitu"></button>
         <button id="keyBtn" class="pill" type="button" title="Tonacja"></button>
         <span class="sp"></span>
-        <button id="adBtn" class="pill ad" type="button" title="Zaznacz fragment: nawias = adlib. Dotknięcie w nawiasie go zdejmuje. Bez zaznaczenia: cały wers.">( ) adlib</button>
       </div>
       <div id="selwrap"><div id="selbar" class="gut" hidden><span id="selw"></span><button id="selWers" class="pill" type="button">✦ Analiza</button><button id="selAI" class="pill" type="button">✦ AI</button><button id="selRy" class="pill ry" type="button">Rymy</button><button id="selAd" class="pill ad" type="button">( ) adlib</button><button id="selWall" class="pill" type="button">+ ściana</button></div></div>
       <div id="page" class="gut" hidden>
@@ -1250,7 +1249,6 @@ function wire(){
   $('#selAI').onclick=()=>{const i=$('#selbar').dataset.idx;if(i!=='')sheetWers(+i,true)};
   $('#selAd').onclick=()=>{toggleAdlib();selBar()};
   $('#selWall').onclick=()=>{const w=selWord();if(!w||!cur)return;addToWall(w);const e=$('#selWall');e.textContent='✓ dodano';setTimeout(()=>{e.textContent='+ ściana'},1200)};
-  const ab=$('#adBtn');ab.addEventListener('pointerdown',e=>e.preventDefault());ab.addEventListener('mousedown',e=>e.preventDefault());ab.onclick=toggleAdlib;
   $('#body').addEventListener('blur',()=>setTimeout(()=>{const sb=$('#selbar');if(sb&&document.activeElement!==$('#body')&&$('#sheetBg').hidden)sb.hidden=true},300));
   document.addEventListener('selectionchange',trackSel);['select','keyup','pointerup','input','focus'].forEach(t=>$('#body').addEventListener(t,trackSel));
   applyView();
