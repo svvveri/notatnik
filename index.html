@@ -157,7 +157,7 @@ body[data-view="edit"] #fab{display:none}
 #rinfo b{color:var(--fg);font-weight:600}
 #rmodes{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -2px 10px;padding:0 2px}
 #rmodes::-webkit-scrollbar{display:none}
-#rtype{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 8px}#rtype button{padding:4px 11px;border-radius:999px;border:1px solid var(--line);font-size:13px;color:var(--dim)}#rtype button b{font-weight:400;margin-left:5px;font-variant-numeric:tabular-nums}#rtype button.on{color:var(--acc);border-color:var(--acc)}
+#rtype{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 8px}#rtype button{padding:5px 4px;border-radius:14px;border:1px solid var(--line);font-size:12.5px;color:var(--dim);display:flex;flex-direction:column;align-items:center;line-height:1.25}#rtype button b{font-weight:400;font-size:11.5px;margin:0;font-variant-numeric:tabular-nums;opacity:.8}#rtype button.on{color:var(--acc);border-color:var(--acc)}
 #rinfo .mu{color:var(--dim)}
 #rmodes button{flex:none;padding:5px 11px;border-radius:999px;border:1px solid var(--line);font-size:13.5px;white-space:nowrap}
 #rmodes button b{font-weight:400;color:var(--dim);margin-left:5px;font-variant-numeric:tabular-nums}
@@ -183,7 +183,8 @@ html{touch-action:pan-x pan-y}#scroll{touch-action:pan-y}
 code.sch{white-space:pre;letter-spacing:.12em;font-weight:600}
 label.lfull{display:flex;gap:8px;align-items:center;margin:4px 0 10px;color:var(--dim);font-size:14px}#lsub b{font-weight:500;color:var(--dim)}
 .rc.fq{font-weight:700}details.rq{margin:8px 0}details.rq>summary{cursor:pointer;color:var(--acc);font-size:14px;padding:6px 0}details.rq>summary span{margin-left:8px;color:var(--dim)}
-#rpos{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 6px}#rpos button{padding:3px 11px;border-radius:999px;border:1px solid var(--line);color:var(--dim);font-size:13px}#rpos button.on{color:var(--acc);border-color:var(--acc)}#rpos .lem{margin-left:auto}#rpos .rar{border-style:dashed}
+#rpos{margin:2px 0 8px}#rpos .rps{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:6px}#rpos .rtg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+#rpos button{padding:6px 6px;border-radius:999px;border:1px solid var(--line);color:var(--dim);font-size:13px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#rpos button.on{color:var(--acc);border-color:var(--acc)}#rpos .rps button:nth-child(-n+3){grid-column:span 2}#rpos .rps button:nth-child(n+4){grid-column:span 3}#rpos .rar{border-style:dashed}
 .ranch{display:flex;gap:6px;align-items:center;margin:6px 0 10px;color:var(--dim);font-size:13px}.ranch button{padding:3px 11px;border-radius:999px;border:1px solid var(--line);color:var(--acc);font-size:14px}
 .rc.rare{color:var(--dim);font-weight:400}.rc:not(.rare):not(.more){font-weight:600}
 #rsyl{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -2px 12px;padding:0 2px}
@@ -930,10 +931,10 @@ const accOf=p=>{const w=p.split(' ').pop(),n=fastSyl(w);return n<2?'mez':(n>=3&&
 const MOPIS={mez:'rym męski: akcent na ostatniej sylabie, słowa jednosylabowe (np. wół – dół)',zen:'rym żeński: akcent na przedostatniej sylabie, zgodne co najmniej dwie ostatnie sylaby (np. brama – sama)',dak:'rym daktyliczny: akcent na trzeciej sylabie od końca, rzadki w polszczyźnie (np. polityka – matematyka)',dok:'rym dokładny (pełny): głoski od ostatniej akcentowanej samogłoski brzmią tak samo (np. słowa – mowa)',aso:'asonans (rym niedokładny): zgodne samogłoski, różne spółgłoski (np. słońce – łące)',spo:'konsonans (rym niedokładny): zgodne spółgłoski, inne samogłoski',wie:'rym bogaty (głęboki): rymują się trzy i więcej sylab od końca, a w skrajnym przypadku całe frazy (rym składany, pantorym), często jako asonans, np. „na kolanach siedzę – zakochana jesteś”. Pokazuję też końcówki wersów z Twoich tekstów',ali:'ten sam początek oraz ten sam układ samogłosek'};
 let rExp=new Set(),rBusy=0,FQS=null,FQR=null;
 /* część mowy: maska z Morfeusza2/SGJP (1 rzeczownik, 2 czasownik, 4 przymiotnik, 8 przysłówek, 32 forma słownikowa) */
-let rpos=ls('nt-rpos')||'all',rlem=ls('nt-rlem')==='1',rrare=ls('nt-rrare')==='1',rsort=ls('nt-rsort')||'q',rlast='all',lsub=ls('nt-lsub')||'has',lfull=ls('nt-lfull')!=='0';
+let rpos=ls('nt-rpos')||'all',rlem=ls('nt-rlem')==='1',rrare=ls('nt-rrare')==='1',rsort=ls('nt-rsort')||'q',rlast='all',rslang=ls('nt-rslang')==='1',lsub=ls('nt-lsub')||'has',lfull=ls('nt-lfull')!=='0';
 const POSL=[['all','Wszystkie'],['1','Rzeczowniki'],['2','Czasowniki'],['4','Przymiotniki'],['8','Przysłówki']];
-const posOn=()=>rpos!=='all'||rlem,vis=c=>(rrare||c.b||c.own||c.sg)&&pf(c),pf=c=>{if(!posOn())return true;const m=POSM.get(c.p);if(m==null)return false;return (rpos==='all'||(m&+rpos))&&(!rlem||(m&32))?true:false};
-const PFM=new Set(['all','mez','zen','dak','dok','aso','wie']);
+const posOn=()=>rpos!=='all'||rlem,vis=c=>(rrare||c.b||c.own||c.sg)&&(!rslang||c.sg)&&pf(c),pf=c=>{if(!posOn())return true;const m=POSM.get(c.p);if(m==null)return false;return (rpos==='all'||(m&+rpos))&&(!rlem||(m&32))?true:false};
+const PFM=new Set(['all','mez','zen','dak','dok','aso','spo','wie']);
 const sylLabel=n=>n===1?'1 sylaba':(n>=2&&n<=4?n+' sylaby':n+' sylab');
 const trailOf=t=>t.replace(/^.*[aeiouyąę]/,''),stemOf=t=>t.slice(0,t.length-trailOf(t).length);
 /* AZRhymes liczy samogłoski wg pisowni: „Reymont” = e,y,o, więc końcówka „y,o” (horyzont, dyskont, Szymon). Drugie czytanie: wygaszamy jota w ey/ay/oy/uy */
@@ -1079,7 +1080,7 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
   if(!lastR.POOL){const mm=new Map();[...R.ry,...R.bl].forEach(c=>{if(!mm.has(c.p))mm.set(c.p,c)});lastR.POOL=[...mm.values()].sort((a,b)=>b.sc-a.sc);lastR.ACC={mez:[],zen:[],dak:[]};lastR.POOL.forEach(c=>lastR.ACC[accOf(c.p)].push(c));
     /* dokładne: ten sam rodzaj akcentu co szukane słowo (męskie z męskim, żeńskie z żeńskim); asonanse: reszta zgodna samogłoskowo */
     const qa=accOf(wordsOf(q).slice(-1)[0]||q);lastR.DOK=R.dok.filter(c=>accOf(c.p)===qa);const dk=new Set(lastR.DOK.map(c=>c.p));lastR.ASO=lastR.POOL.filter(c=>!dk.has(c.p))}
-  const ACC=lastR.ACC,fl=a=>a.filter(vis).length,cnt={mez:fl(ACC.mez),zen:fl(ACC.zen),dak:fl(ACC.dak),all:fl(R.ry)+fl(R.bl)+fl(R.ph||[]),aso:fl(lastR.ASO),dok:fl(lastR.DOK),spo:R.spo.length,wie:fl(R.wie),ali:R.ali.length+R.sal.length,pom:0,lin:OL.has.length+OL.rh.length,kon:OL.bef.length+OL.aft.length};
+  const ACC=lastR.ACC,fl=a=>a.filter(vis).length,cnt={mez:fl(ACC.mez),zen:fl(ACC.zen),dak:fl(ACC.dak),all:fl(R.ry)+fl(R.bl)+fl(R.ph||[]),aso:fl(lastR.ASO),dok:fl(lastR.DOK),spo:fl(R.spo),wie:fl(R.wie),ali:R.ali.length+R.sal.length,pom:0,lin:OL.has.length+OL.rh.length,kon:OL.bef.length+OL.aft.length};
   /* góra: 5 zakładek jak w AZRhymes; rodzaje rymu to filtry w obrębie zakładki Rymy */
   const RTYPES=['all','mez','zen','dak','dok','aso','spo','wie'],inRym=RTYPES.includes(rmode);if(inRym)rlast=rmode;
   const TOP=[['rym','Rymy',cnt.all],['ali','Aliteracje',cnt.ali],['pom','Pomysły',null],['lin','Piosenki',cnt.lin],['kon','Konteksty',cnt.kon]];
@@ -1087,8 +1088,8 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
   $('#rmodes').querySelectorAll('button').forEach(b=>b.onclick=()=>{rmode=b.dataset.m==='rym'?rlast:b.dataset.m;rsyl='all';rExp=new Set();drawRymy()});
   const rt=$('#rtype');if(rt){if(!inRym)rt.innerHTML='';else{rt.innerHTML=RTYPES.map(id=>{const l=id==='all'?'Wszystkie':MODES.find(m=>m[0]===id)[1];return `<button role="tab" class="${rmode===id?'on':''}" data-m="${id}">${l}<b>${cnt[id]}</b></button>`}).join('');
     rt.querySelectorAll('button').forEach(b=>b.onclick=()=>{rmode=b.dataset.m;rsyl='all';rExp=new Set();drawRymy()})}}
-  {const pr=$('#rpos');if(pr){if(!PFM.has(rmode))pr.innerHTML='';else{pr.innerHTML=POSL.map(([id,l])=>`<button class="${rpos===id?'on':''}" data-p="${id}">${l}</button>`).join('')+`<button class="lem ${rlem?'on':''}" data-l="1" title="tylko formy podstawowe: mianownik, bezokolicznik">Tylko formy słownikowe</button><button class="rar ${rrare?'on':''}" data-r="1" title="domyślnie widać tylko słowa potoczne">Rzadkie słowa</button><button class="srt ${rsort==='q'?'on':''}" data-s="1" title="sortowanie: od najlepszego rymu albo według liczby sylab">${rsort==='q'?'Dokładne na wierzchu':'Wszystkie razem'}</button>`;
-      pr.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(b.dataset.s){rsort=rsort==='q'?'s':'q';ls('nt-rsort',rsort)}else if(b.dataset.r){rrare=!rrare;ls('nt-rrare',rrare?'1':'0')}else if(b.dataset.l){rlem=!rlem;ls('nt-rlem',rlem?'1':'0')}else{rpos=b.dataset.p;ls('nt-rpos',rpos)}rExp=new Set();drawRymy()})}}}
+  {const pr=$('#rpos');if(pr){if(!PFM.has(rmode))pr.innerHTML='';else{pr.innerHTML='<div class="rps">'+POSL.map(([id,l])=>`<button class="${rpos===id?'on':''}" data-p="${id}">${l}</button>`).join('')+'</div><div class="rtg">'+`<button class="lem ${rlem?'on':''}" data-l="1" title="tylko formy podstawowe: mianownik, bezokolicznik">Tylko formy słownikowe</button><button class="sl ${rslang?'on':''}" data-g="1" title="tylko słowa z miejskiego słownika slangu">Tylko slang</button><button class="rar ${rrare?'on':''}" data-r="1" title="domyślnie widać tylko słowa potoczne">Rzadkie słowa</button><button class="srt ${rsort==='q'?'on':''}" data-s="1" title="sortowanie: od najlepszego rymu albo według liczby sylab">${rsort==='q'?'Dokładne na wierzchu':'Wszystkie razem'}</button>`+'</div>';
+      pr.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(b.dataset.s){rsort=rsort==='q'?'s':'q';ls('nt-rsort',rsort)}else if(b.dataset.g){rslang=!rslang;ls('nt-rslang',rslang?'1':'0')}else if(b.dataset.r){rrare=!rrare;ls('nt-rrare',rrare?'1':'0')}else if(b.dataset.l){rlem=!rlem;ls('nt-rlem',rlem?'1':'0')}else{rpos=b.dataset.p;ls('nt-rpos',rpos)}rExp=new Set();drawRymy()})}}}
   const n=T.get(cur),wall=(n&&n.sciana||'').toLowerCase();
   const chip=c=>`<button class="rc ${wall.includes(c.p.toLowerCase())?'added':''} ${c.b?'':'rare'}${c.f?' fq':''}" data-p="${esc(c.p)}"${c.sg?' data-sg="1"':''}>${esc(c.p)}${c.own?'<i>●</i>':''}${c.sg?'<i title="slang">◆</i>':''}</button>`;
   const QT={2:'Bliskie rymy: ta sama ostatnia samogłoska, przedostatnia z tej samej rodziny albo inne spółgłoski',1:'Dalsze rymy: zgadza się tylko ostatnia samogłoska',0:'Pozostałe'};
