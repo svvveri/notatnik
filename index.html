@@ -653,6 +653,9 @@ function endRhymes(S,SY,out){
   grp.forEach(G=>{const strong=G.m.every(x=>x.e.n>=2)&&G.m.every(a=>G.m.every(b=>a===b||endSim(a.e,b.e)>=2));
     G.m.forEach(x=>{const w=x.e.w,use=strong?w.slice(-2):w.slice(-1),a=use[0].s,e=use[use.length-1].e;const cur=out.get(x.li)||[];
       if(cur.some(t=>t.s<e&&t.e>a))return;cur.push({s:a,e,c:use[use.length-1].c,g:G.gid});cur.sort((p,q)=>p.s-q.s);out.set(x.li,cur)})})}
+/* wtrącenia na końcu wersu (aha, ej, yeah…) nie niosą rymu: rym siedzi na słowie przed nimi („stoję aha” / „Testosteronem aha”) */
+const FILL=new Set('aha ahaa ahaha ej eej ey ay aye yeah yea yo uh huh hah haha ooh brr brrr skrrt skrt bam wow uuu ooo'.split(' '));
+const dropFill=a=>{a=a.slice();while(a.length>1&&FILL.has(a[a.length-1]))a.pop();return a};
 /* wers niedokończony: kończy się „…”/„...” albo jest wyraźnie krótszy niż reszta sekcji i niż wers równoległy w drugiej strofie (np. same chórki „MOI LUUUDZIE”, do których dopiszesz resztę) */
 const elongN=t=>(String(t).match(/([aeiouyąęóAEIOUYĄĘÓ])\1{2,}/g)||[]).length;
 function unfAll(lines,odAt){const secs=[];let cur=[];
@@ -665,6 +668,7 @@ function rhymeSyl(lines,odAt){const secs=[];let cur=[];const UNF=unfAll(lines,od
   const out=new Map();
   secs.forEach(S=>{const SY=S.map(i=>{const l=lines[i],pr=pairsOf(l),re=/[a-ząćęłńóśźżéèäöü']+/gi;let m;const words=[];
       while((m=re.exec(l))){const st=m.index;if(pr.some(([a,z])=>st>=a&&st<=z))continue;const ss=vowSyl(m[0].toLowerCase());if(ss.length)words.push({st,ss,wt:m[0].toLowerCase().replace(/([aeiouyąęó])\1{2,}/g,'$1')})}
+      while(words.length>1&&FILL.has(words[words.length-1].wt))words.pop();
       const syl=[];words.forEach((wd,wi)=>wd.ss.forEach((x,k)=>syl.push({s:wd.st+x.s,e:wd.st+x.e,c:x.c,wt:wd.wt,t:l.slice(wd.st+x.s,wd.st+x.e).toLowerCase(),fin:wi===words.length-1&&k===wd.ss.length-1})));return {i,syl}});
     const mark=SY.map(x=>new Set()),uf=new Map();const fnd=x=>{while(uf.has(x)&&uf.get(x)!==x){uf.set(x,uf.get(uf.get(x)));x=uf.get(x)}return x};const uni=(a,b)=>{if(!uf.has(a))uf.set(a,a);if(!uf.has(b))uf.set(b,b);uf.set(fnd(a),fnd(b))};
     for(let p=0;p<SY.length;p++)for(let q=p;q<=Math.min(p+4,SY.length-1);q++){
@@ -1160,7 +1164,7 @@ const OXY=/(zimn\w+ ogni\w+|żyw\w+ trup\w*|głośn\w+ cisz\w+|słodk\w+ gorycz\
 const FRAZ=['czarna owca','gruba ryba','zimna krew','wziąć nogi za pas','zbić z pantałyku','pięta achillesa','syzyfowa praca','stajnia augiasza','nić ariadny','umywać ręce','krokodyle łzy','sądny dzień','rzeź niewiniątek','trąba jerychońska','poszło jak z płatka','makiem zasiał','kropla w morzu','bułka z masłem','złapać byka za rogi','wiercić dziurę w brzuchu','nie ma róży bez kolców','ani be ani me','jak kamień w wodę','co nagle to po diable','kula u nogi','pod włos','w czepku urodzony','z drzewa spadł','tkwić w martwym punkcie','wyjść na prostą','rzucić na głęboką wodę','siedzieć jak na szpilkach','mieć muchy w nosie','nosić wodę','wilk w owczej skórze','gdzie diabeł mówi dobranoc','coś jak z bicza trzasnął','z głową w chmurach','bić pianę','mieć nosa','dostać kosza','pójść z torbami','biały kruk','spaść z nieba','lać wodę','łapać za słowa','dwa grzyby w barszcz','kto pod kim dołki kopie','nie ruszać z miejsca','po trupach do celu','ręka rękę myje','cisza przed burzą','jak z nut','zęby zjeść na czymś','pod górkę','czarno na białym','na łeb na szyję','od a do z','słowo się rzekło','jak grom z jasnego nieba'];
 let warAI='';
 function warLinie(){const b=$('#body').value.split('\n');const OD=findOdrzut(b),od=OD?OD.at:1e9;return b.map((t,i)=>{if(i>=od)return {i,t,lab:false,skip:true,ws:[],last:''};const lab=isLabel(t),cm=/^\s*(#|\/\/)/.test(t)||/^\s*https?:/i.test(t),st=/^-[^\s-]/.test(t);const p=parseLine(t);
-  const main=p.seg.filter(x=>!x.ad).map(x=>x.t).join(' ');const ws=wordsOf(main);return {i,t,lab,skip:lab||cm||st||!t.trim(),ws,adv:!ws.length&&p.ad>0,last:ws[ws.length-1]||''}})}
+  const main=p.seg.filter(x=>!x.ad).map(x=>x.t).join(' ');const ws=wordsOf(main);return {i,t,lab,skip:lab||cm||st||!t.trim(),ws,adv:!ws.length&&p.ad>0,last:dropFill(ws).slice(-1)[0]||''}})}
 function warRhyme(a,b){if(!a||!b||a===b)return a===b&&a?'dokładny':null;const ka=rkey(a),kb=rkey(b);if(!ka||!kb)return null;
   if(ka.tail===kb.tail)return 'dokładny';const ta=ka.tail,tb=kb.tail;
   if(skelOf(ta)===skelOf(tb)&&(trailOf(ta).slice(-1)===trailOf(tb).slice(-1)||(!trailOf(ta)&&!trailOf(tb))))return 'asonans';
@@ -1196,7 +1200,8 @@ const PAT='Zasady, z których korzystasz (Pat Pattison, Writing Better Lyrics): 
 const SCH={aaab:['zawieszony, domykany powtórką','trzy rymy i czwarta linia z innym zakończeniem (często powtarzanym): powtórka daje punkt oparcia'],aaaa:['bardzo stabilny','monorym domyka każdą linię; uważaj na monotonię'],aabb:['stabilny','dwuwersy domykają się od razu i zatrzymują ruch'],abab:['stabilny','rym krzyżowy: oczekiwanie i rozwiązanie'],xaxa:['dość stabilny','rymują się tylko linie parzyste, typowo dla piosenki'],abaa:['zwodniczo domknięty','ostatni rym wraca niespodziewanie'],aaba:['zawieszony','rym wraca dopiero na końcu, ruch niedomknięty'],abba:['zawieszony','okalający: środek domyka się szybciej niż całość'],aaax:['niestabilny','ostatnia linia bez rymu pcha do następnej sekcji'],axax:['niestabilny','rymują się nieparzyste, brak domknięcia'],xaax:['niestabilny','rym w środku, brzegi wiszą'],xxxx:['najbardziej niestabilny','bez rymów, ruch nigdy się nie domyka']};
 /* schemat rymów bierze grupy z kolorowania rymów (to samo, co widać w tekście), a identyczne końcówki wersów (np. „moi ludzie”) liczy jako jeden rym */
 function warEndG(){const lines=$('#body').value.split('\n'),OD=findOdrzut(lines),odAt=OD?OD.at:-1;let RC;try{RC=rhymeSyl(lines,odAt)}catch(_){RC=new Map()}
-  return i=>{const t=RC.get(i);if(!t||!t.length)return null;const l=lines[i],pr=pairsOf(l),re=/[a-ząćęłńóśźżéèäöü']+/gi;let m,end=0;while((m=re.exec(l))){if(pr.some(([a,z])=>m.index>=a&&m.index<=z))continue;end=m.index+m[0].length}
+  return i=>{const t=RC.get(i);if(!t||!t.length)return null;const l=lines[i],pr=pairsOf(l),re=/[a-ząćęłńóśźżéèäöü']+/gi;let m,end=0;const wd=[];while((m=re.exec(l))){if(pr.some(([a,z])=>m.index>=a&&m.index<=z))continue;wd.push([m[0].toLowerCase(),m.index+m[0].length])}
+    while(wd.length>1&&FILL.has(wd[wd.length-1][0]))wd.pop();end=wd.length?wd[wd.length-1][1]:0;
     const x=t[t.length-1];return x.e>=end?x.g:null}}
 function warForma(){const L=warLinie(),out=[],EG=warEndG(),bl=$('#body').value.split('\n'),OD0=findOdrzut(bl),UF=unfAll(bl,OD0?OD0.at:-1);let cur=null;
   const push=()=>{if(cur&&cur.v.length)out.push(cur)};
