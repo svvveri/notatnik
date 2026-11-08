@@ -103,7 +103,7 @@ body[data-view="edit"] #fab{display:none}
 #tools>*{flex:none}
 #tools .ico:disabled{opacity:.3}
 #tools .sp{flex:1 0 8px}
-#tools .x{display:none}#tools.open{flex-wrap:wrap;overflow:visible}#tools.open .x{display:inline-flex}
+#tools .x{display:none}#tools.open{flex-wrap:wrap;overflow:visible}#tools.open .x{display:inline-flex}#tools{gap:6px}#tools .ico{width:30px}#tools .sp{flex:1 0 2px}
 #moreT{display:inline-flex;align-items:center;gap:4px}#moreT svg{transition:transform .15s}#tools.open #moreT svg{transform:rotate(180deg)}
 .pill{flex:none;padding:5px 11px;border-radius:999px;border:1px solid var(--line);font-size:13.5px;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
 .pill.set{color:var(--fg);border-color:var(--acc)}
@@ -300,15 +300,14 @@ html{touch-action:pan-x pan-y}#scroll{touch-action:pan-y}
       <div id="tools" class="gut" hidden>
         <button id="undoBtn" class="ico" type="button" aria-label="Cofnij" title="Cofnij"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button>
         <button id="redoBtn" class="ico" type="button" aria-label="Ponów" title="Ponów"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button>
-        <button id="moreT" class="pill" type="button" aria-expanded="false" title="Tempo, tonacja, kolory, warsztat, nagrania">Więcej<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
-        <button id="bpmBtn" class="pill x" type="button" title="Tempo bitu"></button>
-        <button id="keyBtn" class="pill x" type="button" title="Tonacja"></button>
+        <button id="bpmBtn" class="pill" type="button" title="Tempo bitu"></button>
+        <button id="keyBtn" class="pill" type="button" title="Tonacja"></button>
         <button id="rhBtn" class="pill x" type="button" title="Włącz/wyłącz kolorowanie rymujących się sylab">Kolory</button>
         <button id="warBtn" class="pill x" type="button" title="Środki stylistyczne i rymy w tym tekście">Warsztat</button>
         <button id="recBtn" class="pill x" type="button" title="Nagrania głosowe do tego tekstu">Nagrania</button>
         <span class="sp"></span>
         <button id="adBtn" class="pill ad" type="button" title="Zaznacz fragment: nawias = adlib. Dotknięcie w nawiasie go zdejmuje. Bez zaznaczenia: cały wers.">( ) adlib</button>
-        <button id="rymBtn" class="pill ry" type="button" title="Rymy do zaznaczonego słowa albo końca wersu">Rymy</button>
+        <button id="moreT" class="pill" aria-label="Więcej: kolory, warsztat, nagrania" type="button" aria-expanded="false" title="Tempo, tonacja, kolory, warsztat, nagrania"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
       </div>
       <div id="selwrap"><div id="selbar" class="gut" hidden><span id="selw"></span><button id="selWers" class="pill" type="button">✦ Analiza</button><button id="selAI" class="pill" type="button">✦ AI</button><button id="selRy" class="pill ry" type="button">Rymy</button><button id="selAd" class="pill ad" type="button">( ) adlib</button><button id="selWall" class="pill" type="button">+ ściana</button></div></div>
       <div id="page" class="gut" hidden>
@@ -1247,7 +1246,7 @@ function wire(){
   {const mt=$('#moreT'),tl=$('#tools');const set=o=>{tl.classList.toggle('open',o);mt.setAttribute('aria-expanded',o);ls('nt-tools',o?'1':'0')};set(ls('nt-tools')==='1');mt.onclick=()=>set(!tl.classList.contains('open'))}
   $('#sugg').addEventListener('pointerdown',e=>e.preventDefault());
   $('#tabText').onclick=()=>showTab('text');$('#tabWall').onclick=()=>showTab('wall');
-  $('#bpmBtn').onclick=sheetBpm;$('#rhBtn').onclick=()=>{if(VS.rhm==='off'){VS.rhm=ls('nt-rhm0')||'smart'}else{ls('nt-rhm0',VS.rhm);VS.rhm='off'}ls('nt-rhm',VS.rhm);applyView()};$('#warBtn').onclick=()=>sheetWarsztat();$('#keyBtn').onclick=sheetKey;$('#rymBtn').onclick=rymyDlaMiejsca;
+  $('#bpmBtn').onclick=sheetBpm;$('#rhBtn').onclick=()=>{if(VS.rhm==='off'){VS.rhm=ls('nt-rhm0')||'smart'}else{ls('nt-rhm0',VS.rhm);VS.rhm='off'}ls('nt-rhm',VS.rhm);applyView()};$('#warBtn').onclick=()=>sheetWarsztat();$('#keyBtn').onclick=sheetKey;
   $('#rForm').onsubmit=e=>{e.preventDefault();szukajRymow($('#rq').value);$('#rq').blur()};
   ['selRy','selAd','selWall','selWers','selAI'].forEach(id=>{const e=$('#'+id);e.addEventListener('pointerdown',ev=>ev.preventDefault());e.addEventListener('mousedown',ev=>ev.preventDefault())});
   $('#selRy').onclick=()=>{$('#selbar').hidden=true;rymyDlaMiejsca()};
@@ -1256,7 +1255,6 @@ function wire(){
   $('#selAd').onclick=()=>{toggleAdlib();selBar()};
   $('#selWall').onclick=()=>{const w=selWord();if(!w||!cur)return;addToWall(w);const e=$('#selWall');e.textContent='✓ dodano';setTimeout(()=>{e.textContent='+ ściana'},1200)};
   const ab=$('#adBtn');ab.addEventListener('pointerdown',e=>e.preventDefault());ab.addEventListener('mousedown',e=>e.preventDefault());ab.onclick=toggleAdlib;
-  const rb=$('#rymBtn');rb.addEventListener('pointerdown',e=>e.preventDefault());rb.addEventListener('mousedown',e=>e.preventDefault());
   $('#body').addEventListener('blur',()=>setTimeout(()=>{const sb=$('#selbar');if(sb&&document.activeElement!==$('#body')&&$('#sheetBg').hidden)sb.hidden=true},300));
   document.addEventListener('selectionchange',trackSel);['select','keyup','pointerup','input','focus'].forEach(t=>$('#body').addEventListener(t,trackSel));
   applyView();
