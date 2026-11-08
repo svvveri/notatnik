@@ -739,7 +739,8 @@ function autoLabel(e){if(!VS.autolab||!e||!cur||!/^insert/.test(e.inputType||'')
     if(lines[idx+1]!==undefined&&lines[idx+1].trim())return;
     const OD=findOdrzut(lines);if(OD&&OD.mark&&idx>=OD.at)return}
   const name=labGuess(lines,idx);
-  b.value=v.slice(0,ls0)+name+'\n'+v.slice(ls0);const np=pos+name.length+1;b.setSelectionRange(np,np)}
+  const nl=lines.slice();nl.splice(idx,0,name);const bef=labNames(lines),ord=lines.slice(0,idx).filter(isLabel).length;labRenum(nl);
+  moveRecs(bef,labNames(nl).filter((_,k)=>k!==ord));b.value=nl.join('\n');const np=pos+nl[idx].length+1;b.setSelectionRange(np,np)}
 /* po skasowaniu całego tekstu części znika też jej znacznik, chyba że ma nagrania */
 let lastBody;
 function dropEmptyLabel(e){if(!VS.autolab||!e||!cur||!/^delete/.test(e.inputType||''))return;
@@ -749,11 +750,17 @@ function dropEmptyLabel(e){if(!VS.autolab||!e||!cur||!/^delete/.test(e.inputType
   let e2=L+1;while(e2<lines.length&&!isLabel(lines[e2]))e2++;
   for(let k=L+1;k<e2;k++)if(lines[k].trim())return;
   const n=T.get(cur),nm=labName(lines[L]);if(n&&(n.nagrania||[]).some(r=>r.czesc===nm))return;
-  lines.splice(L,c-L+1);while(L>0&&L<lines.length&&!lines[L].trim()&&!lines[L-1].trim())lines.splice(L,1);labRenum(lines);b.value=lines.join('\n');
+  const ord=lines.slice(0,L).filter(isLabel).length,bef=labNames(lines).filter((_,k)=>k!==ord);
+  lines.splice(L,c-L+1);while(L>0&&L<lines.length&&!lines[L].trim()&&!lines[L-1].trim())lines.splice(L,1);labRenum(lines);moveRecs(bef,labNames(lines));b.value=lines.join('\n');
   const np=lines.slice(0,L).reduce((a,x)=>a+x.length+1,0);b.setSelectionRange(np,np)}
 function labelClick(){const b=$('#body');if(!cur||b.selectionStart!==b.selectionEnd)return;
   const v=b.value,pos=b.selectionStart,idx=v.slice(0,pos).split('\n').length-1,l=v.split('\n')[idx];
   if(l&&isLabel(l)){b.blur();sheetLabel(idx)}}
+/* nagrania są przypisane do części po jej nazwie; gdy nazwy się zmieniają (numeracja, zmiana typu), przesuwają się razem z nimi */
+function labNames(lines){const o=[];lines.forEach(l=>{if(isLabel(l))o.push(labName(l))});return o}
+function moveRecs(bef,aft){const n=T.get(cur);if(!n||!(n.nagrania||[]).length||bef.length!==aft.length)return;
+  const mp=new Map(),seen=new Set();bef.forEach((x,i)=>{if(seen.has(x))return;seen.add(x);if(x!==aft[i])mp.set(x,aft[i])});if(!mp.size)return;
+  let ch=false;n.nagrania.forEach(r=>{if(mp.has(r.czesc)){const o=r.czesc,nw=mp.get(o);r.czesc=nw;if(r.nazwa&&r.nazwa.startsWith(o))r.nazwa=nw+r.nazwa.slice(o.length);ch=true}});if(ch)touch(n)}
 /* numeruje „Zwrotka” po kolei według miejsca w tekście (inne części zostawia) */
 function labRenum(lines){let z=0;lines.forEach((l,k)=>{if(!isLabel(l))return;const t=l.trim(),m=t.match(/^(\[?)\s*zwrotka(?:\s*\d+)?\s*(\]?)(:?)$/i);if(m){z++;lines[k]=m[1]+'Zwrotka '+z+m[2]+m[3]}})}
 function sheetLabel(i){const b=$('#body'),lines=b.value.split('\n'),l=lines[i];if(l===undefined)return;
@@ -764,9 +771,10 @@ function sheetLabel(i){const b=$('#body'),lines=b.value.split('\n'),l=lines[i];i
   <div class="labG" id="labO">${os.map(bt).join('')}</div>
   <div class="shBtns"><button id="labEd">Edytuj ręcznie</button><button class="danger" id="labDel">Usuń znacznik</button></div>`);
   $('#x').onclick=closeSheet;
-  const put=t=>{lines[i]=t;labRenum(lines);b.value=lines.join('\n');closeSheet();edit()};
+  const put=t=>{const bef=labNames(lines);lines[i]=t;labRenum(lines);moveRecs(bef,labNames(lines));b.value=lines.join('\n');closeSheet();edit()};
   $('#sheet').querySelectorAll('.labG button').forEach(x=>x.onclick=()=>{const nm=x.dataset.n;put(br?'['+nm+']':colon?nm+':':nm)});
-  $('#labDel').onclick=()=>{lines.splice(i,1);labRenum(lines);b.value=lines.join('\n');closeSheet();edit()};
+  $('#labDel').onclick=()=>{const n=T.get(cur);if(n&&(n.nagrania||[]).some(r=>r.czesc===cur0)){$('#labDel').textContent='Ta część ma nagrania. Najpierw je usuń.';return}
+    const ord=lines.slice(0,i).filter(isLabel).length,bef=labNames(lines).filter((_,k)=>k!==ord);lines.splice(i,1);labRenum(lines);moveRecs(bef,labNames(lines));b.value=lines.join('\n');closeSheet();edit()};
   $('#labEd').onclick=()=>{closeSheet();b.focus();const p=lines.slice(0,i+1).join('\n').length;b.setSelectionRange(p,p)}}
 function edit(){const n=T.get(cur);if(!n)return;n.tytul=$('#title').value;n.tresc=$('#body').value;touch(n);rvStale=true;refit();clearTimeout(hT);hT=setTimeout(histPush,450)}
 
