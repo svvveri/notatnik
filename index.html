@@ -651,9 +651,10 @@ function endRhymes(S,SY,out){
     G.m.forEach(x=>{const w=x.e.w,use=strong?w.slice(-2):w.slice(-1),a=use[0].s,e=use[use.length-1].e;const cur=out.get(x.li)||[];
       if(cur.some(t=>t.s<e&&t.e>a))return;cur.push({s:a,e,c:use[use.length-1].c,g:G.gid});cur.sort((p,q)=>p.s-q.s);out.set(x.li,cur)})})}
 /* wers niedokończony: kończy się „…”/„...” albo jest wyraźnie krótszy niż reszta sekcji i niż wers równoległy w drugiej strofie (np. same chórki „MOI LUUUDZIE”, do których dopiszesz resztę) */
+const elongN=t=>(String(t).match(/([aeiouyąęóAEIOUYĄĘÓ])\1{2,}/g)||[]).length;
 function unfAll(lines,odAt){const secs=[];let cur=[];
   lines.forEach((l,i)=>{if(odAt>=0&&i>=odAt)return;if(isLabel(l)){if(cur.length)secs.push(cur);cur=[];return}if(!l.trim()||/^\s*(#|\/\/)/.test(l)||/^-[^\s-]/.test(l)||/^\s*https?:/i.test(l))return;cur.push(i)});if(cur.length)secs.push(cur);
-  const U=new Set();secs.forEach(S=>{const sy=S.map(i=>sylText(lines[i]));S.forEach((i,k)=>{if(/(\.\.\.|…)\s*$/.test(lines[i])){U.add(i);return}});
+  const U=new Set();secs.forEach(S=>{const sy=S.map(i=>sylText(lines[i])+elongN(lines[i]));S.forEach((i,k)=>{if(/(\.\.\.|…)\s*$/.test(lines[i])){U.add(i);return}});
     if(S.length<4)return;const med=[...sy].sort((a,b)=>a-b)[Math.floor(sy.length/2)],n=S.length,h=n>=8&&n%2===0?n/2:(n>=8?4:0);
     S.forEach((i,k)=>{if(U.has(i)||sy[k]<1)return;if(sy[k]>med*0.5)return;if(h){const j=k>=h?k-h:k+h;if(j<n&&sy[j]&&sy[k]>sy[j]*0.5)return}U.add(i)})});return U}
 function rhymeSyl(lines,odAt){const secs=[];let cur=[];const UNF=unfAll(lines,odAt);
@@ -1163,7 +1164,7 @@ function warForma(){const L=warLinie(),out=[],EG=warEndG(),bl=$('#body').value.s
   L.forEach(l=>{if(l.lab){push();cur={name:labName(l.t),v:[],br:[]};return}if(!cur)cur={name:'Początek',v:[],br:[]};
     if(!l.t.trim()&&!l.skip){}
     if(!l.t.trim()){if(cur.v.length&&cur.br[cur.br.length-1]!==cur.v.length)cur.br.push(cur.v.length);return}
-    if(l.skip||!l.ws.length)return;cur.v.push({i:l.i,t:l.t,ws:l.ws,last:l.last,sy:sylText(l.t),g:EG(l.i),unf:UF.has(l.i)})});push();
+    if(l.skip||!l.ws.length)return;cur.v.push({i:l.i,t:l.t,ws:l.ws,last:l.last,sy:sylText(l.t)+elongN(l.t),el:elongN(l.t),g:EG(l.i),unf:UF.has(l.i)})});push();
   out.forEach(x=>{const ls=x.v;x.br=x.br.filter(k=>k>0&&k<ls.length);const wc={};ls.forEach(l=>{if(l.last&&!l.unf)wc[l.last]=(wc[l.last]||0)+1});
     const keys=ls.map((l,i)=>l.unf?'u'+i:l.g!=null?'g'+l.g:(l.last&&l.last.length>1&&wc[l.last]>=2?'w'+l.last:'u'+i)),cnt={};keys.forEach(c=>cnt[c]=(cnt[c]||0)+1);const map={};let k=0;
     x.sch=keys.map((c,i)=>{if(ls[i].unf)return '…';if(cnt[c]===1)return 'x';if(!map[c])map[c]=String.fromCharCode(97+k++);return map[c]}).join('');
@@ -1184,6 +1185,7 @@ function warFormaHtml(){const S=warForma();if(!S.length)return '';
   /* 1. stabilność */
   const stab=S.map(x=>{const n=x.v.length,uf=x.v.filter(l=>l.unf),sy=x.v.filter(l=>!l.unf).map(l=>l.sy),par=n%2===0,pt=schParts(x),uni=pt.length>1&&pt.every(q=>q===pt[0]),d=SCH[uni?pt[0]:x.sch];let notes=[];
     notes.push(`${n} ${n===1?'linia':'linii'}${strName(x)?' ('+strName(x)+')':''} (${par?'parzysta: stabilnie':'nieparzysta: ruch idzie dalej'})`);
+    if(x.v.some(l=>l.el))notes.push('przeciągnięte samogłoski liczę jako +1 do długości (przy rapowaniu wers trwa dłużej, niż wynika z sylab)');
     if(uf.length)notes.push('do dokończenia: wers '+uf.map(l=>x.v.indexOf(l)+1).join(', ')+' (pominięty w schemacie)');
     if(sy.length>=2){const nn=sy.length,a=sy[nn-2],b=sy[nn-1];notes.push(`długości ${sy.join('·')}`+(b-a<=-2?`; ostatnia krótsza o ${a-b}: niestabilnie, sekcja zawisa`:b-a>=2?`; ostatnia dłuższa: domyka mocniej`:'; wyrównane: stabilnie'))}
     const g=d?`${d[0]}: ${d[1]}`:(n>=2?(par&&x.sch.slice(-1)!=='x'?'raczej stabilny: parzysta liczba i rym na końcu':'raczej niestabilny: koniec bez rymu lub nieparzysta liczba linii'):'');
