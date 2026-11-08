@@ -726,10 +726,10 @@ function toggleAdlib(){const b=$('#body');if(!cur)return;const old=b.value;let v
 const labKind=n=>{n=String(n).toLowerCase();return /pre|przed/.test(n)?'o':/refren|hook|chorus|^ref\b/.test(n)?'r':/zwrotka|verse/.test(n)?'z':'o'};
 function labGuess(lines,upto){let z=0,last=null;for(let i=0;i<upto;i++)if(isLabel(lines[i])){const k=labKind(labName(lines[i]));if(k==='z')z++;last=k}
   return last==null?'Zwrotka 1':last==='r'?'Zwrotka '+(z+1):last==='z'?'Refren':(z?'Refren':'Zwrotka 1')}
-function autoLabel(e){if(!VS.autolab||!e||e.isComposing||e.inputType!=='insertText'||!cur)return;
+function autoLabel(e){if(!VS.autolab||!e||!cur||!/^insert/.test(e.inputType||''))return;
   const b=$('#body');if(b.selectionStart!==b.selectionEnd)return;const v=b.value,pos=b.selectionStart,ls0=v.lastIndexOf('\n',pos-1)+1;
   let le=v.indexOf('\n',pos);if(le<0)le=v.length;const line=v.slice(ls0,le);
-  if(line.length!==1||!/\p{L}|\d/u.test(line))return;
+  if(line.length<1||line.length>3||!/^[\p{L}\d]+$/u.test(line))return;
   const lines=v.split('\n'),idx=v.slice(0,ls0).split('\n').length-1;
   let p=idx-1;while(p>=0&&!lines[p].trim())p--;
   if(p<0){if(v.trim().length!==1)return}
