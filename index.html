@@ -1122,9 +1122,9 @@ function warAnaliza(){const L=warLinie(),out=[];
   // anafora / epifora / symploke
   const body=L.filter(l=>!l.skip&&l.ws.length);
   for(let i=0;i<body.length-1;){let j=i;while(j+1<body.length&&body[j+1].ws[0]===body[i].ws[0]&&body[i].ws[0].length>1)j++;
-    if(j>i){const L1=body.slice(i,j+1);const same=L1.every(l=>l.last===L1[0].last);add(same?'symploke':'anafora',L1.map(l=>l.i+1),`„${body[i].ws[0]}” otwiera ${L1.length} wersy${same?' i wszystkie kończą się „'+L1[0].last+'”: symploke':''}`);i=j+1}else i++}
+    if(j>i){const L1=body.slice(i,j+1);const same=L1.every(l=>l.last===L1[0].last);add(same?'symploke':'anafora',L1.map(l=>l.i+1),`„${body[i].ws[0]}” otwiera ${L1.length} ${L1.length<5?'wersy':'wersów'}${same?' i wszystkie kończą się „'+L1[0].last+'”: symploke':''}`);i=j+1}else i++}
   for(let i=0;i<body.length-1;){let j=i;while(j+1<body.length&&body[j+1].last===body[i].last&&body[i].last.length>1)j++;
-    if(j>i){const L1=body.slice(i,j+1);if(!(L1.every(l=>l.ws[0]===L1[0].ws[0])))add('epifora',L1.map(l=>l.i+1),`„${body[i].last}” kończy ${L1.length} wersy`);i=j+1}else i++}
+    if(j>i){const L1=body.slice(i,j+1);if(!(L1.every(l=>l.ws[0]===L1[0].ws[0])))add('epifora',L1.map(l=>l.i+1),`„${body[i].last}” kończy ${L1.length} ${L1.length<5?'wersy':'wersów'}`);i=j+1}else i++}
   const lower=l=>l.t.toLowerCase();
   body.forEach(l=>{const t=l.t,tl=lower(l),n=l.i+1;
     const m=tl.match(/(?:^|[\s,])(jak|jakby|niczym|niby)\s+[a-ząćęłńóśźż]+/);if(m&&!/^\s*jak\b/.test(tl)&&!/jak (tylko|długo|zwykle|zawsze|nigdy|możesz|mogę|się)\b/.test(tl))add('porownanie',n,`„${m[0]}”`);
@@ -1169,6 +1169,13 @@ const P1=/^(ja|mnie|mi|mną|mój|moja|moje|moi|moich|moim|my|nas|nam|nami|nasz|n
   PAST=/^(był|była|było|były|byli)$|(łem|łam|łeś|łaś|liśmy|łyśmy|liście|łyście)$/,FUT=/^będ(ę|ziesz|zie|ziemy|ziecie|ą)$/;
 function warOsoba(v){const c={p1:0,p2:0,p3:0,past:0,fut:0},hit=[];v.forEach(l=>{let f=false;l.ws.forEach(w=>{if(P1.test(w)){c.p1++;f=true}else if(P2.test(w)){c.p2++;f=true}else if(P3.test(w)){c.p3++;f=true}if(PAST.test(w)){c.past++;f=true}if(FUT.test(w)){c.fut++;f=true}});if(f)hit.push(l.i+1)});return {c,hit}}
 const gnoMap=()=>{const m=new Map();warForma().forEach(x=>x.v.forEach((l,j)=>m.set(l.i+1,j+1)));return m};
+/* niedokończony wers: z układu rymów sekcji (wers równoległy w drugiej strofie albo poprzedni) wyznacza, z czym ma się rymować i ile sylab brakuje */
+function warDokoncz(sec,ln){if(!sec||!ln||!ln.unf)return null;const v=sec.v,k=v.indexOf(ln),n=v.length,h=n>=8&&n%2===0?n/2:(n>=8?4:0),ok=c=>c&&/[a-z]/.test(c);let ch=null;
+  if(h){const j=k>=h?k-h:k+h;if(j<n&&ok(sec.sch[j]))ch=sec.sch[j]}
+  if(!ch)for(let j=k-1;j>=0;j--)if(ok(sec.sch[j])){ch=sec.sch[j];break}
+  if(!ch)return null;const refs=[];for(let j=k-1;j>=0;j--)if(sec.sch[j]===ch)refs.push(v[j]);for(let j=k+1;j<n;j++)if(sec.sch[j]===ch)refs.push(v[j]);if(!refs.length)return null;
+  const fin=v.filter(q=>!q.unf).map(q=>q.sy).sort((a,b)=>a-b),med=fin[Math.floor(fin.length/2)]||8,par=h?v[k>=h?k-h:k+h]:null,target=par&&!par.unf?par.sy:med;
+  return {ch,refs,ref:refs[0],target,need:Math.max(1,target-ln.sy)}}
 function warFormaHtml(){const S=warForma();if(!S.length)return '';
   const q=t=>esc(t.length>46?t.slice(0,44)+'…':t),med=a=>{const b=a.slice().sort((x,y)=>x-y);return b[Math.floor(b.length/2)]};
   /* 1. stabilność */
@@ -1235,15 +1242,17 @@ function sheetWers(idx,ai){const L=warLinie(),l=L[idx];if(!l)return;const R=warA
   if(ch&&ch!=='x'&&ch!=='…')sec.v.forEach((q,k)=>{if(q!==ln&&sec.sch[k]===ch){const a=ln.last,b=q.last,r=warRhyme(a,b)||'rym (wg kolorowania)',sa=sylWord(a),sb=sylWord(b),akc=(sa===1||sb===1)?'męski':'żeński',gr=a.slice(-3)===b.slice(-3)&&a!==b&&a.length>4?', gramatyczny (łatwy)':'';
     rh.push({lines:[idx+1,q.i+1],note:`${a} – ${b}: ${r}, ${akc}${gr}`})}});
   const fg=R.filter(r=>r.f!=='rym'&&r.f!=='bialy'),sc=R.filter(r=>r.f==='rym'&&r.lines.length===1),schNote=sec?`<div class="hint">Schemat sekcji: <code class="sch">${esc(fmtSch(sec))}</code>${ln&&ln.unf?' · ten wers jest niedokończony':''}</div>`:'';
-  const last=l.last,figs=['epitet','porownanie','hiperbola','oksymoron','metafora','inwersja','anafora','onomatopeja','aliteracja','ironia','antyteza'];
+  const dk=warDokoncz(sec,ln),last=dk?dk.ref.last:l.last,figs=['epitet','porownanie','hiperbola','oksymoron','metafora','inwersja','anafora','onomatopeja','aliteracja','ironia','antyteza'];
   openSheet(`<div class="shHead"><h3>Wers ${no} · ${esc(secName)}</h3><button class="x" id="x" aria-label="Zamknij">×</button></div><div class="warbody">
-   <div class="wline">${esc(l.t.trim())}</div><div class="hint">${sylText(l.t)} sylab${last?` · końcówka „${esc(last)}” (wymowa ${esc((rkey(last)||{}).tail||'')})`:''}</div>
-   <div class="wcard"><h4>Rymy tego wersu</h4>${rh.length?rh.map(r=>{const o=r.lines.find(x=>x!==idx+1);return `<div class="wr" data-l="${o}"><b>wers ${(gnoMap().get(o))||o}</b> ${esc(r.note)}<br><i>${esc((L[o-1]||{}).t||'')}</i></div>`}).join(''):'<div class="hint">Ten wers nie rymuje się końcówką z innym wersem w sekcji.</div>'}${schNote}${sc.map(r=>`<div class="hint">${esc(r.note)}</div>`).join('')}</div>
+   <div class="wline">${esc(l.t.trim())}</div><div class="hint">${sylText(l.t)} sylab${dk?' · wers niedokończony':last?` · końcówka „${esc(last)}” (wymowa ${esc((rkey(last)||{}).tail||'')})`:''}</div>
+   ${dk?`<div class="wcard"><h4>Dokończ ten wers</h4><div class="hint">Schemat rymów sekcji: <code class="sch">${esc(fmtSch(sec))}</code>. Ten wers wypada na miejscu rymu ${dk.ch.toUpperCase()}, więc ma się rymować z „${esc(dk.ref.t.trim())}” (wers ${gnoMap().get(dk.ref.i+1)||dk.ref.i+1}), czyli na „${esc(dk.ref.last)}”. Brakuje około ${dk.need} sylab (docelowo ${dk.target}).</div><div class="shBtns"><button id="wDk" class="pri">Dokończ wers (AI)</button></div><div id="wOutDk"></div></div>`:''}
+   <div class="wcard"><h4>Rymy tego wersu</h4>${rh.length?rh.map(r=>{const o=r.lines.find(x=>x!==idx+1);return `<div class="wr" data-l="${o}"><b>wers ${(gnoMap().get(o))||o}</b> ${esc(r.note)}<br><i>${esc((L[o-1]||{}).t||'')}</i></div>`}).join(''):`<div class="hint">${ln&&ln.unf?'Wers jest niedokończony, więc nie ma jeszcze końcówki do rymowania.':'Ten wers nie rymuje się końcówką z innym wersem w sekcji.'}</div>`}${schNote}${sc.map(r=>`<div class="hint">${esc(r.note)}</div>`).join('')}</div>
    ${(()=>{const k=warKlisze().filter(x=>x.l===idx+1);return k.length?`<div class="wcard"><h4>Klisza w tym wersie</h4>${k.map(x=>`<div class="hint">${x.rym?'Utarty rym':'Klisza'}: „${esc(x.f)}”. Zamień na konkretny obraz zmysłowy.</div>`).join('')}</div>`:''})()}
    <div class="wcard"><h4>Środki w tym wersie</h4>${fg.length?fg.map(r=>`<details class="wd"><summary>${esc(warFigChip(r.f))} <span>${esc(r.note)}</span></summary><p>${esc((SRODKI[r.f]||{}).d||'')}</p></details>`).join(''):'<div class="hint">Nic nie wykryłam regułami.</div>'}</div>
    <div class="shBtns"><button id="wRy">Rymy do „${esc(last||'…')}”</button></div>
    <div class="wcard"><h4>Warianty wersu (AI)</h4><div class="pomcats" id="wF">${figs.map(f=>`<button data-f="${f}">${esc(SRODKI[f].n)}</button>`).join('')}</div><div id="wOut"><div class="hint">Wybierz środek, a model Claude zaproponuje osiem wariantów tego wersu. Wymaga klucza API (menu ⋯).</div></div></div></div>`);
   $('#x').onclick=closeSheet;$('#sheet').querySelectorAll('.wr[data-l]').forEach(r=>r.onclick=()=>warGoto(+r.dataset.l));
+  if(dk)$('#wDk').onclick=()=>wersAI(idx,'dokoncz','#wOutDk',dk);
   $('#wRy').onclick=()=>{if(!last)return;closeSheet();showTab('wall');$('#rq').value=last;szukajRymow(last)};
   $('#wF').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('#wF').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));wersAI(idx,b.dataset.f)});
   if(ai){const w=$('#wF');if(w&&w.scrollIntoView)setTimeout(()=>w.scrollIntoView({block:'center'}),60)}}
@@ -1256,11 +1265,11 @@ function warAnalizaAI(){const o=$('#warAIo'),b=$('#body');o.innerHTML='<div clas
   .then(t=>{warAI='<div class="wf"><h4>Analiza AI</h4>'+esc(t).split('\n').filter(x=>x.trim()).map(x=>{const m=x.match(/linia\s*(\d+)/i);return `<div class="wr" ${m?`data-l="${m[1]}"`:''}>${x}</div>`}).join('')+'</div>';o.innerHTML=warAI;
     o.querySelectorAll('.wr[data-l]').forEach(r=>r.onclick=()=>warGoto(+r.dataset.l))})
   .catch(e=>{o.innerHTML='<div class="hint" style="color:var(--danger)">'+esc(e.message)+'</div>'})}
-function wersAI(idx,fig){const o=$('#wOut'),b=$('#body'),v=b.value,L=v.split('\n'),line=(L[idx]||'').trim();if(!line){o.innerHTML='<div class="hint">Pusty wers.</div>';return}
+function wersAI(idx,fig,sel,dk){const o=$(sel||'#wOut'),b=$('#body'),v=b.value,L=v.split('\n'),line=(L[idx]||'').trim();if(!line){o.innerHTML='<div class="hint">Pusty wers.</div>';return}
   const ctx=L.slice(Math.max(0,idx-4),idx+4).join('\n');o.innerHTML='<div class="hint">Szukam wariantów…</div>';
   const FS=(()=>{try{const S=warForma();for(const x of S){const j=x.v.findIndex(l=>l.i===idx);if(j>=0){const nx=S[S.indexOf(x)+1];return `Sekcja: ${x.name}, schemat rymów ${x.sch}, wers ${j+1} z ${x.v.length}`+(j===0?' (pierwszy: pozycja mocy)':j===x.v.length-1?' (ostatni: pozycja mocy'+(nx&&nx.ref&&!x.ref?', trigger przed refrenem':'')+')':'')+(x.ref?'; to refren, powinien być neutralny (bez czasu i osoby)':'')+'.'}}}catch(_){}return ''})();
   aiCall('Jesteś współautorem tekstów rapowych i poetyckich po polsku. Zachowujesz sens, rytm i (jeśli to możliwe) liczbę sylab oraz końcówkę rymującą się wersu. '+PAT+' Odpowiadasz wyłącznie listą wariantów, jeden w linii, bez numeracji i komentarzy.',
-    `Kontekst:\n${ctx}\n${FS}\n\nWers: "${line}"\nŚrodek stylistyczny: ${SRODKI[fig].n} (${SRODKI[fig].d})\nZaproponuj 8 wariantów tego wersu z użyciem tego środka.`,900)
+    `Kontekst:\n${ctx}\n${FS}\n\nWers: "${line}"\n${fig==='dokoncz'&&dk?`Wers jest NIEDOKOŃCZONY: zostaw jego początek dokładnie tak, jak jest, i dopisz dalszy ciąg.\nDokończenie ma się rymować (brzmieniowo, jak w kolorowaniu rymów) z końcówką wersu: "${dk.ref.t.trim()}" (rym na „${dk.ref.last}”). Cały wers ma mieć około ${dk.target} sylab, czyli dopisz około ${dk.need}. Zaproponuj 8 pełnych wersów (początek i dokończenie), każdy w osobnej linii.`:`Środek stylistyczny: ${SRODKI[fig].n} (${SRODKI[fig].d})\nZaproponuj 8 wariantów tego wersu z użyciem tego środka.`}`,900)
   .then(t=>{const A=t.split('\n').map(x=>x.replace(/^[\-\*\d\.\)\s"„]+|["”]+$/g,'').trim()).filter(Boolean).slice(0,10);
     if(!A.length){o.innerHTML='<div class="hint">Pusta odpowiedź modelu: '+esc(t.slice(0,300))+'</div>';return}
     o.innerHTML=A.map(x=>`<div class="wr" data-t="${esc(x)}">${esc(x)} <i>${sylText(x)} syl.</i></div>`).join('');
