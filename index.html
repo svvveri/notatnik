@@ -857,8 +857,8 @@ function loadFreq(){if(!FQ)FQ=fetch('rym/freq.txt').then(r=>r.text()).then(t=>t.
 function ensureDict(){return Promise.all([loadIdx(),loadFreq()])}
 const fastSyl=w=>{const a=w.match(/[aeiouyąęó]/g),b=w.match(/i[aeiouyąęó]/g);return Math.max(1,(a?a.length:0)-(b?b.length:0))};
 function ownRV(){if(rvStale||!RV){buildRV([...T.values()].map(n=>n.tytul+'\n'+n.tresc));rvStale=false}}
-const MODES=[['all','Rymy'],['pom','Pomysły'],['ide','Idealne'],['dok','Dokładne'],['spo','Spółgłoskowe'],['wie','Wielosylabowe'],['ali','Aliteracje'],['lin','Twoje linie'],['kon','Konteksty']];
-const MOPIS={ide:'wszystkie sylaby się zgadzają: słowo identyczne od pierwszej samogłoski, tyle samo sylab (np. ludzie – udzie)',dok:'te same dźwięki od ostatnich samogłosek',spo:'te same spółgłoski, inne samogłoski',wie:'trzy i więcej zgodnych samogłosek od końca (oraz końcówki wersów z Twoich tekstów)',ali:'ten sam początek oraz ten sam układ samogłosek'};
+const MODES=[['all','Rymy'],['pom','Pomysły'],['dok','Dokładne'],['aso','Asonanse'],['spo','Konsonanse'],['wie','Bogate'],['ali','Aliteracje'],['lin','Twoje linie'],['kon','Konteksty']];
+const MOPIS={dok:'rym dokładny (pełny): głoski od ostatniej akcentowanej samogłoski brzmią tak samo (np. słowa – mowa)',aso:'asonans (rym niedokładny): zgodne samogłoski, różne spółgłoski (np. słońce – łące)',spo:'konsonans (rym niedokładny): zgodne spółgłoski, inne samogłoski',wie:'rym bogaty: trzy i więcej zgodnych samogłosek od końca (oraz końcówki wersów z Twoich tekstów)',ali:'ten sam początek oraz ten sam układ samogłosek'};
 let rExp=new Set(),rBusy=0,FQS=null,FQR=null;
 const sylLabel=n=>n===1?'1 sylaba':(n>=2&&n<=4?n+' sylaby':n+' sylab');
 const trailOf=t=>t.replace(/^.*[aeiouyąę]/,''),stemOf=t=>t.slice(0,t.length-trailOf(t).length);
@@ -874,8 +874,8 @@ async function szukajRymow(raw){const q=String(raw).trim();if(!q)return;const my
   const CG={m:'N',n:'N','ń':'N',l:'L','ł':'L',k:'K',g:'K',t:'T',d:'T',p:'P',b:'P',f:'F',w:'F',s:'S',z:'S','ś':'S','ź':'S',c:'S','ć':'S',h:'H',r:'R',j:'J'},cg=ch=>CG[ch]||ch;
   const shape=key=>{const t=trailOf(key);if((t==='')!==(qtr===''))return false;if(!t||!close(key))return true;return cg(t[t.length-1])===cg(qtr[qtr.length-1])};
   const add=(g,p,own,sl,i,ex,sg)=>{if(!p||seen.has(g+p))return;if(g!=='wie'&&p.split(' ').pop()===qlast)return;seen.add(g+p);
-    const rk=FQR?FQR.get(p):undefined;R[g].push({p,own:!!own,sg:!!sg,sl,i,sc:(ex?1e7:0)+(sg?190000:rk===undefined?0:200000-Math.min(rk,200000))+sl*15000+(own?4000:0)-Math.min(i,2999)/10})};
-  out.dok.forEach(c=>{add('dok',c.p,1,k.tail.length,0,1);add('ry',c.p,1,k.tail.length,0,1);if(!c.p.includes(' ')&&ideal(c.p))add('ide',c.p,1,k.tail.length,0,1)});
+    const rk=FQR?FQR.get(p):undefined;R[g].push({p,own:!!own,sg:!!sg,sl,i,sc:(ex?1e7:0)+(rk===undefined?0:200000-Math.min(rk,200000))+sl*15000+(own?4000:0)-Math.min(i,2999)/10})};
+  out.dok.forEach(c=>{add('dok',c.p,1,k.tail.length,0,1);add('ry',c.p,1,k.tail.length,0,1);});
   out.aso.forEach(c=>{if(shape(c.k.tail))add(close(c.k.tail)?'bl':'ry',c.p,1,c.sim||0,0,0)});
   out.spo.forEach(c=>add('spo',c.p,1,0,0,0));out.wie.forEach(c=>add('wie',c.p,1,c.sl||0,0,0));
   const [idx,fq,slg]=await Promise.all([loadIdx(),loadFreq(),loadSlang()]);let loadErr=!idx;
@@ -888,13 +888,13 @@ async function szukajRymow(raw){const q=String(raw).trim();if(!q)return;const my
       if(cl&&nv<2&&sl<2)continue;
       const lim=Math.min(ws.length,ex?4000:(sl>=2?1500:300));
       for(let i=0;i<lim;i++){const w=ws[i];if(w===qlast)continue;
-        add(cl?'bl':'ry',w,0,sl,i,ex&&!cl);if(ex){add('dok',w,0,sl,i,1);if(ideal(w))add('ide',w,0,sl,i,1)}
+        add(cl?'bl':'ry',w,0,sl,i,ex&&!cl);if(ex){add('dok',w,0,sl,i,1);}
         if(qv.length>=3&&fastSyl(w)>=3&&(ex||sl>=2)&&i<400){const wv=vowelsOf(fon(w));let m3=0;while(m3<wv.length&&m3<qv.length&&wv[wv.length-1-m3]===qv[qv.length-1-m3])m3++;if(m3>=3)add('wie',w,0,m3*10+sl,i,1)}}}})}
   if(slg){const lv=vowelsOf(k.tail),last=SKE[lv[lv.length-1]]||lv[lv.length-1];
     const sks=nv>=2?[skelOf(k.tail)]:[...slg.keys()].filter(x=>x.endsWith(last));
     for(const sk of sks){const m=slg.get(sk);if(!m)continue;for(const [key,ws] of m){if(!shape(key))continue;
       const ex=nv>=2?key===k.tail:key.endsWith(k.tail),cl=close(key),sl=cl?sufLen(stemOf(key),stemOf(k.tail)):sufLen(key,k.tail);if(cl&&nv<2&&sl<2)continue;
-      ws.forEach((w,i)=>{if(w===qlast)return;add(cl?'bl':'ry',w,0,sl,i,ex&&!cl,1);if(ex){add('dok',w,0,sl,i,1,1);if(ideal(w))add('ide',w,0,sl,i,1,1)}})}}}
+      ws.forEach((w,i)=>{if(w===qlast)return;add(cl?'bl':'ry',w,0,sl,i,ex&&!cl,1);if(ex){add('dok',w,0,sl,i,1,1);}})}}}
   if(fq){if(!FQS)FQS=new Set(fq.slice(0,12000));
     if(!FQK||FQK.nv!==nv){const A=new Array(fq.length),V=new Array(fq.length);for(let j=0;j<fq.length;j++){const f=fon(fq[j]);A[j]=tailFrom(f,nv>=2?2:1);V[j]=vowelsOf(f).join('')}A.nv=nv;A.V=V;FQK=A}
     const cs=k.tail.replace(/[aeiouyąę]/g,''),sv=vowelsOf(k.tail).join('');
@@ -961,7 +961,7 @@ function ownLines(k,qlast){const has=[],rh=[],bef=new Map(),aft=new Map(),near=n
 function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
   $('#rinfo').innerHTML=`<b>${esc(q)}</b> · wymowa <b>${esc(k.f)}</b> · rdzeń rymu <b>${esc(k.tail)}</b>`+(loadErr?'<br><span style="color:var(--danger)">Nie udało się pobrać części słownika (brak sieci?). Pokazuję to, co jest w pamięci.</span>':'');
   if(!lastR.OL)lastR.OL=ownLines(k,wordsOf(q).slice(-1)[0]||'');const OL=lastR.OL;
-  const cnt={all:R.ry.length+R.bl.length,ide:R.ide.length,dok:R.dok.length,spo:R.spo.length,wie:R.wie.length,ali:R.ali.length+R.sal.length,pom:0,lin:OL.has.length+OL.rh.length,kon:OL.bef.length+OL.aft.length};
+  const cnt={all:R.ry.length+R.bl.length,aso:R.bl.length,dok:R.dok.length,spo:R.spo.length,wie:R.wie.length,ali:R.ali.length+R.sal.length,pom:0,lin:OL.has.length+OL.rh.length,kon:OL.bef.length+OL.aft.length};
   $('#rmodes').innerHTML=MODES.map(([id,l])=>`<button role="tab" class="${rmode===id?'on':''}" data-m="${id}">${l}${id==='pom'?'':`<b>${cnt[id]}</b>`}</button>`).join('');
   $('#rmodes').querySelectorAll('button').forEach(b=>b.onclick=()=>{rmode=b.dataset.m;rsyl='all';rExp=new Set();drawRymy()});
   const n=T.get(cur),wall=(n&&n.sciana||'').toLowerCase();
@@ -975,7 +975,8 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
         (all.length>lim?`<button class="rc more" data-x="${key}">więcej…</button>`:'')+`</div></div>`}).join('')+'</div>'};
   let html='';
   if(rmode==='all'){$('#rsyl').innerHTML='';
-    html=sec('ry','Rymy','',R.ry)+sec('bl','Bliskie rymy','',R.bl);
+    const pl=a=>a.filter(c=>!c.sg),sg=[...R.ry,...R.bl].filter(c=>c.sg).sort((a,b)=>b.sc-a.sc);
+    html=sec('ry','Rymy z języka polskiego','',pl(R.ry))+sec('bl','Rymy niedokładne','asonanse: zgodne samogłoski, podobne końcówki',pl(R.bl))+sec('sg','Rymy ze slangu','słowa z miejskiego słownika slangu (◆)',sg);
     if(!html)html='<div class="hint">Nic nie znalazłam. Zerknij do zakładek Spółgłoskowe i Aliteracje.</div>'}
   else if(rmode==='ali'){$('#rsyl').innerHTML='';
     html=sec('al','Aliteracje',MOPIS.ali,R.ali)+sec('sa','Samogłoskowe aliteracje','ten sam układ samogłosek, inne spółgłoski',R.sal);
@@ -996,7 +997,8 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
     html=cc('Twoje teksty: słowa przed',OL.bef)+cc('Twoje teksty: słowa po',OL.aft)+cc('Twoje teksty: słowa w tej samej linii',OL.near)+
       (X?wc('Wikipedia: słowa przed',X.b)+wc('Wikipedia: słowa po',X.a):X===false?'<div class="hint">Nie udało się wczytać kontekstów (brak sieci?).</div>':'<div class="hint">Wczytuję konteksty…</div>')}
   else{$('#rsyl').innerHTML='';
-    html=sec('m',MODES.find(m=>m[0]===rmode)[1],MOPIS[rmode],R[rmode])||'<div class="hint">Nic nie znalazłam w tym rodzaju.</div>'}
+    const A=R[rmode==='aso'?'bl':rmode],tt=MODES.find(m=>m[0]===rmode)[1];
+    html=sec('m',tt,MOPIS[rmode],A.filter(c=>!c.sg))+sec('ms',tt+' ze slangu','◆',A.filter(c=>c.sg))||'<div class="hint">Nic nie znalazłam w tym rodzaju.</div>'}
   $('#rres').innerHTML=html;
   $('#rres').querySelectorAll('.rc').forEach(b=>b.onclick=()=>{if(b.dataset.x){rExp.add(b.dataset.x);drawRymy();return}wordCard(b.dataset.p)});
   $('#rres').querySelectorAll('.ln').forEach(b=>b.onclick=()=>{openNote(b.dataset.id);showTab('text')});
