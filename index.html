@@ -604,6 +604,29 @@ function vowHtml(t){return t.split(/([a-ząćęłńóśźżéèäöü']+)/gi).ma
 const STOPS=new Set('nie się to co że na do po za mi ci ma da go mnie tak jak już ale bo mam ze te ta tu tym ten tą też ty ja my wy on ona ich ją jej jest są był być by się coś'.split(' '));
 const rimeOf=t=>{const m=t.search(/[aeiouyąęó]/);return m<0?t:t.slice(m)};
 const rimeN=t=>rimeOf(t).replace(/ą/g,'o').replace(/ę/g,'e').replace(/ó/g,'u').replace(/([aeou])y/g,'$1').replace(/[^aeiouy]+$/,'');
+/* układ rymów w strofie (AABB, ABAB, ABBA, AAAA, AAAB…): końcówki wersów łączone według najlepiej pasującego schematu, także gdy zgodna jest tylko ostatnia samogłoska, jeśli reszta strofy to potwierdza */
+function endInfo(sy){if(!sy.length)return null;let k=sy.length-1;while(k>0&&sy[k-1].e===sy[k].s)k--;const w=sy.slice(k);return {w,n:w.length,v:w.map(x=>x.c),r:rimeN(w.slice(-2).map(x=>x.t).join('')),r1:rimeN(w[w.length-1].t)}}
+function endSim(a,b){if(!a||!b||a.v[a.n-1]!==b.v[b.n-1])return 0;if(a.n>=2&&b.n>=2&&a.v[a.n-2]===b.v[b.n-2])return a.r===b.r?3:2;if(a.n===1&&b.n===1)return a.r1===b.r1?3:1;return 1}
+function setParts(n){const out=[];const g=new Array(n).fill(0);(function rec(i,m){if(i===n){out.push(g.slice());return}for(let x=0;x<=m+1&&x<n;x++){g[i]=x;rec(i+1,Math.max(m,x))}})(1,0);return out}
+const SCH_PRIOR={'0011':.3,'0101':.3,'0110':.3,'0000':.2,'0001':.1,'0111':.1,'0010':.1,'0100':.1};
+function bestScheme(M){const n=M.length;let best=null,bs=-1e9;
+  for(const g of setParts(n)){let sc=0;for(let i=0;i<n;i++)for(let j=i+1;j<n;j++){const v=M[i][j];if(g[i]===g[j])sc+=v>=1?v:-3;else if(v>=2)sc-=2}
+    sc+=(n===4?SCH_PRIOR[g.join('')]||0:0);if(sc>bs){bs=sc;best=g}}
+  return best}
+function endRhymes(S,SY,out){
+  const runs=[];let run=[];S.forEach((li,k)=>{const y=SY[k];if(run.length&&li-run[run.length-1].li>1){runs.push(run);run=[]}run.push({li,k,e:endInfo(y.syl)})});if(run.length)runs.push(run);
+  const chunks=[];runs.forEach(r=>{if(r.length<2)return;if(r.length<=6){chunks.push(r);return}for(let i=0;i<r.length;i+=4){const c=r.slice(i,i+4);if(c.length===1&&chunks.length){chunks[chunks.length-1].push(c[0])}else chunks.push(c)}});
+  const grp=[];chunks.forEach((c,ci)=>{const ok=c.filter(x=>x.e);if(ok.length<2)return;const M=ok.map(a=>ok.map(b=>a===b?0:endSim(a.e,b.e)));const g=bestScheme(ok.length>8?ok.slice(0,8).map((_,i)=>M[i].slice(0,8)):M);
+    const sig=g.join('');const bags={};ok.slice(0,g.length).forEach((x,i)=>{(bags[g[i]]=bags[g[i]]||[]).push(x)});
+    Object.values(bags).forEach(m=>{if(m.length>=2)grp.push({m,sig,ci})})});
+  if(!grp.length)return;
+  const P=grp.map((_,i)=>i),f=x=>{while(P[x]!==x){P[x]=P[P[x]];x=P[x]}return x};
+  for(let i=0;i<grp.length;i++)for(let j=i+1;j<grp.length;j++){if(grp[i].ci===grp[j].ci)continue;let mx=0;grp[i].m.forEach(a=>grp[j].m.forEach(b=>{mx=Math.max(mx,endSim(a.e,b.e))}));if(mx>=2||(mx>=1&&grp[i].sig===grp[j].sig))P[f(i)]=f(j)}
+  let gmax=-1;S.forEach(li=>(out.get(li)||[]).forEach(t=>{if(t.g>gmax)gmax=t.g}));
+  const ids=new Map();grp.forEach((G,i)=>{const r=f(i);if(!ids.has(r))ids.set(r,++gmax);G.gid=ids.get(r)});
+  grp.forEach(G=>{const strong=G.m.every(x=>x.e.n>=2)&&G.m.every(a=>G.m.every(b=>a===b||endSim(a.e,b.e)>=2));
+    G.m.forEach(x=>{const w=x.e.w,use=strong?w.slice(-2):w.slice(-1),a=use[0].s,e=use[use.length-1].e;const cur=out.get(x.li)||[];
+      if(cur.some(t=>t.s<e&&t.e>a))return;cur.push({s:a,e,c:use[use.length-1].c,g:G.gid});cur.sort((p,q)=>p.s-q.s);out.set(x.li,cur)})})}
 function rhymeSyl(lines,odAt){const secs=[];let cur=[];
   lines.forEach((l,i)=>{if(odAt>=0&&i>=odAt)return;if(isLabel(l)){if(cur.length)secs.push(cur);cur=[];return}if(!l.trim()||/^\s*(#|\/\/)/.test(l)||/^-[^\s-]/.test(l)||/^\s*https?:/i.test(l))return;cur.push(i)});if(cur.length)secs.push(cur);
   const out=new Map();
@@ -621,7 +644,7 @@ function rhymeSyl(lines,odAt){const secs=[];let cur=[];
         if(same||idm>=2)continue;const fa=A[a].fin&&B[b].fin;
         const ok=L>=3?(strong>=L-1&&(full>=1||fa)):L===2?((strong===2&&full>=1)||(fa&&strong>=1)):(fa&&strong===1&&rimeOf(A[a].t).length>=2);
         if(ok){const f0=p+':'+ai;for(let k=0;k<L;k++){mark[p].add(ai+k);mark[q].add(bi+k);uni(f0,p+':'+(ai+k));uni(f0,q+':'+(bi+k))}}}}
-    const col=new Map();let gn=0;SY.forEach((x,k)=>{if(!mark[k].size)return;out.set(x.i,[...mark[k]].sort((a,b)=>a-b).map(j=>{const r=fnd(k+':'+j);if(!col.has(r))col.set(r,gn++);return {s:x.syl[j].s,e:x.syl[j].e,c:x.syl[j].c,g:col.get(r)}}).reduce((acc,t)=>{const l=acc[acc.length-1];if(l&&l.g===t.g&&l.e===t.s)l.e=t.e;else acc.push(t);return acc},[]))})});
+    const col=new Map();let gn=0;SY.forEach((x,k)=>{if(!mark[k].size)return;out.set(x.i,[...mark[k]].sort((a,b)=>a-b).map(j=>{const r=fnd(k+':'+j);if(!col.has(r))col.set(r,gn++);return {s:x.syl[j].s,e:x.syl[j].e,c:x.syl[j].c,g:col.get(r)}}).reduce((acc,t)=>{const l=acc[acc.length-1];if(l&&l.g===t.g&&l.e===t.s)l.e=t.e;else acc.push(t);return acc},[]))});endRhymes(S,SY,out)});
   return out}
 /* chórki: WIELKIE LITERY (min. 2 litery w słowie) = kilka wokali; liczą się jak zwykły tekst, tylko inny kolor */
 const CHRX=/(?<![A-Za-ząćęłńóśźżĄĆĘŁŃÓŚŹŻ])([A-ZĄĆĘŁŃÓŚŹŻ]{2,}(?:[\s,.!?'-]+(?:[A-ZĄĆĘŁŃÓŚŹŻ](?=[\s,.!?'-]+[A-ZĄĆĘŁŃÓŚŹŻ]{2,})|[A-ZĄĆĘŁŃÓŚŹŻ]{2,}))*)(?![A-Za-ząćęłńóśźżĄĆĘŁŃÓŚŹŻ])/g;
