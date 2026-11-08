@@ -138,7 +138,7 @@ body[data-view="edit"] #fab{display:none}
 #mirror .ml{position:relative;min-height:1.6em}
 #mirror .ad{color:var(--adlib);background:var(--adlib-bg);border-radius:4px}
 #mirror .ml.lab{color:var(--acc);-webkit-text-stroke:.5px currentColor;box-shadow:0 1px 0 var(--line)}
-#sheet .labG{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.labG button{padding:13px 0;border-radius:12px;background:var(--chip);font-size:16px;font-weight:700}.labG button.on{background:var(--acc-fill);color:var(--on-acc)}
+#sheet .labG{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.labG button{padding:13px 0;border-radius:12px;background:var(--chip);font-size:16px;font-weight:700}.labG button.on{background:var(--acc-fill);color:var(--on-acc)}
 #mirror .ml i{position:absolute;left:calc(100% + 6px);top:0;width:52px;text-align:right;font-style:normal;font-size:11px;line-height:1.6em;color:var(--faint);font-variant-numeric:tabular-nums;white-space:nowrap}
 #mirror .ml i em{font-style:normal;color:var(--adlib);margin-left:3px}
 .nocount #mirror .ml i{display:none}
@@ -740,19 +740,19 @@ function autoLabel(e){if(!VS.autolab||!e||e.isComposing||e.inputType!=='insertTe
 function labelClick(){const b=$('#body');if(!cur||b.selectionStart!==b.selectionEnd)return;
   const v=b.value,pos=b.selectionStart,idx=v.slice(0,pos).split('\n').length-1,l=v.split('\n')[idx];
   if(l&&isLabel(l)){b.blur();sheetLabel(idx)}}
+/* numeruje „Zwrotka” po kolei według miejsca w tekście (inne części zostawia) */
+function labRenum(lines){let z=0;lines.forEach((l,k)=>{if(!isLabel(l))return;const t=l.trim(),m=t.match(/^(\[?)\s*zwrotka(?:\s*\d+)?\s*(\]?)(:?)$/i);if(m){z++;lines[k]=m[1]+'Zwrotka '+z+m[2]+m[3]}})}
 function sheetLabel(i){const b=$('#body'),lines=b.value.split('\n'),l=lines[i];if(l===undefined)return;
-  const cur0=labName(l),colon=/:\s*$/.test(l.trim()),br=/^\[.*\]$/.test(l.trim());let zt=0;lines.forEach((x,k)=>{if(k!==i&&isLabel(x)&&labKind(labName(x))==='z')zt++});
-  const zn=Math.min(10,Math.max(3,zt+1)),zs=Array.from({length:zn},(_,k)=>'Zwrotka '+(k+1)),os=['Refren','Bridge','Intro','Outro','Pre-Hook'],cl=cur0.toLowerCase();
-  const bt=nm=>`<button data-n="${esc(nm)}" class="${cl===nm.toLowerCase()?'on':''}">${esc(nm.replace('Zwrotka ',''))}</button>`;
+  const cur0=labName(l),colon=/:\s*$/.test(l.trim()),br=/^\[.*\]$/.test(l.trim());const os=['Zwrotka','Refren','Bridge','Intro','Outro','Pre-Hook'],cl=cur0.toLowerCase().replace(/\s*\d+$/,'');
+  const bt=nm=>`<button data-n="${esc(nm)}" class="${cl===nm.toLowerCase()?'on':''}">${esc(nm)}</button>`;
   openSheet(`<div class="shHead"><h3>Część utworu</h3><button class="x" id="x" aria-label="Zamknij">×</button></div>
-  <div class="hint">Teraz: <b>${esc(cur0)}</b>. Wybierz, czym ma być ta część.</div>
-  <div class="hint" style="text-align:left;margin-bottom:-4px">Zwrotka</div><div id="labZ" class="labG">${zs.map(bt).join('')}</div>
-  <div class="labG" id="labO" style="grid-template-columns:1fr 1fr">${os.map(bt).join('')}</div>
+  <div class="hint">Teraz: <b>${esc(cur0)}</b>. Numer zwrotki ustawia się sam, według miejsca w tekście.</div>
+  <div class="labG" id="labO">${os.map(bt).join('')}</div>
   <div class="shBtns"><button id="labEd">Edytuj ręcznie</button><button class="danger" id="labDel">Usuń znacznik</button></div>`);
   $('#x').onclick=closeSheet;
-  const put=t=>{lines[i]=t;b.value=lines.join('\n');closeSheet();edit()};
+  const put=t=>{lines[i]=t;labRenum(lines);b.value=lines.join('\n');closeSheet();edit()};
   $('#sheet').querySelectorAll('.labG button').forEach(x=>x.onclick=()=>{const nm=x.dataset.n;put(br?'['+nm+']':colon?nm+':':nm)});
-  $('#labDel').onclick=()=>{lines.splice(i,1);b.value=lines.join('\n');closeSheet();edit()};
+  $('#labDel').onclick=()=>{lines.splice(i,1);labRenum(lines);b.value=lines.join('\n');closeSheet();edit()};
   $('#labEd').onclick=()=>{closeSheet();b.focus();const p=lines.slice(0,i+1).join('\n').length;b.setSelectionRange(p,p)}}
 function edit(){const n=T.get(cur);if(!n)return;n.tytul=$('#title').value;n.tresc=$('#body').value;touch(n);rvStale=true;refit();clearTimeout(hT);hT=setTimeout(histPush,450)}
 
