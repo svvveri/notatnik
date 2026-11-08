@@ -337,7 +337,7 @@ label.lfull{display:flex;gap:8px;align-items:center;margin:4px 0 10px;color:var(
         <textarea id="wallTa" spellcheck="false" placeholder="Wypisuj rymy, skojarzenia i całe rodziny rymów…" aria-label="Ściana rymów"></textarea>
       </div>
       <div id="empty">Wybierz tekst z listy albo dodaj nowy.</div>
-      <div class="credit gut" id="credit">Słownik rymów: SJP.pl (CC BY 4.0), części mowy: Morfeusz 2 / SGJP (BSD)</div>
+      <div class="credit gut" id="credit">Słownik rymów: SJP.pl (CC BY 4.0), części mowy: Morfeusz 2 / SGJP (BSD), poezja: Wolne Lektury i Wikiźródła (domena publiczna)</div>
     </div>
   </section>
 </div>
@@ -1045,11 +1045,14 @@ function loadWL(){if(!WLP)WLP=Promise.all([gzTxt('lin/wl.txt'),gzTxt('lin/wl_met
   const meta=new Map();b.split('\n').forEach(x=>{const p=x.split('\t');meta.set(p[0],{a:p[1]||'',t:p[2]||''})});
   const L=[];a.split('\n').forEach(x=>{const i=x.indexOf('\t');if(i<0)return;const t=x.slice(i+1),n=t.toLowerCase().replace(/[^a-ząćęłńóśźż]+/g,' ').trim(),ws=n.split(' ');L.push({p:x.slice(0,i),t,n:' '+n+' ',lw:ws[ws.length-1]})});
   return {L,meta}}).catch(()=>{WLP=null;return null});return WLP}
-function wlSearch(W,k,qlast){const sk=skelOf(k.tail),qt=trailOf(k.tail).slice(-1),has=[],rh=[],cls=new Map();
+function wlSearch(W,k,qlast,q){const qvs=qvOf(q||qlast),has=[],rh=[],cls=new Map();
   const m=x=>({t:x.t,m:W.meta.get(x.p)||{a:'',t:''}});const needle=' '+qlast+' ';
-  for(const x of W.L){if(has.length<80&&x.n.includes(needle))has.push(m(x));
-    if(rh.length<120&&x.lw&&x.lw!==qlast){let c=cls.get(x.lw);if(c===undefined){const rk=rkey(x.lw);c=!!(rk&&skelOf(rk.tail)===sk&&trailOf(rk.tail).slice(-1)===qt);cls.set(x.lw,c)}if(c)rh.push(m(x))}}
-  return {has,rh}}
+  for(const x of W.L){if(x.n.includes(needle))has.push(x);
+    if(x.lw&&x.lw!==qlast){let c=cls.get(x.lw);if(c===undefined){c=qualOf(x.lw,qvs);cls.set(x.lw,c)}if(c>=2)rh.push([c,x])}}
+  /* rozrzucamy wyniki równomiernie po całym korpusie (a nie tylko pierwsze z pliku), rymy najlepsze na wierzchu */
+  const pick=(a,n)=>{if(a.length<=n)return a;const o=[],st=a.length/n;for(let i=0;i<n;i++)o.push(a[Math.floor(i*st)]);return o};
+  const best=rh.filter(r=>r[0]>=3).map(r=>r[1]),mid=rh.filter(r=>r[0]===2).map(r=>r[1]);
+  return {has:pick(has,150).map(m),rh:pick(best,120).concat(pick(mid,Math.max(0,150-Math.min(120,best.length)))).map(m)}}
 function loadCtx(w){const ch=(w[0]||'').charCodeAt(0).toString(16);if(!CTX.has(ch))CTX.set(ch,gzTxt('ctx/'+ch+'.txt').then(t=>{const m=new Map();t.split('\n').forEach(l=>{const p=l.split('\t');if(p.length>=3)m.set(p[0],{b:p[1]?p[1].split(' '):[],a:p[2]?p[2].split(' '):[]})});return m}).catch(()=>{CTX.delete(ch);return null}));return CTX.get(ch)}
 function ownLines(k,qlast){const has=[],rh=[],bef=new Map(),aft=new Map(),near=new Map();const inc=(m,w)=>m.set(w,(m.get(w)||0)+1);
   const sk=skelOf(k.tail);
@@ -1101,12 +1104,12 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
   else if(rmode==='lin'){$('#rsyl').innerHTML='';const qw=wordsOf(q).slice(-1)[0]||'';
     const tail=t=>lfull?t:t.split(/\s+/).slice(-3).join(' ');
     const ln=a=>a.map(x=>`<div class="ln" data-id="${esc(x.n.id)}"><div>${hl(tail(x.l),qw)}</div><span>${esc(x.n.tytul||'Bez tytułu')}</span></div>`).join('');
-    if(lastR.WL===undefined){lastR.WL=null;const L0=lastR;loadWL().then(W=>{L0.WL=W?wlSearch(W,k,qw):false;if(lastR===L0&&rmode==='lin')drawRymy()})}
+    if(lastR.WL===undefined){lastR.WL=null;const L0=lastR;loadWL().then(W=>{L0.WL=W?wlSearch(W,k,qw,q):false;if(lastR===L0&&rmode==='lin')drawRymy()})}
     const lw=a=>a.map(x=>`<div class="ln ro"><div>${hl(tail(x.t),qw)}</div><span>${esc(x.m.a)}${x.m.a&&x.m.t&&x.m.t!==x.m.a?', ':''}${esc(x.m.t===x.m.a?'':x.m.t)}</span></div>`).join('');
     const W=lastR.WL,wlN=a=>W&&W[a]?W[a].length:0;
     const sec2=(t,arr,body)=>arr&&arr.length?`<div class="rsec"><h3>${t}<span>${arr.length}</span></h3>${body}</div>`:'';
     const has=lsub==='has';
-    const wlPart=W?(has?sec2('Poezja (Wolne Lektury): linie ze słowem',W.has,lw(W.has)):sec2('Poezja (Wolne Lektury): linie rymujące się',W.rh,lw(W.rh))):W===false?'<div class="hint">Nie udało się wczytać poezji (brak sieci?).</div>':'<div class="hint">Wczytuję poezję z Wolnych Lektur…</div>';
+    const wlPart=W?(has?sec2('Poezja (Wolne Lektury i Wikiźródła): linie ze słowem',W.has,lw(W.has)):sec2('Poezja (Wolne Lektury i Wikiźródła): linie rymujące się',W.rh,lw(W.rh))):W===false?'<div class="hint">Nie udało się wczytać poezji (brak sieci?).</div>':'<div class="hint">Wczytuję poezję z Wolnych Lektur…</div>';
     if(lastR.GN===undefined){lastR.GN=null;const L0=lastR;genSearch(q).then(r=>{L0.GN=r;if(lastR===L0&&rmode==='lin')drawRymy()}).catch(e=>{L0.GN={err:e.message||'błąd'};if(lastR===L0&&rmode==='lin')drawRymy()})}
     const G=lastR.GN,gnPart=!has?'':G===false?'<div class="hint">Utwory z Genius: wpisz token w menu (⋯ → Token Genius), a pojawią się tu piosenki ze słowem lub frazą „'+esc(q)+'”.</div>':G===null?'<div class="hint">Szukam utworów w Genius…</div>':G.err?'<div class="hint" style="color:var(--danger)">Genius: '+esc(G.err)+'</div>':(G.length?`<div class="rsec"><h3>Piosenki (Genius)<span>${G.length}</span></h3><div class="hint">Utwory, w których wyszukiwarka Genius znalazła „${esc(q)}” w tytule lub tekście. Przy krótkich słowach przeważają tytuły, przy dłuższych frazach też treść. Linii nie pokazuję, bo to cudze teksty: kliknij, żeby zobaczyć utwór na genius.com.</div>${G.map(x=>`<div class="ln"><div><a href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.t)}</a> <small><a href="https://www.google.com/search?q=${encodeURIComponent('site:tekstowo.pl '+x.a+' '+x.t)}" target="_blank" rel="noopener">tekstowo ↗</a></small></div><span>${esc(x.a)}</span></div>`).join('')}</div>`:'<div class="hint">Genius nie znalazł utworów dla „'+esc(q)+'”.</div>');
     const ownArr=has?OL.has:OL.rh;
