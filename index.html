@@ -103,6 +103,8 @@ body[data-view="edit"] #fab{display:none}
 #tools>*{flex:none}
 #tools .ico:disabled{opacity:.3}
 #tools .sp{flex:1 0 8px}
+#tools .x{display:none}#tools.open{flex-wrap:wrap;overflow:visible}#tools.open .x{display:inline-flex}
+#moreT{display:inline-flex;align-items:center;gap:4px}#moreT svg{transition:transform .15s}#tools.open #moreT svg{transform:rotate(180deg)}
 .pill{flex:none;padding:5px 11px;border-radius:999px;border:1px solid var(--line);font-size:13.5px;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
 .pill.set{color:var(--fg);border-color:var(--acc)}
 .pill.set b{color:var(--acc);font-weight:700}
@@ -116,17 +118,18 @@ body[data-view="edit"] #fab{display:none}
 #stat{color:var(--dim);font-size:13px;margin:6px 0 12px;font-variant-numeric:tabular-nums}
 #stat .adn{color:var(--adlib)}
 #stat .fl{color:var(--acc)}
-#tags{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px}
+#tags{display:flex;flex-wrap:nowrap;gap:6px;align-items:center;margin-bottom:6px;overflow-x:auto;scrollbar-width:none}#tags::-webkit-scrollbar{display:none}#tags>*{flex:none}
 .tchip{display:inline-flex;align-items:center;gap:4px;padding:3px 4px 3px 10px;border-radius:999px;background:var(--chip);font-size:13.5px}
 .tchip button{color:var(--dim);font-size:16px;line-height:1;padding:1px 5px}
-#tin{border:0;outline:none;background:transparent;font-size:16px;width:120px;padding:4px 2px}
+#tin{border:0;outline:none;background:transparent;font-size:16px;width:84px;padding:4px 2px}
 #tin::placeholder{color:var(--dim)}
-#sugg{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
-#sugg:empty{display:none}
+#sugg{display:none;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+#page:has(#tin:focus) #sugg{display:flex}
+#sugg:empty{display:none!important}
 #sugg button{padding:2px 9px;border-radius:999px;border:1px dashed var(--line);font-size:12.5px;color:var(--dim)}
-#struct{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 16px}
+#struct{display:flex;flex-wrap:nowrap;gap:14px;margin:2px 0 14px;overflow-x:auto;scrollbar-width:none}#struct::-webkit-scrollbar{display:none}#struct>*{flex:none}
 #struct:empty{display:none}
-#struct button{padding:4px 10px;border-radius:8px;background:var(--chip);font-size:13px;color:var(--acc);font-weight:600}
+#struct button{padding:2px 0;font-size:13px;color:var(--acc);font-weight:600}
 #struct button b{font-weight:400;color:var(--dim);margin-left:6px;font-variant-numeric:tabular-nums}
 .wrap{position:relative}
 /* lustro rysuje tekst (kolory adlibów i nagłówków, liczniki); textarea nad nim: przezroczyste litery, widoczny kursor */
@@ -297,11 +300,12 @@ html{touch-action:pan-x pan-y}#scroll{touch-action:pan-y}
       <div id="tools" class="gut" hidden>
         <button id="undoBtn" class="ico" type="button" aria-label="Cofnij" title="Cofnij"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button>
         <button id="redoBtn" class="ico" type="button" aria-label="Ponów" title="Ponów"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button>
-        <button id="bpmBtn" class="pill" type="button" title="Tempo bitu"></button>
-        <button id="keyBtn" class="pill" type="button" title="Tonacja"></button>
-        <button id="rhBtn" class="pill" type="button" title="Włącz/wyłącz kolorowanie rymujących się sylab">Kolory</button>
-        <button id="warBtn" class="pill" type="button" title="Środki stylistyczne i rymy w tym tekście">Warsztat</button>
-        <button id="recBtn" class="pill" type="button" title="Nagrania głosowe do tego tekstu">Nagrania</button>
+        <button id="moreT" class="pill" type="button" aria-expanded="false" title="Tempo, tonacja, kolory, warsztat, nagrania">Więcej<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+        <button id="bpmBtn" class="pill x" type="button" title="Tempo bitu"></button>
+        <button id="keyBtn" class="pill x" type="button" title="Tonacja"></button>
+        <button id="rhBtn" class="pill x" type="button" title="Włącz/wyłącz kolorowanie rymujących się sylab">Kolory</button>
+        <button id="warBtn" class="pill x" type="button" title="Środki stylistyczne i rymy w tym tekście">Warsztat</button>
+        <button id="recBtn" class="pill x" type="button" title="Nagrania głosowe do tego tekstu">Nagrania</button>
         <span class="sp"></span>
         <button id="adBtn" class="pill ad" type="button" title="Zaznacz fragment: nawias = adlib. Dotknięcie w nawiasie go zdejmuje. Bez zaznaczenia: cały wers.">( ) adlib</button>
         <button id="rymBtn" class="pill ry" type="button" title="Rymy do zaznaczonego słowa albo końca wersu">Rymy</button>
@@ -1240,6 +1244,8 @@ function wire(){
   $('#recFile').onchange=async e=>{const fs=[...e.target.files];e.target.value='';for(const f of fs){const d=await new Promise(r=>{const u=URL.createObjectURL(f),au=new Audio();au.preload='metadata';au.onloadedmetadata=()=>{r(au.duration);URL.revokeObjectURL(u)};au.onerror=()=>{r(0);URL.revokeObjectURL(u)};au.src=u});
     await saveAudio(f,isFinite(d)?d:0,f.name.replace(/\.[^.]+$/,''))}};
   swipeInit();pinchInit();
+  {const mt=$('#moreT'),tl=$('#tools');const set=o=>{tl.classList.toggle('open',o);mt.setAttribute('aria-expanded',o);ls('nt-tools',o?'1':'0')};set(ls('nt-tools')==='1');mt.onclick=()=>set(!tl.classList.contains('open'))}
+  $('#sugg').addEventListener('pointerdown',e=>e.preventDefault());
   $('#tabText').onclick=()=>showTab('text');$('#tabWall').onclick=()=>showTab('wall');
   $('#bpmBtn').onclick=sheetBpm;$('#rhBtn').onclick=()=>{if(VS.rhm==='off'){VS.rhm=ls('nt-rhm0')||'smart'}else{ls('nt-rhm0',VS.rhm);VS.rhm='off'}ls('nt-rhm',VS.rhm);applyView()};$('#warBtn').onclick=()=>sheetWarsztat();$('#keyBtn').onclick=sheetKey;$('#rymBtn').onclick=rymyDlaMiejsca;
   $('#rForm').onsubmit=e=>{e.preventDefault();szukajRymow($('#rq').value);$('#rq').blur()};
