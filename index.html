@@ -177,6 +177,7 @@ html{touch-action:pan-x pan-y}#scroll{touch-action:pan-y}
 #selbar[hidden]{display:none}#selw{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;color:var(--fg)}
 .ln.ro{cursor:default}.ln{display:flex;gap:12px;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer;line-height:1.35}.ln div{flex:1;min-width:0}.ln span{flex:none;max-width:36%;font-size:12.5px;color:var(--dim);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ln b{font-weight:700;color:var(--acc)}
 .rsec{margin:0 0 22px}.rsec h3{margin:6px 0 4px;font:700 19px/1.2 var(--font-d)}.rsec h3 span{font:400 13px var(--font);color:var(--dim);margin-left:8px}
+#ow{margin:2px 0 12px;padding:10px 12px;border-radius:12px;background:var(--chip)}#ow .owr{display:flex;gap:10px;align-items:baseline}#ow .owo{font-weight:600}#ow .dim{color:var(--dim);font-weight:400}#ow #owT{margin-left:auto;font-variant-numeric:tabular-nums;font-size:20px}#ow .owb{display:flex;gap:8px;margin:8px 0}#ow .owb button{padding:6px 14px;border-radius:999px;border:1px solid var(--line);color:var(--acc)}#ow .owb .pri{background:var(--acc);color:#fff;border-color:var(--acc)}#ow .owh{font-size:13px;color:var(--dim)}
 #rpos{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 6px}#rpos button{padding:3px 11px;border-radius:999px;border:1px solid var(--line);color:var(--dim);font-size:13px}#rpos button.on{color:var(--acc);border-color:var(--acc)}#rpos .lem{margin-left:auto}
 .ranch{display:flex;gap:6px;align-items:center;margin:6px 0 10px;color:var(--dim);font-size:13px}.ranch button{padding:3px 11px;border-radius:999px;border:1px solid var(--line);color:var(--acc);font-size:14px}
 .rc.rare{color:var(--dim);font-weight:400}.rc:not(.rare):not(.more){font-weight:600}
@@ -312,6 +313,7 @@ html{touch-action:pan-x pan-y}#scroll{touch-action:pan-y}
         <div id="stat"></div>
         <div id="tags"></div>
         <div id="sugg"></div>
+        <div id="ow" hidden></div>
         <div id="struct" aria-label="Struktura utworu"></div>
         <div class="wrap" id="wrap">
           <div id="mirror" aria-hidden="true"></div>
@@ -545,7 +547,7 @@ function renderTags(){const n=T.get(cur);if(!n)return;
   $('#sugg').innerHTML=free.map(t=>`<button data-a="${esc(t)}">+ ${esc(t)}</button>`).join('');
   $('#tags').querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>{n.tagi=n.tagi.filter(t=>t!==b.dataset.x);touch(n);renderTags();renderChips()});
   $('#sugg').querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>addTag(b.dataset.a));
-  const tin=$('#tin');
+  owRender();const tin=$('#tin');
   tin.onkeydown=e=>{if(e.key==='Enter'||e.key===','){e.preventDefault();addTag(tin.value)}};
   tin.onblur=()=>{if(tin.value.trim())addTag(tin.value)}}
 function addTag(raw){const n=T.get(cur);if(!n)return;
@@ -553,6 +555,24 @@ function addTag(raw){const n=T.get(cur);if(!n)return;
   const ex=allTags().map(x=>x[0]).find(x=>x.toLowerCase()===t.toLowerCase());if(ex)t=ex;
   n.tagi=n.tagi||[];if(!n.tagi.includes(t)){n.tagi.push(t);touch(n)}
   renderTags();renderChips();const tin=$('#tin');if(tin)tin.focus()}
+
+/* ---- Object Writing (Pattison): 10 minut, jeden przedmiot, siedem zmysłów; pasek pojawia się po dodaniu tagu „Object Writing” ---- */
+const OWOBJ=['kubek po kawie','klucze do mieszkania','stary zegarek','okno w deszczu','latarnia uliczna','zmięta kartka','drzwi od klatki','telefon na stole','szklanka wody','lustro w łazience','plecak','słuchawki','pusty peron','kurtka na wieszaku','zapałki','budzik','ławka w parku','torba z zakupami','schody w bloku','kaloryfer','winda','fotel','but po deszczu','świeczka','rower pod blokiem','paczka papierosów','kasa w sklepie nocnym','tramwaj o świcie','balkon','zdjęcie w ramce','kanapa','walizka','czajnik','neon','bilet','parasol','płyta winylowa','okulary','mikrofon','kebab o trzeciej w nocy'];
+const OWSENS=['wzrok','słuch','węch','smak','dotyk','wnętrze ciała (organiczny)','ruch i położenie ciała (kinestetyczny)'];
+const OW={obj:null,end:0,iv:null,dur:600};
+const isOW=n=>!!n&&(n.tagi||[]).some(t=>/object\s*writing/i.test(t));
+function owBeep(){try{const AC=window.AudioContext||window.webkitAudioContext,c=new AC(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=880;g.gain.setValueAtTime(.2,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+1.2);o.start();o.stop(c.currentTime+1.3)}catch(_){}try{navigator.vibrate&&navigator.vibrate([300,100,300])}catch(_){}}
+function owTick(){const t=document.getElementById('owT');if(!t)return;const left=Math.max(0,Math.round((OW.end-Date.now())/1000));t.textContent=Math.floor(left/60)+':'+String(left%60).padStart(2,'0');
+  if(left<=0){clearInterval(OW.iv);OW.iv=null;OW.end=0;owBeep();owRender('Koniec. Zatrzymaj się, nawet w połowie zdania. Teraz podkreśl najlepsze obrazy.')}}
+function owRender(msg){const box=$('#ow');if(!box)return;const n=T.get(cur);
+  if(!isOW(n)){box.hidden=true;box.innerHTML='';if(OW.iv){clearInterval(OW.iv);OW.iv=null;OW.end=0}return}
+  box.hidden=false;const run=!!OW.end;
+  box.innerHTML=`<div class="owr"><b>Object Writing</b>${OW.obj?`<span class="owo">${esc(OW.obj)}</span>`:'<span class="owo dim">wylosuj przedmiot</span>'}<span id="owT">${run?'':'10:00'}</span></div>
+   <div class="owb"><button id="owR" type="button">Losuj przedmiot</button><button id="owS" type="button" class="pri">${run?'Stop':'Start 10:00'}</button></div>
+   <div class="owh">${msg?esc(msg):'Pisz o przedmiocie wszystkimi zmysłami: '+OWSENS.join(', ')+'. Bez rymu i rytmu, pełne zdania nie są potrzebne. Wolno odejść od przedmiotu, jeśli prowadzą tam skojarzenia. Nie poprawiaj, pisz do końca czasu.'}</div>`;
+  $('#owR').onclick=()=>{OW.obj=OWOBJ[Math.floor(Math.random()*OWOBJ.length)];owRender()};
+  $('#owS').onclick=()=>{if(OW.end){clearInterval(OW.iv);OW.iv=null;OW.end=0;owRender('Zatrzymane.')}else{if(!OW.obj)OW.obj=OWOBJ[Math.floor(Math.random()*OWOBJ.length)];OW.end=Date.now()+OW.dur*1000;OW.iv=setInterval(owTick,500);owRender('Piszesz. Budzik zadzwoni po 10 minutach.');owTick();const b=$('#body');if(b)b.focus()}};
+  if(run)owTick()}
 function renderTools(){const n=T.get(cur);if(!n)return;
   const b=$('#bpmBtn'),k=$('#keyBtn');
   b.innerHTML=n.bpm?`<b>${n.bpm}</b> BPM`:'BPM';b.classList.toggle('set',!!n.bpm);
@@ -975,7 +995,7 @@ function drawPomysly(q){const box=$('#rres');const w=q.trim();
       pomCat==='wto'?L('Wyrażenia oznaczające to samo',o.wyrazenia_to_samo):pomCat==='wz'?L('Wyrażenia z tymi słowami',o.wyrazenia_z):
       pomCat==='sto'?L('Slang oznaczający to samo',o.slang_to_samo)+mj:L('Slang z tymi słowami',o.slang_z)+mj};
   const wire=()=>{box.querySelectorAll('#pomCats button').forEach(b=>b.onclick=()=>{pomCat=b.dataset.c;ls('nt-pomcat',pomCat);drawPomysly(q)});
-    box.querySelectorAll('.rc').forEach(b=>b.onclick=()=>wordCard(b.dataset.p))};
+    box.querySelectorAll('.rc').forEach(b=>b.onclick=()=>wordCard(b.dataset.p,pomCat==='sto'||pomCat==='sz'))};
   if(!w){box.innerHTML=cats+'<div class="hint">Wpisz słowo.</div>';wire();return}
   if(!ls('nt-akey')){box.innerHTML=cats+'<div class="hint">Pomysły generuje model Claude. Wpisz swój klucz API w menu (⋯ → Klucz API Claude), a pojawią się synonimy, wyrażenia i slang do „'+esc(w)+'”.</div>';wire();return}
   box.innerHTML=cats+'<div class="hint">Szukam pomysłów do „'+esc(w)+'”…</div>';wire();
@@ -1013,7 +1033,7 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
   {const pr=$('#rpos');if(pr){if(!PFM.has(rmode))pr.innerHTML='';else{pr.innerHTML=POSL.map(([id,l])=>`<button class="${rpos===id?'on':''}" data-p="${id}">${l}</button>`).join('')+`<button class="lem ${rlem?'on':''}" data-l="1" title="tylko formy podstawowe: mianownik, bezokolicznik">Tylko formy słownikowe</button>`;
       pr.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(b.dataset.l){rlem=!rlem;ls('nt-rlem',rlem?'1':'0')}else{rpos=b.dataset.p;ls('nt-rpos',rpos)}rExp=new Set();drawRymy()})}}}
   const n=T.get(cur),wall=(n&&n.sciana||'').toLowerCase();
-  const chip=c=>`<button class="rc ${wall.includes(c.p.toLowerCase())?'added':''} ${c.b?'':'rare'}" data-p="${esc(c.p)}">${esc(c.p)}${c.own?'<i>●</i>':''}${c.sg?'<i title="slang">◆</i>':''}</button>`;
+  const chip=c=>`<button class="rc ${wall.includes(c.p.toLowerCase())?'added':''} ${c.b?'':'rare'}" data-p="${esc(c.p)}"${c.sg?' data-sg="1"':''}>${esc(c.p)}${c.own?'<i>●</i>':''}${c.sg?'<i title="slang">◆</i>':''}</button>`;
   const sec=(sk,title,desc,items)=>{if(PFM.has(rmode))items=items.filter(pf);if(!items.length)return '';
     const by={};items.forEach(c=>{const s=Math.min(7,c.s);(by[s]=by[s]||[]).push(c)});const ss=Object.keys(by).map(Number).sort((a,b)=>a-b);
     return `<div class="rsec"><h3>${title}<span>${items.length}${items.length>=400?'+':''} wyników</span></h3>${desc?`<div class="hint">${desc}</div>`:''}
@@ -1049,7 +1069,7 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
     html=sec('m',tt,MOPIS[rmode],A.filter(c=>!c.sg))+sec('ms',tt+' ze slangu','◆',A.filter(c=>c.sg))||'<div class="hint">Nic nie znalazłam w tym rodzaju.</div>'}
   if(posOn()&&PFM.has(rmode))html='<div class="hint">Filtr części mowy ukrywa slang i słowa bez znanej części mowy.</div>'+(html||'<div class="hint">Nic nie pasuje do tego filtra.</div>');
   $('#rres').innerHTML=html;
-  $('#rres').querySelectorAll('.rc').forEach(b=>b.onclick=()=>{if(b.dataset.x){rExp.add(b.dataset.x);drawRymy();return}wordCard(b.dataset.p)});
+  $('#rres').querySelectorAll('.rc').forEach(b=>b.onclick=()=>{if(b.dataset.x){rExp.add(b.dataset.x);drawRymy();return}wordCard(b.dataset.p,!!b.dataset.sg)});
   $('#rres').querySelectorAll('.ln').forEach(b=>b.onclick=()=>{openNote(b.dataset.id);showTab('text')});
   $('#rres').querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{const e=document.getElementById(b.dataset.go);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})})}
 /* ---- Warsztat: środki stylistyczne i rymy w Twoim tekście (wiedza z artykułów agrochowski.pl, streszczona własnymi słowami) ---- */
@@ -1078,6 +1098,7 @@ const HIPER=/\b(wiek(i|ów|ami)?|tysi[aą]c(e|ami)? (razy|lat)|milion(y|ów|y ra
 const ONOM=/\b(bum|bam|buch|trach|brzdęk|puf|pif|paf|bzz+|brr+|chlup|plusk|kap-?kap|szum\w*|szept\w*|syk\w*|grzmot\w*|łoskot\w*|trzask\w*|stuk\w*|szelest\w*|miau|hau|kuku|muu+|chrum\w*|brzęcz\w*|skrzyp\w*|świergot\w*|buczeć|wyć|tik-?tak|bęc|łup|dzyń|ding|boom|tarara)\b/i;
 const OXY=/(zimn\w+ ogni\w+|żyw\w+ trup\w*|głośn\w+ cisz\w+|słodk\w+ gorycz\w*|ciepł\w+ lod\w+|gorąc\w+ lód|biał\w+ kruk\w*|otwart\w+ tajemnic\w+|spiesz się powoli|żyjąc umieram|ciemność widoma)/i;
 const FRAZ=['czarna owca','gruba ryba','zimna krew','wziąć nogi za pas','zbić z pantałyku','pięta achillesa','syzyfowa praca','stajnia augiasza','nić ariadny','umywać ręce','krokodyle łzy','sądny dzień','rzeź niewiniątek','trąba jerychońska','poszło jak z płatka','makiem zasiał','kropla w morzu','bułka z masłem','złapać byka za rogi','wiercić dziurę w brzuchu','nie ma róży bez kolców','ani be ani me','jak kamień w wodę','co nagle to po diable','kula u nogi','pod włos','w czepku urodzony','z drzewa spadł','tkwić w martwym punkcie','wyjść na prostą','rzucić na głęboką wodę','siedzieć jak na szpilkach','mieć muchy w nosie','nosić wodę','wilk w owczej skórze','gdzie diabeł mówi dobranoc','coś jak z bicza trzasnął','z głową w chmurach','bić pianę','mieć nosa','dostać kosza','pójść z torbami','biały kruk','spaść z nieba','lać wodę','łapać za słowa','dwa grzyby w barszcz','kto pod kim dołki kopie','nie ruszać z miejsca','po trupach do celu','ręka rękę myje','cisza przed burzą','jak z nut','zęby zjeść na czymś','pod górkę','czarno na białym','na łeb na szyję','od a do z','słowo się rzekło','jak grom z jasnego nieba'];
+let warAI='';
 function warLinie(){const b=$('#body').value.split('\n');const OD=findOdrzut(b),od=OD?OD.at:1e9;return b.map((t,i)=>{if(i>=od)return {i,t,lab:false,skip:true,ws:[],last:''};const lab=isLabel(t),cm=/^\s*(#|\/\/)/.test(t)||/^\s*https?:/i.test(t),st=/^-[^\s-]/.test(t);const p=parseLine(t);
   const main=p.seg.filter(x=>!x.ad).map(x=>x.t).join(' ');const ws=wordsOf(main);return {i,t,lab,skip:lab||cm||st||!t.trim(),ws,adv:!ws.length&&p.ad>0,last:ws[ws.length-1]||''}})}
 function warRhyme(a,b){if(!a||!b||a===b)return a===b&&a?'dokładny':null;const ka=rkey(a),kb=rkey(b);if(!ka||!kb)return null;
@@ -1127,6 +1148,48 @@ function warStruct(){const L=warLinie(),out=[];let cur={name:'Początek',v:[]};
   return out.filter(x=>x.v.length).map(x=>{const sy=x.v.map(l=>l.ws.length?sylText(l.t):parseLine(l.t).ad),av=sy.reduce((a,b)=>a+b,0)/sy.length;let letters=[],n=0;
     x.v.forEach((l,i)=>{let g=null;for(let j=i-1;j>=0;j--){if(l.last&&x.v[j].last&&warRhyme(x.v[j].last,l.last)){g=letters[j];break}}letters.push(g||String.fromCharCode(97+(n++%26)))});
     const key=x.name.toLowerCase().split(/\s+/)[0].replace(/[:\d]/g,'');return {name:x.name,n:x.v.length,av,sch:letters.join('').slice(0,24),typ:TYP[key]}})}
+
+/* ---- forma wg Pata Pattisona: stabilność, pozycje mocy, osoba i czas ---- */
+const PAT='Zasady, z których korzystasz (Pat Pattison, Writing Better Lyrics): 1) Pokazuj, potem mów: konkretny obraz zmysłowy (wzrok, słuch, węch, smak, dotyk, wnętrze ciała, ruch ciała) wygrywa z abstrakcją i komentarzem. 2) Metafora to zderzenie rzeczy, które do siebie nie pasują; najmocniejsze są czasowniki; trzymaj się jednego pola skojarzeń i zakotwicz w realnej scenie. 3) Unikaj klisz (utarte frazy, rymy i obrazy); zamiast tego własny, konkretny obraz. 4) Każda kolejna zwrotka dokłada nową informację (zasada pudełek), refren ma ważyć więcej po każdej zwrotce. 5) Pozycje mocy to pierwsza i ostatnia linia sekcji oraz każda zmiana struktury; ostatnia linia przed refrenem decyduje, jak słyszymy refren. 6) Refren powinien być neutralny: bez czasu i bez osoby, żeby zwrotki mogły go przemalować. 7) Forma ma służyć treści (prozodia): liczba linii, długość linii, rytm, schemat rymów i typ rymu razem dają stabilność (parzysta liczba, dopasowane długości, rym doskonały) albo niestabilność (nieparzysta, różne długości, rym niedokładny). Stabilna forma pasuje do pewności, niestabilna do niepokoju i tęsknoty. 8) Typy rymu to odcienie rozwiązania: doskonały, rodzinny (podobne spółgłoski), addytywny, asonans, konsonans. 9) Dwuwersy aabb ciągle po sobie brzmią marszowo, więc przełamuj je rymem krzyżowym, krótszą linią albo dłuższą linią. 10) Sprawdzaj punkt widzenia (ja, ty, my, on/ona) i czas; narrator z „ja” potrzebuje powodu, żeby opowiadać.';
+const SCH={aaaa:['bardzo stabilny','monorym domyka każdą linię; uważaj na monotonię'],aabb:['stabilny','dwuwersy domykają się od razu i zatrzymują ruch'],abab:['stabilny','rym krzyżowy: oczekiwanie i rozwiązanie'],xaxa:['dość stabilny','rymują się tylko linie parzyste, typowo dla piosenki'],abaa:['zwodniczo domknięty','ostatni rym wraca niespodziewanie'],aaba:['zawieszony','rym wraca dopiero na końcu, ruch niedomknięty'],abba:['zawieszony','okalający: środek domyka się szybciej niż całość'],aaax:['niestabilny','ostatnia linia bez rymu pcha do następnej sekcji'],axax:['niestabilny','rymują się nieparzyste, brak domknięcia'],xaax:['niestabilny','rym w środku, brzegi wiszą'],xxxx:['najbardziej niestabilny','bez rymów, ruch nigdy się nie domyka']};
+function warForma(){const L=warLinie(),out=[];let cur=null;
+  const push=()=>{if(cur&&cur.v.length)out.push(cur)};
+  L.forEach(l=>{if(l.lab){push();cur={name:labName(l.t),v:[]};return}if(!cur)cur={name:'Początek',v:[]};if(l.skip||!l.ws.length)return;cur.v.push({i:l.i,t:l.t,ws:l.ws,last:l.last,sy:sylText(l.t)})});push();
+  out.forEach(x=>{const ls=x.v,letters=[];let n=0;ls.forEach((l,i)=>{let g=null;for(let j=i-1;j>=0;j--){if(l.last&&ls[j].last&&warRhyme(ls[j].last,l.last)){g=letters[j];break}}letters.push(g||'#'+(n++))});
+    const cnt={};letters.forEach(c=>cnt[c]=(cnt[c]||0)+1);const map={};let k=0;
+    x.sch=letters.map(c=>{if(cnt[c]===1)return 'x';if(!map[c])map[c]=String.fromCharCode(97+k++);return map[c]}).join('');
+    const ks=x.name.toLowerCase().split(/\s+/)[0].replace(/[:\d]/g,'');x.ref=/^(refren|hook|chorus)$/.test(ks)});
+  return out}
+const P1=/^(ja|mnie|mi|mną|mój|moja|moje|moi|moich|moim|my|nas|nam|nami|nasz|nasza|nasze|jestem|jesteśmy|mam|mamy|chcę|chcemy|wiem|wiemy|mogę|możemy|będę|będziemy|muszę|idę|jadę|czuję|widzę|słyszę|kocham|lubię)$|(łem|łam|liśmy|łyśmy)$/,
+  P2=/^(ty|ci|cię|ciebie|tobie|tobą|twój|twoja|twoje|twoi|twoich|wy|was|wam|wasz|jesteś|jesteście|masz|macie|chcesz|wiesz|możesz|będziesz|musisz|idziesz|czujesz|widzisz|słyszysz|kochasz|lubisz)$|(łeś|łaś|liście|łyście)$/,
+  P3=/^(on|ona|ono|oni|one|jego|jej|ich|im|go|nią|nim|nimi)$/,
+  PAST=/^(był|była|było|były|byli)$|(łem|łam|łeś|łaś|liśmy|łyśmy|liście|łyście)$/,FUT=/^będ(ę|ziesz|zie|ziemy|ziecie|ą)$/;
+function warOsoba(v){const c={p1:0,p2:0,p3:0,past:0,fut:0},hit=[];v.forEach(l=>{let f=false;l.ws.forEach(w=>{if(P1.test(w)){c.p1++;f=true}else if(P2.test(w)){c.p2++;f=true}else if(P3.test(w)){c.p3++;f=true}if(PAST.test(w)){c.past++;f=true}if(FUT.test(w)){c.fut++;f=true}});if(f)hit.push(l.i+1)});return {c,hit}}
+function warFormaHtml(){const S=warForma();if(!S.length)return '';
+  const q=t=>esc(t.length>46?t.slice(0,44)+'…':t),med=a=>{const b=a.slice().sort((x,y)=>x-y);return b[Math.floor(b.length/2)]};
+  /* 1. stabilność */
+  const stab=S.map(x=>{const n=x.v.length,sy=x.v.map(l=>l.sy),par=n%2===0,d=SCH[x.sch];let notes=[];
+    notes.push(`${n} ${n===1?'linia':'linii'} (${par?'parzysta: stabilnie':'nieparzysta: ruch idzie dalej'})`);
+    if(n>=2){const a=sy[n-2],b=sy[n-1];notes.push(`długości ${sy.join('·')}`+(b-a<=-2?`; ostatnia krótsza o ${a-b}: niestabilnie, sekcja zawisa`:b-a>=2?`; ostatnia dłuższa: domyka mocniej`:'; wyrównane: stabilnie'))}
+    const g=d?`${d[0]}: ${d[1]}`:(n>=2?(par&&x.sch.slice(-1)!=='x'?'raczej stabilny: parzysta liczba i rym na końcu':'raczej niestabilny: koniec bez rymu lub nieparzysta liczba linii'):'');
+    return `<div class="wr" data-l="${x.v[0].i+1}"><b>${esc(x.name)}</b> schemat <code>${esc(x.sch)}</code>${g?' · '+esc(g):''}<br><i>${esc(notes.join(' · '))}</i></div>`}).join('');
+  /* maszerujące dwuwersy */
+  const cpl=S.filter(x=>x.v.length>=4&&/^((.)\2)+$/.test(x.sch.replace(/[^a-z]/g,'')) && x.sch.length>=4 && /^(aabb|aabbcc|aabbccdd)$/.test(x.sch)||false);
+  const march=S.length>=2&&S.filter(x=>/^aabb(cc)?(dd)?$/.test(x.sch)).length>=Math.max(2,Math.ceil(S.length*0.7));
+  const hint=march?`<div class="hint">Prawie każda sekcja to pary aabb. Gdy wszystko domyka się co dwie linie, tekst brzmi jak marsz i trudno go utrzymać przy słuchaczu. Pattison radzi: odrymuj jeden dwuwers (np. abcb), skróć drugą linię albo wrzuć jedną dłuższą linię z rymem oddalonym.</div>`:'';
+  /* 2. pozycje mocy */
+  const pow=S.map((x,si)=>{const v=x.v,m=med(v.map(l=>l.sy)),nx=S[si+1],tr=nx&&nx.ref&&!x.ref;const rows=[];
+    rows.push(`<div class="wr" data-l="${v[0].i+1}"><b>pierwsza</b> ${q(v[0].t)}</div>`);
+    if(v.length>1)rows.push(`<div class="wr" data-l="${v[v.length-1].i+1}"><b>${tr?'ostatnia = trigger przed refrenem':'ostatnia'}</b> ${q(v[v.length-1].t)}</div>`);
+    v.slice(1,-1).forEach(l=>{if(Math.abs(l.sy-m)>=3)rows.push(`<div class="wr" data-l="${l.i+1}"><b>zaskoczenie struktury</b> ${q(l.t)} <i>(${l.sy} syl. przy typowych ${m})</i></div>`)});
+    return `<details class="wd"><summary>${esc(x.name)} <span>${rows.length}</span></summary>${rows.join('')}</details>`}).join('');
+  /* 3. refren, osoba i czas */
+  const pv=S.map(x=>{const o=warOsoba(x.v),c=o.c,pr=[c.p1&&'ja/my ('+c.p1+')',c.p2&&'ty ('+c.p2+')',c.p3&&'on/ona ('+c.p3+')'].filter(Boolean).join(', ')||'brak wskaźników osoby',tm=[c.past&&'przeszły ('+c.past+')',c.fut&&'przyszły ('+c.fut+')'].filter(Boolean).join(', ')||'brak wskaźników czasu';
+    let verdict='';if(x.ref){verdict=!(c.p1+c.p2+c.p3+c.past+c.fut)?'<b>Refren neutralny:</b> bez osoby i czasu, więc zwrotki mogą go przemalować.':'<b>Refren niesie osobę lub czas</b>, więc zwrotki trudniej zmienią jego znaczenie. Spróbuj przepisać go bezosobowo (bezokolicznik, rzeczowniki, bez zaimków).'}
+    return `<div class="wr" ${o.hit.length?`data-l="${o.hit[0]}"`:''}><b>${esc(x.name)}</b> osoba: ${esc(pr)} · czas: ${esc(tm)}${verdict?'<br>'+verdict:''}</div>`}).join('');
+  return `<div class="wcard"><h4>Stabilność sekcji (Pattison)</h4>${stab}${hint}<div class="hint">Pattison: parzysta liczba linii, dopasowane długości i rym doskonały dają stabilność, a ich brak dodaje ruchu. Forma ma pasować do treści: pewność lubi stabilność, niepokój niestabilność.</div></div>
+  <div class="wcard"><h4>Pozycje mocy</h4><div class="hint">Pierwsza i ostatnia linia sekcji oraz każda zmiana struktury ważą najwięcej. Ostatnia linia przed refrenem to trigger: ona ustawia, jak słyszymy refren.</div>${pow}</div>
+  <div class="wcard"><h4>Refren, osoba i czas</h4>${pv}<div class="hint">Sprawdź też tekst w innej osobie i czasie (ja, ty, on/ona). Liczę wskaźniki z zaimków i końcówek, więc to wskazówka, nie wyrok.</div></div>`}
 function warFigChip(f){return SRODKI[f]?SRODKI[f].n:f}
 function sheetWarsztat(){const n=T.get(cur);if(!n)return;const R=warAnaliza(),st=warStruct();const by={};R.filter(r=>r.f!=='rym').forEach(r=>(by[r.f]=by[r.f]||[]).push(r));
   const rhy=R.filter(r=>r.f==='rym'&&/schemat/.test(r.note)),wh=R.filter(r=>r.f==='bialy');
@@ -1134,6 +1197,7 @@ function sheetWarsztat(){const n=T.get(cur);if(!n)return;const R=warAnaliza(),st
   <div class="wcard"><h4>Struktura utworu</h4>${st.length?st.map(x=>`<div class="wrow"><b>${esc(x.name)}</b><span>${x.n} wersów${x.typ&&x.n!==x.typ?` <i>(zwykle ok. ${x.typ})</i>`:''} · śr. ${x.av.toFixed(1).replace('.',',')} sylab${x.n>=3?' · schemat <code>'+esc(x.sch)+'</code>':''}</span></div>`).join(''):'<div class="hint">Napisz kilka wersów.</div>'}
    <div class="hint">Odrzuty (luźne wersy na dole) nie wchodzą do liczenia. Oddziel je pustą linią podwójnie albo linią <code>---</code>.</div></div>
   <div class="wcard"><h4>Rymy w strofach</h4>${rhy.length?rhy.map(r=>`<div class="wr" data-l="${r.lines[0]}">${esc(r.note.replace(/^Strofa (\d+) \(linie ([^)]*)\): /,'Strofa $1, linie $2 → '))}</div>`).join(''):'<div class="hint">Brak wykrytych rymów końcowych.</div>'}${wh.map(r=>`<div class="wr" data-l="${r.lines[0]}">${esc(r.note.replace(/^Strofa (\d+) \(linie ([^)]*)\): /,'Strofa $1, linie $2 → '))}</div>`).join('')}</div>
+  ${warFormaHtml()}
   <div class="wcard"><h4>Środki stylistyczne</h4>${Object.keys(by).length?Object.keys(by).map(f=>`<details class="wd"><summary>${esc(warFigChip(f))} <span>${by[f].length}</span></summary>${by[f].slice(0,25).map(r=>`<div class="wr" data-l="${r.lines[0]}"><b>${r.lines.length>1?'linie '+r.lines.join(', '):'linia '+r.lines[0]}</b> ${esc(r.note)}</div>`).join('')}<p class="hint">${esc((SRODKI[f]||{}).d||'')}</p></details>`).join(''):'<div class="hint">Nic nie wykryłam regułami. Spróbuj analizy AI poniżej.</div>'}
    <div class="shBtns"><button id="warAI">Analiza AI (epitety, metafory, inwersje, ironia…)</button></div><div id="warAIo">${warAI||''}</div></div>
   <details class="wcard wd"><summary>Słownik środków stylistycznych</summary>${Object.keys(SRODKI).map(f=>{const x=SRODKI[f];return `<details class="wd"><summary>${esc(x.n)}</summary><p>${esc(x.d)}</p><p><b>Do czego:</b> ${esc(x.f)}</p><p><b>Przykład:</b> ${esc(x.e)}</p></details>`}).join('')}</details></div>`;
@@ -1159,14 +1223,15 @@ function aiCall(system,user,max){const k=ls('nt-akey');if(!k)return Promise.reje
     .then(r=>r.json().then(j=>{if(!r.ok)throw new Error((j.error&&j.error.message)||('HTTP '+r.status));const t=(j.content||[]).filter(x=>x.type==='text').map(x=>x.text||'').join('').trim();if(!t)throw new Error('Model nie zwrócił tekstu (stop_reason: '+(j.stop_reason||'?')+', bloki: '+((j.content||[]).map(x=>x.type).join(',')||'brak')+'). Spróbuj ponownie.');return t}))}
 function warAnalizaAI(){const o=$('#warAIo'),b=$('#body');o.innerHTML='<div class="hint">Analizuję…</div>';
   const txt=b.value.split('\n').map((l,i)=>(i+1)+': '+l).join('\n').slice(0,6000);
-  aiCall('Jesteś redaktorem tekstów piosenek i poezji. Znasz polskie środki stylistyczne: epitet, metafora, porównanie, inwersja, oksymoron, hiperbola, ironia, antyteza, apostrofa, metonimia, neologizm, frazeologizm, onomatopeja, aliteracja. Odpowiadasz zwięźle po polsku.','Wskaż w tekście (numeracja linii na początku) konkretne użycia środków stylistycznych: epitetów, metafor, inwersji, oksymoronów, ironii, antytez, metonimii, neologizmów. Format: jedna linia na znalezisko: "linia N | środek | cytat | krótkie wyjaśnienie". Bez wstępu. Nie wymyślaj, jeśli czegoś nie ma.\n\n'+txt,1800)
+  aiCall('Jesteś redaktorem tekstów piosenek i poezji. '+PAT+' Znasz polskie środki stylistyczne: epitet, metafora, porównanie, inwersja, oksymoron, hiperbola, ironia, antyteza, apostrofa, metonimia, neologizm, frazeologizm, onomatopeja, aliteracja. Odpowiadasz zwięźle po polsku.','Wskaż w tekście (numeracja linii na początku) konkretne użycia środków stylistycznych: epitetów, metafor, inwersji, oksymoronów, ironii, antytez, metonimii, neologizmów. Format: jedna linia na znalezisko: "linia N | środek | cytat | krótkie wyjaśnienie". Bez wstępu. Nie wymyślaj, jeśli czegoś nie ma.\n\n'+txt,1800)
   .then(t=>{warAI='<div class="wf"><h4>Analiza AI</h4>'+esc(t).split('\n').filter(x=>x.trim()).map(x=>{const m=x.match(/linia\s*(\d+)/i);return `<div class="wr" ${m?`data-l="${m[1]}"`:''}>${x}</div>`}).join('')+'</div>';o.innerHTML=warAI;
     o.querySelectorAll('.wr[data-l]').forEach(r=>r.onclick=()=>warGoto(+r.dataset.l))})
   .catch(e=>{o.innerHTML='<div class="hint" style="color:var(--danger)">'+esc(e.message)+'</div>'})}
 function wersAI(idx,fig){const o=$('#wOut'),b=$('#body'),v=b.value,L=v.split('\n'),line=(L[idx]||'').trim();if(!line){o.innerHTML='<div class="hint">Pusty wers.</div>';return}
   const ctx=L.slice(Math.max(0,idx-4),idx+4).join('\n');o.innerHTML='<div class="hint">Szukam wariantów…</div>';
-  aiCall('Jesteś współautorem tekstów rapowych i poetyckich po polsku. Zachowujesz sens, rytm i (jeśli to możliwe) liczbę sylab oraz końcówkę rymującą się wersu. Odpowiadasz wyłącznie listą wariantów, jeden w linii, bez numeracji i komentarzy.',
-    `Kontekst:\n${ctx}\n\nWers: "${line}"\nŚrodek stylistyczny: ${SRODKI[fig].n} (${SRODKI[fig].d})\nZaproponuj 8 wariantów tego wersu z użyciem tego środka.`,900)
+  const FS=(()=>{try{const S=warForma();for(const x of S){const j=x.v.findIndex(l=>l.i===idx);if(j>=0){const nx=S[S.indexOf(x)+1];return `Sekcja: ${x.name}, schemat rymów ${x.sch}, wers ${j+1} z ${x.v.length}`+(j===0?' (pierwszy: pozycja mocy)':j===x.v.length-1?' (ostatni: pozycja mocy'+(nx&&nx.ref&&!x.ref?', trigger przed refrenem':'')+')':'')+(x.ref?'; to refren, powinien być neutralny (bez czasu i osoby)':'')+'.'}}}catch(_){}return ''})();
+  aiCall('Jesteś współautorem tekstów rapowych i poetyckich po polsku. Zachowujesz sens, rytm i (jeśli to możliwe) liczbę sylab oraz końcówkę rymującą się wersu. '+PAT+' Odpowiadasz wyłącznie listą wariantów, jeden w linii, bez numeracji i komentarzy.',
+    `Kontekst:\n${ctx}\n${FS}\n\nWers: "${line}"\nŚrodek stylistyczny: ${SRODKI[fig].n} (${SRODKI[fig].d})\nZaproponuj 8 wariantów tego wersu z użyciem tego środka.`,900)
   .then(t=>{const A=t.split('\n').map(x=>x.replace(/^[\-\*\d\.\)\s"„]+|["”]+$/g,'').trim()).filter(Boolean).slice(0,10);
     if(!A.length){o.innerHTML='<div class="hint">Pusta odpowiedź modelu: '+esc(t.slice(0,300))+'</div>';return}
     o.innerHTML=A.map(x=>`<div class="wr" data-t="${esc(x)}">${esc(x)} <i>${sylText(x)} syl.</i></div>`).join('');
@@ -1341,12 +1406,17 @@ function hl(l,p){const e=esc(l);try{return e.replace(new RegExp('('+p.replace(/[
 const mjUrl=p=>'https://www.miejski.pl/slowo-'+encodeURIComponent(p.trim()).replace(/%20/g,'+');
 const mjSearch=p=>'https://www.google.com/search?q='+encodeURIComponent('site:miejski.pl "'+p.trim()+'"');
 const mjBtns=p=>`<div class="shBtns"><a class="lnkbtn" href="${mjUrl(p)}" target="_blank" rel="noopener">Hasło „${esc(p)}” na miejski.pl ↗</a></div><div class="shBtns"><a class="lnkbtn" href="${mjSearch(p)}" target="_blank" rel="noopener">Szukaj na miejski.pl (jeśli nie ma hasła) ↗</a></div>`;
-function wordCard(p){const k=rkey(p),ex=usage(p);
+function slangDef(w){const key='nt-def1:'+w.toLowerCase();try{const c=localStorage.getItem(key);if(c)return Promise.resolve(c)}catch(_){}
+  return aiCall('Jesteś słownikiem polskiego slangu i języka ulicy (rap, młodzież, miejski.pl). Podajesz krótką definicję (1-2 zdania) i jeden krótki przykład użycia. Jeśli nie znasz takiego znaczenia, napisz to wprost zamiast zgadywać. Bez wstępów i formatowania.','Słowo lub wyrażenie slangowe: „'+w+'”',500).then(t=>{try{localStorage.setItem(key,t)}catch(_){}return t})}
+function wordCard(p,sg){const k=rkey(p),ex=usage(p);
   openSheet(`<div class="shHead"><h3>${esc(p)}</h3><button class="x" id="x" aria-label="Zamknij">×</button></div>
   <div class="wc">wymowa <b>${esc(k?k.f:'')}</b> · ${sylText(p)} sylab</div>
   ${ex.length?`<div class="wh">W Twoich tekstach</div><div id="exList">`+ex.map(e=>`<div class="ex"><span>${esc(e.t)}</span>${hl(e.l,p)}</div>`).join('')+'</div>':'<p class="hint">Jeszcze nie użyłeś tego słowa w żadnym tekście.</p>'}
   <div class="shBtns"><button id="wcR">Rymy do tego</button><button class="pri" id="wcA">+ Na ścianę</button></div>
+  ${sg?'<div class="wcard"><h4>Co to znaczy</h4><div id="wcDef" class="hint">Szukam znaczenia…</div></div>':''}
   ${mjBtns(p)}`);
+  if(sg){const d=$('#wcDef');if(!ls('nt-akey'))d.innerHTML='Definicję podpowiada model Claude. Wpisz klucz API w menu (⋯ → Klucz API Claude), a znaczenie pojawi się tutaj. Do tego czasu zostaje link do miejski.pl poniżej.';
+    else slangDef(p).then(t=>{if(d.isConnected)d.innerHTML=esc(t).replace(/\n/g,'<br>')+'<br><i>wyjaśnia model Claude, może się mylić; sprawdź na miejski.pl</i>'}).catch(e=>{if(d.isConnected)d.innerHTML='Nie udało się pobrać znaczenia ('+esc(e.message||'błąd')+').'})}
   $('#x').onclick=closeSheet;$('#wcA').onclick=()=>{addToWall(p);closeSheet();drawRymy()};
   $('#wcR').onclick=()=>{closeSheet();$('#rq').value=p;szukajRymow(p)}}
 
