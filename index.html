@@ -1129,12 +1129,19 @@ function metClick(t,acc){const c=MET.ctx,f=acc?392:294,g=c.createGain(),lp=c.cre
   g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(acc?.5:.36,t+.006);g.gain.exponentialRampToValueAtTime(.0001,t+.16);
   g.connect(lp);lp.connect(c.destination);
   [[1,1],[2,.22]].forEach(([m,v])=>{const o=c.createOscillator(),h=c.createGain();o.type='sine';o.frequency.value=f*m;h.gain.value=v;o.connect(h);h.connect(g);o.start(t);o.stop(t+.2)})}
+/* iOS: Web Audio milknie przy wyciszonym dzwonku (przełącznik z boku) i gdy sesja audio nie jest „odtwarzaniem”. Odsłuch (bez onBeat) przełącza sesję na playback i puszcza cichą pętlę <audio>, co omija wyciszenie. */
+function metUnlock(){try{if(navigator.audioSession)navigator.audioSession.type='playback'}catch(e){}
+  try{if(!MET.sil){const n=800,b=new DataView(new ArrayBuffer(44+n*2));const w=(o,t)=>[...t].forEach((c,i)=>b.setUint8(o+i,c.charCodeAt(0)));
+    w(0,'RIFF');b.setUint32(4,36+n*2,true);w(8,'WAVEfmt ');b.setUint32(16,16,true);b.setUint16(20,1,true);b.setUint16(22,1,true);b.setUint32(24,8000,true);b.setUint32(28,16000,true);b.setUint16(32,2,true);b.setUint16(34,16,true);w(36,'data');b.setUint32(40,n*2,true);
+    const a=new Audio(URL.createObjectURL(new Blob([b],{type:'audio/wav'})));a.loop=true;a.setAttribute('playsinline','');MET.sil=a}
+    const pr=MET.sil.play();if(pr&&pr.catch)pr.catch(()=>{})}catch(e){}}
 function metStart(bpm,onBeat){metStop();const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return false;
-  try{MET.ctx=MET.ctx||new AC();if(MET.ctx.resume)MET.ctx.resume()}catch(e){return false}
+  if(!onBeat)metUnlock();
+  try{if(MET.ctx&&MET.ctx.state==='closed')MET.ctx=null;MET.ctx=MET.ctx||new AC();if(MET.ctx.resume)MET.ctx.resume()}catch(e){return false}
   MET.bpm=bpm;MET.i=0;MET.next=MET.ctx.currentTime+.08;
   MET.id=setInterval(()=>{while(MET.next<MET.ctx.currentTime+.15){metClick(MET.next,MET.i%4===0);const bi=MET.i;
     if(onBeat)setTimeout(()=>onBeat(bi),Math.max(0,(MET.next-MET.ctx.currentTime)*1000));MET.next+=60/MET.bpm;MET.i++}},25);return true}
-function metStop(){if(MET.id){clearInterval(MET.id);MET.id=null}}
+function metStop(){if(MET.id){clearInterval(MET.id);MET.id=null}try{if(MET.sil)MET.sil.pause()}catch(e){}}
 function placeLabBtns(secs){const box=$('#labBtns');if(!box)return;const ch=$('#mirror').children;
   box.innerHTML=secs.filter(x=>!x.implicit).map(x=>{const el=ch[x.idx];if(!el)return'';
     return `<button class="lmic" data-i="${x.idx}" style="top:${el.offsetTop+Math.round(el.offsetHeight/2)-15}px" aria-label="Nagraj: ${esc(x.name)}" title="Nagraj: ${esc(x.name)}">${MIC}</button>`}).join('');
