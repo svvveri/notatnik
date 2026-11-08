@@ -401,10 +401,12 @@ function pairsOf(l){const st=[],p=[];for(let i=0;i<l.length;i++){if(l[i]==='(')s
 /* nagłówki części: Hook:, Verse 1, Refren, Zwrotka 2, Pre-hook, [Intro], Verse Veri:, Szymon: */
 function isLabel(l){const s=l.trim();if(!s||s.length>40)return false;
   if(/^\[[^\]]+\]$/.test(s))return true;
-  const t=s.replace(/^\[|\]$/g,'').replace(/:$/,'').trim(),w=t.split(/\s+/).length;
-  if(w<=4&&/^(?:\S+\s+)?(?:pre[- ]?hook|pre[- ]?chorus|przedrefren|hook|refren|ref|chorus|verse|zwrotka|bridge|intro|outro|interlude|skit)(?:\s+\S+)?$/i.test(t))return true;
-  if(w<=4&&!/[,.!?;]/.test(t)&&/^(?:pre[- ]?hook|pre[- ]?chorus|przedrefren|hook|refren|chorus|verse|zwrotka|bridge|intro|outro)(?=$|[\s:(\-–x\d])/i.test(t))return true;
-  return s.endsWith(':')&&w<=2}
+  const col=/:$/.test(s),t=s.replace(/^\[|\]$/g,'').replace(/:$/,'').trim(),w=t.split(/\s+/).length;
+  const KW='pre[- ]?hook|pre[- ]?chorus|przedrefren|hook|refren|ref|chorus|verse|zwrotka|bridge|intro|outro|interlude|skit';
+  /* z dwukropkiem: swobodniej („Verse Veri:”, „Refren (x2):”); bez dwukropka tylko samo słowo kluczowe z numerem albo jednym imieniem, żeby zwykły wers z „zwrotka” w środku nie stawał się nagłówkiem */
+  if(col){if(w<=4&&new RegExp('^(?:\\S+\\s+)?(?:'+KW+')(?:\\s+\\S+)?$','i').test(t))return true;return w<=2}
+  const h=t.match(new RegExp('^(?:'+KW+')','i'));if(!h||w>4)return false;
+  return /^(?:\s*[-–]?\s*\d+|\s+x\s*\d+|\s*\([^)]*\)|\s+[A-ZĄĆĘŁŃÓŚŹŻ]\S*)*$/.test(t.slice(h[0].length))}
 const labName=l=>l.trim().replace(/^\[|\]$/g,'').replace(/:$/,'').trim();
 /* ---- fonetyka i rymy (deterministycznie, bez AI) ---- */
 const VW='aeiouyąę';
