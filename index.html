@@ -214,7 +214,7 @@ html{touch-action:pan-x pan-y}#scroll{touch-action:pan-y}
 .tap:active{background:var(--acc-fill);color:var(--on-acc);border-color:var(--acc-fill)}
 #sheet .hint{text-align:center}
 .seg.wide{display:flex}
-.seg.wide button{flex:1}
+.seg.wide button{flex:1 1 0;min-width:0;padding:6px 4px;white-space:normal;line-height:1.2}
 #keyGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 #keyGrid button{padding:12px 0;border-radius:11px;background:var(--chip);font-size:16px;font-weight:600}
 #keyGrid button.on{background:var(--acc-fill);color:var(--on-acc)}
@@ -1091,7 +1091,7 @@ function sheetMore(){const n=T.get(cur);if(!n)return;
   openSheet(`<div class="shHead"><h3>Widok i eksport</h3><button class="x" id="x" aria-label="Zamknij">×</button></div>
   <div class="row"><span>Rozmiar</span><input type="range" id="fsR" min="12" max="36" step="1" value="${VS.fs}" aria-label="Rozmiar tekstu"><span id="fsV">${VS.fs}</span></div>
   <div class="seg wide" id="ffSeg"><button data-f="sys" class="${VS.ff==='sys'?'on':''}">System</button><button data-f="serif" class="${VS.ff==='serif'?'on':''}">Szeryfowy</button><button data-f="mono" class="${VS.ff==='mono'?'on':''}">Mono</button></div>
-  <div class="row"><span>Kolorowanie rymów</span></div><div class="seg wide" id="rhSeg"><button data-r="smart" class="${VS.rhm==='smart'?'on':''}">Rymy</button><button data-r="all" class="${VS.rhm==='all'?'on':''}">Wszystkie sylaby</button><button data-r="grp" class="${VS.rhm==='grp'?'on':''}">Grupy rymów</button><button data-r="off" class="${VS.rhm==='off'?'on':''}">Wył.</button></div>${sw('swNums',VS.nums,'Numery wersów (w sekcji)')}${sw('swSyl',VS.syl,'Liczniki sylab przy wersach')}
+  <div class="row"><span>Kolorowanie rymów</span></div><div class="seg wide" id="rhSeg"><button data-r="smart" class="${VS.rhm==='smart'?'on':''}">Rymy</button><button data-r="all" class="${VS.rhm==='all'?'on':''}">Sylaby</button><button data-r="grp" class="${VS.rhm==='grp'?'on':''}">Grupy</button><button data-r="off" class="${VS.rhm==='off'?'on':''}">Wył.</button></div>${sw('swNums',VS.nums,'Numery wersów (w sekcji)')}${sw('swSyl',VS.syl,'Liczniki sylab przy wersach')}
   <div class="row" style="flex-wrap:wrap"><span>Klucz API Claude (zakładka Pomysły)</span><input type="password" id="akey" autocomplete="off" placeholder="sk-ant-…" value="${esc(ls('nt-akey')||'')}" style="flex:1 1 100%;margin-top:6px;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--chip)"><div class="hint" style="flex:1 1 100%">Zostaje tylko w tej przeglądarce na telefonie. Bez niego zakładka Pomysły nie działa.</div></div>
   <div class="shBtns"><button id="recAll">♪ Nagrania do tego tekstu (${(n.nagrania||[]).length})</button></div>
   <div class="shBtns"><button id="impBtn">Importuj z pliku (.json)</button><button id="syncBtn">Synchronizuj teraz</button></div>
