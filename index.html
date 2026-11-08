@@ -917,7 +917,7 @@ function loadFreq(){if(!FQ)FQ=gzTxt('rym/freq.txt').then(t=>t.split('\n')).catch
 function ensureDict(){return Promise.all([loadIdx(),loadFreq()])}
 const fastSyl=w=>{const a=w.match(/[aeiouyąęó]/g),b=w.match(/i[aeiouyąęó]/g);return Math.max(1,(a?a.length:0)-(b?b.length:0))};
 function ownRV(){if(rvStale||!RV){buildRV([...T.values()].map(n=>n.tytul+'\n'+n.tresc));rvStale=false}}
-const MODES=[['all','Rymy'],['mez','Męskie'],['zen','Żeńskie'],['dak','Daktyliczne'],['dok','Dokładne'],['aso','Asonanse'],['spo','Konsonanse'],['wie','Bogate'],['pom','Pomysły'],['ali','Aliteracje'],['lin','Twoje linie'],['kon','Konteksty']];
+const MODES=[['all','Rymy'],['mez','Męskie'],['zen','Żeńskie'],['dak','Daktyliczne'],['dok','Dokładne'],['aso','Asonanse'],['spo','Konsonanse'],['wie','Bogate'],['pom','Pomysły'],['lin','Piosenki'],['ali','Aliteracje'],['kon','Konteksty']];
 /* rodzaj rymu wg akcentu: męski (ostatnia sylaba), żeński (przedostatnia), daktyliczny (trzecia od końca: -yka/-ika, -liśmy itp.) */
 const accOf=p=>{const w=p.split(' ').pop(),n=fastSyl(w);return n<2?'mez':(n>=3&&/(yka|ika|[lł][iy]śmy|[lł][iy]ście|byśmy|byście)$/.test(w)?'dak':'zen')};
 const MOPIS={mez:'rym męski: akcent na ostatniej sylabie, słowa jednosylabowe (np. wół – dół)',zen:'rym żeński: akcent na przedostatniej sylabie, zgodne co najmniej dwie ostatnie sylaby (np. brama – sama)',dak:'rym daktyliczny: akcent na trzeciej sylabie od końca, rzadki w polszczyźnie (np. polityka – matematyka)',dok:'rym dokładny (pełny): głoski od ostatniej akcentowanej samogłoski brzmią tak samo (np. słowa – mowa)',aso:'asonans (rym niedokładny): zgodne samogłoski, różne spółgłoski (np. słońce – łące)',spo:'konsonans (rym niedokładny): zgodne spółgłoski, inne samogłoski',wie:'rym bogaty (głęboki): rymują się trzy i więcej sylab od końca, a w skrajnym przypadku całe frazy (rym składany, pantorym), często jako asonans, np. „na kolanach siedzę – zakochana jesteś”. Pokazuję też końcówki wersów z Twoich tekstów',ali:'ten sam początek oraz ten sam układ samogłosek'};
@@ -1061,7 +1061,7 @@ function ownLines(k,qlast){const has=[],rh=[],bef=new Map(),aft=new Map(),near=n
   const top=m=>[...m.entries()].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],'pl')).slice(0,80).map(x=>({p:x[0],c:x[1]}));
   return {has,rh,bef:top(bef),aft:top(aft),near:top(near)}}
 function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
-  $('#rinfo').innerHTML=`<b>${esc(q)}</b> · wymowa <b>${esc(k.f)}</b> · rdzeń rymu <b>${esc(k.tail)}</b>`+(loadErr?'<br><span style="color:var(--danger)">Nie udało się pobrać części słownika (brak sieci?). Pokazuję to, co jest w pamięci.</span>':'');
+  $('#rinfo').innerHTML=`<b>${esc(q)}</b> · wymowa <b>${esc(k.f)}</b> · rdzeń rymu <b>${esc(k.tail)}</b> · <a href="https://www.google.com/search?q=${encodeURIComponent('site:bibliotekapiosenki.pl "'+q+'"')}" target="_blank" rel="noopener">szukaj w piosenkach ↗</a>`+(loadErr?'<br><span style="color:var(--danger)">Nie udało się pobrać części słownika (brak sieci?). Pokazuję to, co jest w pamięci.</span>':'');
   if(!lastR.OL)lastR.OL=ownLines(k,wordsOf(q).slice(-1)[0]||'');const OL=lastR.OL;
   if(!lastR.POOL){const mm=new Map();[...R.ry,...R.bl].forEach(c=>{if(!mm.has(c.p))mm.set(c.p,c)});lastR.POOL=[...mm.values()].sort((a,b)=>b.sc-a.sc);lastR.ACC={mez:[],zen:[],dak:[]};lastR.POOL.forEach(c=>lastR.ACC[accOf(c.p)].push(c));
     /* dokładne: ten sam rodzaj akcentu co szukane słowo (męskie z męskim, żeńskie z żeńskim); asonanse: reszta zgodna samogłoskowo */
