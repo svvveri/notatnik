@@ -615,7 +615,7 @@ function vowSyl(w){const V='aeiouyąęó',n=w.length,nuc=[];
   const bnd=[0];
   for(let k=0;k+1<nuc.length;k++){const a=nuc[k]+1,b=nuc[k+1];let cl=w.slice(a,b);
     // i palatalne przed następną samogłoską należy do jej początku
-    let lead=0;if(b-1>=a&&w[b-1]==='i'&&V.includes(w[b]||'x'))cl=w.slice(a,b-1);
+    if(b-1>=a&&w[b-1]==='i'&&V.includes(w[b]||'x'))cl=w.slice(a,b-1);
     const u=cl.match(/dź|dż|dz|sz|cz|rz|ch|./g)||[];let at;
     if(u.length<=1)at=a;else if(ONS.test(u.join('')))at=a;else at=a+u[0].length;
     bnd.push(at)}
@@ -898,15 +898,19 @@ function sheetKey(){const n=T.get(cur);if(!n)return;
 
 /* ---- ściana rymów ---- */
 let dictTimer=null,IDX=null,FQ=null,FQK=null;const SH=new Map(),POSM=new Map();
-/* słownik rymów ładowany na żądanie: pliki rym/v_<dwie ostatnie samogłoski>.txt (wszystkie formy SJP, od najczęstszych), rym/freq.txt (najczęstsze słowa) */
+/* słownik rymów ładowany na żądanie: pliki rym/v_<dwie ostatnie samogłoski>.txt.gz (wszystkie formy SJP, od najczęstszych), rym/freq.txt (najczęstsze słowa) */
 const SKE={'ą':'1','ę':'2'},skelOf=t=>vowelsOf(t).map(c=>SKE[c]||c).join('');
+/* dane (słownik, poezja, konteksty) leżą spakowane gzipem: o ok. 70% mniej w repozytorium i w pamięci telefonu; rozpakowanie w przeglądarce */
+async function gzTxt(path){const r=await fetch(path+'.gz');if(!r.ok)throw 0;const b=new Uint8Array(await r.arrayBuffer());
+  if(b[0]===0x1f&&b[1]===0x8b){if(typeof DecompressionStream==='undefined')throw 0;return await new Response(new Blob([b]).stream().pipeThrough(new DecompressionStream('gzip'))).text()}
+  return new TextDecoder().decode(b)}
 function loadIdx(){if(!IDX)IDX=fetch('rym/idx.json').then(r=>r.json()).catch(()=>{IDX=null;return null});return IDX}
-function loadShard(sk){if(!SH.has(sk))SH.set(sk,fetch('rym/v_'+sk+'.txt').then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>{const m=new Map();
+function loadShard(sk){if(!SH.has(sk))SH.set(sk,gzTxt('rym/v_'+sk+'.txt').then(t=>{const m=new Map();
   t.split('\n').forEach(l=>{const i=l.indexOf('\t');if(i>0)m.set(l.slice(0,i),l.slice(i+1).split(' ').map(x=>{const w=x.slice(1);POSM.set(w,x.charCodeAt(0)-48);return w}))});return m}).catch(()=>{SH.delete(sk);return null}));return SH.get(sk)}
 let SLP=null;
-function loadSlang(){if(!SLP)SLP=fetch('rym/slang.txt').then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>{const bySk=new Map();
+function loadSlang(){if(!SLP)SLP=gzTxt('rym/slang.txt').then(t=>{const bySk=new Map();
   t.split('\n').forEach(w=>{if(!w)return;const f=fon(w);if(!vowelsOf(f).length)return;const tl=tailFrom(f,2),sk=skelOf(tl);let m=bySk.get(sk);if(!m)bySk.set(sk,m=new Map());(m.get(tl)||m.set(tl,[]).get(tl)).push(w)});return bySk}).catch(()=>{SLP=null;return null});return SLP}
-function loadFreq(){if(!FQ)FQ=fetch('rym/freq.txt').then(r=>r.text()).then(t=>t.split('\n')).catch(()=>{FQ=null;return null});return FQ}
+function loadFreq(){if(!FQ)FQ=gzTxt('rym/freq.txt').then(t=>t.split('\n')).catch(()=>{FQ=null;return null});return FQ}
 function ensureDict(){return Promise.all([loadIdx(),loadFreq()])}
 const fastSyl=w=>{const a=w.match(/[aeiouyąęó]/g),b=w.match(/i[aeiouyąęó]/g);return Math.max(1,(a?a.length:0)-(b?b.length:0))};
 function ownRV(){if(rvStale||!RV){buildRV([...T.values()].map(n=>n.tytul+'\n'+n.tresc));rvStale=false}}
@@ -928,8 +932,6 @@ async function rymCompute(q){
   ownRV();const base=findRhymes(q);if(!base)return null;
   const {k,out}=base,qws=wordsOf(q),qlast=qws[qws.length-1],nv=vowelsOf(k.tail).length,qtr=trailOf(k.tail);
   const R={ry:[],bl:[],ide:[],dok:[],spo:[],wie:[],ali:[],sal:[]},seen=new Set([qlast]);
-  const qf=fon(qlast),fv=f=>{const m=f.search(/[aeiouyąę]/);return m<0?f:f.slice(m)},qI=fv(qf),qN=vowelsOf(qf).length;
-  const ideal=w=>{const f=fon(w);return vowelsOf(f).length===qN&&fv(f)===qI};
   const close=(key)=>{const t=trailOf(key);return !(t===qtr||(t&&qtr&&t[t.length-1]===qtr[qtr.length-1]))};
   /* kształt końcówki musi się zgadzać: słowo kończące się samogłoską rymuje się tylko ze słowem kończącym się samogłoską (ludzie ≠ rozumiem), a kończące się spółgłoską tylko ze spółgłoską */
   const CG={m:'N',n:'N','ń':'N',l:'L','ł':'L',k:'K',g:'K',t:'T',d:'T',p:'P',b:'P',f:'F',w:'F',s:'S',z:'S','ś':'S','ź':'S',c:'S','ć':'S',h:'H',r:'R',j:'J'},cg=ch=>CG[ch]||ch;
@@ -1010,7 +1012,7 @@ function drawPomysly(q){const box=$('#rres');const w=q.trim();
   pomGet(w).then(o=>{if(lastR&&lastR.q===q&&rmode==='pom'){box.innerHTML=cats+(body(o)||'<div class="hint">Brak wyników.</div>');wire()}}).catch(e=>{if(lastR&&lastR.q===q&&rmode==='pom'){box.innerHTML=cats+'<div class="hint" style="color:var(--danger)">Nie udało się pobrać pomysłów ('+esc(e.message||'błąd')+').</div>';wire()}})}
 /* ---- zewnętrzne źródła: poezja z Wolnych Lektur (domena publiczna), konteksty z Wikipedii ---- */
 let WLP=null;const CTX=new Map();
-function loadWL(){if(!WLP)WLP=Promise.all([fetch('lin/wl.txt').then(r=>{if(!r.ok)throw 0;return r.text()}),fetch('lin/wl_meta.txt').then(r=>r.text())]).then(([a,b])=>{
+function loadWL(){if(!WLP)WLP=Promise.all([gzTxt('lin/wl.txt'),gzTxt('lin/wl_meta.txt')]).then(([a,b])=>{
   const meta=new Map();b.split('\n').forEach(x=>{const p=x.split('\t');meta.set(p[0],{a:p[1]||'',t:p[2]||''})});
   const L=[];a.split('\n').forEach(x=>{const i=x.indexOf('\t');if(i<0)return;const t=x.slice(i+1),n=t.toLowerCase().replace(/[^a-ząćęłńóśźż]+/g,' ').trim(),ws=n.split(' ');L.push({p:x.slice(0,i),t,n:' '+n+' ',lw:ws[ws.length-1]})});
   return {L,meta}}).catch(()=>{WLP=null;return null});return WLP}
@@ -1019,7 +1021,7 @@ function wlSearch(W,k,qlast){const sk=skelOf(k.tail),qt=trailOf(k.tail).slice(-1
   for(const x of W.L){if(has.length<80&&x.n.includes(needle))has.push(m(x));
     if(rh.length<120&&x.lw&&x.lw!==qlast){let c=cls.get(x.lw);if(c===undefined){const rk=rkey(x.lw);c=!!(rk&&skelOf(rk.tail)===sk&&trailOf(rk.tail).slice(-1)===qt);cls.set(x.lw,c)}if(c)rh.push(m(x))}}
   return {has,rh}}
-function loadCtx(w){const ch=(w[0]||'').charCodeAt(0).toString(16);if(!CTX.has(ch))CTX.set(ch,fetch('ctx/'+ch+'.txt').then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>{const m=new Map();t.split('\n').forEach(l=>{const p=l.split('\t');if(p.length>=3)m.set(p[0],{b:p[1]?p[1].split(' '):[],a:p[2]?p[2].split(' '):[]})});return m}).catch(()=>{CTX.delete(ch);return null}));return CTX.get(ch)}
+function loadCtx(w){const ch=(w[0]||'').charCodeAt(0).toString(16);if(!CTX.has(ch))CTX.set(ch,gzTxt('ctx/'+ch+'.txt').then(t=>{const m=new Map();t.split('\n').forEach(l=>{const p=l.split('\t');if(p.length>=3)m.set(p[0],{b:p[1]?p[1].split(' '):[],a:p[2]?p[2].split(' '):[]})});return m}).catch(()=>{CTX.delete(ch);return null}));return CTX.get(ch)}
 function ownLines(k,qlast){const has=[],rh=[],bef=new Map(),aft=new Map(),near=new Map();const inc=(m,w)=>m.set(w,(m.get(w)||0)+1);
   const sk=skelOf(k.tail);
   for(const n of T.values()){for(const l of n.tresc.split('\n')){if(!l.trim()||isLabel(l)||/^\s*(#|\/\/|https?:)/.test(l))continue;
@@ -1113,22 +1115,8 @@ function warRhyme(a,b){if(!a||!b||a===b)return a===b&&a?'dokładny':null;const k
   if(ka.tail===kb.tail)return 'dokładny';const ta=ka.tail,tb=kb.tail;
   if(skelOf(ta)===skelOf(tb)&&(trailOf(ta).slice(-1)===trailOf(tb).slice(-1)||(!trailOf(ta)&&!trailOf(tb))))return 'asonans';
   if(ka.cons&&ka.cons===kb.cons)return 'konsonans';return null}
-function warAnaliza(){const L=warLinie(),out=[],strophes=[];let cur=[];
-  L.forEach(l=>{if(l.lab||(!l.t.trim())){if(cur.length)strophes.push(cur);cur=[];return}if(!l.skip&&l.ws.length)cur.push(l)});if(cur.length)strophes.push(cur);
+function warAnaliza(){const L=warLinie(),out=[];
   const add=(f,lines,note)=>out.push({f,lines:[].concat(lines),note:note||''});
-  // układ rymów w strofach
-  strophes.forEach((S,si)=>{if(S.length<2)return;let letters=[],map=[],n=0;const types=new Set();
-    S.forEach((l,i)=>{let L2=null;for(let j=i-1;j>=0;j--){const r=warRhyme(S[j].last,l.last);if(r){L2=letters[j];types.add(r);break}}letters.push(L2||String.fromCharCode(97+n++))});
-    const sch=letters.join(''),rymuje=n<S.length;
-    let name='';if(sch==='aabb')name='parzysty';else if(sch==='abab')name='krzyżowy';else if(sch==='abba')name='okalający';else if(sch==='aaaa')name='monorym';
-    const first=S[0].i+1,last=S[S.length-1].i+1;
-    if(!rymuje){}
-    else add('rym',[first],`Strofa ${si+1} (linie ${first}–${last}): schemat ${sch}${name?' ('+name+')':''}, rymy: ${[...types].join(', ')}`);
-    // typ akcentu i gramatyczność dla par
-    S.forEach((l,i)=>{for(let j=0;j<i;j++){if(letters[j]===letters[i]){const a=S[j].last,b=l.last,r=warRhyme(a,b);if(!r)continue;const sa=sylWord(a),sb=sylWord(b);
-        const akc=(sa===1||sb===1)?'męski (oksytoniczny)':'żeński (paroksytoniczny)';
-        const gr=a.slice(-3)===b.slice(-3)&&a!==b&&a.length>4?', gramatyczny (łatwy)':'';
-        add('rym',[S[j].i+1,l.i+1],`${a} – ${b}: ${r}, ${akc}${gr}`);break}}})});
   // rymy wewnętrzne
   L.forEach(l=>{if(l.skip||l.ws.length<4)return;const w=l.ws.slice(0,-1).filter(x=>sylWord(x)>=2);for(let i=0;i<w.length;i++)for(let j=i+1;j<w.length;j++){const r=warRhyme(w[i],w[j]);if(r==='dokładny'&&w[i]!==w[j]){add('rym',[l.i+1],`rym wewnętrzny: ${w[i]} – ${w[j]}`);return}}});
   // anafora / epifora / symploke
@@ -1192,7 +1180,6 @@ function warFormaHtml(){const S=warForma();if(!S.length)return '';
     const g=d?`${d[0]}: ${d[1]}`:(n>=2?(par&&x.sch.slice(-1)!=='x'?'raczej stabilny: parzysta liczba i rym na końcu':'raczej niestabilny: koniec bez rymu lub nieparzysta liczba linii'):'');
     return `<div class="wr" data-l="${x.v[0].i+1}"><b>${esc(x.name)}</b> schemat <code class="sch">${esc(fmtSch(x))}</code>${uni?` (${pt.length}× ${esc(pt[0].toUpperCase())})`:''}${g?' · '+esc(g):''}<br><i>${esc(notes.join(' · '))}</i></div>`}).join('');
   /* maszerujące dwuwersy */
-  const cpl=S.filter(x=>x.v.length>=4&&/^((.)\2)+$/.test(x.sch.replace(/[^a-z]/g,'')) && x.sch.length>=4 && /^(aabb|aabbcc|aabbccdd)$/.test(x.sch)||false);
   const march=S.length>=2&&S.filter(x=>/^aabb(cc)?(dd)?$/.test(x.sch)).length>=Math.max(2,Math.ceil(S.length*0.7));
   const hint=march?`<div class="hint">Prawie każda sekcja to pary aabb. Gdy wszystko domyka się co dwie linie, tekst brzmi jak marsz i trudno go utrzymać przy słuchaczu. Pattison radzi: odrymuj jeden dwuwers (np. abcb), skróć drugą linię albo wrzuć jedną dłuższą linię z rymem oddalonym.</div>`:'';
   /* 2. pozycje mocy */
@@ -1243,11 +1230,15 @@ function sheetWarsztat(){const n=T.get(cur);if(!n)return;const GM=gnoMap();const
 function warGoto(ln){const b=$('#body'),L=b.value.split('\n');let s=0;for(let i=0;i<ln-1;i++)s+=L[i].length+1;closeSheet();showTab('text');b.focus();try{b.setSelectionRange(s,s+(L[ln-1]||'').length)}catch(_){}sel={s,e:s+(L[ln-1]||'').length}}
 function sheetWers(idx,ai){const L=warLinie(),l=L[idx];if(!l)return;const R=warAnaliza().filter(r=>r.lines.includes(idx+1));
   let secName='Początek',no=0;for(let i=0;i<=idx;i++){if(L[i].lab){secName=labName(L[i].t);no=0}else if(!L[i].skip&&L[i].ws.length)no++}
-  const rh=R.filter(r=>r.f==='rym'&&r.lines.length===2),fg=R.filter(r=>r.f!=='rym'&&r.f!=='bialy'),sc=R.filter(r=>r.f==='rym'&&r.lines.length===1);
+  let sec=null,ln=null;for(const x of warForma()){const q=x.v.find(v=>v.i===idx);if(q){sec=x;ln=q;break}}
+  const rh=[],ch=sec&&ln&&!ln.unf?sec.sch[sec.v.indexOf(ln)]:'x';
+  if(ch&&ch!=='x'&&ch!=='…')sec.v.forEach((q,k)=>{if(q!==ln&&sec.sch[k]===ch){const a=ln.last,b=q.last,r=warRhyme(a,b)||'rym (wg kolorowania)',sa=sylWord(a),sb=sylWord(b),akc=(sa===1||sb===1)?'męski':'żeński',gr=a.slice(-3)===b.slice(-3)&&a!==b&&a.length>4?', gramatyczny (łatwy)':'';
+    rh.push({lines:[idx+1,q.i+1],note:`${a} – ${b}: ${r}, ${akc}${gr}`})}});
+  const fg=R.filter(r=>r.f!=='rym'&&r.f!=='bialy'),sc=R.filter(r=>r.f==='rym'&&r.lines.length===1),schNote=sec?`<div class="hint">Schemat sekcji: <code class="sch">${esc(fmtSch(sec))}</code>${ln&&ln.unf?' · ten wers jest niedokończony':''}</div>`:'';
   const last=l.last,figs=['epitet','porownanie','hiperbola','oksymoron','metafora','inwersja','anafora','onomatopeja','aliteracja','ironia','antyteza'];
   openSheet(`<div class="shHead"><h3>Wers ${no} · ${esc(secName)}</h3><button class="x" id="x" aria-label="Zamknij">×</button></div><div class="warbody">
    <div class="wline">${esc(l.t.trim())}</div><div class="hint">${sylText(l.t)} sylab${last?` · końcówka „${esc(last)}” (wymowa ${esc((rkey(last)||{}).tail||'')})`:''}</div>
-   <div class="wcard"><h4>Rymy tego wersu</h4>${rh.length?rh.map(r=>{const o=r.lines.find(x=>x!==idx+1);return `<div class="wr" data-l="${o}"><b>wers ${(gnoMap().get(o))||o}</b> ${esc(r.note)}<br><i>${esc((L[o-1]||{}).t||'')}</i></div>`}).join(''):'<div class="hint">Ten wers nie rymuje się końcówką z innym wersem w strofie.</div>'}${sc.map(r=>`<div class="hint">${esc(r.note)}</div>`).join('')}</div>
+   <div class="wcard"><h4>Rymy tego wersu</h4>${rh.length?rh.map(r=>{const o=r.lines.find(x=>x!==idx+1);return `<div class="wr" data-l="${o}"><b>wers ${(gnoMap().get(o))||o}</b> ${esc(r.note)}<br><i>${esc((L[o-1]||{}).t||'')}</i></div>`}).join(''):'<div class="hint">Ten wers nie rymuje się końcówką z innym wersem w sekcji.</div>'}${schNote}${sc.map(r=>`<div class="hint">${esc(r.note)}</div>`).join('')}</div>
    ${(()=>{const k=warKlisze().filter(x=>x.l===idx+1);return k.length?`<div class="wcard"><h4>Klisza w tym wersie</h4>${k.map(x=>`<div class="hint">${x.rym?'Utarty rym':'Klisza'}: „${esc(x.f)}”. Zamień na konkretny obraz zmysłowy.</div>`).join('')}</div>`:''})()}
    <div class="wcard"><h4>Środki w tym wersie</h4>${fg.length?fg.map(r=>`<details class="wd"><summary>${esc(warFigChip(r.f))} <span>${esc(r.note)}</span></summary><p>${esc((SRODKI[r.f]||{}).d||'')}</p></details>`).join(''):'<div class="hint">Nic nie wykryłam regułami.</div>'}</div>
    <div class="shBtns"><button id="wRy">Rymy do „${esc(last||'…')}”</button></div>
