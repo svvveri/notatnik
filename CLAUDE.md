@@ -18,6 +18,7 @@ Kod PWA do pisania tekstów rapowych (opis: `README.md`). Repo jest **publiczne*
 
 - **Najpierw pytaj.** Przy dwuznacznym zadaniu (zakres, cel, wybór wariantu) zadaj pytanie, zanim zaczniesz. Nie zakładaj po cichu.
 - **Najpierw GitHub.** Zanim napiszesz własny kod albo go dalej łatasz, poszukaj gotowca (skrypt, biblioteka). Wynik podaj krótko, z linkami.
+- **Testy tylko na prawdziwych głosówkach i tekstach Veri** (z jego Dysku, `!Teksty/teksty.json`; odczyt do testów jest zatwierdzony). Żadnych wymyślonych wersów, sztucznych wokali ani generowanych nagrań, nawet do makiety. Dane testowe nigdy do repo (jest publiczne). Syntetycznie wolno testować tylko sygnał techniczny bez wersów (np. klik metronomu).
 - Stan sprawdzaj na plikach, nie z pamięci rozmowy. Czego nie da się sprawdzić, oznacz „niesprawdzone (RRRR-MM-DD)”.
 
 ## Zasady kodu (specyficzne dla notatnika)
@@ -30,7 +31,7 @@ Kod PWA do pisania tekstów rapowych (opis: `README.md`). Repo jest **publiczne*
 ## Git i PR
 
 - Gałąź: ta, którą wskazało środowisko sesji; gdy jej nie ma, `notatnik-<opis>-RRRR-MM-DD`. Commit końca sesji zaczyna się od „Koniec sesji: notatnik, ...”.
-- Veri decyduje o scaleniu: PR otwierasz, a scalasz (`merge`, nie squash) dopiero na jego „scal”.
+- Wyjątek ustalony przez Veri (2026-11-09): po KAŻDEJ zmianie kodu notatnika od razu otwórz PR w notatniku i towarzyszący w `svvveri/Claude` i scal oba (`merge`, nie squash), bez czekania na „scal”, żeby mógł odświeżyć PWA na telefonie. Potem `notatnik.py po nt-vNN`, a raport ma być listą „co zrobiono i co sprawdzić na telefonie” (Veri sprawdza wszystko naraz). Przy zmianach spoza kodu scalenie nadal tylko na jego „scal”.
 
 ## Koniec sesji
 
