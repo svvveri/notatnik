@@ -142,7 +142,7 @@ body[data-view="edit"] #fab{display:none}
 #mirror .ml i{position:absolute;left:calc(100% + 6px);top:0;width:52px;text-align:right;font-style:normal;font-size:11px;line-height:1.6em;color:var(--faint);font-variant-numeric:tabular-nums;white-space:nowrap}
 #mirror .ml i em{font-style:normal;color:var(--adlib);margin-left:3px}
 .nocount #mirror .ml i{display:none}
-/* czysty widok: sam tekst + nazwy części i odrzuty; bez liczników, numerów wersów, statystyk, BPM, tonacji, tagów, nawigacji po częściach i przycisków ✦ */
+/* czysty widok: sam tekst (bez kolorowania rymów) + nazwy części i odrzuty; bez liczników, numerów wersów, statystyk, BPM, tonacji, tagów, nawigacji po częściach i przycisków ✦ */
 #page.clean #stat,#page.clean #tags,#page.clean #struct,#page.clean #labBtns,#page.clean #verseBtns{display:none!important}
 #page.clean #mirror .ml:not(.st) i,#page.clean #mirror .ml .no{display:none}
 #tools.clean #bpmBtn,#tools.clean #keyBtn{display:none}
@@ -728,7 +728,7 @@ function findOdrzut(lines){
   return null}
 function refit(){const b=$('#body');b.style.height='auto';b.style.height=Math.max(b.scrollHeight,Math.round(window.innerHeight*.46))+'px';
   const n=T.get(cur);const lines=b.value.split('\n');let wers=0,syl=0,adSyl=0,odN=0;
-  const OD=findOdrzut(lines),odAt=OD?OD.at:-1;const RC=VS.rhm==='grp'?rhyColors(lines,odAt):VS.rhm==='smart'?rhymeSyl(lines,odAt):new Map();
+  const OD=findOdrzut(lines),odAt=OD?OD.at:-1;const rm=VS.clean?'off':VS.rhm,RC=rm==='grp'?rhyColors(lines,odAt):rm==='smart'?rhymeSyl(lines,odAt):new Map();
   const secs=[{name:'Początek',idx:0,n:0,implicit:true}];let sec=secs[0];const verses=[];
   const kind=l=>isLabel(l)?'lab':(/^\s*(#|\/\/)/.test(l)||/^\s*https?:\/\/\S+\s*$/i.test(l))?'cm':/^-[^\s-]/.test(l)?'st':'';
   $('#mirror').innerHTML=lines.map((l,idx)=>{
@@ -743,7 +743,7 @@ function refit(){const b=$('#body');b.style.height='auto';b.style.height=Math.ma
     if(isV){wers++;syl+=p.main;sec.n++;verses.push({idx,no:sec.n,sec:sec.name})}
     adSyl+=p.ad;
     const no=(VS.nums&&isV)?`<span class="no">${sec.n}</span>`:'';
-    const txt=rhTxt(l,p.seg,RC.get(idx),VS.rhm);
+    const txt=rhTxt(l,p.seg,RC.get(idx),rm);
     const cnt=(p.hasMain||p.ad)?`<i>${p.hasMain?p.main:''}${p.ad?`<em>+${p.ad}</em>`:''}</i>`:'';
     return `<div class="ml">${no}${txt||'&nbsp;'}${cnt}</div>`}).join('');
   const takt=n&&n.bpm?` · <span class="fl">takt ${(240/n.bpm).toFixed(1).replace('.',',')} s</span>`:'';
