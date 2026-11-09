@@ -142,6 +142,11 @@ body[data-view="edit"] #fab{display:none}
 #mirror .ml i{position:absolute;left:calc(100% + 6px);top:0;width:52px;text-align:right;font-style:normal;font-size:11px;line-height:1.6em;color:var(--faint);font-variant-numeric:tabular-nums;white-space:nowrap}
 #mirror .ml i em{font-style:normal;color:var(--adlib);margin-left:3px}
 .nocount #mirror .ml i{display:none}
+/* czysty widok: sam tekst + nazwy części i odrzuty; bez liczników, numerów wersów, statystyk, BPM, tonacji, tagów, nawigacji po częściach i przycisków ✦ */
+#page.clean #stat,#page.clean #tags,#page.clean #struct,#page.clean #labBtns,#page.clean #verseBtns{display:none!important}
+#page.clean #mirror .ml:not(.st) i,#page.clean #mirror .ml .no{display:none}
+#tools.clean #bpmBtn,#tools.clean #keyBtn{display:none}
+#cleanBtn.set{background:var(--chip)}
 .wrap.nums #body,.wrap.nums #mirror{padding-left:34px}
 #mirror .ml .no{position:absolute;left:-34px;width:26px;text-align:right;color:var(--faint);font-size:.68em;line-height:2.35em;font-variant-numeric:tabular-nums}
 #mirror .ml.cm{color:var(--faint);font-style:italic}
@@ -312,6 +317,7 @@ label.lfull{display:flex;gap:8px;align-items:center;margin:4px 0 10px;color:var(
         <button id="bpmBtn" class="pill" type="button" title="Tempo bitu"></button>
         <button id="keyBtn" class="pill" type="button" title="Tonacja"></button>
         <span class="sp"></span>
+        <button id="cleanBtn" class="ico" type="button" aria-label="Czysty widok" aria-pressed="false" title="Czysty widok: ukryj liczniki, BPM i tonację"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
       </div>
       <div id="selwrap"><div id="selbar" class="gut" hidden><span id="selw"></span><button id="selWers" class="pill" type="button">✦ Analiza</button><button id="selAI" class="pill" type="button">✦ AI</button><button id="selRy" class="pill ry" type="button">Rymy</button><button id="selAd" class="pill ad" type="button">( ) adlib</button><button id="selWall" class="pill" type="button">+ ściana</button></div></div>
       <div id="page" class="gut" hidden>
@@ -850,7 +856,7 @@ async function flush(id){if(!id||!db)return;clearTimeout(timers[id]);const n=T.g
   writing[id]=true;
   try{
     do{again[id]=false;dirty.delete(id);
-      await db.doc('teksty/'+id).set({tytul:n.tytul,tresc:n.tresc,tagi:n.tagi||[],bpm:n.bpm||null,klucz:n.klucz||null,sciana:n.sciana||'',gwiazdka:!!n.gwiazdka,nagrania:n.nagrania||[],utworzono:n.utworzono,zmieniono:n.zmieniono})}
+      await db.doc('teksty/'+id).set({tytul:n.tytul,tresc:n.tresc,tagi:n.tagi||[],bpm:n.bpm||null,klucz:n.klucz||null,sciana:n.sciana||'',gwiazdka:!!n.gwiazdka,metx:n.metx||null,nagrania:n.nagrania||[],utworzono:n.utworzono,zmieniono:n.zmieniono})}
     while(again[id]);
     $('#save').textContent=dirty.size?'…':'zapisano'}
   catch(e){dirty.add(id);$('#save').textContent='błąd zapisu'}
@@ -861,7 +867,7 @@ window.addEventListener('pagehide',flushAll);
 
 /* ---- nowy / usuń ---- */
 function nowy(){const id='t'+Date.now().toString(36);const now=Date.now();
-  const n={id,tytul:'',tresc:'',tagi:(filterTag&&filterTag!=='__none')?[filterTag]:[],bpm:null,klucz:null,sciana:'',gwiazdka:false,nagrania:[],utworzono:now,zmieniono:now};
+  const n={id,tytul:'',tresc:'',tagi:(filterTag&&filterTag!=='__none')?[filterTag]:[],bpm:null,klucz:null,sciana:'',gwiazdka:false,metx:null,nagrania:[],utworzono:now,zmieniono:now};
   T.set(id,n);dirty.add(id);flush(id);renderAll();openNote(id);$('#title').focus()}
 function openSheet(html){$('#sheet').innerHTML=html;$('#sheetBg').hidden=false}
 function closeSheet(){if(curAud){curAud.a.pause();curAud=null}metStop();if(recS.rec){try{recS.rec.stop()}catch(e){}}sheetRe=null;$('#sheetBg').hidden=true;$('#sheet').innerHTML=''}
@@ -1359,7 +1365,7 @@ function wersAI(idx,fig,sel,dk){const o=$(sel||'#wOut'),b=$('#body'),v=b.value,L
     const start=dok?line.replace(/(\.\.\.|…)\s*$/,'').trim():line;
     const nb=dok?`Poprzedni wers: ${dk.prev?'„'+dk.prev.t.trim()+'”':'brak (to pierwszy wers sekcji)'}\nNastępny wers: ${dk.next?'„'+dk.next.t.trim()+'”'+(dk.next.unf?' (też niedokończony, więc nie opieraj się na jego końcówce)':''):'brak (to ostatni wers sekcji)'}\n`:'';
     const nxt=dok&&dk.next&&!dk.next.unf?`Dokończenie ma łączyć się sensem i składnią z OBOMA sąsiadami: wynikać z poprzedniego wersu i prowadzić do następnego („${dk.next.t.trim()}”), czyli zapowiadać go, być początkiem zdania, które w nim się kończy, albo wprost na niego odpowiadać. Nie pisz wersu, który pasuje tylko do poprzedniego. ${dk.nextRhymes?'Następny wers jest w tym samym rymie, więc dokończenie rymuje się też z jego końcówką. ':'Następny wers ma inny rym, więc nie kończ dokończenia jego końcówką. '}`:'';
-    const user=`Kontekst:\n${ctx}\n${FS}\n\n${nb}Wers: "${start}"\n`+(dok?`Wers jest NIEDOKOŃCZONY: zostaw jego początek dokładnie tak, jak jest, i dopisz dalszy ciąg.\n${nxt}Dokończenie ma się rymować DOKŁADNIE (te same głoski od ostatniej akcentowanej samogłoski, bez rymów niedokładnych i bez asonansów) z końcówką wersu: "${dk.ref.t.trim()}", czyli na „${dk.ref.last}”. ${cand.length?`OSTATNIE SŁOWO każdego wersu musi być jednym z tych słów (lista jest uporządkowana od najlepiej rymujących się; wybieraj z początku listy, ale nie ograniczaj się do pierwszych słów): ${cand.slice(0,45).join(', ')}. Każdy wers kończy się INNYM słowem (bez powtórzeń); jeśli słów jest mniej niż 8, napisz tyle wersów, ile jest słów. `:''}Długość jest WAŻNA: cały wers (początek + dokończenie) ma mieć od ${Math.max(1,dk.target-2)} do ${dk.target+2} sylab, celuj w ${dk.target}. Początek ma już ${sylText(start)+elongN(start)} sylab, więc dopisz od ${Math.max(1,dk.target-2-(sylText(start)+elongN(start)))} do ${Math.max(1,dk.target+2-(sylText(start)+elongN(start)))} sylab. Wersy dłuższe niż ${dk.target+2} sylab są odrzucane, więc lepiej krótszy niż dłuższy; policz sylaby (każda samogłoska to sylaba) przed odpowiedzią. Zaproponuj 8 pełnych, sensownych i skończonych wersów (początek i dokończenie), każdy w osobnej linii, każdy kończy się pełnym słowem.`:`Środek stylistyczny: ${SRODKI[fig].n} (${SRODKI[fig].d})\nZaproponuj 8 wariantów tego wersu z użyciem tego środka.`);
+    const user=`Kontekst:\n${ctx}\n${FS}\n\n${nb}${flowDlaWersu(idx)}Wers: "${start}"\n`+(dok?`Wers jest NIEDOKOŃCZONY: zostaw jego początek dokładnie tak, jak jest, i dopisz dalszy ciąg.\n${nxt}Dokończenie ma się rymować DOKŁADNIE (te same głoski od ostatniej akcentowanej samogłoski, bez rymów niedokładnych i bez asonansów) z końcówką wersu: "${dk.ref.t.trim()}", czyli na „${dk.ref.last}”. ${cand.length?`OSTATNIE SŁOWO każdego wersu musi być jednym z tych słów (lista jest uporządkowana od najlepiej rymujących się; wybieraj z początku listy, ale nie ograniczaj się do pierwszych słów): ${cand.slice(0,45).join(', ')}. Każdy wers kończy się INNYM słowem (bez powtórzeń); jeśli słów jest mniej niż 8, napisz tyle wersów, ile jest słów. `:''}Długość jest WAŻNA: cały wers (początek + dokończenie) ma mieć od ${Math.max(1,dk.target-2)} do ${dk.target+2} sylab, celuj w ${dk.target}. Początek ma już ${sylText(start)+elongN(start)} sylab, więc dopisz od ${Math.max(1,dk.target-2-(sylText(start)+elongN(start)))} do ${Math.max(1,dk.target+2-(sylText(start)+elongN(start)))} sylab. Wersy dłuższe niż ${dk.target+2} sylab są odrzucane, więc lepiej krótszy niż dłuższy; policz sylaby (każda samogłoska to sylaba) przed odpowiedzią. Zaproponuj 8 pełnych, sensownych i skończonych wersów (początek i dokończenie), każdy w osobnej linii, każdy kończy się pełnym słowem.`:`Środek stylistyczny: ${SRODKI[fig].n} (${SRODKI[fig].d})\nZaproponuj 8 wariantów tego wersu z użyciem tego środka.`);
     return aiCall('Jesteś współautorem tekstów rapowych i poetyckich po polsku. Zachowujesz sens, rytm i (jeśli to możliwe) liczbę sylab oraz końcówkę rymującą się wersu. '+PAT+' Odpowiadasz wyłącznie listą wariantów, jeden w linii, bez numeracji i komentarzy.',user,1200).then(t=>({t,cand,KD}))})()
   .then(({t,cand,KD})=>{let A=t.split('\n').map(x=>x.replace(/^[\-\*\d\.\)\s"„]+|["”]+$/g,'').trim()).filter(Boolean).slice(0,12),weak=[],why=new Map();
     if(dok){const known=w=>(typeof POSM!=='undefined'&&POSM.has(w))||(FQR&&FQR.has(w)),ok=[],bad=[];
@@ -1382,10 +1388,10 @@ function rymyDlaMiejsca(){const b=$('#body');if(!cur)return;
   showTab('wall');$('#rq').value=q;if(q)szukajRymow(q);else $('#rq').focus()}
 
 /* ---- widok, cofnij, ulubione ---- */
-const VS={rhm:(x=>x==='vow'||!x?'smart':x)(ls('nt-rhm')),fs:+(ls('nt-fs')||17),ff:ls('nt-ff')||'sys',nums:ls('nt-nums')==='1',syl:ls('nt-syl')!=='0',autolab:ls('nt-autolab')!=='0'};
+const VS={rhm:(x=>x==='vow'||!x?'smart':x)(ls('nt-rhm')),fs:+(ls('nt-fs')||17),ff:ls('nt-ff')||'sys',clean:ls('nt-clean')==='1',nums:ls('nt-nums')==='1',syl:ls('nt-syl')!=='0',autolab:ls('nt-autolab')!=='0'};
 const FF={sys:'var(--font)',serif:'ui-serif,"New York",Georgia,serif',mono:'ui-monospace,"SF Mono",Menlo,monospace'};
 function applyView(){const rb=$('#rhBtn');if(rb)rb.classList.toggle('set',VS.rhm!=='off');const r=document.documentElement.style;r.setProperty('--fs',VS.fs+'px');r.setProperty('--ff',FF[VS.ff]||FF.sys);
-  $('#wrap').classList.toggle('nums',VS.nums);$('#wrap').classList.toggle('nocount',!VS.syl);if(cur&&tab==='text')refit();if(cur&&tab==='wall')wallFit()}
+  $('#page').classList.toggle('clean',VS.clean);$('#tools').classList.toggle('clean',VS.clean);{const cb=$('#cleanBtn');if(cb){cb.classList.toggle('set',VS.clean);cb.setAttribute('aria-pressed',VS.clean)}}$('#wrap').classList.toggle('nums',VS.nums);$('#wrap').classList.toggle('nocount',!VS.syl);if(cur&&tab==='text')refit();if(cur&&tab==='wall')wallFit()}
 let hT=null;
 function histReset(){hist={s:[$('#body').value],i:0}}
 function histPush(){if(!hist)return;const v=$('#body').value;if(hist.s[hist.i]===v)return;hist.s=hist.s.slice(0,hist.i+1);hist.s.push(v);if(hist.s.length>200)hist.s.shift();hist.i=hist.s.length-1;undoState()}
@@ -1454,9 +1460,9 @@ function metStart(bpm,onBeat,cnt){metStop();const AC=window.AudioContext||window
   MET.id=setInterval(()=>{while(MET.next<MET.ctx.currentTime+.15){metClick(MET.next,((MET.i-MET.cnt)%4+4)%4===0);const bi=MET.i;
     if(onBeat)setTimeout(()=>onBeat(bi),Math.max(0,(MET.next-MET.ctx.currentTime)*1000));MET.next+=60/MET.bpm*metSpd();MET.i++}},25);return true}
 /* szybkość metronomu: 1 = zgodnie z BPM, 2 = dwa razy wolniej (klik co 2 uderzenia) */
-function metSpd(){return ls('nt-metx')==='2'?2:1}
+function metSpd(){const n=T.get(cur);const v=n&&n.metx?n.metx:(ls('nt-metx')==='2'?2:1);return v===2?2:1}
 function metSpdRow(){const f=metSpd();return `<div class="row"><span>Szybkość metronomu</span><div class="seg" id="mSp"><button data-s="1" class="${f===1?'on':''}">normalnie</button><button data-s="2" class="${f===2?'on':''}">2× wolniej</button></div></div>`}
-function metSpdBind(restart){$('#mSp').querySelectorAll('button').forEach(b=>b.onclick=()=>{ls('nt-metx',b.dataset.s);$('#mSp').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));if(MET.id&&restart)restart()})}
+function metSpdBind(restart){$('#mSp').querySelectorAll('button').forEach(b=>b.onclick=()=>{ls('nt-metx',b.dataset.s);{const n=T.get(cur);if(n){n.metx=+b.dataset.s;touch(n)}}$('#mSp').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));if(MET.id&&restart)restart()})}
 /* pasek wersu: 4 kliknięcia metronomu = jeden wers (przy „2× wolniej” to 2 takty BPM). Jedynka (akcent) wypada po odliczaniu; samo odliczanie ma szary kolor. Pozycja liczona z zegara audio, nie z timera. */
 let barRaf=0;
 const barHtml=()=>'<div class="mbar" id="mBar"><div class="mtr"><b></b></div><span class="mlb"></span></div>';
@@ -1482,26 +1488,68 @@ function sheetPart(idx,name,msg){const n=T.get(cur);if(!n)return;sheetRe=m=>shee
   <div class="hint" id="recMsg">${esc(msg||(bpm?'Metronom z głośnika nagra się razem z głosem i o to chodzi: po nagraniu będzie wiadomo, kiedy wchodzisz względem taktu. Jeśli bit leci z innego urządzenia, wyłącz metronom.':'Bez tempa metronom nie zagra. Ustaw je wyżej.'))}</div>
   ${barHtml()}
   <div class="shBtns"><button id="recGo">● Nagraj</button><button id="pTest">▶ Metronom</button></div>
-  ${takes.length?`<div id="recList">`+takes.slice().reverse().map(r=>`<div class="rec"><div class="recT"><b>${esc(r.nazwa)}</b><span>${new Date(r.ts).toLocaleDateString('pl-PL',{day:'numeric',month:'numeric'})}${r.sek?' · '+fmtSek(r.sek):''}</span><button class="rdel" data-id="${esc(r.id)}">Usuń</button></div><div class="aud" data-id="${esc(r.id)}"><button class="pill play" type="button">▶ Odtwórz</button><span class="dur"></span></div></div>`).join('')+'</div>':''}`);
+  ${takes.length?`<div id="recList">`+takes.slice().reverse().map(r=>`<div class="rec"><div class="recT"><b>${esc(r.nazwa)}</b><span>${new Date(r.ts).toLocaleDateString('pl-PL',{day:'numeric',month:'numeric'})}${r.sek?' · '+fmtSek(r.sek):''}</span><button class="rdel" data-id="${esc(r.id)}">Usuń</button></div><div class="aud" data-id="${esc(r.id)}"><button class="pill play" type="button">▶ Odtwórz</button><span class="dur"></span></div>${r.raport?`<div class="hint">${esc(raportTxt(r.raport))}</div>`:''}</div>`).join('')+'</div>':''}`);
   $('#x').onclick=closeSheet;bindAudio();metSpdBind(()=>metStart(bpm));
   $('#pBpm').onclick=()=>{closeSheet();sheetBpm(()=>sheetPart(idx,name))};
   $('#pMet').onclick=()=>{const v=ls('nt-met')==='0';ls('nt-met',v?'1':'0');$('#pMet').classList.toggle('on',v);$('#pMet').setAttribute('aria-checked',v)};
   $('#pCnt').querySelectorAll('button').forEach(b=>b.onclick=()=>{ls('nt-cnt',b.dataset.c);$('#pCnt').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b))});
   $('#pTest').onclick=()=>{if(MET.id){metStop();$('#pTest').textContent='▶ Metronom'}else if(!bpm)recNote('Najpierw ustaw tempo.');else if(metStart(bpm)){$('#pTest').textContent='■ Stop';barRun()}};
-  $('#recGo').onclick=()=>recToggle({name,bpm,met:ls('nt-met')!=='0',cnt:+(ls('nt-cnt')||'4')});
+  $('#recGo').onclick=()=>recToggle({name,idx,bpm,met:ls('nt-met')!=='0',cnt:+(ls('nt-cnt')||'4')});
   $('#sheet').querySelectorAll('.rdel').forEach(b=>bindDel(b,n))}
 function bindDel(b,n){b.onclick=async()=>{
   if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='Na pewno?';setTimeout(()=>{if(b.isConnected){b.classList.remove('arm');b.textContent='Usuń'}},3000);return}
   const id=b.dataset.id;let as=null;try{as=await claude.use('assets')}catch(e){}
   if(as){try{await as.delete(id)}catch(e){}}
   n.nagrania=(n.nagrania||[]).filter(r=>r.id!==id);touch(n);renderTools();renderList();(sheetRe||sheetRec)('Usunięto.')}}
+/* ---- analiza flow'u: nagranie + siatka metronomu + sylaby wersów (lokalnie, Web Audio, bez klucza API) ----
+   Okno wersu = 4 kliknięcia metronomu (przy „2× wolniej” 4 kliki co 2 uderzenia). Pierwsze okno zaczyna się po odliczaniu, na akcencie. Moment pierwszego kliknięcia doprecyzowujemy z tonu metronomu (294/392 Hz) w nagraniu; głos wykrywamy w paśmie, którego metronom (lowpass 1,4 kHz) prawie nie zawiera (druga różnica sygnału). */
+function flowAnaliza(x,sr,g,syl){
+  const ci=60/g.bpm*(g.spd||1),W=4*ci,dur=x.length/sr,H=Math.round(sr*.01),nF=Math.floor(x.length/H)-3,cnt=g.cnt||0;
+  if(nF<50||!syl||!syl.length)return null;
+  const gz=(f,s,n)=>{const w=2*Math.cos(2*Math.PI*f/sr);let a=0,b=0;for(let i=0;i<n;i++){const c=x[s+i]+w*a-b;b=a;a=c}return a*a+b*b-w*a*b};
+  const tone=new Float32Array(nF);for(let k=0;k<nF;k++)tone[k]=gz(294,k*H,4*H)+gz(392,k*H,4*H);
+  /* 1. doprecyzowanie zera siatki: grzebień kliknięć odliczania (głosu tam jeszcze nie ma) */
+  const nc=cnt>0?cnt:8;let best=0,bs=-1;
+  for(let d=-.25;d<=.25001;d+=.005){let sc=0;for(let j=0;j<nc;j++){const t=g.off+d+j*ci,k=Math.round(t/.01);if(k>=0&&k<nF)sc+=tone[k]}if(sc>bs){bs=sc;best=d}}
+  const off=g.off+best;
+  /* 2. obwiednia głosu: moc drugiej różnicy w ramkach 10 ms (dB) */
+  const env=new Float32Array(nF);
+  for(let k=0;k<nF;k++){let q=0;const a=k*H;for(let i=Math.max(a,2);i<a+H;i++){const d=x[i]-2*x[i-1]+x[i-2];q+=d*d}env[k]=10*Math.log10(q/H+1e-14)}
+  const so=Array.from(env).sort((a,b)=>a-b),fl=so[Math.floor(nF*.1)],pk=so[Math.floor(nF*.95)],thr=fl+Math.max(8,.3*(pk-fl));
+  const vo=Array.from(env,e=>e>thr);
+  for(let k=0;k<nF;){if(vo[k]){k++;continue}let e=k;while(e<nF&&!vo[e])e++;if(k>0&&e<nF&&e-k<=12)for(let j=k;j<e;j++)vo[j]=true;k=e}
+  const runs=[];for(let k=0;k<nF;){if(!vo[k]){k++;continue}let e=k;while(e<nF&&vo[e])e++;if(e-k>=5)runs.push({s:k*.01,e:e*.01});k=e}
+  /* 3. wersy: k-ty niepusty wers części = k-te okno po odliczaniu */
+  const W0=off+cnt*ci,v=[];
+  for(let k=0;k<syl.length;k++){const ws=W0+k*W,we=ws+W;if(ws>dur-.3)break;
+    const r=runs.filter(u=>u.e>ws+.02&&u.s<we);if(!r.length){v.push({syl:syl[k],wej:null,sek:null,sS:null});continue}
+    const s0=r[0].s,e0=Math.min(r[r.length-1].e,we),w=s0-ws,sek=e0-Math.max(s0,ws);
+    v.push({syl:syl[k],wej:w>=-.4?Math.round(w*100)/100:null,sek:Math.round(sek*100)/100,sS:sek>=.5?Math.round(syl[k]/sek*10)/10:null})}
+  const ok=v.filter(q=>q.sS!=null),wj=v.filter(q=>q.wej!=null).map(q=>q.wej).sort((a,b)=>a-b);
+  if(!ok.length)return null;
+  return {v,okno:Math.round(W*100)/100,sylS:Math.round(ok.reduce((a,q)=>a+q.sS,0)/ok.length*10)/10,sylOkno:Math.round(v.reduce((a,q)=>a+q.syl,0)/v.length*10)/10,wej:wj.length?wj[Math.floor(wj.length/2)]:null,off:Math.round(off*100)/100}}
+async function flowZBloba(blob,grid,syl){const OC=window.OfflineAudioContext||window.webkitOfflineAudioContext;if(!OC)return null;
+  const buf=await new OC(1,1,44100).decodeAudioData(await blob.arrayBuffer()),x=new Float32Array(buf.length);
+  for(let k=0;k<buf.numberOfChannels;k++){const d=buf.getChannelData(k);for(let i=0;i<x.length;i++)x[i]+=d[i]/buf.numberOfChannels}
+  return flowAnaliza(x,buf.sampleRate,grid,syl)}
+const f1=v=>String(Math.round(v*10)/10).replace('.',','),f2=v=>String(Math.round(v*100)/100).replace('.',',');
+function raportTxt(p){if(!p)return '';const w=p.wej==null?'':p.wej>=0?' · wejście '+f2(p.wej)+' s po jedynce':' · wejście '+f2(-p.wej)+' s przed jedynką';
+  return f1(p.sylS)+' sylaby/s'+w+' · ok. '+Math.round(p.sylOkno)+' sylab na wers (okno '+f2(p.okno)+' s)'}
+/* flow do promptów AI: tylko NAJNOWSZE nagranie z raportem (najpierw tej samej części, inaczej najnowsze w tekście) */
+function flowDlaWersu(idx){const n=T.get(cur);if(!n)return '';
+  const L=$('#body').value.split('\n');let part=null;for(let i=idx;i>=0;i--)if(isLabel(L[i])){part=labName(L[i]);break}
+  const rs=(n.nagrania||[]).filter(r=>r.raport&&r.raport.sylS).sort((a,b)=>b.ts-a.ts),r=rs.find(r=>part&&r.czesc===part)||rs[0];
+  if(r){const p=r.raport,g=r.siatka||{};
+    return `Flow Veri (tylko z jego NAJNOWSZEGO nagrania „${r.nazwa}”${g.bpm?', '+g.bpm+' BPM'+(g.spd===2?', metronom 2× wolniej':''):''}): średnio ${f1(p.sylS)} sylaby na sekundę, jeden wers (okno ${f2(p.okno)} s) mieści ok. ${Math.round(p.sylOkno)} sylab`+(p.wej!=null?`, wchodzi ${p.wej>=0?'ok. '+f2(p.wej)+' s po jedynce':'tuż przed jedynką'}`:'')+`. Dopasuj gęstość sylab i rytm wersu do tego flow'u; cel długości z reguł niżej ma pierwszeństwo.\n`}
+  if(n.bpm){const t=4*60/n.bpm*metSpd();return `Tempo: ${n.bpm} BPM${metSpd()===2?' (metronom 2× wolniej)':''}, jeden wers trwa ok. ${f2(t)} s, czyli komfortowo mieści ${Math.round(t*4.5)}–${Math.round(t*6)} sylab. Cel długości z reguł niżej ma pierwszeństwo.\n`}
+  return ''}
 /* ---- nagrania głosowe ---- */
 const recS={rec:null};
 function fmtSek(s){s=Math.round(s||0);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
 function recNote(m){const e=$('#recMsg');if(e)e.textContent=m}
 function sheetRec(msg){const n=T.get(cur);if(!n)return;sheetRe=sheetRec;const list=n.nagrania||[];
   openSheet(`<div class="shHead"><h3>Nagrania</h3><button class="x" id="x" aria-label="Zamknij">×</button></div>
-  <div id="recList">${list.length?list.slice().reverse().map(r=>`<div class="rec"><div class="recT"><b>${esc(r.nazwa)}</b><span>${new Date(r.ts).toLocaleDateString('pl-PL',{day:'numeric',month:'numeric'})}${r.sek?' · '+fmtSek(r.sek):''}</span><button class="rdel" data-id="${esc(r.id)}" aria-label="Usuń nagranie">Usuń</button></div><div class="aud" data-id="${esc(r.id)}"><button class="pill play" type="button">▶ Odtwórz</button><span class="dur"></span></div></div>`).join(''):'<p class="hint">Brak nagrań. Nagraj pomysł głosem albo dodaj plik z Dyktafonu.</p>'}</div>
+  <div id="recList">${list.length?list.slice().reverse().map(r=>`<div class="rec"><div class="recT"><b>${esc(r.nazwa)}</b><span>${new Date(r.ts).toLocaleDateString('pl-PL',{day:'numeric',month:'numeric'})}${r.sek?' · '+fmtSek(r.sek):''}</span><button class="rdel" data-id="${esc(r.id)}" aria-label="Usuń nagranie">Usuń</button></div><div class="aud" data-id="${esc(r.id)}"><button class="pill play" type="button">▶ Odtwórz</button><span class="dur"></span></div>${r.raport?`<div class="hint">${esc(raportTxt(r.raport))}</div>`:''}</div>`).join(''):'<p class="hint">Brak nagrań. Nagraj pomysł głosem albo dodaj plik z Dyktafonu.</p>'}</div>
   <div class="hint" id="recMsg">${esc(msg||'')}</div>
   <div class="shBtns"><button id="recGo">● Nagraj</button><button id="recAdd">Dodaj plik</button></div>`);
   $('#x').onclick=closeSheet;$('#recGo').onclick=recToggle;$('#recAdd').onclick=()=>$('#recFile').click();bindAudio();
@@ -1517,6 +1565,7 @@ async function recToggle(opt){opt=opt||{};
       :nm==='NotReadableError'||nm==='AbortError'?'Mikrofon jest zajęty przez inną aplikację lub rozmowę ('+nm+'). Zamknij ją i spróbuj jeszcze raz.'
       :nm==='NotFoundError'?'Nie znalazłam mikrofonu ('+nm+').'
       :'Mikrofon niedostępny ('+nm+'). Nagraj w Dyktafonie i dotknij „Dodaj plik”.');return}
+  const sylL=opt.idx!=null?partLines(opt.idx).filter(l=>l.trim()).map(l=>sylText(l)+elongN(l)):[];
   const mt=['audio/mp4','audio/webm;codecs=opus','audio/webm'].find(m=>MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(m));
   const mr=new MediaRecorder(stream,mt?{mimeType:mt}:undefined),chunks=[];let t0=0,tick=null,started=false,tS=0,grid=null;recS.rec=mr;
   mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
@@ -1525,7 +1574,7 @@ async function recToggle(opt){opt=opt||{};
     tick=setInterval(()=>{if(b())b().textContent='■ Stop '+fmtSek((Date.now()-t0)/1000)},500)});
   mr.onstop=async()=>{clearInterval(tick);metStop();stream.getTracks().forEach(t=>t.stop());recS.rec=null;if(b()){b().textContent='● Nagraj';b().classList.remove('live')}
     if(!started||!chunks.length){recNote('Anulowano.');return}
-    await saveAudio(new Blob(chunks,{type:mr.mimeType||mt||'audio/webm'}),(Date.now()-t0)/1000,opt.name?opt.name+' · '+(((T.get(cur).nagrania||[]).filter(r=>r.czesc===opt.name).length+1)):undefined,opt.name,grid)};
+    await saveAudio(new Blob(chunks,{type:mr.mimeType||mt||'audio/webm'}),(Date.now()-t0)/1000,opt.name?opt.name+' · '+(((T.get(cur).nagrania||[]).filter(r=>r.czesc===opt.name).length+1)):undefined,opt.name,grid,sylL)};
   const cnt=opt.bpm?(opt.cnt||0):0;
   if(opt.bpm&&(opt.met||cnt>0)){
     /* nagrywamy od PIERWSZEGO kliknięcia (razem z odliczaniem), żeby w nagraniu było widać, czy wchodzisz przed jedynką, czy po. Siatka: off = sekundy od początku nagrania do pierwszego kliknięcia (przybliżenie; analiza doprecyzuje je z kliknięć słyszalnych w nagraniu) */
@@ -1533,16 +1582,17 @@ async function recToggle(opt){opt=opt||{};
     const ok=metStart(opt.bpm,bi=>{if(bi===cnt&&!opt.met)metStop()},cnt);
     if(ok){grid={bpm:opt.bpm,spd:metSpd(),cnt,off:Math.round((tM-tS)/10)/100+.08};barRun()}}
   else begin()}
-async function saveAudio(blob,sek,nm,czesc,grid){const n=T.get(cur);if(!n)return;
+async function saveAudio(blob,sek,nm,czesc,grid,syl){const n=T.get(cur);if(!n)return;
   let as=null;try{as=await claude.use('assets')}catch(e){}
   if(!as){recNote('Wgrywanie nagrań działa tylko dla właściciela notatnika.');return}
-  recNote('Zapisuję nagranie…');let up=null,err=null;
+  recNote('Zapisuję nagranie…');let up=null,err=null,rap=null;
+  if(grid&&syl&&syl.length){try{rap=await flowZBloba(blob,grid,syl)}catch(e){rap=null}}
   try{up=await as.upload(blob)}catch(e){err=e;
     if(e&&e.code==='unsupported_type'){const ty=blob.type||'';const t=/webm|ogg|opus/i.test(ty)?'video/webm':'video/mp4';
       try{up=await as.upload(new Blob([blob],{type:t}));err=null}catch(e2){err=e2}}}
   if(!up){recNote('Nie udało się zapisać nagrania ('+(err&&err.code||'błąd')+').');return}
-  n.nagrania=n.nagrania||[];n.nagrania.push({id:up.id,url:up.url,nazwa:nm||('Nagranie '+(n.nagrania.length+1)),czesc:czesc||null,sek:Math.round(sek||0),ts:Date.now(),...(grid?{siatka:grid}:{})});
-  touch(n);renderTools();renderList();if(!$('#sheetBg').hidden)(sheetRe||sheetRec)('Zapisano.')}
+  n.nagrania=n.nagrania||[];n.nagrania.push({id:up.id,url:up.url,nazwa:nm||('Nagranie '+(n.nagrania.length+1)),czesc:czesc||null,sek:Math.round(sek||0),ts:Date.now(),...(grid?{siatka:grid}:{}),...(rap?{raport:rap}:{})});
+  touch(n);renderTools();renderList();if(!$('#sheetBg').hidden)(sheetRe||sheetRec)('Zapisano.'+(rap?' Flow: '+raportTxt(rap)+'.':''))}
 
 /* ---- karta słowa, ostatnie szukania ---- */
 function recents(){try{return JSON.parse(ls('nt-rec')||'[]')}catch(e){return[]}}
@@ -1587,6 +1637,7 @@ function wire(){
   swipeInit();pinchInit();$('#anBtn').onclick=()=>sheetWarsztat();
   $('#sugg').addEventListener('pointerdown',e=>e.preventDefault());
   $('#tabText').onclick=()=>showTab('text');$('#tabWall').onclick=()=>showTab('wall');
+  $('#cleanBtn').onclick=()=>{VS.clean=!VS.clean;ls('nt-clean',VS.clean?'1':'0');applyView()};
   $('#bpmBtn').onclick=sheetBpm;$('#keyBtn').onclick=sheetKey;
   $('#rForm').onsubmit=e=>{e.preventDefault();szukajRymow($('#rq').value);$('#rq').blur()};
   ['selRy','selAd','selWall','selWers','selAI'].forEach(id=>{const e=$('#'+id);e.addEventListener('pointerdown',ev=>ev.preventDefault());e.addEventListener('mousedown',ev=>ev.preventDefault())});
@@ -1605,7 +1656,7 @@ function fromSnap(snap){
   const m=new Map();
   snap.docs.forEach(d=>{const x=d.data();if(!x)return;
     if(dirty.has(d.id)||writing[d.id]){const l=T.get(d.id);if(l){m.set(d.id,l);return}}
-    m.set(d.id,{id:d.id,tytul:x.tytul||'',tresc:x.tresc||'',tagi:Array.isArray(x.tagi)?[...x.tagi]:[],bpm:x.bpm||null,klucz:x.klucz||null,sciana:x.sciana||'',gwiazdka:!!x.gwiazdka,nagrania:Array.isArray(x.nagrania)?x.nagrania.map(r=>({...r})):[],utworzono:x.utworzono||0,zmieniono:x.zmieniono||0})});
+    m.set(d.id,{id:d.id,tytul:x.tytul||'',tresc:x.tresc||'',tagi:Array.isArray(x.tagi)?[...x.tagi]:[],bpm:x.bpm||null,klucz:x.klucz||null,sciana:x.sciana||'',gwiazdka:!!x.gwiazdka,metx:x.metx||null,nagrania:Array.isArray(x.nagrania)?x.nagrania.map(r=>({...r})):[],utworzono:x.utworzono||0,zmieniono:x.zmieniono||0})});
   dirty.forEach(id=>{if(!m.has(id)&&T.has(id))m.set(id,T.get(id))});
   T=m;loaded=true;rvStale=true;
   if(cur&&!T.has(cur)){cur=null;showTab('text');view('list')}
