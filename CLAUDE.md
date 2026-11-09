@@ -1,6 +1,6 @@
 # Notatnik tekstów (svvveri/notatnik)
 
-Kod PWA do pisania tekstów rapowych (opis: `README.md`). Repo jest **publiczne** i zawiera tylko kod i słowniki. **Stan projektu, decyzje i plan prowadzimy w prywatnym repo `svvveri/Claude`**, w `projects/muzyczna-baza-danych/notatnik-tekstow/README.md`. Ten plik jest skrótem ogólnych zasad pracy z `CLAUDE.md` tamtego repo; gdy coś się rozjeżdża, wygrywa `CLAUDE.md` z `svvveri/Claude`.
+Kod PWA do pisania tekstów rapowych (opis: `README.md`). Repo jest **publiczne** i zawiera tylko kod i słowniki. **Stan projektu, decyzje i plan prowadzimy w prywatnym repo `svvveri/Claude`**, w README podprojektu `notatnik-tekstow` w repo `svvveri/Claude`. Ten plik jest skrótem ogólnych zasad pracy z `CLAUDE.md` tamtego repo; gdy coś się rozjeżdża, wygrywa `CLAUDE.md` z `svvveri/Claude`.
 
 ## Kontekst
 
@@ -40,9 +40,9 @@ Gdy sesja była czystą rozmową bez decyzji i zmian, a `git status` jest czysty
 
 1. **Podsumuj** sesję: co zrobiono, co ustalono, co zostaje otwarte.
 2. **Sprawdź repo notatnika:** `sw.js` ma podbitą wersję, składnia skryptu przechodzi, `git status` nie pokazuje plików tymczasowych ani danych wrażliwych.
-3. **Zaktualizuj stan w `svvveri/Claude` (obowiązkowe przy każdej sesji, która zmieniła kod, decyzję lub plan).** Dociągnij to repo przez `add_repo` (dostęp push), jeśli go nie ma w sesji, i w `projects/muzyczna-baza-danych/notatnik-tekstow/README.md`:
+3. **Zaktualizuj stan w `svvveri/Claude` (obowiązkowe przy każdej sesji, która zmieniła kod, decyzję lub plan).** Dociągnij to repo przez `add_repo` (dostęp push), jeśli go nie ma w sesji. W README podprojektu `notatnik-tekstow` (znajdziesz go w tym repo, szukając po nazwie):
    - odśwież `Stan na:` (data + jedno zdanie: co zmieniono, wersja `nt-vNN`, czy scalone i czy Pages ją podaje), `Następny krok:` i `Bloker:`;
-   - przepisuj nieaktualne zdania zamiast dopisywać poprawki obok; wiedzę techniczną i decyzje dopisz do `projects/muzyczna-baza-danych/data/modul-tekstow-notatnik.md`, a historię sesji przenieś do `.../notatnik-tekstow/archiwum/RRRR-MM-DD.md` skryptem `narzedzia/koniec_sesji.py przenies` (nie przepisuj ręcznie);
+   - przepisuj nieaktualne zdania zamiast dopisywać poprawki obok; wiedzę techniczną i decyzje dopisz do pliku `modul-tekstow-notatnik.md` w `data/` projektu nadrzędnego, a historię sesji przenieś do `archiwum/RRRR-MM-DD.md` podprojektu skryptem `narzedzia/koniec_sesji.py przenies` (nie przepisuj ręcznie);
    - uruchom `python3 narzedzia/koniec_sesji.py home` i `python3 narzedzia/koniec_sesji.py sprawdz RRRR-MM-DD`; BŁĘDY popraw przed commitem;
    - do `CLAUDE.md` tamtego repo stan nie trafia (tam są zasady, nie stan projektu).
 4. **Commit, push, PR-y:** PR do `main` w notatniku i drugi, towarzyszący, w `svvveri/Claude` (gałąź `notatnik-tekstow-<opis>-RRRR-MM-DD` albo ta, którą wskazało środowisko). W opisie każdego PR wpisz link do drugiego. Przy „scal” scalasz oba razem, żeby stan w `Claude` zgadzał się z tym, co weszło do `main` notatnika.
