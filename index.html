@@ -142,10 +142,10 @@ body[data-view="edit"] #fab{display:none}
 #mirror .ml i{position:absolute;left:calc(100% + 6px);top:0;width:52px;text-align:right;font-style:normal;font-size:11px;line-height:1.6em;color:var(--faint);font-variant-numeric:tabular-nums;white-space:nowrap}
 #mirror .ml i em{font-style:normal;color:var(--adlib);margin-left:3px}
 .nocount #mirror .ml i{display:none}
-/* czysty widok: sam tekst + nazwy części i odrzuty; bez liczników, numerów wersów, statystyk, BPM, tonacji, tagów, nawigacji po częściach i przycisków ✦ */
+/* czysty widok: sam tekst (bez kolorowania rymów) + nazwy części i odrzuty; bez liczników, numerów wersów, statystyk, BPM, tonacji, tagów, nawigacji po częściach i przycisków ✦ */
 #page.clean #stat,#page.clean #tags,#page.clean #struct,#page.clean #labBtns,#page.clean #verseBtns{display:none!important}
 #page.clean #mirror .ml:not(.st) i,#page.clean #mirror .ml .no{display:none}
-#tools.clean #bpmBtn,#tools.clean #keyBtn{display:none}
+#tools.clean #bpmBtn,#tools.clean #keyBtn,#tools.clean #rhBtn{display:none}
 #cleanBtn.set{background:var(--chip)}
 .wrap.nums #body,.wrap.nums #mirror{padding-left:34px}
 #mirror .ml .no{position:absolute;left:-34px;width:26px;text-align:right;color:var(--faint);font-size:.68em;line-height:2.35em;font-variant-numeric:tabular-nums}
@@ -316,6 +316,7 @@ label.lfull{display:flex;gap:8px;align-items:center;margin:4px 0 10px;color:var(
         <button id="redoBtn" class="ico" type="button" aria-label="Ponów" title="Ponów"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button>
         <button id="bpmBtn" class="pill" type="button" title="Tempo bitu"></button>
         <button id="keyBtn" class="pill" type="button" title="Tonacja"></button>
+        <button id="rhBtn" class="pill" type="button" title="Kolorowanie rymów"></button>
         <span class="sp"></span>
         <button id="cleanBtn" class="ico" type="button" aria-label="Czysty widok" aria-pressed="false" title="Czysty widok: ukryj liczniki, BPM i tonację"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
       </div>
@@ -728,7 +729,7 @@ function findOdrzut(lines){
   return null}
 function refit(){const b=$('#body');b.style.height='auto';b.style.height=Math.max(b.scrollHeight,Math.round(window.innerHeight*.46))+'px';
   const n=T.get(cur);const lines=b.value.split('\n');let wers=0,syl=0,adSyl=0,odN=0;
-  const OD=findOdrzut(lines),odAt=OD?OD.at:-1;const RC=VS.rhm==='grp'?rhyColors(lines,odAt):VS.rhm==='smart'?rhymeSyl(lines,odAt):new Map();
+  const OD=findOdrzut(lines),odAt=OD?OD.at:-1;const rm=VS.clean?'off':VS.rhm,RC=rm==='grp'?rhyColors(lines,odAt):rm==='smart'?rhymeSyl(lines,odAt):new Map();
   const secs=[{name:'Początek',idx:0,n:0,implicit:true}];let sec=secs[0];const verses=[];
   const kind=l=>isLabel(l)?'lab':(/^\s*(#|\/\/)/.test(l)||/^\s*https?:\/\/\S+\s*$/i.test(l))?'cm':/^-[^\s-]/.test(l)?'st':'';
   $('#mirror').innerHTML=lines.map((l,idx)=>{
@@ -743,7 +744,7 @@ function refit(){const b=$('#body');b.style.height='auto';b.style.height=Math.ma
     if(isV){wers++;syl+=p.main;sec.n++;verses.push({idx,no:sec.n,sec:sec.name})}
     adSyl+=p.ad;
     const no=(VS.nums&&isV)?`<span class="no">${sec.n}</span>`:'';
-    const txt=rhTxt(l,p.seg,RC.get(idx),VS.rhm);
+    const txt=rhTxt(l,p.seg,RC.get(idx),rm);
     const cnt=(p.hasMain||p.ad)?`<i>${p.hasMain?p.main:''}${p.ad?`<em>+${p.ad}</em>`:''}</i>`:'';
     return `<div class="ml">${no}${txt||'&nbsp;'}${cnt}</div>`}).join('');
   const takt=n&&n.bpm?` · <span class="fl">takt ${(240/n.bpm).toFixed(1).replace('.',',')} s</span>`:'';
@@ -900,6 +901,13 @@ function sheetBpm(after){const n=T.get(cur);if(!n)return;let v=n.bpm||90;const t
 /* tonacja: zapisywana jako „A minor” / „C major”; stare zapisy „moll”/„dur” są czytane i wyświetlane po nowemu */
 const keyFmt=k=>String(k||'').replace(/\bmoll\b/,'minor').replace(/\bdur\b/,'major');
 const NUTY=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+function sheetRhy(){
+  openSheet(`<div class="shHead"><h3>Kolorowanie rymów</h3><button class="x" id="x" aria-label="Zamknij">×</button></div>
+  <div class="seg wide" id="rhSeg2"><button data-r="smart">Rymy</button><button data-r="all">Sylaby</button><button data-r="grp">Grupy</button><button data-r="off">Wył.</button></div>
+  <div class="shBtns"><button class="pri" id="ok">Gotowe</button></div>`);
+  const mark=()=>$('#rhSeg2').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.r===VS.rhm));mark();
+  $('#rhSeg2').querySelectorAll('button').forEach(b=>b.onclick=()=>{VS.rhm=b.dataset.r;ls('nt-rhm',VS.rhm);mark();applyView()});
+  $('#x').onclick=closeSheet;$('#ok').onclick=closeSheet}
 function sheetKey(){const n=T.get(cur);if(!n)return;
   let [root,mode]=n.klucz?keyFmt(n.klucz).split(' '):['A','minor'];if(!NUTY.includes(root))root='A';if(mode!=='major')mode='minor';
   const draw=()=>{$('#keyGrid').innerHTML=NUTY.map(x=>`<button class="${x===root?'on':''}" data-n="${x}">${x}</button>`).join('');
@@ -1390,7 +1398,7 @@ function rymyDlaMiejsca(){const b=$('#body');if(!cur)return;
 /* ---- widok, cofnij, ulubione ---- */
 const VS={rhm:(x=>x==='vow'||!x?'smart':x)(ls('nt-rhm')),fs:+(ls('nt-fs')||17),ff:ls('nt-ff')||'sys',clean:ls('nt-clean')==='1',nums:ls('nt-nums')==='1',syl:ls('nt-syl')!=='0',autolab:ls('nt-autolab')!=='0'};
 const FF={sys:'var(--font)',serif:'ui-serif,"New York",Georgia,serif',mono:'ui-monospace,"SF Mono",Menlo,monospace'};
-function applyView(){const rb=$('#rhBtn');if(rb)rb.classList.toggle('set',VS.rhm!=='off');const r=document.documentElement.style;r.setProperty('--fs',VS.fs+'px');r.setProperty('--ff',FF[VS.ff]||FF.sys);
+function applyView(){const rb=$('#rhBtn');if(rb){rb.classList.toggle('set',VS.rhm!=='off');rb.innerHTML=VS.rhm==='off'?'Rymy':'<b>Rymy</b>'}const r=document.documentElement.style;r.setProperty('--fs',VS.fs+'px');r.setProperty('--ff',FF[VS.ff]||FF.sys);
   $('#page').classList.toggle('clean',VS.clean);$('#tools').classList.toggle('clean',VS.clean);{const cb=$('#cleanBtn');if(cb){cb.classList.toggle('set',VS.clean);cb.setAttribute('aria-pressed',VS.clean)}}$('#wrap').classList.toggle('nums',VS.nums);$('#wrap').classList.toggle('nocount',!VS.syl);if(cur&&tab==='text')refit();if(cur&&tab==='wall')wallFit()}
 let hT=null;
 function histReset(){hist={s:[$('#body').value],i:0}}
@@ -1638,6 +1646,7 @@ function wire(){
   $('#sugg').addEventListener('pointerdown',e=>e.preventDefault());
   $('#tabText').onclick=()=>showTab('text');$('#tabWall').onclick=()=>showTab('wall');
   $('#cleanBtn').onclick=()=>{VS.clean=!VS.clean;ls('nt-clean',VS.clean?'1':'0');applyView()};
+  $('#rhBtn').onclick=sheetRhy;
   $('#bpmBtn').onclick=sheetBpm;$('#keyBtn').onclick=sheetKey;
   $('#rForm').onsubmit=e=>{e.preventDefault();szukajRymow($('#rq').value);$('#rq').blur()};
   ['selRy','selAd','selWall','selWers','selAI'].forEach(id=>{const e=$('#'+id);e.addEventListener('pointerdown',ev=>ev.preventDefault());e.addEventListener('mousedown',ev=>ev.preventDefault())});
