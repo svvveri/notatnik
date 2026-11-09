@@ -1532,7 +1532,9 @@ function flowLinie(lines){return lines.filter(l=>l.trim()).map(l=>{const re=/[a-
     const wc=lw.replace(/([aeiouyąęó])\1{2,}/g,'$1');let sy=null;
     try{const vs=vowSyl(wc);if(vs.length===k)sy=vs.map(x=>wc.slice(x.s,x.e))}catch(_){}
     if(!sy){sy=[];const L=wc.length;for(let i=0;i<k;i++)sy.push(wc.slice(Math.round(i*L/k),Math.round((i+1)*L/k)))}
-    wd.push({w:wc,sy,el:elongN(w)})}
+    /* sylaba przeciągnięta w pisowni („LUUUDZIE” → „lu”): podpowiedź dla dopasowania, gdzie w nagraniu ma być długa sylaba */
+    let ls=-1;const em=/([aeiouyąęó])\1{2,}/.exec(lw);if(em){let pos=em.index,acc=0;for(let i=0;i<sy.length;i++){acc+=sy[i].length;if(pos<acc){ls=i;break}}}
+    wd.push({w:wc,sy,el:elongN(w),ls})}
   /* linia-zastępstwo: „...”, „…”, „~” albo „bełkot”/„mumble” (też w nawiasie) = w nagraniu jest tu bełkot albo pauza zamiast wersu */
   const ph=!n||/^\s*[\(\[]?\s*(bełkot|belkot|mumble)\s*[\)\]]?\s*$/i.test(l);
   return ph?{n:0,el:0,tx:l.trim(),wd:[],ph:1}:{n,el:elongN(l),tx:l.trim(),wd}})}
@@ -1616,7 +1618,18 @@ function flowAnaliza(x,sr,g,syl){
       Bm=K.slice(bs2);K=K.slice(0,bs2);lim=Bm[0].t}
     const m=K.length;
     if(n>=2&&m>=1){
-      let dS=0;while(K.length>n){let wi=0,wv=1e9;for(let i=0;i<K.length;i++){const gl=i?K[i].t-K[i-1].t:1,gr=i<K.length-1?K[i+1].t-K[i].t:1,s=K[i].pr*Math.min(1,Math.min(gl,gr)/.12);if(s<wv){wv=s;wi=i}}if(K[wi].pr>=4)dS++;K.splice(wi,1)}
+      let dS=0;const Lf=[];(sy.wd||[]).forEach(d=>d.sy.forEach((z,i)=>Lf.push(d.ls===i)));
+      /* tekst ma przeciągnięcie w pisowni, a szczytów jest za dużo: dopasowanie programowaniem dynamicznym z założeniem, że po sylabie „LUUU” następna przychodzi później (szczyty w środku trzymanej samogłoski to drgania do pominięcia) */
+      if(K.length>n&&Lf.length===n&&Lf.some(Boolean)){const M=K.length,io=[];for(let i=1;i<M;i++)io.push(K[i].t-K[i-1].t);io.sort((a,b)=>a-b);const u1=Math.max(.08,io[Math.floor(io.length/2)]);
+        const S=[0];for(let i=0;i<M;i++)S.push(S[i]+K[i].pr*.5);
+        const tc=(j,a,b)=>{const g=K[b].t-K[a].t;return Lf[j]?Math.max(0,(2.2*u1-g)/u1)*1.5:(g>2.5*u1&&K[a].gap<.12?(g-2.5*u1)/u1*.8:0)};
+        const D=[],Bp=[];for(let j=0;j<n;j++){D.push(new Float64Array(M).fill(1e9));Bp.push(new Int16Array(M).fill(-1))}
+        for(let i=0;i<M;i++)D[0][i]=S[i];
+        for(let j=1;j<n;j++)for(let i=j;i<M;i++)for(let a=j-1;a<i;a++){const c=D[j-1][a]+(S[i]-S[a+1])+tc(j-1,a,i);if(c<D[j][i]){D[j][i]=c;Bp[j][i]=a}}
+        let bi=n-1,bv=1e9;for(let i=n-1;i<M;i++){const c=D[n-1][i]+(S[M]-S[i+1]);if(c<bv){bv=c;bi=i}}
+        const keep=new Array(n);for(let j=n-1,i=bi;j>=0;j--){keep[j]=i;i=Bp[j][i]}
+        const ks=new Set(keep);K.forEach((p,i)=>{if(!ks.has(i)&&p.pr>=4)dS++});K=keep.map(i=>K[i])}
+      while(K.length>n){let wi=0,wv=1e9;for(let i=0;i<K.length;i++){const gl=i?K[i].t-K[i-1].t:1,gr=i<K.length-1?K[i+1].t-K[i].t:1,s=K[i].pr*Math.min(1,Math.min(gl,gr)/.12);if(s<wv){wv=s;wi=i}}if(K[wi].pr>=4)dS++;K.splice(wi,1)}
       let ev=K.map(p=>({t:p.t,k:p.k,est:0}));
       const fin=()=>ev.forEach((e,i)=>{const nx=i<ev.length-1?ev[i+1].t:Math.max(lim,e.t+.05);e.en=endOf(e.t,nx,e.k!=null?e.k:Math.floor((e.t+.06)/.01));e.cut=nx-e.en>.1&&i<ev.length-1||(i===ev.length-1);e.iv=Math.max(.02,(nx-e.t)<=(e.en-e.t)+.1?nx-e.t:e.en-e.t);e.d=Math.max(.03,e.en-e.t);e.nx=nx});
       fin();
