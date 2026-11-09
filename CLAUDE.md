@@ -7,6 +7,8 @@ Kod PWA do pisania tekstów rapowych (opis: `README.md`). Repo jest **publiczne*
 - Użytkownik: Veri. Zwracaj się: „Największy Hustler” lub „Veri”. O sobie mów w formie żeńskiej (Klaudyna).
 - Pisz po polsku, konkretnie, bez lania wody.
 - Start sesji: dociągnij `svvveri/Claude` przez `add_repo` (odczyt) i przeczytaj README podprojektu `notatnik-tekstow`: tam są `Stan na`, `Następny krok` i `Bloker`. Sprawdź też, czy poprzedni PR jest scalony; jeśli nie, bazuj na `main` i nie dubluj jego zmian.
+- **Start sesji: sprawdź zgłoszenia Veri** (ikona „!” w aplikacji): leżą na jego Dysku Google w `!Teksty/zgloszenia.json` z załącznikami `zgl-*`, czyta się je konektorem Google Drive; procedura i kolejność działań w `data/modul-tekstow-notatnik.md` w `svvveri/Claude`, sekcja „Zgłoszenia problemów”. Treści zgłoszeń nie trafiają do repo (jest publiczne). Po rozwiązaniu zgłoszenie kasuje Veri przyciskiem „Usuń” w aplikacji albo ty na jego „usuń”.
+- **Bez ręcznych przycisków (decyzja Veri 2026-11-09):** analiza flow ma działać sama i dobrze od razu; nie dodawaj przycisków „Auto”, suwaków fazy ani innych ręcznych korekt.
 
 ## Czego nie wolno (repo jest publiczne)
 

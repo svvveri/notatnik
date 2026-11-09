@@ -78,6 +78,11 @@ body[data-view="edit"] #editPane{display:flex}
 .tg{font-size:11.5px;border-radius:6px;padding:1px 7px;background:var(--chip);color:var(--dim)}
 .mk{font-size:11.5px;border-radius:6px;padding:1px 7px;color:var(--acc);border:1px solid var(--line);font-variant-numeric:tabular-nums}
 .state{color:var(--dim);text-align:center;padding:48px 16px;font-size:15px;line-height:1.5}
+#bugBtn{position:fixed;left:max(14px,env(safe-area-inset-left,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));width:42px;height:42px;border-radius:50%;background:var(--bg);border:2px solid var(--danger);color:var(--danger);font:800 22px/1 var(--font-d);display:grid;place-items:center;padding:0 0 2px;box-shadow:0 4px 14px var(--shadow);z-index:6;opacity:.9}
+.zgfun{display:flex;flex-wrap:wrap;gap:6px}
+#zgOpis{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--fg);padding:10px 12px;font:16px/1.4 var(--font);resize:vertical;outline:none}#zgOpis:focus{border-color:var(--acc)}
+.zgatt{display:flex;flex-wrap:wrap;gap:8px}.zga{position:relative;border-radius:10px;overflow:hidden;background:var(--chip);min-height:44px}.zga img{display:block;width:72px;height:72px;object-fit:cover}.zga.zgv{display:flex;align-items:center;gap:8px;padding:6px 34px 6px 8px;font-size:14px}.zga .zgx{position:absolute;top:0;right:0;width:28px;height:28px;font-size:18px;color:var(--fg);background:rgba(0,0,0,.28);border-radius:0 0 0 10px;line-height:1}.zga.zgv .zgx{background:none;color:var(--dim)}
+.zgi{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-top:1px solid var(--line);font-size:14px}.zgi div{flex:1;min-width:0}.zgi b{display:block;font-size:12px;color:var(--dim);font-weight:600}.zgi .pill{flex:none;color:var(--danger);border-color:var(--danger)}#zgList h4{margin:6px 0 0;font-size:14px;color:var(--dim)}
 #fab{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));width:56px;height:56px;border-radius:50%;background:var(--acc-fill);color:var(--on-acc);display:grid;place-items:center;box-shadow:0 6px 18px var(--shadow);z-index:5}
 @media (min-width:860px){#fab{left:calc(360px - 76px);right:auto}}
 body[data-view="edit"] #fab{display:none}
@@ -264,7 +269,6 @@ label.lfull{display:flex;gap:8px;align-items:center;margin:4px 0 10px;color:var(
 .fms.rm{background:var(--adlib-bg);box-shadow:inset 0 0 0 1px var(--adlib)}.fms.e{box-shadow:inset 0 0 0 2px var(--fg)}.fms.es{opacity:.55;outline:1px dashed var(--fg);outline-offset:-2px}.fms.pk{background:repeating-linear-gradient(135deg,transparent 0 4px,var(--line) 4px 8px);box-shadow:none;outline:1px dashed var(--faint);outline-offset:-2px}.fms.bk{background:transparent;box-shadow:none;outline:1px dashed var(--dim);outline-offset:-2px}
 .fmc{grid-column:2/4;font-size:12.5px;color:var(--dim);margin:-1px 0 7px;line-height:1.35}.fmc em{font-style:normal;color:var(--acc)}
 .fmv>summary{list-style:none;cursor:pointer;-webkit-tap-highlight-color:transparent}.fmv>summary::-webkit-details-marker{display:none}.fmx{font-style:normal;color:var(--faint);font-size:16px;line-height:22px;text-align:center;transition:transform .15s}.fmv[open] .fmx{transform:rotate(90deg)}
-.fph{display:flex;align-items:center;gap:8px;margin:2px 0 8px;font-size:13px;color:var(--dim)}.fph span{flex:1;min-width:0}.fph b{color:var(--fg)}.fph .pill{padding:5px 12px;font-size:14px;flex:none}
 .fdw{margin:0 0 10px 24px;display:flex;flex-direction:column;gap:4px}.fdr{overflow:hidden}.fdn{position:absolute;top:0;font-size:10px;line-height:14px;color:var(--faint);padding-left:3px;font-weight:600}
 .fdc{position:absolute;font-size:12.5px;line-height:16px;white-space:nowrap;color:var(--fg)}.fdc sup{font-size:9px;color:var(--acc);margin-left:1px;font-weight:700}.fdc.e{font-weight:700}.fdc.rm{color:var(--adlib)}.fdc.es{opacity:.6}.fdc.pk,.fdc.bk{color:var(--dim);font-style:italic}
 .fdb{position:absolute;height:4px;border-radius:2px;background:var(--acc-fill)}.fdb.e{height:6px;top:auto;margin-top:-1px;box-shadow:0 0 0 1px var(--fg)}.fdb.rm{background:var(--adlib)}.fdb.es{background:transparent;outline:1px dashed var(--fg);outline-offset:-1px}.fdb.pk{background:repeating-linear-gradient(135deg,transparent 0 3px,var(--faint) 3px 6px)}.fdb.bk{background:transparent;outline:1px dashed var(--dim);outline-offset:-1px}
@@ -313,6 +317,7 @@ label.lfull{display:flex;gap:8px;align-items:center;margin:4px 0 10px;color:var(
     </header>
     <div id="notes" class="gut"><div class="state" id="loading">Wczytuję teksty…</div></div>
     <button id="fab" aria-label="Nowy tekst" title="Nowy tekst (⌘N)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.4 2.6a2 2 0 0 1 2.9 2.9L12 14.8l-3.8.9.9-3.8z"/></svg></button>
+<button id="bugBtn" type="button" aria-label="Zgłoś problem" title="Zgłoś problem">!</button>
   </section>
 
   <section class="pane" id="editPane">
@@ -881,12 +886,74 @@ function flushAll(){[...dirty].forEach(flush)}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)flushAll()});
 window.addEventListener('pagehide',flushAll);
 
+/* ---- zgłaszanie problemów (nt-v97): ikona „!”, opis, screenshoty, głosówka bez metronomu; zapis na Dysku (drive.js: NT.zgl) ---- */
+const ZG={funkcja:'',opis:'',pliki:[],mr:null,stream:null,tick:null,busy:false,msg:''};
+const ZG_FUN=['Mapa flow','Nagrywanie','Metronom','Odsłuch nagrań','Edytor tekstu','Rymy i słownik','Warsztat','Piosenki','Synchronizacja','Inne'];
+function zgMsg(m){ZG.msg=m;const e=$('#zgMsg');if(e)e.textContent=m}
+function zgStop(drop){if(ZG.tick){clearInterval(ZG.tick);ZG.tick=null}
+  if(ZG.mr){const m=ZG.mr;if(drop)m.onstop=()=>{};try{if(m.state!=='inactive')m.stop()}catch(e){}ZG.mr=null}
+  if(ZG.stream){ZG.stream.getTracks().forEach(t=>t.stop());ZG.stream=null}}
+function zgReset(){ZG.pliki.forEach(p=>{try{URL.revokeObjectURL(p.url)}catch(e){}});ZG.pliki=[];ZG.opis='';ZG.funkcja=''}
+async function zgKontekst(){let w='nieznana';try{const ks=(await caches.keys()).filter(k=>/^nt-v\d+$/.test(k)).sort((a,b)=>+a.slice(4)-+b.slice(4));if(ks.length)w=ks[ks.length-1]}catch(e){}
+  const n=T.get(cur);return {wersja:w,notatka:n?(n.tytul||''):'',ekran:innerWidth+'x'+innerHeight,ua:(navigator.userAgent||'').slice(0,90),tryb:matchMedia('(display-mode: standalone)').matches?'PWA':'przeglądarka'}}
+async function zgRecToggle(){if(ZG.mr){ZG.mr.stop();return}
+  try{metStop();if(curAud){curAud.a.pause();curAud=null}
+    try{if(MET.ctx&&MET.ctx.state!=='closed')await MET.ctx.close()}catch(e){}MET.ctx=null;try{if(LOUD.ctx&&LOUD.ctx.state!=='closed')await LOUD.ctx.close()}catch(e){}LOUD.ctx=null;
+    try{if(navigator.audioSession)navigator.audioSession.type='play-and-record'}catch(e){}
+    if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)||typeof MediaRecorder==='undefined'){zgMsg('Nagrywanie w tej przeglądarce nie działa. Opisz problem tekstem albo dodaj screenshot.');return}
+    ZG.opis=($('#zgOpis')||{}).value||ZG.opis;
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true}),mt=['audio/mp4','audio/webm;codecs=opus','audio/webm'].find(m=>MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(m)),chunks=[],t0=Date.now();
+    const mr=new MediaRecorder(stream,mt?{mimeType:mt}:undefined);ZG.mr=mr;ZG.stream=stream;
+    mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
+    mr.onstop=()=>{const sek=Math.round((Date.now()-t0)/1000);zgStop(false);ZG.msg='';
+      if(chunks.length){const blob=new Blob(chunks,{type:mr.mimeType||mt||'audio/mp4'});ZG.pliki.push({blob,rodzaj:'glosowka',sek,url:URL.createObjectURL(blob)})}
+      if(!$('#sheetBg').hidden&&$('#zgOpis'))sheetZgl()};
+    mr.start(1000);ZG.tick=setInterval(()=>{const b=$('#zgRec');if(b)b.textContent='■ Stop '+fmtSek((Date.now()-t0)/1000)},500);
+    const b=$('#zgRec');if(b){b.textContent='■ Stop 0:00';b.classList.add('danger')}
+    zgMsg('Nagrywam. Mów, co jest nie tak. Dotknij „Stop”, gdy skończysz.')}
+  catch(e){zgStop(true);const nm=(e&&e.name)||'błąd';zgMsg(nm==='NotAllowedError'?'Mikrofon odmówiony. Zamknij aplikację całkiem, otwórz ponownie i kliknij „Zezwól”.':'Nie udało się włączyć mikrofonu ('+nm+').')}}
+function zgShot(){const i=document.createElement('input');i.type='file';i.accept='image/*';i.multiple=true;
+  i.onchange=()=>{ZG.opis=($('#zgOpis')||{}).value||ZG.opis;[...i.files].forEach(f=>ZG.pliki.push({blob:f,rodzaj:'screenshot',url:URL.createObjectURL(f)}));sheetZgl()};i.click()}
+async function zgSend(){if(ZG.busy)return;ZG.opis=($('#zgOpis')||{}).value||ZG.opis;
+  if(ZG.mr){zgMsg('Najpierw zatrzymaj nagrywanie głosówki (przycisk „Stop”).');return}
+  if(!ZG.opis.trim()&&!ZG.pliki.length){zgMsg('Opisz problem albo dodaj screenshot lub głosówkę.');return}
+  if(!(window.NT&&NT.zgl)){zgMsg('Zgłoszenia nie są dostępne w tej wersji.');return}
+  ZG.busy=true;const b=$('#zgSend');if(b)b.disabled=true;zgMsg('Wysyłam…');
+  try{if(NT.ensureAuth)await NT.ensureAuth();const kontekst=await zgKontekst();
+    await NT.zgl.add({funkcja:ZG.funkcja,opis:ZG.opis.trim(),kontekst,pliki:ZG.pliki.map(p=>({blob:p.blob,rodzaj:p.rodzaj,sek:p.sek}))});
+    zgReset();sheetZgl('Zapisane na Dysku. Zajmiemy się tym na początku następnej sesji.')}
+  catch(e){const bd=e&&e.auth?'Nie jesteś zalogowany do Dysku. Dotknij „☁ połącz z Dyskiem” na liście tekstów i spróbuj jeszcze raz.':'Nie udało się wysłać ('+(e&&e.message||'błąd')+'). Zgłoszenie zostaje w tym oknie, spróbuj ponownie.';
+    if(!$('#sheetBg').hidden&&$('#zgSend')){zgMsg(bd);const bb=$('#zgSend');if(bb)bb.disabled=false}else ZG.msg=bd}
+  finally{ZG.busy=false}}
+async function zgLista(){const box=$('#zgList');if(!box||!(window.NT&&NT.zgl))return;
+  try{const l=await NT.zgl.list();if(!$('#zgList'))return;if(!l.length){$('#zgList').innerHTML='';return}
+    $('#zgList').innerHTML='<h4>Zgłoszone ('+l.length+')</h4>'+l.slice().reverse().map(w=>`<div class="zgi"><div><b>${esc(new Date(w.ts).toLocaleString('pl-PL',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'}))}${w.funkcja?' · '+esc(w.funkcja):''}${(w.pliki||[]).length?' · załączników: '+w.pliki.length:''}</b>${esc((w.opis||'(bez opisu)').slice(0,140))}</div><button class="pill zgdel" type="button" data-id="${esc(w.id)}">Usuń</button></div>`).join('');
+    $('#zgList').querySelectorAll('.zgdel').forEach(b=>b.onclick=async()=>{if(!confirm('Usunąć to zgłoszenie razem z załącznikami?'))return;b.disabled=true;b.textContent='…';
+      try{await NT.zgl.remove(b.dataset.id);zgLista()}catch(e){zgMsg('Nie udało się usunąć ('+(e&&e.message||'błąd')+').');b.disabled=false;b.textContent='Usuń'}})}
+  catch(e){if($('#zgList'))$('#zgList').innerHTML=e&&e.auth?'<div class="hint">Połącz z Dyskiem (☁ na liście tekstów), żeby zobaczyć zgłoszenia.</div>':''}}
+function sheetZgl(msg){if(msg!=null)ZG.msg=msg;
+  openSheet(`<div class="shHead"><h3>Zgłoś problem</h3><button class="x" id="x" aria-label="Zamknij">×</button></div>
+  <div class="hint">Czego dotyczy? Opisz, dodaj screenshot albo nagraj głosówkę (zwykłą, bez metronomu). Na początku sesji Klaudyna sprawdzi zgłoszenia i ułoży kolejność, a po rozwiązaniu wpis znika.</div>
+  <div class="zgfun">${ZG_FUN.map(f=>`<button type="button" class="chip${ZG.funkcja===f?' on':''}" data-f="${esc(f)}">${esc(f)}</button>`).join('')}</div>
+  <textarea id="zgOpis" rows="4" placeholder="Co jest nie tak? Jak powinno działać?">${esc(ZG.opis)}</textarea>
+  ${ZG.pliki.length?`<div class="zgatt">${ZG.pliki.map((p,i)=>p.rodzaj==='screenshot'?`<div class="zga"><img src="${p.url}" alt="screenshot"><button type="button" class="zgx" data-i="${i}" aria-label="Usuń załącznik">×</button></div>`:`<div class="zga zgv"><button type="button" class="pill zgp" data-i="${i}">▶</button><span>Głosówka ${fmtSek(p.sek)}</span><button type="button" class="zgx" data-i="${i}" aria-label="Usuń załącznik">×</button></div>`).join('')}</div>`:''}
+  <div class="shBtns"><button type="button" id="zgShot">📷 Screenshot</button><button type="button" id="zgRec"${ZG.mr?' class="danger"':''}>${ZG.mr?'■ Stop':'🎙 Głosówka'}</button></div>
+  <div class="hint" id="zgMsg">${esc(ZG.msg||'')}</div>
+  <div class="shBtns"><button type="button" id="zgSend" class="pri">Wyślij zgłoszenie</button></div>
+  <div id="zgList"></div>`);
+  $('#x').onclick=closeSheet;
+  $('#sheet').querySelectorAll('.zgfun .chip').forEach(b=>b.onclick=()=>{ZG.funkcja=ZG.funkcja===b.dataset.f?'':b.dataset.f;$('#sheet').querySelectorAll('.zgfun .chip').forEach(x=>x.classList.toggle('on',x.dataset.f===ZG.funkcja))});
+  $('#zgOpis').oninput=e=>{ZG.opis=e.target.value};
+  $('#sheet').querySelectorAll('.zgx').forEach(b=>b.onclick=()=>{const p=ZG.pliki[+b.dataset.i];if(p){try{URL.revokeObjectURL(p.url)}catch(e){}ZG.pliki.splice(+b.dataset.i,1);sheetZgl()}});
+  $('#sheet').querySelectorAll('.zgp').forEach(b=>b.onclick=()=>{const p=ZG.pliki[+b.dataset.i];if(!p)return;if(curAud){curAud.a.pause();curAud=null}const a=new Audio(p.url);curAud={a,b,box:null};a.onended=()=>{b.textContent='▶'};b.textContent='❚❚';a.play().catch(()=>{b.textContent='▶'})});
+  $('#zgShot').onclick=zgShot;$('#zgRec').onclick=zgRecToggle;$('#zgSend').onclick=zgSend;zgLista()}
+
 /* ---- nowy / usuń ---- */
 function nowy(){const id='t'+Date.now().toString(36);const now=Date.now();
   const n={id,tytul:'',tresc:'',tagi:(filterTag&&filterTag!=='__none')?[filterTag]:[],bpm:null,klucz:null,sciana:'',gwiazdka:false,metx:null,nagrania:[],utworzono:now,zmieniono:now};
   T.set(id,n);dirty.add(id);flush(id);renderAll();openNote(id);$('#title').focus()}
 function openSheet(html){$('#sheet').innerHTML=html;$('#sheetBg').hidden=false}
-function closeSheet(){if(curAud){curAud.a.pause();curAud=null}metStop();if(recS.rec){try{recS.rec.stop()}catch(e){}}sheetRe=null;$('#sheetBg').hidden=true;$('#sheet').innerHTML=''}
+function closeSheet(){if(typeof zgStop==='function')zgStop(true);if(curAud){curAud.a.pause();curAud=null}metStop();if(recS.rec){try{recS.rec.stop()}catch(e){}}sheetRe=null;$('#sheetBg').hidden=true;$('#sheet').innerHTML=''}
 function pytajUsun(){const n=T.get(cur);if(!n)return;
   openSheet(`<p>Usunąć „${esc(n.tytul||'Bez tytułu')}”? Tego nie da się cofnąć.</p><div class="shBtns"><button id="no">Anuluj</button><button class="danger" id="yes">Usuń tekst</button></div>`);
   $('#no').onclick=closeSheet;
@@ -1740,7 +1807,7 @@ const f1=v=>String(Math.round(v*10)/10).replace('.',','),f2=v=>String(Math.round
 function raportTxt(p){if(!p)return '';const w=p.wej==null?'':p.wej>=0?' · wejście '+f2(p.wej)+(p.faza?' s po początku okna':' s po jedynce'):' · wejście '+f2(-p.wej)+(p.faza?' s przed początkiem okna':' s przed jedynką');
   const ex=(p.v||[]).reduce((a,q)=>a+((q.q>=70&&q.x)?q.x.length:0),0);
   const nr=(q,k)=>q.li!=null?q.li+1:k+1,bl=(p.v||[]).map((q,k)=>q.b?nr(q,k):0).filter(Boolean),pz=(p.v||[]).map((q,k)=>q.pz||q.pk?nr(q,k):0).filter(Boolean);
-  return f1(p.sylS)+' sylaby/s'+w+' · ok. '+Math.round(p.sylOkno)+' sylab na wers (okno '+(p.bity?p.bity+' uderzeń, ':'')+f2(p.okno)+' s'+(p.auto?', dobrane automatycznie':'')+(p.faza?', początek okna '+(p.faza>0?'+':'')+p.faza+(Math.abs(p.faza)===1?' uderzenie':' uderzenia')+(p.fa?' (auto)':' (ręcznie)'):'')+')'+(ex?' · przeciągnięć: '+ex:'')+(bl.length?' · bełkot w wersie '+bl.join(', '):'')+(pz.length?' · pauza w wersie '+pz.join(', '):'')}
+  return f1(p.sylS)+' sylaby/s'+w+' · ok. '+Math.round(p.sylOkno)+' sylab na wers (okno '+(p.bity?p.bity+' uderzeń, ':'')+f2(p.okno)+' s'+(p.auto?', dobrane automatycznie':'')+(p.faza?', początek okna '+(p.faza>0?'+':'')+p.faza+(Math.abs(p.faza)===1?' uderzenie':' uderzenia')+' (auto)':'')+')'+(ex?' · przeciągnięć: '+ex:'')+(bl.length?' · bełkot w wersie '+bl.join(', '):'')+(pz.length?' · pauza w wersie '+pz.join(', '):'')}
 /* ---- pomiary flow'u w reszcie aplikacji ----
    flowPomiary: wersy (po tekście) z zaufanym pomiarem sylab z nagrań BIEŻĄCEJ notatki; nowsze nagranie nadpisuje starsze. Dzięki temu licznik sylab zna prawdziwe przeciągnięcia.
    flowProfil: odcisk palca Veri ze wszystkich nagrań ver:2 (maks. 12 najnowszych). flowZakres: ile sylab mieści wers przy danym tempie. */
@@ -1818,8 +1885,7 @@ function flowMapDet(r){const h=flowMapaHtml(r);if(!h)return '';const n=T.get(cur
   const prev=n?(n.nagrania||[]).filter(x=>x.czesc===r.czesc&&x.ts<r.ts&&x.raport&&x.raport.sylS).sort((a,b)=>b.ts-a.ts)[0]:null;
   if(prev){const a=r.raport,b=prev.raport,d=a.sylS-b.sylS,dw=(a.wej!=null&&b.wej!=null)?a.wej-b.wej:null,sg=v=>(v>=0?'+':'−')+f1(Math.abs(v));
     cmp=`<div class="hint">Względem „${esc(prev.nazwa)}”: ${sg(d)} sylaby/s`+(dw!=null?`, wejście ${dw>=0?'później':'wcześniej'} o ${f2(Math.abs(dw))} s`:'')+`.</div>`}
-  const fz=r.raport.faza||0,ctl=r.siatka&&!r.ucieta?`<div class="fph"><span>Początek okna wersów: <b>${fz>0?'+':''}${fz}</b> ${Math.abs(fz)===1?'uderzenie':'uderzeń'} od jedynki${r.raport.fa?' (auto)':typeof r.faza==='number'?' (ręcznie)':''}</span><button class="pill rfaza" type="button" data-id="${esc(r.id)}" data-d="-1" aria-label="Okno o uderzenie wcześniej">◀</button><button class="pill rfaza" type="button" data-id="${esc(r.id)}" data-d="auto">Auto</button><button class="pill rfaza" type="button" data-id="${esc(r.id)}" data-d="1" aria-label="Okno o uderzenie później">▶</button></div>`:'';
-  return `<details class="wd fmd"><summary>Mapa flow <span>sylaby na siatce</span></summary>${ctl}${h}${cmp}</details>`}
+  return `<details class="wd fmd"><summary>Mapa flow <span>sylaby na siatce</span></summary>${h}${cmp}</details>`}
 /* karta „Flow tego wersu” w analizie wersu: tylko gdy dokładnie ten tekst został nagrany */
 function wersFlowHtml(tx){const m=flowPomiary().get(normTx(tx));if(!m)return '';const q=m.q,r=m.r,z=flowZakres((T.get(cur)||{}).bpm,flowSpdN(T.get(cur))),bel=q.b?q.b.t.length:(q.pkS||0),eff=q.sb+m.ex+bel;
   const mp=flowDetal(q,r.raport.okno,r.raport.bity,r.raport.faza);
@@ -1852,24 +1918,20 @@ function flowDlaWersu(idx){const n=T.get(cur);if(!n)return '';
   return out}
 /* ---- nagrania głosowe ---- */
 const flowBtn=r=>r.siatka&&!r.ucieta&&(!r.raport||(r.raport.ver||1)<5)?`<button class="pill rflow" type="button" data-id="${esc(r.id)}">${r.raport?((r.raport.ver||1)>=3?'Przelicz flow (faza okna wersów)':(r.raport.ver||1)>=2?'Przelicz flow (nowa miara przeciągnięć)':'Przelicz flow (nowa analiza sylab)'):'Przelicz flow'}</button>`:'';
-/* przelicza nagranie z zapisanego pliku; faza: undefined = ustawienie nagrania (ręczne, jeśli było), null = auto, liczba = ręcznie */
-async function flowRecalc(r,faza,back,btn){const n=T.get(cur);if(!n)return;
+/* przelicza nagranie z zapisanego pliku (faza okna zawsze automatyczna) */
+async function flowRecalc(r,back,btn){const n=T.get(cur);if(!n)return;
   if(btn){btn.textContent='Liczę…';btn.disabled=true}
   try{const L=$('#body').value.split('\n');let idx=-1;for(let i=0;i<L.length;i++)if(isLabel(L[i])&&labName(L[i])===r.czesc){idx=i;break}
     if(idx<0){back('Nie znalazłam części „'+(r.czesc||'?')+'” w tekście, więc nie wiem, które wersy przeliczyć.');return}
     const syl=flowLinie(partLines(idx));
-    if(faza===undefined)faza=typeof r.faza==='number'?r.faza:null;
-    const url=await window.NT.blobUrl(r.id),blob=await (await fetch(url)).blob(),fz=await flowZBloba(blob,faza==null?r.siatka:{...r.siatka,ph:faza},syl);
+    const url=await window.NT.blobUrl(r.id),blob=await (await fetch(url)).blob(),fz=await flowZBloba(blob,r.siatka,syl);
     if(!fz){back('Ta przeglądarka nie potrafi odczytać nagrania.');return}
     if(r.sek&&fz.dur<r.sek*.6){r.ucieta=true;r.sek=Math.round(fz.dur*10)/10;touch(n);back('Nagranie jest ucięte: w pliku jest '+f1(fz.dur)+' s dźwięku. Nagraj jeszcze raz.');return}
     if(!fz.rap){back('Nie udało się wykryć głosu w nagraniu.');return}
-    if(faza==null)delete r.faza;else r.faza=faza;
     r.raport=fz.rap;touch(n);back('Flow: '+raportTxt(fz.rap)+'.')}
   catch(e){back('Nie udało się przeliczyć ('+(e&&e.message||'błąd')+').')}}
 function bindFlow(){const back=m=>(sheetRe||sheetRec)(m),find=b=>{const n=T.get(cur);return n&&(n.nagrania||[]).find(x=>x.id===b.dataset.id)};
-  document.querySelectorAll('#sheet .rflow').forEach(b=>b.onclick=()=>{const r=find(b);if(r)flowRecalc(r,undefined,back,b)});
-  document.querySelectorAll('#sheet .rfaza').forEach(b=>b.onclick=()=>{const r=find(b);if(!r)return;const d=b.dataset.d;
-    flowRecalc(r,d==='auto'?null:(((r.raport&&r.raport.faza)||0)+(+d)),back,b)})}
+  document.querySelectorAll('#sheet .rflow').forEach(b=>b.onclick=()=>{const r=find(b);if(r)flowRecalc(r,back,b)})}
 const recS={rec:null,busy:false};
 function fmtSek(s){s=Math.round(s||0);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
 function recNote(m){const e=$('#recMsg');if(e)e.textContent=m}
@@ -1990,7 +2052,7 @@ function wire(){
   $('#wallTa').oninput=()=>{const n=T.get(cur);if(!n)return;n.sciana=$('#wallTa').value;touch(n);wallFit()};
   $('#title').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();$('#body').focus()}};
   $('#q').oninput=e=>{query=e.target.value;renderList()};
-  $('#fab').onclick=nowy;$('#back').onclick=closeNote;$('#moreBtn').onclick=sheetMore;$('#starBtn').onclick=toggleStar;
+  $('#fab').onclick=nowy;$('#bugBtn').onclick=()=>{ZG.msg='';sheetZgl()};$('#back').onclick=closeNote;$('#moreBtn').onclick=sheetMore;$('#starBtn').onclick=toggleStar;
   $('#undoBtn').onclick=()=>{clearTimeout(hT);histPush();histApply(hist.i-1)};$('#redoBtn').onclick=()=>histApply(hist.i+1);
   $('#sortBtn').onclick=()=>{sortMode=sortMode==='edit'?'new':sortMode==='new'?'az':'edit';ls('nt-sort',sortMode);renderList()};
   $('#impFile').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const n=window.NT.importJSON(await f.text());$('#exMsg')&&($('#exMsg').textContent=n<0?'To nie jest poprawny plik .json.':'Zaimportowano: '+n+' tekstów.')};
