@@ -258,8 +258,8 @@ label.lfull{display:flex;gap:8px;align-items:center;margin:4px 0 10px;color:var(
 .rdel.arm{background:var(--danger);color:var(--on-danger)}
 .rec audio{width:100%;height:36px}
 .fm{margin:6px 0 2px}.fmr{display:grid;grid-template-columns:18px 1fr;gap:6px;align-items:start;margin:2px 0}.fmr>b{font-size:11px;font-weight:600;color:var(--faint);text-align:right;line-height:30px}
-.fmg{position:relative;height:30px;border-radius:7px;background:var(--chip);background-image:repeating-linear-gradient(90deg,transparent 0 calc(25% - 1px),var(--faint) calc(25% - 1px) 25%),repeating-linear-gradient(90deg,transparent 0 calc(6.25% - 1px),var(--line) calc(6.25% - 1px) 6.25%);overflow:hidden}
-.fmh .fmg{height:16px;background:none;display:grid;grid-template-columns:repeat(4,1fr);overflow:visible}.fmh .fmg span{font-size:11px;color:var(--dim);padding-left:4px;line-height:16px}
+.fmg{position:relative;height:30px;border-radius:7px;background:var(--chip);overflow:hidden}.fmg .fbl,.fmg .fbs{position:absolute;top:0;bottom:0;width:1px;background:var(--faint)}.fmg .fbs{background:var(--line)}.fmg .fpre{position:absolute;top:0;bottom:0;left:0;background:var(--line)}
+.fmh .fmg{height:16px;background:none;overflow:visible}.fmh .fmg span{position:absolute;top:0;font-size:11px;color:var(--dim);padding-left:3px;line-height:16px;white-space:nowrap}
 .fms{position:absolute;top:4px;height:22px;border-radius:5px;background:var(--acc-fill);color:var(--on-acc);font-size:10px;line-height:22px;padding:0 3px;overflow:hidden;white-space:nowrap;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
 .fms.rm{background:var(--adlib-bg);color:var(--adlib);box-shadow:inset 0 0 0 1px var(--adlib)}.fms.e{box-shadow:inset 0 0 0 2px var(--fg)}.fms.es{opacity:.55;outline:1px dashed var(--fg);outline-offset:-2px}
 .fmc{grid-column:2;font-size:11.5px;color:var(--dim);margin:-1px 0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fmc em{font-style:normal;color:var(--acc)}
@@ -1600,7 +1600,8 @@ function flowAnaliza(x,sr,g,syl){
       let u=(inner.length>=3?inner[Math.floor(inner.length/2)]:all[Math.floor(all.length/2)]);u=Math.max(.08,Math.min(.5,u));
       const xs=[];ev.forEach((e,i)=>{if(!e.est&&e.dd>=1.75*u+.05){const ex=Math.max(1,Math.min(4,Math.round(e.dd/u)-1));xs.push([i,ex])}});
       const q=Math.round(100*(1-Math.min(1,(dS+ev.filter(e=>e.est).length)/Math.max(1,n))));
-      rec.t=ev.map(e=>Math.round((e.t-ws)*100));rec.d=ev.map(e=>Math.max(3,Math.round(e.dd*100)));rec.q=q;rec.u=Math.round(u*100);
+      rec.t=ev.map(e=>Math.round((e.t-ws)*100));if(q>=70&&ev[0].t-ws>-.8)rec.wej=Math.round((ev[0].t-ws)*100)/100; /* wejście z pierwszej sylaby: przy zwartym flow głos nie milknie między wersami, więc start „ciągu głosu” go nie pokaże; przedtakt (np. „moi” przed jedynką) daje wartość ujemną */
+      rec.d=ev.map(e=>Math.max(3,Math.round(e.dd*100)));rec.q=q;rec.u=Math.round(u*100);
       if(xs.length)rec.x=xs;const es=[];ev.forEach((e,i)=>{if(e.est)es.push(i)});if(es.length)rec.es=es;
       if(q>=70)rec.syl=n+xs.reduce((a,z)=>a+z[1],0)}
     rec.sS=sek>=.5?Math.round(rec.syl/sek*10)/10:null;v.push(rec)}
@@ -1657,15 +1658,17 @@ function flowSzablon(q,okno){const ci=okno/4,b=[0,0,0,0];q.t.forEach(t=>{b[Math.
   if(q.x&&q.x.length)parts.push('przeciągnięte: '+q.x.slice(0,3).map(([i,e])=>`„${sw[i]?sw[i].s:'?'}” w „${sw[i]?sw[i].w:'?'}” (trwa jak ok. ${e+1} sylaby)`).join(', '));
   parts.push('ostatnia sylaba wchodzi na uderzeniu '+f1(q.t[q.t.length-1]/100/ci+1)+' z 4');return parts.join('; ')}
 /* mapa flow: każdy wers w osobnym pasku na siatce okna (4 uderzenia metronomu, 16 szesnastek); sylaba = klocek w miejscu wejścia, szerokość = czas trwania */
-function flowMapaHtml(r){const p=r&&r.raport;if(!p||(p.ver||1)<2||!p.v)return '';const O=p.okno;
+function flowMapaHtml(r){const p=r&&r.raport;if(!p||(p.ver||1)<2||!p.v)return '';const O=p.okno,ci=O/4,LD=ci*.75,TT=O+LD,X=t=>(t+LD)/TT*100;
+  /* strefa przedtaktu: 3/4 kliku przed jedynką (np. „moi” przed „LUUU”), potem 4 uderzenia okna */
+  const grid='<span class="fpre" style="width:'+X(0).toFixed(1)+'%"></span>'+[0,1,2,3].map(j=>[1,2,3].map(z=>`<span class="fbs" style="left:${X((j+z/4)*ci).toFixed(1)}%"></span>`).join('')+`<span class="fbl" style="left:${X(j*ci).toFixed(1)}%"></span>`).join('');
   const rows=p.v.map((q,k)=>{const cap=esc(q.tx||'');
-    if(!q.t||!q.t.length)return `<div class="fmr"><b>${k+1}</b><div class="fmg"></div><div class="fmc">${cap}${q.sS==null?' · nie wykryłam głosu':''}</div></div>`;
+    if(!q.t||!q.t.length)return `<div class="fmr"><b>${k+1}</b><div class="fmg">${grid}</div><div class="fmc">${cap}${q.sS==null?' · nie wykryłam głosu':''}</div></div>`;
     const sw=flowSylWord(q.tx||''),es=q.es||[];
-    const bars=q.t.map((t,i)=>{const l=Math.max(0,t/100/O*100),w=Math.max(q.d[i]/100/O*100,2.4),ex=(q.x||[]).find(z=>z[0]===i),s=sw[i];
+    const bars=q.t.map((t,i)=>{const l=Math.max(0,X(t/100)),w=Math.max(q.d[i]/100/TT*100,2.4),ex=(q.x||[]).find(z=>z[0]===i),s=sw[i];
       return `<span class="fms${ex?' e':''}${s&&s.last?' rm':''}${es.includes(i)?' es':''}" style="left:${l.toFixed(1)}%;width:${Math.max(1.5,Math.min(w,100-l)).toFixed(1)}%">${s?esc(s.s):''}</span>`}).join('');
     const tg=[q.wej!=null?(q.wej>=0?'+':'−')+f2(Math.abs(q.wej))+' s':'',q.x&&q.x.length?'przeciągnięć '+q.x.length:'',q.q<70?'przybliżone':''].filter(Boolean).join(' · ');
-    return `<div class="fmr"><b>${k+1}</b><div class="fmg">${bars}</div><div class="fmc">${cap}${tg?` <em>${esc(tg)}</em>`:''}</div></div>`}).join('');
-  return `<div class="fm"><div class="fmr fmh"><b></b><div class="fmg"><span>1</span><span>2</span><span>3</span><span>4</span></div></div>${rows}<div class="hint">Klocek = sylaba (szerokość to czas trwania). Żółty z ramką: przeciągnięta, niebieski: ostatnie słowo wersu (rym), przerywany: sylaba oszacowana, bo w szybkim fragmencie się zlała. Dopasowanie bez rozpoznawania mowy jest przybliżone.</div></div>`}
+    return `<div class="fmr"><b>${k+1}</b><div class="fmg">${grid}${bars}</div><div class="fmc">${cap}${tg?` <em>${esc(tg)}</em>`:''}</div></div>`}).join('');
+  return `<div class="fm"><div class="fmr fmh"><b></b><div class="fmg"><span style="left:0">przed</span>${[1,2,3,4].map(j=>`<span style="left:${X((j-1)*ci).toFixed(1)}%">${j}</span>`).join('')}</div></div>${rows}<div class="hint">Klocek = sylaba (szerokość to czas trwania), szare pole na początku to przedtakt przed jedynką. Żółty z ramką: przeciągnięta, niebieski: ostatnie słowo wersu (rym), przerywany: sylaba oszacowana, bo w szybkim fragmencie się zlała. Dopasowanie bez rozpoznawania mowy jest przybliżone.</div></div>`}
 /* mapa flow pod nagraniem (zwijana) + porównanie z poprzednim podejściem tej samej części */
 function flowMapDet(r){const h=flowMapaHtml(r);if(!h)return '';const n=T.get(cur);let cmp='';
   const prev=n?(n.nagrania||[]).filter(x=>x.czesc===r.czesc&&x.ts<r.ts&&x.raport&&x.raport.sylS).sort((a,b)=>b.ts-a.ts)[0]:null;
