@@ -741,7 +741,7 @@ function findOdrzut(lines){
       if(!any)return {at:st}}}
   return null}
 function refit(){const b=$('#body');b.style.height='auto';b.style.height=Math.max(b.scrollHeight,Math.round(window.innerHeight*.46))+'px';
-  const n=T.get(cur);const lines=b.value.split('\n');let wers=0,syl=0,adSyl=0,odN=0;const CAP=n&&n.bpm?flowZakres(n.bpm,metSpd()):null,MS=flowPomiary();
+  const n=T.get(cur);const lines=b.value.split('\n');let wers=0,syl=0,adSyl=0,odN=0;const CAP=n&&n.bpm?flowZakres(n.bpm,flowSpdN(n)):null,MS=flowPomiary();
   const OD=findOdrzut(lines),odAt=OD?OD.at:-1;const rm=VS.clean?'off':VS.rhm,RC=rm==='grp'?rhyColors(lines,odAt):rm==='smart'?rhymeSyl(lines,odAt):new Map();
   const secs=[{name:'Początek',idx:0,n:0,implicit:true}];let sec=secs[0];const verses=[];let pn=null,pk=0;   /* pn, pk: nazwa części i numer niepustego wersu w niej (jak „li” w raporcie nagrania) */
   const kind=l=>isLabel(l)?'lab':(/^\s*(#|\/\/)/.test(l)||/^\s*https?:\/\/\S+\s*$/i.test(l))?'cm':/^-[^\s-]/.test(l)?'st':'';
@@ -1680,9 +1680,9 @@ function flowAnalizaRaz(x,sr,g,syl){
   return flowWynik(v,W,off)}
 function flowWynik(v,W,off){const ok=v.filter(q=>q.sS!=null),wj=v.filter(q=>q.wej!=null).map(q=>q.wej).sort((a,b)=>a-b);
   if(!ok.length)return null;
-  return {ver:3,v,okno:Math.round(W*100)/100,sylS:Math.round(ok.reduce((a,q)=>a+q.sS,0)/ok.length*10)/10,sylOkno:(()=>{const t=v.filter(q=>!q.brak);return t.length?Math.round(t.reduce((a,q)=>a+q.syl,0)/t.length*10)/10:0})(),wej:wj.length?wj[Math.floor(wj.length/2)]:null,off:Math.round(off*100)/100}}
+  return {ver:4,v,okno:Math.round(W*100)/100,sylS:Math.round(ok.reduce((a,q)=>a+q.sS,0)/ok.length*10)/10,sylOkno:(()=>{const t=v.filter(q=>!q.brak);return t.length?Math.round(t.reduce((a,q)=>a+q.syl,0)/t.length*10)/10:0})(),wej:wj.length?wj[Math.floor(wj.length/2)]:null,off:Math.round(off*100)/100}}
 /* analiza z głosowaniem: ta sama analiza na 5 przesunięciach ramki (0–8 ms), a dla każdego wersu bierzemy przebieg o MEDIANOWEJ sumie przeciągnięć. Pojedynczy próg (np. szczyt o wybitności 1,9 dB zamiast 2,1) przerzucał wynik już przy przesunięciu nagrania o 4 ms: ten sam dźwięk dawał w wersie +1 albo +4. Spójność przebiegów (te same wersy tekstu) jest warunkiem, inaczej zostaje pierwszy przebieg. */
-function flowAnaliza(x,sr,g,syl){
+function flowAnaliza1(x,sr,g,syl){
   const R=[0,.002,.004,.006,.008].map(ph=>{const s=Math.round(ph*sr);try{return flowAnalizaRaz(s?x.subarray(s):x,sr,g,syl)}catch(e){return null}}).filter(Boolean);
   if(!R.length)return null;const b0=R[0];
   if(R.length<3||R.some(r=>r.v.length!==b0.v.length||r.v.some((q,k)=>q.li!==b0.v[k].li||!!q.brak!==!!b0.v[k].brak)))return b0;
@@ -1693,6 +1693,17 @@ async function dekoduj(blob){const OC=window.OfflineAudioContext||window.webkitO
   const buf=await new OC(1,1,44100).decodeAudioData(await blob.arrayBuffer()),x=new Float32Array(buf.length);
   for(let k=0;k<buf.numberOfChannels;k++){const d=buf.getChannelData(k);for(let i=0;i<x.length;i++)x[i]+=d[i]/buf.numberOfChannels}
   return {x,sr:buf.sampleRate,dur:buf.length/buf.sampleRate}}
+/* DOBÓR OKNA (ver:4, nt-v94). Okno wersu to domyślnie 4 uderzenia metronomu, ale Veri rapuje JEDNĄ linijkę przez 2 takty (8 uderzeń): na jego głosówkach (Mamona 140 BPM, Moi ludzie 188 BPM) wejścia linijek są co 8 uderzeń, a pewność dopasowania przy oknie 8 uderzeń to 89–97 wobec 67–75 przy 4. Przy złym oknie linijki rozjeżdżają się po oknach, w oknie mieści się 19 sylab zamiast 15 („11 sylab/s” zamiast 6), a okna z prawdziwym tekstem dostają etykietę „bełkot” (Mamona, Refren: 9 z 17 okien). Dlatego liczymy dwa razy: okno jak w nagraniu i okno 2× dłuższe (przy metronomie „2× wolniej” 2× krótsze) i bierzemy to z lepszym wynikiem = średnia pewność dopasowania (q) minus 40× udział okien bez tekstu przed ostatnią linijką. Zmieniamy okno tylko, gdy wynik rośnie o więcej niż 8 punktów, inaczej zostaje okno z nagrania. NIE karzemy za linijki, których w nagraniu nie ma (nagranie może obejmować tylko początek części). Pole bity = długość okna w uderzeniach, auto = okno inne niż z ustawienia metronomu. */
+function flowOknoWynik(r){const v=r.v||[];let last=-1;v.forEach((q,k)=>{if(q.li!=null)last=k});if(last<0)return -100;
+  const qs=v.filter(q=>q.li!=null&&q.q!=null).map(q=>q.q);if(!qs.length)return -100;
+  let br=0;for(let k=0;k<last;k++)if(v[k].brak&&v[k].li==null)br++;
+  return qs.reduce((a,b)=>a+b,0)/qs.length-40*br/(last+1)}
+function flowAnaliza(x,sr,g,syl){
+  const sp=g.spd===2?2:1,cnt=g.cnt||0,a=flowAnaliza1(x,sr,g,syl);if(!a)return a;
+  const alt=sp===1?(cnt%2===0?{...g,spd:2,cnt:cnt/2}:null):{...g,spd:1,cnt:cnt*2};
+  let best=a,bg=g,ba=0;
+  if(alt){try{const b=flowAnaliza1(x,sr,alt,syl);if(b&&flowOknoWynik(b)>flowOknoWynik(a)+8){best=b;bg=alt;ba=1}}catch(e){}}
+  best.bity=4*(bg.spd===2?2:1);if(ba)best.auto=1;return best}
 /* zwraca {dur: prawdziwa długość dźwięku w pliku, rap: raport flow albo null}; dur służy też do wykrycia ucietych nagrań (iOS potrafi urwać mikrofon) */
 async function flowZBloba(blob,grid,syl){const dk=await dekoduj(blob);if(!dk)return null;
   return {dur:dk.dur,rap:(grid&&syl&&syl.length)?flowAnaliza(dk.x,dk.sr,grid,syl):null}}
@@ -1700,7 +1711,7 @@ const f1=v=>String(Math.round(v*10)/10).replace('.',','),f2=v=>String(Math.round
 function raportTxt(p){if(!p)return '';const w=p.wej==null?'':p.wej>=0?' · wejście '+f2(p.wej)+' s po jedynce':' · wejście '+f2(-p.wej)+' s przed jedynką';
   const ex=(p.v||[]).reduce((a,q)=>a+((q.q>=70&&q.x)?q.x.length:0),0);
   const nr=(q,k)=>q.li!=null?q.li+1:k+1,bl=(p.v||[]).map((q,k)=>q.b?nr(q,k):0).filter(Boolean),pz=(p.v||[]).map((q,k)=>q.pz||q.pk?nr(q,k):0).filter(Boolean);
-  return f1(p.sylS)+' sylaby/s'+w+' · ok. '+Math.round(p.sylOkno)+' sylab na wers (okno '+f2(p.okno)+' s)'+(ex?' · przeciągnięć: '+ex:'')+(bl.length?' · bełkot w wersie '+bl.join(', '):'')+(pz.length?' · pauza w wersie '+pz.join(', '):'')}
+  return f1(p.sylS)+' sylaby/s'+w+' · ok. '+Math.round(p.sylOkno)+' sylab na wers (okno '+(p.bity?p.bity+' uderzeń, ':'')+f2(p.okno)+' s'+(p.auto?', dobrane automatycznie':'')+')'+(ex?' · przeciągnięć: '+ex:'')+(bl.length?' · bełkot w wersie '+bl.join(', '):'')+(pz.length?' · pauza w wersie '+pz.join(', '):'')}
 /* ---- pomiary flow'u w reszcie aplikacji ----
    flowPomiary: wersy (po tekście) z zaufanym pomiarem sylab z nagrań BIEŻĄCEJ notatki; nowsze nagranie nadpisuje starsze. Dzięki temu licznik sylab zna prawdziwe przeciągnięcia.
    flowProfil: odcisk palca Veri ze wszystkich nagrań ver:2 (maks. 12 najnowszych). flowZakres: ile sylab mieści wers przy danym tempie. */
@@ -1721,13 +1732,15 @@ function flowProfil(){let key='';const takes=[];
   if(use.length){const med=a=>{if(!a.length)return null;const b=a.slice().sort((x,y)=>x-y);return b[Math.floor(b.length/2)]};
     const vs=[],wej=[],dens=[0,0,0,0];let dn=0,endEl=0,exTot=0,pa=0;
     use.forEach(r=>{const p=r.raport,g=r.siatka,ci=p.okno/4;
-      p.v.forEach(q=>{if(q.sS==null||!q.syl)return;vs.push({a:q.syl/(4*(g.spd||1)),b:q.syl/p.okno});if(q.wej!=null)wej.push(q.wej/(60/g.bpm));
+      p.v.forEach(q=>{if(q.sS==null||!q.syl)return;vs.push({a:q.syl/(p.bity||4*(g.spd||1)),b:q.syl/p.okno});if(q.wej!=null)wej.push(q.wej/(60/g.bpm));
         if(q.q>=70&&q.t&&q.t.length){q.t.forEach(t=>{dens[Math.max(0,Math.min(3,Math.floor(t/100/ci)))]++});dn++;
           if((q.x||[]).some(z=>z[0]===q.t.length-1))endEl++;exTot+=(q.x||[]).reduce((a,z)=>a+z[1],0);
           for(let i=1;i<q.t.length;i++)if((q.t[i]-q.t[i-1]-q.d[i-1])/100>=.12)pa++}})});
     if(vs.length){const wm=med(wej),sd=wej.length>=4?(wej.slice().sort((a,b)=>a-b)[Math.floor(wej.length*.75)]-wej.slice().sort((a,b)=>a-b)[Math.floor(wej.length*.25)])/2:null;
       P={nT:use.length,nV:vs.length,vs,spb:med(vs.map(z=>z.a)),wejB:wm,wejSd:sd,dn,dens:dens.map(c=>dn?c/dn:0),endEl:dn?endEl/dn:0,exMean:dn?exTot/dn:0,pausePerV:dn?pa/dn:0}}}
   PROFC={key,p:P};return P}
+/* ile razy okno wersu jest dłuższe od 4 uderzeń: z najnowszego nagrania notatki (dobór okna), inaczej z ustawienia metronomu */
+function flowSpdN(n){const rs=n?(n.nagrania||[]).filter(r=>r.raport&&r.raport.bity&&r.raport.sylS).sort((a,b)=>b.ts-a.ts):[];return rs.length?rs[0].raport.bity/4:metSpd()}
 /* zakres komfortowej długości wersu (sylab) przy danym tempie: liczymy przeliczoną gęstość każdego nagranego wersu; zakładamy, że tempo mówienia jest czymś pomiędzy „stałe na sekundę” a „stałe na uderzenie” */
 function flowZakres(bpm,spd){const P=flowProfil();if(!P||!bpm)return null;
   const Wn=4*60/bpm*(spd||1),pr=P.vs.map(z=>Math.sqrt(z.a*(bpm/60)*z.b)*Wn).sort((a,b)=>a-b),q=f=>pr[Math.min(pr.length-1,Math.floor(f*pr.length))];
@@ -1754,7 +1767,8 @@ function flowPasek(q,O){const ci=O/4,LD=ci*.75,TT=O+LD,X=t=>(t+LD)/TT*100;
   const bars=flowPozycje(q,O).map(e=>{const l=Math.max(0,X(e.t)),w=Math.max(.9,Math.min(e.d/TT*100,100-l));
     return `<span class="fms${e.c}" style="left:${l.toFixed(1)}%;width:${w.toFixed(1)}%"></span>`}).join('');
   return `<div class="fmg">${grid}${bars}</div>`}
-function flowDetal(q,O){const ci=O/4,H=O/2,it=flowPozycje(q,O),m0=Math.min(0,...it.map(e=>e.t)),LD=Math.min(ci*.75,Math.max(ci*.22,-m0+ci*.1)),TT=H+LD,W=320; /* przedtakt tylko tak szeroki, jak potrzeba (wejście przed jedynką), reszta miejsca idzie na sylaby */
+function flowEt(d,b){return ((d*((b||4)/4))%4)+1} /* numer uderzenia w takcie dla d-tej ćwiartki okna (okno 8 uderzeń: 1,3,1,3) */
+function flowDetal(q,O,bity){const ci=O/4,H=O/2,it=flowPozycje(q,O),m0=Math.min(0,...it.map(e=>e.t)),LD=Math.min(ci*.75,Math.max(ci*.22,-m0+ci*.1)),TT=H+LD,W=320; /* przedtakt tylko tak szeroki, jak potrzeba (wejście przed jedynką), reszta miejsca idzie na sylaby */
   return '<div class="fdw">'+[0,1].map(h=>{const a=h*H,X=t=>(t-a+LD)/TT*100;
     const own=[];it.forEach(e=>{if(e.split){const s=Math.max(e.t,a),en=Math.min(e.t+e.d,a+H);if(en-s>.02)own.push({...e,t:s,d:en-s})}else if(h===0?e.t<H:e.t>=H)own.push(e)});
     const lanes=[-9,-9,-9];let nl=0;
@@ -1762,13 +1776,13 @@ function flowDetal(q,O){const ci=O/4,H=O/2,it=flowPozycje(q,O),m0=Math.min(0,...
       let ln=0;while(ln<3&&lanes[ln]>tl)ln++;if(ln>=3)ln=lanes.indexOf(Math.min(...lanes));lanes[ln]=tl+wt+.6;nl=Math.max(nl,ln+1);
       const w=Math.max(1.2,Math.min(e.d/TT*100,100-l)),y=15+ln*25;
       return `<span class="fdc${e.c}" style="left:${tl.toFixed(1)}%;top:${y}px">${esc(e.tx)}${e.n?`<sup>+${e.n}</sup>`:''}</span><span class="fdb${e.c}" style="left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:${y+18}px"></span>`}).join('');
-    const lab=(h===0&&LD>ci*.4?`<span class="fdn" style="left:0">przed</span>`:'')+[0,1].map(j=>`<span class="fdn" style="left:${X(a+j*ci).toFixed(1)}%">${h*2+j+1}</span>`).join('');
+    const lab=(h===0&&LD>ci*.4?`<span class="fdn" style="left:0">przed</span>`:'')+[0,1].map(j=>`<span class="fdn" style="left:${X(a+j*ci).toFixed(1)}%">${flowEt(h*2+j,bity)}</span>`).join('');
     return `<div class="fmg fdr" style="height:${15+Math.max(1,nl)*25+3}px">${h===0?`<span class="fpre" style="width:${X(0).toFixed(1)}%"></span>`:''}${flowSiatka(O,X,a,2)}${lab}${els}</div>`}).join('')+'</div>'}
 function flowMapaHtml(r){const p=r&&r.raport;if(!p||(p.ver||1)<2||!p.v)return '';const O=p.okno,ci=O/4,LD=ci*.75,TT=O+LD,X=t=>(t+LD)/TT*100;
   const rows=p.v.map((q,k)=>{const cap=q.brak&&!q.ph?'<i>(brak tekstu)</i>':esc(q.tx||''),no=q.li!=null?q.li+1:q.brak?'+':k+1;
     const tg=[q.pz?(q.brak?'pauza: brak wersu':'pauza: nie słychać tego wersu'):'',q.b?`bełkot ${q.b.t.length} sylab${q.brak?': wers do napisania':': do dopisania'}`:'',q.pk?`pauza ${f2(q.pk)} s (ok. ${q.pkS} sylab): do dopisania`:'',!q.brak&&q.wej!=null?(q.wej>=0?'+':'−')+f2(Math.abs(q.wej))+' s':'',q.x&&q.x.length?'przeciągnięcia +'+q.x.reduce((a,z)=>a+z[1],0):'',q.q!=null&&q.q<70?'przybliżone':''].filter(Boolean).join(' · ');
-    return `<details class="fmv"><summary><div class="fmr"><b>${no}</b>${flowPasek(q,O)}<i class="fmx">›</i><div class="fmc">${cap}${tg?` <em>${esc(tg)}</em>`:''}</div></div></summary>${flowDetal(q,O)}</details>`}).join('');
-  return `<div class="fm"><div class="fmr fmh"><b></b><div class="fmg"><span style="left:0">przed</span>${[1,2,3,4].map(j=>`<span style="left:${X((j-1)*ci).toFixed(1)}%">${j}</span>`).join('')}</div></div>${rows}<div class="hint">Przegląd: pasek to jeden wers, klocek to sylaba (szerokość = czas trwania), szare pole na początku to przedtakt przed jedynką. <b>Dotknij wersu</b>, a rozwinie się dokładny widok w dwóch rzędach (uderzenia 1–2 nad 3–4): napis sylaby stoi nad kreską o długości jej trwania. Pogrubiona z „+N” to sylaba przeciągnięta o N sylab (w słowie z „UUU” mierzę czas całego słowa), kolorowa to ostatnie słowo wersu (rym), blada to sylaba oszacowana, bo w szybkim fragmencie się zlała, „~” to bełkot (miejsce na brakujące słowa), kratka to pauza. Dopasowanie bez rozpoznawania mowy jest przybliżone.</div></div>`}
+    return `<details class="fmv"><summary><div class="fmr"><b>${no}</b>${flowPasek(q,O)}<i class="fmx">›</i><div class="fmc">${cap}${tg?` <em>${esc(tg)}</em>`:''}</div></div></summary>${flowDetal(q,O,p.bity)}</details>`}).join('');
+  return `<div class="fm"><div class="fmr fmh"><b></b><div class="fmg"><span style="left:0">przed</span>${[1,2,3,4].map(j=>`<span style="left:${X((j-1)*ci).toFixed(1)}%">${flowEt(j-1,p.bity)}</span>`).join('')}</div></div>${rows}<div class="hint">Przegląd: pasek to jeden wers, klocek to sylaba (szerokość = czas trwania), szare pole na początku to przedtakt przed jedynką. <b>Dotknij wersu</b>, a rozwinie się dokładny widok w dwóch rzędach (pierwsza i druga połowa okna; przy oknie 8 uderzeń to takt 1 nad taktem 2, podpisy 1 i 3): napis sylaby stoi nad kreską o długości jej trwania. Pogrubiona z „+N” to sylaba przeciągnięta o N sylab (w słowie z „UUU” mierzę czas całego słowa), kolorowa to ostatnie słowo wersu (rym), blada to sylaba oszacowana, bo w szybkim fragmencie się zlała, „~” to bełkot (miejsce na brakujące słowa), kratka to pauza. Dopasowanie bez rozpoznawania mowy jest przybliżone.</div></div>`}
 /* mapa flow pod nagraniem (zwijana) + porównanie z poprzednim podejściem tej samej części */
 function flowMapDet(r){const h=flowMapaHtml(r);if(!h)return '';const n=T.get(cur);let cmp='';
   const prev=n?(n.nagrania||[]).filter(x=>x.czesc===r.czesc&&x.ts<r.ts&&x.raport&&x.raport.sylS).sort((a,b)=>b.ts-a.ts)[0]:null;
@@ -1776,13 +1790,13 @@ function flowMapDet(r){const h=flowMapaHtml(r);if(!h)return '';const n=T.get(cur
     cmp=`<div class="hint">Względem „${esc(prev.nazwa)}”: ${sg(d)} sylaby/s`+(dw!=null?`, wejście ${dw>=0?'później':'wcześniej'} o ${f2(Math.abs(dw))} s`:'')+`.</div>`}
   return `<details class="wd fmd"><summary>Mapa flow <span>sylaby na siatce</span></summary>${h}${cmp}</details>`}
 /* karta „Flow tego wersu” w analizie wersu: tylko gdy dokładnie ten tekst został nagrany */
-function wersFlowHtml(tx){const m=flowPomiary().get(normTx(tx));if(!m)return '';const q=m.q,r=m.r,z=flowZakres((T.get(cur)||{}).bpm,metSpd()),bel=q.b?q.b.t.length:(q.pkS||0),eff=q.sb+m.ex+bel;
-  const mp=flowDetal(q,r.raport.okno);
+function wersFlowHtml(tx){const m=flowPomiary().get(normTx(tx));if(!m)return '';const q=m.q,r=m.r,z=flowZakres((T.get(cur)||{}).bpm,flowSpdN(T.get(cur))),bel=q.b?q.b.t.length:(q.pkS||0),eff=q.sb+m.ex+bel;
+  const mp=flowDetal(q,r.raport.okno,r.raport.bity);
   return `<div class="wcard"><h4>Flow tego wersu</h4><div class="hint">Z nagrania „${esc(r.nazwa)}”: ${q.sb} sylab`+(m.ex?` + ${m.ex} z przeciągnięć`:'')+(q.b?` + bełkot ${bel} sylab w miejscu brakujących słów`:q.pk?` + pauza ${f2(q.pk)} s (ok. ${bel} sylab) w miejscu brakujących słów`:'')+(m.ex||bel?` (razem ${eff})`:'')+(q.wej!=null?`, wejście ${q.wej>=0?f2(q.wej)+' s po jedynce':f2(-q.wej)+' s przed jedynką'}`:'')+(z?`. Zwykle mieścisz ${z.lo}–${z.hi}${eff>z.hi+1?': ten wers jest za gęsty, spróbuj skrócić':eff<z.lo-1?': ten wers zostawia luz':': mieści się'}`:'')+`.</div>${mp}</div>`}
 /* karta „Twój flow” w Warsztacie: odcisk palca ze wszystkich nagrań z analizą sylab */
 function flowProfilHtml(){const P=flowProfil(),n=T.get(cur);
   if(!P)return `<div class="wcard fprof"><h4>Twój flow</h4><div class="hint">Nagraj wersy z metronomem (mikrofon przy nazwie części). Z kilku nagrań policzę Twój odcisk palca: ile sylab mieścisz w wersie, gdzie wchodzisz względem jedynki, jak przeciągasz i gdzie robisz pauzy. Starsze nagrania przeliczysz przyciskiem „Przelicz flow”.</div></div>`;
-  const z=n&&n.bpm?flowZakres(n.bpm,metSpd()):null,mx=Math.max(...P.dens,.01);
+  const z=n&&n.bpm?flowZakres(n.bpm,flowSpdN(n)):null,mx=Math.max(...P.dens,.01);
   const row=(a,b)=>`<div class="fpr">${a}<span>${b}</span></div>`;
   return `<div class="wcard fprof"><h4>Twój flow</h4><div class="hint">Z ${P.nT} ${P.nT===1?'nagrania':'nagrań'} (najnowsze), ${P.nV} wersów. To zasila też podpowiedzi AI.</div>`+
    row('Tempo mówienia',`ok. ${f1(P.spb)} sylaby na uderzenie`)+
@@ -1801,12 +1815,12 @@ function flowDlaWersu(idx){const n=T.get(cur);if(!n)return '';
       if(q&&q.b&&q.b.t.length){const ci=p.okno/4,bb=[0,0,0,0];q.b.t.forEach(t=>{bb[Math.max(0,Math.min(3,Math.floor(t/100/ci)))]++});
         out+=`W nagraniu, po słowach już napisanych, Veri zarapował BEŁKOT (sylaby bez słów, miejsce na brakujący ciąg): ${q.b.t.length} sylab, zaczyna się na uderzeniu ${f1(q.b.t[0]/100/ci+1)} z 4, rozkład na uderzeniach okna ${bb.join('·')}. Dopisany ciąg ma mieć tyle sylab (±1) i wejść w ten rytm.\n`}
       if(q&&q.pk)out+=`W nagraniu, po słowach już napisanych, Veri zostawił PAUZĘ (miejsce na brakujący ciąg): ${f2(q.pk)} s do końca wersu, czyli przy jego tempie ok. ${q.pkS} sylab. Dopisany ciąg ma wypełnić tę pauzę.\n`}}
-  const z=flowZakres(n.bpm,metSpd());
+  const z=flowZakres(n.bpm,flowSpdN(n));
   if(z){const P=z.P;out+=`Profil flow Veri (z ${P.nT} ${P.nT===1?'nagrania':'nagrań'}, ${P.nV} wersów): przy ${n.bpm} BPM wers ma zwykle ${z.lo}–${z.hi} sylab (typowo ${z.mid})`+(P.dn?`; przeciąga ostatnią sylabę w ${Math.round(P.endEl*100)}% wersów, pauz w wersie średnio ${f1(P.pausePerV)}, gęstość sylab na uderzeniach okna ${P.dens.map(f1).join('/')}`:'')+`.\n`}
   else if(!r&&n.bpm){const t=4*60/n.bpm*metSpd();out+=`Tempo: ${n.bpm} BPM${metSpd()===2?' (metronom 2× wolniej)':''}, jeden wers trwa ok. ${f2(t)} s, czyli komfortowo mieści ${Math.round(t*4.5)}–${Math.round(t*6)} sylab. Cel długości z reguł niżej ma pierwszeństwo.\n`}
   return out}
 /* ---- nagrania głosowe ---- */
-const flowBtn=r=>r.siatka&&!r.ucieta&&(!r.raport||(r.raport.ver||1)<3)?`<button class="pill rflow" type="button" data-id="${esc(r.id)}">${r.raport?((r.raport.ver||1)>=2?'Przelicz flow (nowa miara przeciągnięć)':'Przelicz flow (nowa analiza sylab)'):'Przelicz flow'}</button>`:'';
+const flowBtn=r=>r.siatka&&!r.ucieta&&(!r.raport||(r.raport.ver||1)<4)?`<button class="pill rflow" type="button" data-id="${esc(r.id)}">${r.raport?((r.raport.ver||1)>=3?'Przelicz flow (dobór okna wersu)':(r.raport.ver||1)>=2?'Przelicz flow (nowa miara przeciągnięć)':'Przelicz flow (nowa analiza sylab)'):'Przelicz flow'}</button>`:'';
 function bindFlow(){document.querySelectorAll('#sheet .rflow').forEach(b=>b.onclick=async()=>{const n=T.get(cur);if(!n)return;const r=(n.nagrania||[]).find(x=>x.id===b.dataset.id);if(!r)return;
   const back=m=>(sheetRe||sheetRec)(m);b.textContent='Liczę…';b.disabled=true;
   try{const L=$('#body').value.split('\n');let idx=-1;for(let i=0;i<L.length;i++)if(isLabel(L[i])&&labName(L[i])===r.czesc){idx=i;break}
