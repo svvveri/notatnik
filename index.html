@@ -261,7 +261,7 @@ label.lfull{display:flex;gap:8px;align-items:center;margin:4px 0 10px;color:var(
 .fmg{position:relative;height:30px;border-radius:7px;background:var(--chip);overflow:hidden}.fmg .fbl,.fmg .fbs{position:absolute;top:0;bottom:0;width:1px;background:var(--faint)}.fmg .fbs{background:var(--line)}.fmg .fpre{position:absolute;top:0;bottom:0;left:0;background:var(--line)}
 .fmh .fmg{height:16px;background:none;overflow:visible}.fmh .fmg span{position:absolute;top:0;font-size:11px;color:var(--dim);padding-left:3px;line-height:16px;white-space:nowrap}
 .fms{position:absolute;top:4px;height:22px;border-radius:5px;background:var(--acc-fill);color:var(--on-acc);font-size:10px;line-height:22px;padding:0 3px;overflow:hidden;white-space:nowrap;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
-.fms.rm{background:var(--adlib-bg);color:var(--adlib);box-shadow:inset 0 0 0 1px var(--adlib)}.fms.e{box-shadow:inset 0 0 0 2px var(--fg)}.fms.es{opacity:.55;outline:1px dashed var(--fg);outline-offset:-2px}
+.fms.rm{background:var(--adlib-bg);color:var(--adlib);box-shadow:inset 0 0 0 1px var(--adlib)}.fms.e{box-shadow:inset 0 0 0 2px var(--fg)}.fms.es{opacity:.55;outline:1px dashed var(--fg);outline-offset:-2px}.fms.bk{background:transparent;color:var(--dim);box-shadow:none;outline:1px dashed var(--dim);outline-offset:-2px}
 .fmc{grid-column:2;font-size:11.5px;color:var(--dim);margin:-1px 0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fmc em{font-style:normal;color:var(--acc)}
 .fmd{margin:6px 0}.fprof .fpr{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid var(--line);font-size:14px}.fprof .fpr:last-of-type{border:0}.fprof .fpr span{color:var(--dim);text-align:right}
 .fdens{display:flex;gap:6px;align-items:flex-end;height:42px;margin:6px 0 2px}.fdens div{flex:1;background:var(--acc-fill);border-radius:4px 4px 0 0;position:relative;min-height:3px}.fdens div i{position:absolute;top:-15px;left:0;right:0;text-align:center;font-style:normal;font-size:11px;color:var(--dim)}
@@ -1274,8 +1274,10 @@ function warDokoncz(sec,ln){if(!sec||!ln||!ln.unf)return null;const v=sec.v,k=v.
   if(h){const j=k>=h?k-h:k+h;if(j<n&&ok(sec.sch[j]))ch=sec.sch[j]}
   if(!ch)for(let j=k-1;j>=0;j--)if(ok(sec.sch[j])){ch=sec.sch[j];break}
   if(!ch)return null;const refs=[];for(let j=k-1;j>=0;j--)if(sec.sch[j]===ch)refs.push(v[j]);for(let j=k+1;j<n;j++)if(sec.sch[j]===ch)refs.push(v[j]);if(!refs.length)return null;
-  const fin=v.filter(q=>!q.unf).map(q=>q.sy).sort((a,b)=>a-b),med=fin[Math.floor(fin.length/2)]||8,par=h?v[k>=h?k-h:k+h]:null,target=par&&!par.unf?par.sy:med;
-  return {ch,refs,ref:refs[0],target,need:Math.max(1,target-ln.sy),prev:k>0?v[k-1]:null,next:k<n-1?v[k+1]:null,nextRhymes:k<n-1&&sec.sch[k+1]===ch}}
+  const fin=v.filter(q=>!q.unf).map(q=>q.sy).sort((a,b)=>a-b),med=fin[Math.floor(fin.length/2)]||8,par=h?v[k>=h?k-h:k+h]:null;let target=par&&!par.unf?par.sy:med;
+  /* bełkot w nagraniu w miejscu brakujących słów wyznacza długość dokończenia: ile sylab Veri faktycznie tam zarapował */
+  const fm=flowPomiary().get(normTx(ln.t)),bel=fm&&fm.q.b?fm.q.b.t.length:0;if(bel)target=ln.sy+bel;
+  return {ch,refs,ref:refs[0],target,bel,need:Math.max(1,target-ln.sy),prev:k>0?v[k-1]:null,next:k<n-1?v[k+1]:null,nextRhymes:k<n-1&&sec.sch[k+1]===ch}}
 function warFormaHtml(){const S=warForma();if(!S.length)return '';
   const q=t=>esc(t.length>46?t.slice(0,44)+'…':t),med=a=>{const b=a.slice().sort((x,y)=>x-y);return b[Math.floor(b.length/2)]};
   /* 1. stabilność */
@@ -1347,7 +1349,7 @@ function sheetWers(idx,ai){const L=warLinie(),l=L[idx];if(!l)return;const R=warA
   openSheet(`<div class="shHead"><h3>Wers ${no} · ${esc(secName)}</h3><button class="x" id="x" aria-label="Zamknij">×</button></div><div class="warbody">
    <div class="wline">${esc(l.t.trim())}</div><div class="hint">${sylText(l.t)} sylab${dk?' · wers niedokończony':last?` · końcówka „${esc(last)}” (wymowa ${esc((rkey(last)||{}).tail||'')})`:''}</div>
    ${wersFlowHtml(l.t)}
-   ${dk?`<div class="wcard"><h4>Dokończ ten wers</h4><div class="hint">Schemat rymów sekcji: <code class="sch">${esc(fmtSch(sec))}</code>. Ten wers wypada na miejscu rymu ${dk.ch.toUpperCase()}, więc ma się rymować z „${esc(dk.ref.t.trim())}” (wers ${gnoMap().get(dk.ref.i+1)||dk.ref.i+1}), czyli na „${esc(dk.ref.last)}”. Brakuje około ${dk.need} sylab (docelowo ${dk.target}).</div><div class="shBtns"><button id="wDk" class="pri">Dokończ wers (AI)</button></div><div id="wOutDk"></div></div>`:''}
+   ${dk?`<div class="wcard"><h4>Dokończ ten wers</h4><div class="hint">Schemat rymów sekcji: <code class="sch">${esc(fmtSch(sec))}</code>. Ten wers wypada na miejscu rymu ${dk.ch.toUpperCase()}, więc ma się rymować z „${esc(dk.ref.t.trim())}” (wers ${gnoMap().get(dk.ref.i+1)||dk.ref.i+1}), czyli na „${esc(dk.ref.last)}”. Brakuje około ${dk.need} sylab (docelowo ${dk.target})${dk.bel?`: tyle zarapowałeś bełkotem w nagraniu (${dk.bel} sylab)`:''}.</div><div class="shBtns"><button id="wDk" class="pri">Dokończ wers (AI)</button></div><div id="wOutDk"></div></div>`:''}
    <div class="wcard"><h4>Rymy tego wersu</h4>${rh.length?rh.map(r=>{const o=r.lines.find(x=>x!==idx+1);return `<div class="wr" data-l="${o}"><b>wers ${(gnoMap().get(o))||o}</b> ${esc(r.note)}<br><i>${esc((L[o-1]||{}).t||'')}</i></div>`}).join(''):`<div class="hint">${ln&&ln.unf?'Wers jest niedokończony, więc nie ma jeszcze końcówki do rymowania.':'Ten wers nie rymuje się końcówką z innym wersem w sekcji.'}</div>`}${schNote}${sc.map(r=>`<div class="hint">${esc(r.note)}</div>`).join('')}</div>
    ${(()=>{const k=warKlisze().filter(x=>x.l===idx+1);return k.length?`<div class="wcard"><h4>Klisza w tym wersie</h4>${k.map(x=>`<div class="hint">${x.rym?'Utarty rym':'Klisza'}: „${esc(x.f)}”. Zamień na konkretny obraz zmysłowy.</div>`).join('')}</div>`:''})()}
    <div class="wcard"><h4>Środki w tym wersie</h4>${fg.length?fg.map(r=>`<details class="wd"><summary>${esc(warFigChip(r.f))} <span>${esc(r.note)}</span></summary><p>${esc((SRODKI[r.f]||{}).d||'')}</p></details>`).join(''):'<div class="hint">Nic nie wykryłam regułami.</div>'}</div>
@@ -1572,19 +1574,33 @@ function flowAnaliza(x,sr,g,syl){
   P.forEach((p,i)=>{const nx=i<P.length-1?P[i+1].t:p.t+1.5;p.en=endOf(p.t,nx,p.k);p.gap=i<P.length-1?nx-p.en:9});
   /* 4. wersy: k-ty niepusty wers części = k-te okno po odliczaniu */
   const W0=off+cnt*ci,v=[],nW=[];
-  for(let k=0;k<syl.length;k++){if(W0+k*W>dur-.3)break;nW.push(k)}
+  /* okna liczymy do końca nagrania, także poza tekstem: okno bez tekstu z głosem = bełkot (wers do napisania), bez głosu = pauza */
+  const nMed=(()=>{const a=syl.map(z=>z.n).filter(z=>z>0).sort((a,b)=>a-b);return a.length?a[Math.floor(a.length/2)]:8})(),SY=k=>syl[k]||{n:nMed,el:0,tx:'',wd:[],brak:1};
+  for(let k=0;;k++){if(W0+k*W>dur-.3)break;nW.push(k)}
   /* granice między wersami: kandydaci to luki między sylabami blisko końca okna; wygrywa ta, przy której liczba sylab poprzedniego wersu najlepiej zgadza się z tekstem, najlepiej po prawdziwej pauzie (rapper może wejść trochę przed jedynką albo przeciągnąć koniec) */
   const bnd=[W0-.3];for(let k=1;k<=nW.length;k++){const b0=W0+k*W;let bb=b0-.15;
     if(k<nW.length){let sc=1e9;const cands=[{c:b0-.15,pa:0}];for(let i=1;i<P.length;i++)if(P[i].t>=b0-.45&&P[i].t<=b0+.25)cands.push({c:P[i].t-.02,pa:P[i-1].gap>=.12?1:0});
-      for(const cd of cands){const m=P.filter(p=>p.t>=bnd[k-1]&&p.t<cd.c).length,cost=Math.abs(m-syl[nW[k-1]].n)+.8*Math.abs(cd.c-(b0-.1))/ci-.7*cd.pa;if(cost<sc){sc=cost;bb=cd.c}}}
+      for(const cd of cands){const m=P.filter(p=>p.t>=bnd[k-1]&&p.t<cd.c).length,cost=Math.abs(m-SY(nW[k-1]).n)+.8*Math.abs(cd.c-(b0-.1))/ci-.7*cd.pa;if(cost<sc){sc=cost;bb=cd.c}}}
     else bb=1e9;bnd.push(bb)}
-  for(const k of nW){const ws=W0+k*W,we=ws+W,sy=syl[k],n=sy.n,tot=n+(sy.el||0);
+  for(const k of nW){const ws=W0+k*W,we=ws+W,sy=SY(k),brak=!!sy.brak,n=brak?0:sy.n,tot=n+(sy.el||0),bk=brak?{brak:1}:{};
     const r=runs.filter(u=>u.e>ws+.02&&u.s<we);
-    if(!r.length){v.push({syl:tot,sb:n,wej:null,sek:null,sS:null,tx:sy.tx||''});continue}
+    if(!r.length){v.push({syl:tot,sb:n,wej:null,sek:null,sS:null,tx:sy.tx||'',pz:1,...bk});continue}
+    /* bełkot: sylaby bez tekstu (czas wejścia i długość jak przy zwykłych sylabach) */
+    const belk=(B,lim2)=>{const e=B.map(p=>({t:p.t,k:p.k}));e.forEach((x,i)=>{const nx=i<e.length-1?e[i+1].t:Math.max(lim2,x.t+.05);x.en=endOf(x.t,nx,x.k);x.dd=(i<e.length-1&&nx-x.en<=.1)?nx-x.t:x.en-x.t});
+      return {t:e.map(x=>Math.round((x.t-ws)*100)),d:e.map(x=>Math.max(3,Math.round(x.dd*100)))}};
+    if(brak){const B=P.filter(p=>p.t>=bnd[k]&&p.t<bnd[k+1]),lim2=bnd[k+1]<1e8?bnd[k+1]:ws+W+1.5;
+      v.push(B.length>=3?{syl:B.length,sb:0,wej:Math.round((B[0].t-ws)*100)/100,sek:null,sS:null,tx:'',brak:1,b:belk(B,lim2)}:{syl:0,sb:0,wej:null,sek:null,sS:null,tx:'',brak:1,pz:1});continue}
     const s0=r[0].s,e0=Math.min(r[r.length-1].e,we),w=s0-ws,sek=e0-Math.max(s0,ws);
     const rec={syl:tot,sb:n,wej:w>=-.4?Math.round(w*100)/100:null,sek:Math.round(sek*100)/100,sS:null,tx:sy.tx||''};
     /* sylaby tego wersu */
-    let K=P.filter(p=>p.t>=bnd[k]&&p.t<bnd[k+1]);const m=K.length,lim=bnd[k+1]<1e8?bnd[k+1]:ws+W+1.5;
+    let K=P.filter(p=>p.t>=bnd[k]&&p.t<bnd[k+1]);const limB=bnd[k+1]<1e8?bnd[k+1]:ws+W+1.5;let lim=limB;
+    /* wers krótki (wyraźnie krótszy niż reszta części albo zakończony „…”), a w nagraniu dużo więcej sylab: tekst to początek, reszta to bełkot w miejscu brakujących słów.
+       Punkt podziału: n, n+1 albo n+2 szczytów na tekst (1–2 mogą być drganiem w trzymanej samogłosce); wygrywa najsłabsze odrzucenie i największa luka na granicy */
+    let Bm=null;const short=n>=1&&(n<=.6*nMed||/(\.\.\.|…)\s*$/.test(sy.tx||''));
+    if(short&&K.length>=n+3){const io=[];for(let i=1;i<K.length;i++)io.push(K[i].t-K[i-1].t);io.sort((a,b)=>a-b);const mi=Math.max(.08,io[Math.floor(io.length/2)]);let bs2=n,bc=1e9;
+      for(let s2=n;s2<=Math.min(n+2,K.length-3);s2++){const dr=K.slice(0,s2).map(p=>p.pr).sort((a,b)=>a-b).slice(0,s2-n).reduce((a,b)=>a+b,0),c=dr-2*(K[s2].t-K[s2-1].t)/mi;if(c<bc){bc=c;bs2=s2}}
+      Bm=K.slice(bs2);K=K.slice(0,bs2);lim=Bm[0].t}
+    const m=K.length;
     if(n>=2&&m>=1){
       let dS=0;while(K.length>n){let wi=0,wv=1e9;for(let i=0;i<K.length;i++){const gl=i?K[i].t-K[i-1].t:1,gr=i<K.length-1?K[i+1].t-K[i].t:1,s=K[i].pr*Math.min(1,Math.min(gl,gr)/.12);if(s<wv){wv=s;wi=i}}if(K[wi].pr>=4)dS++;K.splice(wi,1)}
       let ev=K.map(p=>({t:p.t,k:p.k,est:0}));
@@ -1603,11 +1619,14 @@ function flowAnaliza(x,sr,g,syl){
       rec.t=ev.map(e=>Math.round((e.t-ws)*100));if(q>=70&&ev[0].t-ws>-.8)rec.wej=Math.round((ev[0].t-ws)*100)/100; /* wejście z pierwszej sylaby: przy zwartym flow głos nie milknie między wersami, więc start „ciągu głosu” go nie pokaże; przedtakt (np. „moi” przed jedynką) daje wartość ujemną */
       rec.d=ev.map(e=>Math.max(3,Math.round(e.dd*100)));rec.q=q;rec.u=Math.round(u*100);
       if(xs.length)rec.x=xs;const es=[];ev.forEach((e,i)=>{if(e.est)es.push(i)});if(es.length)rec.es=es;
-      if(q>=70)rec.syl=n+xs.reduce((a,z)=>a+z[1],0)}
+      if(q>=70)rec.syl=n+xs.reduce((a,z)=>a+z[1],0);
+      if(Bm){rec.b=belk(Bm,limB);rec.syl+=Bm.length}}
     rec.sS=sek>=.5?Math.round(rec.syl/sek*10)/10:null;v.push(rec)}
+  /* cisza na końcu to miejsce, gdzie skończyło się nagrywanie, a nie brakujący wers */
+  while(v.length&&v[v.length-1].pz)v.pop();
   const ok=v.filter(q=>q.sS!=null),wj=v.filter(q=>q.wej!=null).map(q=>q.wej).sort((a,b)=>a-b);
   if(!ok.length)return null;
-  return {ver:2,v,okno:Math.round(W*100)/100,sylS:Math.round(ok.reduce((a,q)=>a+q.sS,0)/ok.length*10)/10,sylOkno:Math.round(v.reduce((a,q)=>a+q.syl,0)/v.length*10)/10,wej:wj.length?wj[Math.floor(wj.length/2)]:null,off:Math.round(off*100)/100}}
+  return {ver:2,v,okno:Math.round(W*100)/100,sylS:Math.round(ok.reduce((a,q)=>a+q.sS,0)/ok.length*10)/10,sylOkno:(()=>{const t=v.filter(q=>!q.brak);return t.length?Math.round(t.reduce((a,q)=>a+q.syl,0)/t.length*10)/10:0})(),wej:wj.length?wj[Math.floor(wj.length/2)]:null,off:Math.round(off*100)/100}}
 async function dekoduj(blob){const OC=window.OfflineAudioContext||window.webkitOfflineAudioContext;if(!OC)return null;
   const buf=await new OC(1,1,44100).decodeAudioData(await blob.arrayBuffer()),x=new Float32Array(buf.length);
   for(let k=0;k<buf.numberOfChannels;k++){const d=buf.getChannelData(k);for(let i=0;i<x.length;i++)x[i]+=d[i]/buf.numberOfChannels}
@@ -1618,7 +1637,8 @@ async function flowZBloba(blob,grid,syl){const dk=await dekoduj(blob);if(!dk)ret
 const f1=v=>String(Math.round(v*10)/10).replace('.',','),f2=v=>String(Math.round(v*100)/100).replace('.',',');
 function raportTxt(p){if(!p)return '';const w=p.wej==null?'':p.wej>=0?' · wejście '+f2(p.wej)+' s po jedynce':' · wejście '+f2(-p.wej)+' s przed jedynką';
   const ex=(p.v||[]).reduce((a,q)=>a+((q.q>=70&&q.x)?q.x.length:0),0);
-  return f1(p.sylS)+' sylaby/s'+w+' · ok. '+Math.round(p.sylOkno)+' sylab na wers (okno '+f2(p.okno)+' s)'+(ex?' · przeciągnięć: '+ex:'')}
+  const bl=(p.v||[]).map((q,k)=>q.b?k+1:0).filter(Boolean),pz=(p.v||[]).map((q,k)=>q.pz?k+1:0).filter(Boolean);
+  return f1(p.sylS)+' sylaby/s'+w+' · ok. '+Math.round(p.sylOkno)+' sylab na wers (okno '+f2(p.okno)+' s)'+(ex?' · przeciągnięć: '+ex:'')+(bl.length?' · bełkot w wersie '+bl.join(', '):'')+(pz.length?' · pauza w wersie '+pz.join(', '):'')}
 /* ---- pomiary flow'u w reszcie aplikacji ----
    flowPomiary: wersy (po tekście) z zaufanym pomiarem sylab z nagrań BIEŻĄCEJ notatki; nowsze nagranie nadpisuje starsze. Dzięki temu licznik sylab zna prawdziwe przeciągnięcia.
    flowProfil: odcisk palca Veri ze wszystkich nagrań ver:2 (maks. 12 najnowszych). flowZakres: ile sylab mieści wers przy danym tempie. */
@@ -1661,14 +1681,14 @@ function flowSzablon(q,okno){const ci=okno/4,b=[0,0,0,0];q.t.forEach(t=>{b[Math.
 function flowMapaHtml(r){const p=r&&r.raport;if(!p||(p.ver||1)<2||!p.v)return '';const O=p.okno,ci=O/4,LD=ci*.75,TT=O+LD,X=t=>(t+LD)/TT*100;
   /* strefa przedtaktu: 3/4 kliku przed jedynką (np. „moi” przed „LUUU”), potem 4 uderzenia okna */
   const grid='<span class="fpre" style="width:'+X(0).toFixed(1)+'%"></span>'+[0,1,2,3].map(j=>[1,2,3].map(z=>`<span class="fbs" style="left:${X((j+z/4)*ci).toFixed(1)}%"></span>`).join('')+`<span class="fbl" style="left:${X(j*ci).toFixed(1)}%"></span>`).join('');
-  const rows=p.v.map((q,k)=>{const cap=esc(q.tx||'');
-    if(!q.t||!q.t.length)return `<div class="fmr"><b>${k+1}</b><div class="fmg">${grid}</div><div class="fmc">${cap}${q.sS==null?' · nie wykryłam głosu':''}</div></div>`;
+  const rows=p.v.map((q,k)=>{const cap=q.brak?'<i>(brak tekstu)</i>':esc(q.tx||''),no=q.brak?'+':k+1;
     const sw=flowSylWord(q.tx||''),es=q.es||[];
-    const bars=q.t.map((t,i)=>{const l=Math.max(0,X(t/100)),w=Math.max(q.d[i]/100/TT*100,2.4),ex=(q.x||[]).find(z=>z[0]===i),s=sw[i];
-      return `<span class="fms${ex?' e':''}${s&&s.last?' rm':''}${es.includes(i)?' es':''}" style="left:${l.toFixed(1)}%;width:${Math.max(1.5,Math.min(w,100-l)).toFixed(1)}%">${s?esc(s.s):''}</span>`}).join('');
-    const tg=[q.wej!=null?(q.wej>=0?'+':'−')+f2(Math.abs(q.wej))+' s':'',q.x&&q.x.length?'przeciągnięć '+q.x.length:'',q.q<70?'przybliżone':''].filter(Boolean).join(' · ');
-    return `<div class="fmr"><b>${k+1}</b><div class="fmg">${grid}${bars}</div><div class="fmc">${cap}${tg?` <em>${esc(tg)}</em>`:''}</div></div>`}).join('');
-  return `<div class="fm"><div class="fmr fmh"><b></b><div class="fmg"><span style="left:0">przed</span>${[1,2,3,4].map(j=>`<span style="left:${X((j-1)*ci).toFixed(1)}%">${j}</span>`).join('')}</div></div>${rows}<div class="hint">Klocek = sylaba (szerokość to czas trwania), szare pole na początku to przedtakt przed jedynką. Żółty z ramką: przeciągnięta, niebieski: ostatnie słowo wersu (rym), przerywany: sylaba oszacowana, bo w szybkim fragmencie się zlała. Dopasowanie bez rozpoznawania mowy jest przybliżone.</div></div>`}
+    const bars=(q.t||[]).map((t,i)=>{const l=Math.max(0,X(t/100)),w=Math.max(q.d[i]/100/TT*100,2.4),ex=(q.x||[]).find(z=>z[0]===i),s=sw[i];
+      return `<span class="fms${ex?' e':''}${s&&s.last?' rm':''}${es.includes(i)?' es':''}" style="left:${l.toFixed(1)}%;width:${Math.max(1.5,Math.min(w,100-l)).toFixed(1)}%">${s?esc(s.s):''}</span>`}).join('')+
+      (q.b?q.b.t.map((t,i)=>{const l=Math.max(0,X(t/100)),w=Math.max(q.b.d[i]/100/TT*100,2.4);return `<span class="fms bk" style="left:${l.toFixed(1)}%;width:${Math.max(1.5,Math.min(w,100-l)).toFixed(1)}%">~</span>`}).join(''):'');
+    const tg=[q.pz?(q.brak?'pauza: brak wersu':'pauza: nie słychać tego wersu'):'',q.b?`bełkot ${q.b.t.length} sylab${q.brak?': wers do napisania':': do dopisania'}`:'',!q.brak&&q.wej!=null?(q.wej>=0?'+':'−')+f2(Math.abs(q.wej))+' s':'',q.x&&q.x.length?'przeciągnięć '+q.x.length:'',q.q!=null&&q.q<70?'przybliżone':''].filter(Boolean).join(' · ');
+    return `<div class="fmr"><b>${no}</b><div class="fmg">${grid}${bars}</div><div class="fmc">${cap}${tg?` <em>${esc(tg)}</em>`:''}</div></div>`}).join('');
+  return `<div class="fm"><div class="fmr fmh"><b></b><div class="fmg"><span style="left:0">przed</span>${[1,2,3,4].map(j=>`<span style="left:${X((j-1)*ci).toFixed(1)}%">${j}</span>`).join('')}</div></div>${rows}<div class="hint">Klocek = sylaba (szerokość to czas trwania), szare pole na początku to przedtakt przed jedynką. Żółty z ramką: przeciągnięta, niebieski: ostatnie słowo wersu (rym), przerywany: sylaba oszacowana, bo w szybkim fragmencie się zlała, a szara przerywana z „~” to bełkot (miejsce na brakujące słowa). Dopasowanie bez rozpoznawania mowy jest przybliżone.</div></div>`}
 /* mapa flow pod nagraniem (zwijana) + porównanie z poprzednim podejściem tej samej części */
 function flowMapDet(r){const h=flowMapaHtml(r);if(!h)return '';const n=T.get(cur);let cmp='';
   const prev=n?(n.nagrania||[]).filter(x=>x.czesc===r.czesc&&x.ts<r.ts&&x.raport&&x.raport.sylS).sort((a,b)=>b.ts-a.ts)[0]:null;
@@ -1697,7 +1717,9 @@ function flowDlaWersu(idx){const n=T.get(cur);if(!n)return '';
   if(r){const p=r.raport,g=r.siatka||{};
     out+=`Flow Veri (z jego NAJNOWSZEGO nagrania „${r.nazwa}”${g.bpm?', '+g.bpm+' BPM'+(g.spd===2?', metronom 2× wolniej':''):''}): średnio ${f1(p.sylS)} sylaby na sekundę, jeden wers (okno ${f2(p.okno)} s) mieści ok. ${Math.round(p.sylOkno)} sylab`+(p.wej!=null?`, wchodzi ${p.wej>=0?'ok. '+f2(p.wej)+' s po jedynce':'tuż przed jedynką'}`:'')+`. Dopasuj gęstość sylab i rytm wersu do tego flow'u; cel długości z reguł niżej ma pierwszeństwo.\n`;
     if(r.czesc===part&&(p.ver||1)>=2&&li>=0){let k=0;for(let i=li+1;i<idx;i++)if(L[i].trim())k++;const q=(p.v||[])[k];
-      if(q&&q.q>=70&&q.t&&q.t.length)out+=`Szkielet rytmiczny wersu ${k+1} z tego nagrania (zmierzony): ${flowSzablon(q,p.okno)}. Poprowadź nowy wers po tym szkielecie: gdzie sylaby, gdzie pauza, gdzie przeciągnięcie.\n`}}
+      if(q&&q.q>=70&&q.t&&q.t.length)out+=`Szkielet rytmiczny wersu ${k+1} z tego nagrania (zmierzony): ${flowSzablon(q,p.okno)}. Poprowadź nowy wers po tym szkielecie: gdzie sylaby, gdzie pauza, gdzie przeciągnięcie.\n`;
+      if(q&&q.b&&q.b.t.length){const ci=p.okno/4,bb=[0,0,0,0];q.b.t.forEach(t=>{bb[Math.max(0,Math.min(3,Math.floor(t/100/ci)))]++});
+        out+=`W nagraniu, po słowach już napisanych, Veri zarapował BEŁKOT (sylaby bez słów, miejsce na brakujący ciąg): ${q.b.t.length} sylab, zaczyna się na uderzeniu ${f1(q.b.t[0]/100/ci+1)} z 4, rozkład na uderzeniach okna ${bb.join('·')}. Dopisany ciąg ma mieć tyle sylab (±1) i wejść w ten rytm.\n`}}}
   const z=flowZakres(n.bpm,metSpd());
   if(z){const P=z.P;out+=`Profil flow Veri (z ${P.nT} ${P.nT===1?'nagrania':'nagrań'}, ${P.nV} wersów): przy ${n.bpm} BPM wers ma zwykle ${z.lo}–${z.hi} sylab (typowo ${z.mid})`+(P.dn?`; przeciąga ostatnią sylabę w ${Math.round(P.endEl*100)}% wersów, pauz w wersie średnio ${f1(P.pausePerV)}, gęstość sylab na uderzeniach okna ${P.dens.map(f1).join('/')}`:'')+`.\n`}
   else if(!r&&n.bpm){const t=4*60/n.bpm*metSpd();out+=`Tempo: ${n.bpm} BPM${metSpd()===2?' (metronom 2× wolniej)':''}, jeden wers trwa ok. ${f2(t)} s, czyli komfortowo mieści ${Math.round(t*4.5)}–${Math.round(t*6)} sylab. Cel długości z reguł niżej ma pierwszeństwo.\n`}
