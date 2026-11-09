@@ -1509,7 +1509,11 @@ function sheetRec(msg){const n=T.get(cur);if(!n)return;sheetRe=sheetRec;const li
 async function recToggle(opt){opt=opt||{};
   if(recS.rec){recS.rec.stop();return}
   if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)||typeof MediaRecorder==='undefined'){recNote('Nagrywanie w tej przeglądarce nie działa. Nagraj w Dyktafonie i dotknij „Dodaj plik”.');return}
-  let stream;try{stream=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){recNote('Ta strona nie ma dostępu do mikrofonu. Nagraj w Dyktafonie i dotknij „Dodaj plik”.');return}
+  let stream;try{stream=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){const nm=(e&&e.name)||'błąd';
+    recNote(nm==='NotAllowedError'?'Mikrofon odmówiony ('+nm+'). Zamknij aplikację całkiem (przesuń ją w górę w przełączniku), otwórz ponownie i kliknij „Zezwól”. Jeśli nie pyta: Ustawienia iPhone’a → Safari → Mikrofon. Ewentualnie nagraj w Dyktafonie i dotknij „Dodaj plik”.'
+      :nm==='NotReadableError'||nm==='AbortError'?'Mikrofon jest zajęty przez inną aplikację lub rozmowę ('+nm+'). Zamknij ją i spróbuj jeszcze raz.'
+      :nm==='NotFoundError'?'Nie znalazłam mikrofonu ('+nm+').'
+      :'Mikrofon niedostępny ('+nm+'). Nagraj w Dyktafonie i dotknij „Dodaj plik”.');return}
   const mt=['audio/mp4','audio/webm;codecs=opus','audio/webm'].find(m=>MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(m));
   const mr=new MediaRecorder(stream,mt?{mimeType:mt}:undefined),chunks=[];let t0=0,tick=null,started=false,tS=0,grid=null;recS.rec=mr;
   mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
