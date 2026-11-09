@@ -1454,13 +1454,31 @@ function sheetMore(){const n=T.get(cur);if(!n)return;
   $('#impBtn').onclick=()=>$('#impFile').click();$('#syncBtn').onclick=()=>{window.NT.syncNow();$('#exMsg').textContent='Synchronizuję…'};
   $('#delBtn').onclick=()=>{closeSheet();pytajUsun()}}
 
+/* GŁOŚNY ODSŁUCH (nt-v95). Nagrania robione bez przetwarzania mikrofonu (nt-v92: bez AGC, żeby iOS nie ściszał metronomu) są ciche: na głosówkach Veri średnio −35…−41 dBFS RMS, szczyt −21 dBFS (stare nagranie z AGC: −24/−2,5). Odsłuch idzie więc przez łańcuch: wzmocnienie wstępne do szczytu (percentyl 99,5) ok. −6 dBFS, kompresor (próg −30 dB, 4:1), wzmocnienie 4 dB, limiter (próg −4 dB, 20:1). Pomiar offline na 5 jego nagraniach: RMS −41…−38 → ok. −11…−9 dBFS, szczyt poniżej 0. Plik nie jest zmieniany. Na iOS Web Audio milknie przy wyciszonym dzwonku, więc przed budową łańcucha idzie metUnlock() (sesja „playback” + cicha pętla, jak przy metronomie). Przełącznik w menu nagrywania (nt-loud), gdy coś nie gra: wyłączony odsłuch gra plik wprost. */
+const LOUD={ctx:null,g:new Map()};
+const loudOn=()=>ls('nt-loud')!=='0';
+function loudNodes(c,pre){const g=c.createGain(),cp=c.createDynamicsCompressor(),mk=c.createGain(),lm=c.createDynamicsCompressor();
+  g.gain.value=pre;cp.threshold.value=-30;cp.knee.value=20;cp.ratio.value=4;cp.attack.value=.003;cp.release.value=.15;mk.gain.value=Math.pow(10,4/20);
+  lm.threshold.value=-4;lm.knee.value=0;lm.ratio.value=20;lm.attack.value=.001;lm.release.value=.08;
+  g.connect(cp);cp.connect(mk);mk.connect(lm);return {in:g,out:lm}}
+function loudPre(x){const st=Math.max(1,Math.floor(x.length/60000)),a=[];for(let i=0;i<x.length;i+=st)a.push(Math.abs(x[i]));a.sort((p,q)=>p-q);const p=a[Math.floor(a.length*.995)]||0;return p>1e-4?Math.min(40,Math.max(1,.5/p)):1}
+async function loudGain(id,url){if(LOUD.g.has(id))return LOUD.g.get(id);let g=1;
+  try{const dk=await dekoduj(await (await fetch(url)).blob());if(dk)g=loudPre(dk.x)}catch(e){}
+  LOUD.g.set(id,g);return g}
+/* podpina element <audio> pod łańcuch; zwraca false, gdy się nie da (wtedy plik gra wprost, bo element jeszcze nie jest podpięty) */
+async function loudChain(a,id,url){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return false;
+  try{metUnlock();const pre=await loudGain(id,url);
+    if(!LOUD.ctx||LOUD.ctx.state==='closed')LOUD.ctx=new AC();const c=LOUD.ctx;if(c.resume)await c.resume();if(c.state!=='running')return false;
+    const n=loudNodes(c,pre),s=c.createMediaElementSource(a);s.connect(n.in);n.out.connect(c.destination);return true}catch(e){return false}}
+const loudRow=()=>`<div class="row"><span>Głośny odsłuch nagrań</span><button class="sw ${loudOn()?'on':''}" id="pLoud" role="switch" aria-checked="${loudOn()}" aria-label="Głośny odsłuch nagrań"></button></div>`;
+function loudBind(){const b=$('#pLoud');if(b)b.onclick=()=>{const v=!loudOn();ls('nt-loud',v?'1':'0');b.classList.toggle('on',v);b.setAttribute('aria-checked',v)}}
 let curAud=null;
 function bindAudio(){document.querySelectorAll('#sheet .aud').forEach(box=>{const b=box.querySelector('.play'),d=box.querySelector('.dur');
   b.onclick=async()=>{
     if(curAud&&curAud.box===box){if(curAud.a.paused){curAud.a.play();b.textContent='❚❚ Pauza'}else{curAud.a.pause();b.textContent='▶ Odtwórz'}return}
     if(curAud){curAud.a.pause();curAud.b.textContent='▶ Odtwórz'}
     b.textContent='…';
-    try{const url=await window.NT.blobUrl(box.dataset.id),a=new Audio(url);curAud={a,b,box};
+    try{const url=await window.NT.blobUrl(box.dataset.id),a=new Audio(url);curAud={a,b,box};if(loudOn())await loudChain(a,box.dataset.id,url);
       a.onended=()=>{b.textContent='▶ Odtwórz';curAud=null};
       a.ontimeupdate=()=>{if(isFinite(a.duration))d.textContent=fmtSek(a.currentTime)+' / '+fmtSek(a.duration)};
       await a.play();b.textContent='❚❚ Pauza'}
@@ -1511,13 +1529,14 @@ function sheetPart(idx,name,msg){const n=T.get(cur);if(!n)return;sheetRe=m=>shee
   <div class="row"><span>Tempo</span><button class="pill ${bpm?'set':''}" id="pBpm" type="button">${bpm?`<b>${bpm}</b> BPM · zmień`:'Ustaw tempo'}</button></div>
   <div class="row"><span>Metronom</span><button class="sw ${met?'on':''}" id="pMet" role="switch" aria-checked="${met}" aria-label="Metronom"></button></div>
   ${metSpdRow()}
+  ${loudRow()}
   <div class="row"><span>Odliczanie (uderzeń)</span><div class="seg" id="pCnt">${[0,2,4,8].map(c=>`<button data-c="${c}" class="${cnt===c?'on':''}">${c||'brak'}</button>`).join('')}</div></div>
   <div class="partTxt">${lines.length?lines.map(l=>`<div>${esc(l)||'&nbsp;'}</div>`).join(''):'<div class="hint">Ta część nie ma jeszcze tekstu.</div>'}</div>
   <div class="hint" id="recMsg">${esc(msg||(bpm?'Metronom z głośnika nagra się razem z głosem i o to chodzi: po nagraniu będzie wiadomo, kiedy wchodzisz względem taktu. Jeśli bit leci z innego urządzenia, wyłącz metronom.':'Bez tempa metronom nie zagra. Ustaw je wyżej.'))}</div>
   ${barHtml()}
   <div class="shBtns"><button id="recGo">● Nagraj</button><button id="pTest">▶ Metronom</button></div>
   ${takes.length?`<div id="recList">`+takes.slice().reverse().map(r=>`<div class="rec"><div class="recT"><b>${esc(r.nazwa)}</b><span>${new Date(r.ts).toLocaleDateString('pl-PL',{day:'numeric',month:'numeric'})}${r.sek?' · '+fmtSek(r.sek):''}</span><button class="rdel" data-id="${esc(r.id)}">Usuń</button></div><div class="aud" data-id="${esc(r.id)}"><button class="pill play" type="button">▶ Odtwórz</button><span class="dur"></span></div>${r.raport?`<div class="hint">${esc(raportTxt(r.raport))}</div>`:''}${flowMapDet(r)}${r.ucieta?`<div class="hint">Ucięte nagranie: w pliku jest tylko ${String(r.sek).replace('.',',')} s dźwięku. Nagraj jeszcze raz.</div>`:''}${flowBtn(r)}</div>`).join('')+'</div>':''}`);
-  $('#x').onclick=closeSheet;bindAudio();bindFlow();metSpdBind(()=>metStart(bpm));
+  $('#x').onclick=closeSheet;bindAudio();bindFlow();loudBind();metSpdBind(()=>metStart(bpm));
   $('#pBpm').onclick=()=>{closeSheet();sheetBpm(()=>sheetPart(idx,name))};
   $('#pMet').onclick=()=>{const v=ls('nt-met')==='0';ls('nt-met',v?'1':'0');$('#pMet').classList.toggle('on',v);$('#pMet').setAttribute('aria-checked',v)};
   $('#pCnt').querySelectorAll('button').forEach(b=>b.onclick=()=>{ls('nt-cnt',b.dataset.c);$('#pCnt').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b))});
@@ -1839,8 +1858,9 @@ function sheetRec(msg){const n=T.get(cur);if(!n)return;sheetRe=sheetRec;const li
   openSheet(`<div class="shHead"><h3>Nagrania</h3><button class="x" id="x" aria-label="Zamknij">×</button></div>
   <div id="recList">${list.length?list.slice().reverse().map(r=>`<div class="rec"><div class="recT"><b>${esc(r.nazwa)}</b><span>${new Date(r.ts).toLocaleDateString('pl-PL',{day:'numeric',month:'numeric'})}${r.sek?' · '+fmtSek(r.sek):''}</span><button class="rdel" data-id="${esc(r.id)}" aria-label="Usuń nagranie">Usuń</button></div><div class="aud" data-id="${esc(r.id)}"><button class="pill play" type="button">▶ Odtwórz</button><span class="dur"></span></div>${r.raport?`<div class="hint">${esc(raportTxt(r.raport))}</div>`:''}${flowMapDet(r)}${r.ucieta?`<div class="hint">Ucięte nagranie: w pliku jest tylko ${String(r.sek).replace('.',',')} s dźwięku. Nagraj jeszcze raz.</div>`:''}${flowBtn(r)}</div>`).join(''):'<p class="hint">Brak nagrań. Nagraj pomysł głosem albo dodaj plik z Dyktafonu.</p>'}</div>
   <div class="hint" id="recMsg">${esc(msg||'')}</div>
+  ${loudRow()}
   <div class="shBtns"><button id="recGo">● Nagraj</button><button id="recAdd">Dodaj plik</button></div>`);
-  $('#x').onclick=closeSheet;$('#recGo').onclick=recToggle;$('#recAdd').onclick=()=>$('#recFile').click();bindAudio();bindFlow();
+  $('#x').onclick=closeSheet;$('#recGo').onclick=recToggle;$('#recAdd').onclick=()=>$('#recFile').click();bindAudio();bindFlow();loudBind();
   $('#sheet').querySelectorAll('.rdel').forEach(b=>bindDel(b,n))}
 async function recToggle(opt){opt=opt||{};
   if(recS.rec){recS.rec.stop();return}
