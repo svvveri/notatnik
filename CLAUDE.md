@@ -39,12 +39,12 @@ Kod PWA do pisania tekstów rapowych (opis: `README.md`). Repo jest **publiczne*
 Gdy sesja była czystą rozmową bez decyzji i zmian, a `git status` jest czysty, napisz „Tryb lekki: brak zmian stanu” i pomiń kroki 2–4.
 
 1. **Podsumuj** sesję: co zrobiono, co ustalono, co zostaje otwarte.
-2. **Sprawdź repo notatnika:** `sw.js` ma podbitą wersję, składnia skryptu przechodzi, `git status` nie pokazuje plików tymczasowych ani danych wrażliwych.
+2. **Sprawdź repo notatnika:** `python3 narzedzia/notatnik.py przed` (w repo `Claude`): sprawdza podbitą wersję `sw.js`, składnię skryptów i pliki tymczasowe; BŁĘDY popraw. Dane wrażliwe w diffie przejrzyj sama.
 3. **Zaktualizuj stan w `svvveri/Claude` (obowiązkowe przy każdej sesji, która zmieniła kod, decyzję lub plan).** Dociągnij to repo przez `add_repo` (dostęp push), jeśli go nie ma w sesji. W README podprojektu `notatnik-tekstow` (znajdziesz go w tym repo, szukając po nazwie):
-   - odśwież `Stan na:` (data + jedno zdanie: co zmieniono, wersja `nt-vNN`, czy scalone i czy Pages ją podaje), `Następny krok:` i `Bloker:`;
+   - odśwież `Stan na:` i `Następny krok:` poleceniem `python3 narzedzia/notatnik.py stan "<zdanie: co zmieniono, wersja nt-vNN, czy scalone>" --krok "<następny krok>"` (stare linie idą dosłownie do archiwum dnia, potem `home`), `Bloker:` popraw ręcznie, gdy się zmienił;
    - przepisuj nieaktualne zdania zamiast dopisywać poprawki obok; wiedzę techniczną i decyzje dopisz do pliku `modul-tekstow-notatnik.md` w `data/` projektu nadrzędnego, a historię sesji przenieś do `archiwum/RRRR-MM-DD.md` podprojektu skryptem `narzedzia/koniec_sesji.py przenies` (nie przepisuj ręcznie);
-   - uruchom `python3 narzedzia/koniec_sesji.py home` i `python3 narzedzia/koniec_sesji.py sprawdz RRRR-MM-DD`; BŁĘDY popraw przed commitem;
+   - uruchom `python3 narzedzia/koniec_sesji.py sprawdz RRRR-MM-DD` (`home` robi już `stan`); BŁĘDY popraw przed commitem;
    - do `CLAUDE.md` tamtego repo stan nie trafia (tam są zasady, nie stan projektu).
-4. **Commit, push, PR-y:** PR do `main` w notatniku i drugi, towarzyszący, w `svvveri/Claude` (gałąź `notatnik-tekstow-<opis>-RRRR-MM-DD` albo ta, którą wskazało środowisko). W opisie każdego PR wpisz link do drugiego. Przy „scal” scalasz oba razem, żeby stan w `Claude` zgadzał się z tym, co weszło do `main` notatnika.
+4. **Commit, push, PR-y:** PR do `main` w notatniku i drugi, towarzyszący, w `svvveri/Claude` (gałąź `notatnik-tekstow-<opis>-RRRR-MM-DD` albo ta, którą wskazało środowisko). W opisie każdego PR wpisz link do drugiego. Przy „scal” scalasz oba razem, żeby stan w `Claude` zgadzał się z tym, co weszło do `main` notatnika. Po scaleniu `python3 narzedzia/notatnik.py po nt-vNN` czeka, aż Pages poda nową wersję; wynik wpisz do raportu.
 5. **Raport:** linki do obu PR-ów, co zmieniono w README po stronie `Claude`, co niesprawdzone, kolejny krok.
 6. **Nazwa sesji:** na końcu raportu podaj gotową komendę w osobnym bloku kodu z potrójnym backtickiem, w formacie `/rename notatnik: <opis> (RRRR-MM-DD)`.
