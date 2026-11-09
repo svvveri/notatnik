@@ -142,6 +142,11 @@ body[data-view="edit"] #fab{display:none}
 #mirror .ml i{position:absolute;left:calc(100% + 6px);top:0;width:52px;text-align:right;font-style:normal;font-size:11px;line-height:1.6em;color:var(--faint);font-variant-numeric:tabular-nums;white-space:nowrap}
 #mirror .ml i em{font-style:normal;color:var(--adlib);margin-left:3px}
 .nocount #mirror .ml i{display:none}
+/* czysty widok: sam tekst + nazwy części i odrzuty; bez liczników, numerów wersów, statystyk, BPM, tonacji, tagów, nawigacji po częściach i przycisków ✦ */
+#page.clean #stat,#page.clean #tags,#page.clean #struct,#page.clean #labBtns,#page.clean #verseBtns{display:none!important}
+#page.clean #mirror .ml:not(.st) i,#page.clean #mirror .ml .no{display:none}
+#tools.clean #bpmBtn,#tools.clean #keyBtn{display:none}
+#cleanBtn.set{background:var(--chip)}
 .wrap.nums #body,.wrap.nums #mirror{padding-left:34px}
 #mirror .ml .no{position:absolute;left:-34px;width:26px;text-align:right;color:var(--faint);font-size:.68em;line-height:2.35em;font-variant-numeric:tabular-nums}
 #mirror .ml.cm{color:var(--faint);font-style:italic}
@@ -312,6 +317,7 @@ label.lfull{display:flex;gap:8px;align-items:center;margin:4px 0 10px;color:var(
         <button id="bpmBtn" class="pill" type="button" title="Tempo bitu"></button>
         <button id="keyBtn" class="pill" type="button" title="Tonacja"></button>
         <span class="sp"></span>
+        <button id="cleanBtn" class="ico" type="button" aria-label="Czysty widok" aria-pressed="false" title="Czysty widok: ukryj liczniki, BPM i tonację"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
       </div>
       <div id="selwrap"><div id="selbar" class="gut" hidden><span id="selw"></span><button id="selWers" class="pill" type="button">✦ Analiza</button><button id="selAI" class="pill" type="button">✦ AI</button><button id="selRy" class="pill ry" type="button">Rymy</button><button id="selAd" class="pill ad" type="button">( ) adlib</button><button id="selWall" class="pill" type="button">+ ściana</button></div></div>
       <div id="page" class="gut" hidden>
@@ -1382,10 +1388,10 @@ function rymyDlaMiejsca(){const b=$('#body');if(!cur)return;
   showTab('wall');$('#rq').value=q;if(q)szukajRymow(q);else $('#rq').focus()}
 
 /* ---- widok, cofnij, ulubione ---- */
-const VS={rhm:(x=>x==='vow'||!x?'smart':x)(ls('nt-rhm')),fs:+(ls('nt-fs')||17),ff:ls('nt-ff')||'sys',nums:ls('nt-nums')==='1',syl:ls('nt-syl')!=='0',autolab:ls('nt-autolab')!=='0'};
+const VS={rhm:(x=>x==='vow'||!x?'smart':x)(ls('nt-rhm')),fs:+(ls('nt-fs')||17),ff:ls('nt-ff')||'sys',clean:ls('nt-clean')==='1',nums:ls('nt-nums')==='1',syl:ls('nt-syl')!=='0',autolab:ls('nt-autolab')!=='0'};
 const FF={sys:'var(--font)',serif:'ui-serif,"New York",Georgia,serif',mono:'ui-monospace,"SF Mono",Menlo,monospace'};
 function applyView(){const rb=$('#rhBtn');if(rb)rb.classList.toggle('set',VS.rhm!=='off');const r=document.documentElement.style;r.setProperty('--fs',VS.fs+'px');r.setProperty('--ff',FF[VS.ff]||FF.sys);
-  $('#wrap').classList.toggle('nums',VS.nums);$('#wrap').classList.toggle('nocount',!VS.syl);if(cur&&tab==='text')refit();if(cur&&tab==='wall')wallFit()}
+  $('#page').classList.toggle('clean',VS.clean);$('#tools').classList.toggle('clean',VS.clean);{const cb=$('#cleanBtn');if(cb){cb.classList.toggle('set',VS.clean);cb.setAttribute('aria-pressed',VS.clean)}}$('#wrap').classList.toggle('nums',VS.nums);$('#wrap').classList.toggle('nocount',!VS.syl);if(cur&&tab==='text')refit();if(cur&&tab==='wall')wallFit()}
 let hT=null;
 function histReset(){hist={s:[$('#body').value],i:0}}
 function histPush(){if(!hist)return;const v=$('#body').value;if(hist.s[hist.i]===v)return;hist.s=hist.s.slice(0,hist.i+1);hist.s.push(v);if(hist.s.length>200)hist.s.shift();hist.i=hist.s.length-1;undoState()}
@@ -1631,6 +1637,7 @@ function wire(){
   swipeInit();pinchInit();$('#anBtn').onclick=()=>sheetWarsztat();
   $('#sugg').addEventListener('pointerdown',e=>e.preventDefault());
   $('#tabText').onclick=()=>showTab('text');$('#tabWall').onclick=()=>showTab('wall');
+  $('#cleanBtn').onclick=()=>{VS.clean=!VS.clean;ls('nt-clean',VS.clean?'1':'0');applyView()};
   $('#bpmBtn').onclick=sheetBpm;$('#keyBtn').onclick=sheetKey;
   $('#rForm').onsubmit=e=>{e.preventDefault();szukajRymow($('#rq').value);$('#rq').blur()};
   ['selRy','selAd','selWall','selWers','selAI'].forEach(id=>{const e=$('#'+id);e.addEventListener('pointerdown',ev=>ev.preventDefault());e.addEventListener('mousedown',ev=>ev.preventDefault())});
