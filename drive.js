@@ -119,7 +119,7 @@ const DBshim={
   collection(){const q={limit(){return q},onSnapshot(cb){Store.listeners.add(cb);setTimeout(()=>cb(snapNow()),0);return()=>Store.listeners.delete(cb)}};return q},
   doc(path){const id=String(path).split('/')[1];return {set:async d=>write(id,d),delete:async()=>remove(id)}}};
 const audioCache={};
-const ext=t=>/webm/.test(t)?'webm':/ogg/.test(t)?'ogg':/mpeg|mp3/.test(t)?'mp3':/wav/.test(t)?'wav':'m4a';
+const ext=t=>/webm/.test(t)?'webm':/ogg/.test(t)?'ogg':/mpeg|mp3/.test(t)?'mp3':/wav/.test(t)?'wav':/png/.test(t)?'png':/jpe?g/.test(t)?'jpg':/heic|heif/.test(t)?'heic':/webp/.test(t)?'webp':'m4a';
 const ASSETS={
   async upload(blob){const f=await ensureFolder(),type=blob.type||'audio/mp4';
     const m=multipart({name:'nagranie-'+Date.now()+'.'+ext(type),parents:[f]},blob,type);
@@ -129,11 +129,39 @@ const ASSETS={
   async blobUrl(id){if(audioCache[id])return audioCache[id];
     const r=await gfetch(DRIVE+'/files/'+id+'?alt=media'),b=await r.blob();
     return audioCache[id]=URL.createObjectURL(new Blob([b],{type:b.type||'audio/mp4'}))}};
+
+/* ---- zgłoszenia problemów (nt-v97): plik zgloszenia.json i załączniki zgl-<id>-<n>.<rozszerzenie> w folderze „!Teksty”.
+   Na początku sesji Claude czyta je konektorem Google Drive, układa kolejność, a po rozwiązaniu wpis znika (przycisk „Usuń” w aplikacji). ---- */
+const ZGL_NAME='zgloszenia.json';
+async function zglFile(){const f=await ensureFolder(),q="name='"+ZGL_NAME+"' and '"+f+"' in parents and trashed=false";
+  const r=await (await gfetch(DRIVE+'/files?q='+encodeURIComponent(q)+'&fields=files(id)&pageSize=2')).json();return (r.files&&r.files[0])||null}
+async function zglRead(){const f=await zglFile();if(!f)return {id:null,lista:[]};
+  const j=await (await gfetch(DRIVE+'/files/'+f.id+'?alt=media')).json();return {id:f.id,lista:Array.isArray(j.zgloszenia)?j.zgloszenia:[]}}
+async function zglWrite(id,lista){const body=JSON.stringify({v:1,zgloszenia:lista});
+  if(id){await gfetch(UP+'/files/'+id+'?uploadType=media&fields=id',{method:'PATCH',headers:{'Content-Type':'application/json'},body});return id}
+  const f=await ensureFolder(),m=multipart({name:ZGL_NAME,parents:[f]},body,'application/json');
+  return (await (await gfetch(UP+'/files?uploadType=multipart&fields=id',{method:'POST',headers:{'Content-Type':m.type},body:m.body})).json()).id}
+async function zglUpload(blob,nazwa){const f=await ensureFolder(),type=blob.type||'application/octet-stream',m=multipart({name:nazwa,parents:[f]},blob,type);
+  return (await (await gfetch(UP+'/files?uploadType=multipart&fields=id',{method:'POST',headers:{'Content-Type':m.type},body:m.body})).json()).id}
+const ZGL={
+  async list(){if(MODE!=='drive')throw new Error('Zgłoszenia działają tylko z Dyskiem Google.');return (await zglRead()).lista},
+  /* wpis: {funkcja, opis, kontekst, pliki:[{blob, rodzaj:'screenshot'|'glosowka', sek}]}; najpierw załączniki, dopiero potem wpis (przerwane wysyłanie nie zostawia wpisu bez plików) */
+  async add(w){if(MODE!=='drive')throw new Error('Zgłoszenia działają tylko z Dyskiem Google.');
+    const id='z'+Date.now().toString(36),pliki=[];let k=0;
+    for(const p of (w.pliki||[])){k++;const nazwa='zgl-'+id+'-'+k+'.'+ext(p.blob.type||'');const fid=await zglUpload(p.blob,nazwa);
+      pliki.push({id:fid,nazwa,typ:p.blob.type||'',rodzaj:p.rodzaj||'plik',rozmiar:p.blob.size,...(p.sek?{sek:p.sek}:{})})}
+    const cur=await zglRead(),wpis={id,ts:Date.now(),funkcja:w.funkcja||'',opis:w.opis||'',kontekst:w.kontekst||{},pliki};
+    cur.lista.push(wpis);await zglWrite(cur.id,cur.lista);return wpis},
+  async remove(id){if(MODE!=='drive')throw new Error('Zgłoszenia działają tylko z Dyskiem Google.');
+    const cur=await zglRead(),w=cur.lista.find(x=>x.id===id);if(!w)return;
+    for(const p of (w.pliki||[])){try{await gfetch(DRIVE+'/files/'+p.id,{method:'DELETE'})}catch(e){if(e&&e.auth)throw e}}
+    await zglWrite(cur.id,cur.lista.filter(x=>x.id!==id))}};
+async function ensureAuth(){if(!Auth.valid())await Auth.request('')}
 const DL={async save({filename,data}){
   const blob=data instanceof Blob?data:new Blob([data],{type:'text/plain;charset=utf-8'});
   try{const file=new File([blob],filename,{type:blob.type});if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file]});return {status:'saved'}}}catch(e){if(e&&e.name==='AbortError'){const x=new Error('declined');x.code='declined';throw x}}
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},4000);return {status:'saved'}}};
-window.NT={blobUrl:id=>ASSETS.blobUrl(id),importJSON,syncNow:()=>syncNow(true),mode:MODE,connect};
+window.NT={blobUrl:id=>ASSETS.blobUrl(id),importJSON,syncNow:()=>syncNow(true),mode:MODE,connect,zgl:ZGL,ensureAuth};
 window.claude={use:async n=>({db:DBshim,assets:MODE==='drive'?ASSETS:null,downloads:DL})[n]||null};
 
 /* ---- start ---- */
