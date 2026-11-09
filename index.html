@@ -1465,11 +1465,13 @@ function bindAudio(){document.querySelectorAll('#sheet .aud').forEach(box=>{cons
 /* ---- metronom ---- */
 const MET={ctx:null,id:null,next:0,i:0,bpm:90};
 const MIC='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>';
-function metClick(t,acc){const c=MET.ctx,f=acc?392:294,g=c.createGain(),lp=c.createBiquadFilter();
-  lp.type='lowpass';lp.frequency.value=1400;lp.Q.value=.3;
-  g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(acc?.5:.36,t+.006);g.gain.exponentialRampToValueAtTime(.0001,t+.16);
-  g.connect(lp);lp.connect(c.destination);
-  [[1,1],[2,.22]].forEach(([m,v])=>{const o=c.createOscillator(),h=c.createGain();o.type='sine';o.frequency.value=f*m;h.gain.value=v;o.connect(h);h.connect(g);o.start(t);o.stop(t+.2)})}
+/* klik metronomu: dwa tony jak dotąd (294 Hz zwykły, 392 Hz akcent; na nich analiza flow szuka klików w nagraniu, więc ich nie ruszamy) plus krótki „tick” 4× wyżej (1,2–1,6 kHz), bo małe głośniki telefonu prawie nie grają 300 Hz i metronom ginął pod rapem. Do tego głośniej i z saturacją (tanh), a dolnoprzepust 2,2 kHz trzyma tick poniżej pasma, po którym analiza wykrywa głos (druga różnica sygnału), żeby klik nie był brany za sylabę. */
+function metClick(t,acc){const c=MET.ctx,f=acc?392:294,g=c.createGain(),ws=c.createWaveShaper(),lp=c.createBiquadFilter();
+  if(!MET.curve){const n=1024,a=new Float32Array(n),k=Math.tanh(2.2);for(let i=0;i<n;i++)a[i]=.85*Math.tanh(2.2*(i/(n-1)*2-1))/k;MET.curve=a}
+  ws.curve=MET.curve;ws.oversample='2x';lp.type='lowpass';lp.frequency.value=2200;lp.Q.value=.3;
+  g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(acc?.8:.5,t+.003);g.gain.exponentialRampToValueAtTime(.0001,t+.16);
+  g.connect(ws);ws.connect(lp);lp.connect(c.destination);
+  [[1,1,.16],[2,.22,.16],[4,.6,.045]].forEach(([m,v,d])=>{const o=c.createOscillator(),h=c.createGain();o.type='sine';o.frequency.value=f*m;h.gain.setValueAtTime(v,t);h.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(h);h.connect(g);o.start(t);o.stop(t+.2)})}
 /* iOS: Web Audio milknie przy wyciszonym dzwonku (przełącznik z boku) i gdy sesja audio nie jest „odtwarzaniem”. Odsłuch (bez onBeat) przełącza sesję na playback i puszcza cichą pętlę <audio>, co omija wyciszenie. */
 function metUnlock(){try{if(navigator.audioSession)navigator.audioSession.type='playback'}catch(e){}
   try{if(!MET.sil){const n=800,b=new DataView(new ArrayBuffer(44+n*2));const w=(o,t)=>[...t].forEach((c,i)=>b.setUint8(o+i,c.charCodeAt(0)));
@@ -1800,7 +1802,7 @@ function bindFlow(){document.querySelectorAll('#sheet .rflow').forEach(b=>b.oncl
     if(!fz.rap){back('Nie udało się wykryć głosu w nagraniu.');return}
     r.raport=fz.rap;touch(n);back('Flow: '+raportTxt(fz.rap)+'.')}
   catch(e){back('Nie udało się przeliczyć ('+(e&&e.message||'błąd')+').')}})}
-const recS={rec:null};
+const recS={rec:null,busy:false};
 function fmtSek(s){s=Math.round(s||0);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
 function recNote(m){const e=$('#recMsg');if(e)e.textContent=m}
 function sheetRec(msg){const n=T.get(cur);if(!n)return;sheetRe=sheetRec;const list=n.nagrania||[];
@@ -1812,34 +1814,65 @@ function sheetRec(msg){const n=T.get(cur);if(!n)return;sheetRe=sheetRec;const li
   $('#sheet').querySelectorAll('.rdel').forEach(b=>bindDel(b,n))}
 async function recToggle(opt){opt=opt||{};
   if(recS.rec){recS.rec.stop();return}
+  if(recS.busy)return;
   if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)||typeof MediaRecorder==='undefined'){recNote('Nagrywanie w tej przeglądarce nie działa. Nagraj w Dyktafonie i dotknij „Dodaj plik”.');return}
+  recS.busy=true;
+  try{
+    /* iOS potrafił wyciszyć mikrofon dokładnie przy pierwszym kliknięciu metronomu (w pliku zostawało 0,1 s): uruchomienie wyjścia audio w trakcie nagrywania zmienia trasę dźwięku. Dlatego (1) wyjście (AudioContext) uruchamiamy i „rozgrzewamy” PRZED startem nagrania, (2) mikrofon prosimy bez przetwarzania głosu (echoCancellation itd. włączają w iOS tryb rozmowy, który ścisza metronom), (3) gdy mikrofon mimo to zgaśnie w pierwszych 2 s, nagranie jest odrzucane i startuje drugi raz w odwrotnej kolejności (A: najpierw wyjście, potem mikrofon; B: najpierw mikrofon, potem wyjście); kolejność, która zadziałała, jest zapamiętana. */
+    const o0=ls('nt-micord')==='A'?'A':'B';let r=await recRun(opt,o0);
+    if(r.cut){const o1=o0==='A'?'B':'A';recNote('Mikrofon zgasł zaraz po starcie ('+r.diag+'). Próbuję jeszcze raz w innej kolejności…');await new Promise(z=>setTimeout(z,500));r=await recRun(opt,o1);
+      if(r.cut){recNote('Mikrofon zgasł też za drugim razem ('+r.diag+'). Nagraj w Dyktafonie i dotknij „Dodaj plik”; ten komunikat przekaż Klaudynie.');return}
+      if(r.ok)ls('nt-micord',o1)}
+    else if(r.ok)ls('nt-micord',o0)}
+  finally{recS.busy=false}}
+/* jedna próba nagrania w danej kolejności; zwraca {ok}, {cut} (mikrofon zgasł w pierwszych 2 s, nagranie odrzucone) albo {fail} (błąd mikrofonu, komunikat już pokazany) */
+async function recRun(opt,ord){
+  const AC=window.AudioContext||window.webkitAudioContext,cnt=opt.bpm?(opt.cnt||0):0,wantMet=!!(opt.bpm&&(opt.met||cnt>0)),dg={o:ord};
+  const dgs=()=>Object.keys(dg).map(k=>k+':'+dg[k]).join(' ');
   /* iOS: po odsłuchu metronomu sesja audio zostaje na „playback” i getUserMedia rzuca InvalidStateError. Przed mikrofonem zatrzymujemy metronom, zwalniamy jego AudioContext i przełączamy sesję na nagrywanie. */
   const micPrep=async()=>{metStop();try{if(MET.sil)MET.sil.pause()}catch(e){}try{if(MET.ctx&&MET.ctx.state!=='closed')await MET.ctx.close()}catch(e){}MET.ctx=null;try{if(navigator.audioSession)navigator.audioSession.type='play-and-record'}catch(e){}};
-  await micPrep();
-  let stream;try{try{stream=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e0){if(e0&&e0.name==='InvalidStateError'){await micPrep();await new Promise(r=>setTimeout(r,150));stream=await navigator.mediaDevices.getUserMedia({audio:true})}else throw e0}}catch(e){const nm=(e&&e.name)||'błąd';
+  /* AudioContext uruchomiony i „rozgrzany” cichym buforem, zanim ruszy nagrywanie */
+  const warm=async()=>{if(!AC)return false;try{if(MET.ctx&&MET.ctx.state==='closed')MET.ctx=null;MET.ctx=MET.ctx||new AC();await MET.ctx.resume();const c=MET.ctx,s=c.createBufferSource();s.buffer=c.createBuffer(1,Math.round(c.sampleRate*.12),c.sampleRate);s.connect(c.destination);s.start();await new Promise(z=>setTimeout(z,220));dg.cx=c.state;return c.state==='running'}catch(e){dg.cx='błąd';return false}};
+  const gum=async()=>{const g=c=>navigator.mediaDevices.getUserMedia(c);
+    try{return await g({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}})}catch(e){if(e&&(e.name==='OverconstrainedError'||e.name==='TypeError'))return await g({audio:true});throw e}};
+  await micPrep();let warmed=false;
+  if(wantMet&&ord==='A')warmed=await warm();
+  let stream;try{try{stream=await gum()}catch(e0){if(e0&&e0.name==='InvalidStateError'){await micPrep();warmed=false;await new Promise(z=>setTimeout(z,150));stream=await gum()}else throw e0}}catch(e){const nm=(e&&e.name)||'błąd';
     recNote(nm==='NotAllowedError'?'Mikrofon odmówiony ('+nm+'). Zamknij aplikację całkiem (przesuń ją w górę w przełączniku), otwórz ponownie i kliknij „Zezwól”. Jeśli nie pyta: Ustawienia iPhone’a → Safari → Mikrofon. Ewentualnie nagraj w Dyktafonie i dotknij „Dodaj plik”.'
       :nm==='NotReadableError'||nm==='AbortError'?'Mikrofon jest zajęty przez inną aplikację lub rozmowę ('+nm+'). Zamknij ją i spróbuj jeszcze raz.'
       :nm==='NotFoundError'?'Nie znalazłam mikrofonu ('+nm+').'
-      :'Mikrofon niedostępny ('+nm+'). Nagraj w Dyktafonie i dotknij „Dodaj plik”.');return}
+      :'Mikrofon niedostępny ('+nm+'). Nagraj w Dyktafonie i dotknij „Dodaj plik”.');return {fail:1}}
+  if(wantMet&&!warmed)warmed=await warm();
   const sylL=opt.idx!=null?flowLinie(partLines(opt.idx)):[];
   const mt=['audio/mp4','audio/webm;codecs=opus','audio/webm'].find(m=>MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(m));
-  const mr=new MediaRecorder(stream,mt?{mimeType:mt}:undefined),chunks=[];let t0=0,tick=null,started=false,tS=0,grid=null;recS.rec=mr;
-  const mic={mute:null,end:null},tr0=stream.getAudioTracks()[0];
-  if(tr0){tr0.onmute=()=>{if(mic.mute==null){mic.mute=(Date.now()-t0)/1000;recNote('Uwaga: system wyciszył mikrofon po '+f1(mic.mute)+' s, nagranie może być ucięte.')}};tr0.onended=()=>{if(mic.end==null)mic.end=(Date.now()-t0)/1000}}
+  const mr=new MediaRecorder(stream,mt?{mimeType:mt}:undefined),chunks=[];let t0=0,tick=null,started=false,tS=0,grid=null,discard=false,tm=null,tm2=null;recS.rec=mr;
+  const mic={mute:null,end:null,dg:''},tr0=stream.getAudioTracks()[0];
+  let finRes;const done=new Promise(r=>{finRes=r});
+  {const st=tr0&&tr0.getSettings?tr0.getSettings():{};dg.ec=st.echoCancellation===false?0:st.echoCancellation===true?1:'?';dg.ses=(navigator.audioSession&&navigator.audioSession.type)||'?'}
+  const early=()=>started&&(Date.now()-t0)<2000;
+  const giveUp=why=>{if(discard)return;discard=true;dg.why=why;try{if(mr.state!=='inactive')mr.stop()}catch(e){}};
+  if(tr0){tr0.onmute=()=>{if(mic.mute==null)mic.mute=(Date.now()-t0)/1000;dg.m=f1(Math.max(0,(Date.now()-t0)/1000));
+      if(early()){clearTimeout(tm);tm=setTimeout(()=>giveUp('wyciszony'),600)}   /* krótkie wyciszenie (zmiana trasy) może samo minąć: dajemy mu 0,6 s */
+      else recNote('Uwaga: system wyciszył mikrofon po '+f1(mic.mute)+' s, nagranie może być ucięte.')};
+    tr0.onunmute=()=>{clearTimeout(tm);dg.u=f1(Math.max(0,(Date.now()-t0)/1000))};
+    tr0.onended=()=>{if(mic.end==null)mic.end=(Date.now()-t0)/1000;if(early())giveUp('przerwany')}}
   mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
   const b=()=>$('#recGo');
-  const begin=()=>new Promise(res=>{if(started){res();return}started=true;const fb=setTimeout(res,500);mr.onstart=()=>{tS=performance.now();clearTimeout(fb);res()};if(mr.state==='inactive')mr.start(1000);t0=Date.now();if(b()){b().textContent='■ Stop 0:00';b().classList.add('live')}
-    tick=setInterval(()=>{if(b())b().textContent='■ Stop '+fmtSek((Date.now()-t0)/1000)},500)});
-  mr.onstop=async()=>{clearInterval(tick);metStop();stream.getTracks().forEach(t=>t.stop());recS.rec=null;if(b()){b().textContent='● Nagraj';b().classList.remove('live')}
-    if(!started||!chunks.length){recNote('Anulowano.');return}
+  const begin=async()=>{if(tr0&&tr0.muted)await new Promise(z=>{const f=()=>{tr0.removeEventListener('unmute',f);z()};tr0.addEventListener('unmute',f);setTimeout(z,400)});
+    return new Promise(res=>{if(started){res();return}started=true;const fb=setTimeout(res,500);mr.onstart=()=>{tS=performance.now();clearTimeout(fb);res()};if(mr.state==='inactive')mr.start(1000);t0=Date.now();if(b()){b().textContent='■ Stop 0:00';b().classList.add('live')}
+      tick=setInterval(()=>{if(b())b().textContent='■ Stop '+fmtSek((Date.now()-t0)/1000)},500)})};
+  mr.onstop=async()=>{clearInterval(tick);clearTimeout(tm);clearTimeout(tm2);metStop();stream.getTracks().forEach(t=>t.stop());recS.rec=null;if(b()){b().textContent='● Nagraj';b().classList.remove('live')}
+    if(discard){finRes({cut:1,diag:dgs()});return}
+    if(!started||!chunks.length){recNote('Anulowano.');finRes({ok:1});return}
+    mic.dg=dgs();finRes({ok:1,diag:mic.dg});
     await saveAudio(new Blob(chunks,{type:mr.mimeType||mt||'audio/webm'}),(Date.now()-t0)/1000,opt.name?opt.name+' · '+(((T.get(cur).nagrania||[]).filter(r=>r.czesc===opt.name).length+1)):undefined,opt.name,grid,sylL,mic)};
-  const cnt=opt.bpm?(opt.cnt||0):0;
-  if(opt.bpm&&(opt.met||cnt>0)){
+  if(wantMet){
     /* nagrywamy od PIERWSZEGO kliknięcia (razem z odliczaniem), żeby w nagraniu było widać, czy wchodzisz przed jedynką, czy po. Siatka: off = sekundy od początku nagrania do pierwszego kliknięcia (przybliżenie; analiza doprecyzuje je z kliknięć słyszalnych w nagraniu) */
-    await begin();const tM=performance.now();
+    await begin();const tM=performance.now();tm2=setTimeout(()=>finRes({ok:1,diag:dgs()}),2000);
     const ok=metStart(opt.bpm,bi=>{if(bi===cnt&&!opt.met)metStop()},cnt);
     if(ok){grid={bpm:opt.bpm,spd:metSpd(),cnt,off:Math.round((tM-tS)/10)/100+.08};barRun()}}
-  else begin()}
+  else{await begin();tm2=setTimeout(()=>finRes({ok:1,diag:dgs()}),2000)}
+  return await done}
 async function saveAudio(blob,sek,nm,czesc,grid,syl,mic){const n=T.get(cur);if(!n)return;
   let as=null;try{as=await claude.use('assets')}catch(e){}
   if(!as){recNote('Wgrywanie nagrań działa tylko dla właściciela notatnika.');return}
@@ -1851,7 +1884,7 @@ async function saveAudio(blob,sek,nm,czesc,grid,syl,mic){const n=T.get(cur);if(!
     if(e&&e.code==='unsupported_type'){const ty=blob.type||'';const t=/webm|ogg|opus/i.test(ty)?'video/webm':'video/mp4';
       try{up=await as.upload(new Blob([blob],{type:t}));err=null}catch(e2){err=e2}}}
   if(!up){recNote('Nie udało się zapisać nagrania ('+(err&&err.code||'błąd')+').');return}
-  n.nagrania=n.nagrania||[];n.nagrania.push({id:up.id,url:up.url,nazwa:nm||('Nagranie '+(n.nagrania.length+1)),czesc:czesc||null,sek:ucieta?Math.round(real*10)/10:Math.round(real!=null?real:(sek||0)),ts:Date.now(),...(grid?{siatka:grid}:{}),...(rap?{raport:rap}:{}),...(ucieta?{ucieta:true}:{})});
+  n.nagrania=n.nagrania||[];n.nagrania.push({id:up.id,url:up.url,nazwa:nm||('Nagranie '+(n.nagrania.length+1)),czesc:czesc||null,sek:ucieta?Math.round(real*10)/10:Math.round(real!=null?real:(sek||0)),ts:Date.now(),...(grid?{siatka:grid}:{}),...(rap?{raport:rap}:{}),...(ucieta?{ucieta:true}:{}),...(mic&&mic.dg?{diag:mic.dg}:{})});
   touch(n);renderTools();renderList();if(!$('#sheetBg').hidden)(sheetRe||sheetRec)(ucieta?'Zapisano, ale nagranie jest ucięte: w pliku jest '+f1(real)+' s dźwięku z '+fmtSek(sek)+'.'+micTxt+' Usuń je i nagraj jeszcze raz.':'Zapisano.'+(rap?' Flow: '+raportTxt(rap)+'.':'')+micTxt)}
 
 /* ---- karta słowa, ostatnie szukania ---- */
