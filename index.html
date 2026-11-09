@@ -1496,8 +1496,8 @@ function sheetPart(idx,name,msg){const n=T.get(cur);if(!n)return;sheetRe=m=>shee
   <div class="hint" id="recMsg">${esc(msg||(bpm?'Metronom z głośnika nagra się razem z głosem i o to chodzi: po nagraniu będzie wiadomo, kiedy wchodzisz względem taktu. Jeśli bit leci z innego urządzenia, wyłącz metronom.':'Bez tempa metronom nie zagra. Ustaw je wyżej.'))}</div>
   ${barHtml()}
   <div class="shBtns"><button id="recGo">● Nagraj</button><button id="pTest">▶ Metronom</button></div>
-  ${takes.length?`<div id="recList">`+takes.slice().reverse().map(r=>`<div class="rec"><div class="recT"><b>${esc(r.nazwa)}</b><span>${new Date(r.ts).toLocaleDateString('pl-PL',{day:'numeric',month:'numeric'})}${r.sek?' · '+fmtSek(r.sek):''}</span><button class="rdel" data-id="${esc(r.id)}">Usuń</button></div><div class="aud" data-id="${esc(r.id)}"><button class="pill play" type="button">▶ Odtwórz</button><span class="dur"></span></div>${r.raport?`<div class="hint">${esc(raportTxt(r.raport))}</div>`:''}</div>`).join('')+'</div>':''}`);
-  $('#x').onclick=closeSheet;bindAudio();metSpdBind(()=>metStart(bpm));
+  ${takes.length?`<div id="recList">`+takes.slice().reverse().map(r=>`<div class="rec"><div class="recT"><b>${esc(r.nazwa)}</b><span>${new Date(r.ts).toLocaleDateString('pl-PL',{day:'numeric',month:'numeric'})}${r.sek?' · '+fmtSek(r.sek):''}</span><button class="rdel" data-id="${esc(r.id)}">Usuń</button></div><div class="aud" data-id="${esc(r.id)}"><button class="pill play" type="button">▶ Odtwórz</button><span class="dur"></span></div>${r.raport?`<div class="hint">${esc(raportTxt(r.raport))}</div>`:''}${r.ucieta?`<div class="hint">Ucięte nagranie: w pliku jest tylko ${String(r.sek).replace('.',',')} s dźwięku. Nagraj jeszcze raz.</div>`:''}${flowBtn(r)}</div>`).join('')+'</div>':''}`);
+  $('#x').onclick=closeSheet;bindAudio();bindFlow();metSpdBind(()=>metStart(bpm));
   $('#pBpm').onclick=()=>{closeSheet();sheetBpm(()=>sheetPart(idx,name))};
   $('#pMet').onclick=()=>{const v=ls('nt-met')==='0';ls('nt-met',v?'1':'0');$('#pMet').classList.toggle('on',v);$('#pMet').setAttribute('aria-checked',v)};
   $('#pCnt').querySelectorAll('button').forEach(b=>b.onclick=()=>{ls('nt-cnt',b.dataset.c);$('#pCnt').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b))});
@@ -1536,10 +1536,13 @@ function flowAnaliza(x,sr,g,syl){
   const ok=v.filter(q=>q.sS!=null),wj=v.filter(q=>q.wej!=null).map(q=>q.wej).sort((a,b)=>a-b);
   if(!ok.length)return null;
   return {v,okno:Math.round(W*100)/100,sylS:Math.round(ok.reduce((a,q)=>a+q.sS,0)/ok.length*10)/10,sylOkno:Math.round(v.reduce((a,q)=>a+q.syl,0)/v.length*10)/10,wej:wj.length?wj[Math.floor(wj.length/2)]:null,off:Math.round(off*100)/100}}
-async function flowZBloba(blob,grid,syl){const OC=window.OfflineAudioContext||window.webkitOfflineAudioContext;if(!OC)return null;
+async function dekoduj(blob){const OC=window.OfflineAudioContext||window.webkitOfflineAudioContext;if(!OC)return null;
   const buf=await new OC(1,1,44100).decodeAudioData(await blob.arrayBuffer()),x=new Float32Array(buf.length);
   for(let k=0;k<buf.numberOfChannels;k++){const d=buf.getChannelData(k);for(let i=0;i<x.length;i++)x[i]+=d[i]/buf.numberOfChannels}
-  return flowAnaliza(x,buf.sampleRate,grid,syl)}
+  return {x,sr:buf.sampleRate,dur:buf.length/buf.sampleRate}}
+/* zwraca {dur: prawdziwa długość dźwięku w pliku, rap: raport flow albo null}; dur służy też do wykrycia ucietych nagrań (iOS potrafi urwać mikrofon) */
+async function flowZBloba(blob,grid,syl){const dk=await dekoduj(blob);if(!dk)return null;
+  return {dur:dk.dur,rap:(grid&&syl&&syl.length)?flowAnaliza(dk.x,dk.sr,grid,syl):null}}
 const f1=v=>String(Math.round(v*10)/10).replace('.',','),f2=v=>String(Math.round(v*100)/100).replace('.',',');
 function raportTxt(p){if(!p)return '';const w=p.wej==null?'':p.wej>=0?' · wejście '+f2(p.wej)+' s po jedynce':' · wejście '+f2(-p.wej)+' s przed jedynką';
   return f1(p.sylS)+' sylaby/s'+w+' · ok. '+Math.round(p.sylOkno)+' sylab na wers (okno '+f2(p.okno)+' s)'}
@@ -1552,15 +1555,27 @@ function flowDlaWersu(idx){const n=T.get(cur);if(!n)return '';
   if(n.bpm){const t=4*60/n.bpm*metSpd();return `Tempo: ${n.bpm} BPM${metSpd()===2?' (metronom 2× wolniej)':''}, jeden wers trwa ok. ${f2(t)} s, czyli komfortowo mieści ${Math.round(t*4.5)}–${Math.round(t*6)} sylab. Cel długości z reguł niżej ma pierwszeństwo.\n`}
   return ''}
 /* ---- nagrania głosowe ---- */
+const flowBtn=r=>r.siatka&&!r.raport&&!r.ucieta?`<button class="pill rflow" type="button" data-id="${esc(r.id)}">Przelicz flow</button>`:'';
+function bindFlow(){document.querySelectorAll('#sheet .rflow').forEach(b=>b.onclick=async()=>{const n=T.get(cur);if(!n)return;const r=(n.nagrania||[]).find(x=>x.id===b.dataset.id);if(!r)return;
+  const back=m=>(sheetRe||sheetRec)(m);b.textContent='Liczę…';b.disabled=true;
+  try{const L=$('#body').value.split('\n');let idx=-1;for(let i=0;i<L.length;i++)if(isLabel(L[i])&&labName(L[i])===r.czesc){idx=i;break}
+    if(idx<0){back('Nie znalazłam części „'+(r.czesc||'?')+'” w tekście, więc nie wiem, które wersy przeliczyć.');return}
+    const syl=partLines(idx).filter(l=>l.trim()).map(l=>sylText(l)+elongN(l));
+    const url=await window.NT.blobUrl(r.id),blob=await (await fetch(url)).blob(),fz=await flowZBloba(blob,r.siatka,syl);
+    if(!fz){back('Ta przeglądarka nie potrafi odczytać nagrania.');return}
+    if(r.sek&&fz.dur<r.sek*.6){r.ucieta=true;r.sek=Math.round(fz.dur*10)/10;touch(n);back('Nagranie jest ucięte: w pliku jest '+f1(fz.dur)+' s dźwięku. Nagraj jeszcze raz.');return}
+    if(!fz.rap){back('Nie udało się wykryć głosu w nagraniu.');return}
+    r.raport=fz.rap;touch(n);back('Flow: '+raportTxt(fz.rap)+'.')}
+  catch(e){back('Nie udało się przeliczyć ('+(e&&e.message||'błąd')+').')}})}
 const recS={rec:null};
 function fmtSek(s){s=Math.round(s||0);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
 function recNote(m){const e=$('#recMsg');if(e)e.textContent=m}
 function sheetRec(msg){const n=T.get(cur);if(!n)return;sheetRe=sheetRec;const list=n.nagrania||[];
   openSheet(`<div class="shHead"><h3>Nagrania</h3><button class="x" id="x" aria-label="Zamknij">×</button></div>
-  <div id="recList">${list.length?list.slice().reverse().map(r=>`<div class="rec"><div class="recT"><b>${esc(r.nazwa)}</b><span>${new Date(r.ts).toLocaleDateString('pl-PL',{day:'numeric',month:'numeric'})}${r.sek?' · '+fmtSek(r.sek):''}</span><button class="rdel" data-id="${esc(r.id)}" aria-label="Usuń nagranie">Usuń</button></div><div class="aud" data-id="${esc(r.id)}"><button class="pill play" type="button">▶ Odtwórz</button><span class="dur"></span></div>${r.raport?`<div class="hint">${esc(raportTxt(r.raport))}</div>`:''}</div>`).join(''):'<p class="hint">Brak nagrań. Nagraj pomysł głosem albo dodaj plik z Dyktafonu.</p>'}</div>
+  <div id="recList">${list.length?list.slice().reverse().map(r=>`<div class="rec"><div class="recT"><b>${esc(r.nazwa)}</b><span>${new Date(r.ts).toLocaleDateString('pl-PL',{day:'numeric',month:'numeric'})}${r.sek?' · '+fmtSek(r.sek):''}</span><button class="rdel" data-id="${esc(r.id)}" aria-label="Usuń nagranie">Usuń</button></div><div class="aud" data-id="${esc(r.id)}"><button class="pill play" type="button">▶ Odtwórz</button><span class="dur"></span></div>${r.raport?`<div class="hint">${esc(raportTxt(r.raport))}</div>`:''}${r.ucieta?`<div class="hint">Ucięte nagranie: w pliku jest tylko ${String(r.sek).replace('.',',')} s dźwięku. Nagraj jeszcze raz.</div>`:''}${flowBtn(r)}</div>`).join(''):'<p class="hint">Brak nagrań. Nagraj pomysł głosem albo dodaj plik z Dyktafonu.</p>'}</div>
   <div class="hint" id="recMsg">${esc(msg||'')}</div>
   <div class="shBtns"><button id="recGo">● Nagraj</button><button id="recAdd">Dodaj plik</button></div>`);
-  $('#x').onclick=closeSheet;$('#recGo').onclick=recToggle;$('#recAdd').onclick=()=>$('#recFile').click();bindAudio();
+  $('#x').onclick=closeSheet;$('#recGo').onclick=recToggle;$('#recAdd').onclick=()=>$('#recFile').click();bindAudio();bindFlow();
   $('#sheet').querySelectorAll('.rdel').forEach(b=>bindDel(b,n))}
 async function recToggle(opt){opt=opt||{};
   if(recS.rec){recS.rec.stop();return}
@@ -1576,13 +1591,15 @@ async function recToggle(opt){opt=opt||{};
   const sylL=opt.idx!=null?partLines(opt.idx).filter(l=>l.trim()).map(l=>sylText(l)+elongN(l)):[];
   const mt=['audio/mp4','audio/webm;codecs=opus','audio/webm'].find(m=>MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(m));
   const mr=new MediaRecorder(stream,mt?{mimeType:mt}:undefined),chunks=[];let t0=0,tick=null,started=false,tS=0,grid=null;recS.rec=mr;
+  const mic={mute:null,end:null},tr0=stream.getAudioTracks()[0];
+  if(tr0){tr0.onmute=()=>{if(mic.mute==null){mic.mute=(Date.now()-t0)/1000;recNote('Uwaga: system wyciszył mikrofon po '+f1(mic.mute)+' s, nagranie może być ucięte.')}};tr0.onended=()=>{if(mic.end==null)mic.end=(Date.now()-t0)/1000}}
   mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
   const b=()=>$('#recGo');
-  const begin=()=>new Promise(res=>{if(started){res();return}started=true;const fb=setTimeout(res,500);mr.onstart=()=>{tS=performance.now();clearTimeout(fb);res()};if(mr.state==='inactive')mr.start();t0=Date.now();if(b()){b().textContent='■ Stop 0:00';b().classList.add('live')}
+  const begin=()=>new Promise(res=>{if(started){res();return}started=true;const fb=setTimeout(res,500);mr.onstart=()=>{tS=performance.now();clearTimeout(fb);res()};if(mr.state==='inactive')mr.start(1000);t0=Date.now();if(b()){b().textContent='■ Stop 0:00';b().classList.add('live')}
     tick=setInterval(()=>{if(b())b().textContent='■ Stop '+fmtSek((Date.now()-t0)/1000)},500)});
   mr.onstop=async()=>{clearInterval(tick);metStop();stream.getTracks().forEach(t=>t.stop());recS.rec=null;if(b()){b().textContent='● Nagraj';b().classList.remove('live')}
     if(!started||!chunks.length){recNote('Anulowano.');return}
-    await saveAudio(new Blob(chunks,{type:mr.mimeType||mt||'audio/webm'}),(Date.now()-t0)/1000,opt.name?opt.name+' · '+(((T.get(cur).nagrania||[]).filter(r=>r.czesc===opt.name).length+1)):undefined,opt.name,grid,sylL)};
+    await saveAudio(new Blob(chunks,{type:mr.mimeType||mt||'audio/webm'}),(Date.now()-t0)/1000,opt.name?opt.name+' · '+(((T.get(cur).nagrania||[]).filter(r=>r.czesc===opt.name).length+1)):undefined,opt.name,grid,sylL,mic)};
   const cnt=opt.bpm?(opt.cnt||0):0;
   if(opt.bpm&&(opt.met||cnt>0)){
     /* nagrywamy od PIERWSZEGO kliknięcia (razem z odliczaniem), żeby w nagraniu było widać, czy wchodzisz przed jedynką, czy po. Siatka: off = sekundy od początku nagrania do pierwszego kliknięcia (przybliżenie; analiza doprecyzuje je z kliknięć słyszalnych w nagraniu) */
@@ -1590,17 +1607,19 @@ async function recToggle(opt){opt=opt||{};
     const ok=metStart(opt.bpm,bi=>{if(bi===cnt&&!opt.met)metStop()},cnt);
     if(ok){grid={bpm:opt.bpm,spd:metSpd(),cnt,off:Math.round((tM-tS)/10)/100+.08};barRun()}}
   else begin()}
-async function saveAudio(blob,sek,nm,czesc,grid,syl){const n=T.get(cur);if(!n)return;
+async function saveAudio(blob,sek,nm,czesc,grid,syl,mic){const n=T.get(cur);if(!n)return;
   let as=null;try{as=await claude.use('assets')}catch(e){}
   if(!as){recNote('Wgrywanie nagrań działa tylko dla właściciela notatnika.');return}
   recNote('Zapisuję nagranie…');let up=null,err=null,rap=null;
-  if(grid&&syl&&syl.length){try{rap=await flowZBloba(blob,grid,syl)}catch(e){rap=null}}
+  let real=null;try{const fz=await flowZBloba(blob,grid,syl);if(fz){real=fz.dur;rap=fz.rap}}catch(e){}
+  const ucieta=real!=null&&sek>3&&real<sek*.6;if(ucieta)rap=null;
+  const micTxt=mic&&(mic.mute!=null||mic.end!=null)?' System '+(mic.end!=null?'przerwał':'wyciszył')+' mikrofon po '+f1(mic.end!=null?mic.end:mic.mute)+' s.':'';
   try{up=await as.upload(blob)}catch(e){err=e;
     if(e&&e.code==='unsupported_type'){const ty=blob.type||'';const t=/webm|ogg|opus/i.test(ty)?'video/webm':'video/mp4';
       try{up=await as.upload(new Blob([blob],{type:t}));err=null}catch(e2){err=e2}}}
   if(!up){recNote('Nie udało się zapisać nagrania ('+(err&&err.code||'błąd')+').');return}
-  n.nagrania=n.nagrania||[];n.nagrania.push({id:up.id,url:up.url,nazwa:nm||('Nagranie '+(n.nagrania.length+1)),czesc:czesc||null,sek:Math.round(sek||0),ts:Date.now(),...(grid?{siatka:grid}:{}),...(rap?{raport:rap}:{})});
-  touch(n);renderTools();renderList();if(!$('#sheetBg').hidden)(sheetRe||sheetRec)('Zapisano.'+(rap?' Flow: '+raportTxt(rap)+'.':''))}
+  n.nagrania=n.nagrania||[];n.nagrania.push({id:up.id,url:up.url,nazwa:nm||('Nagranie '+(n.nagrania.length+1)),czesc:czesc||null,sek:ucieta?Math.round(real*10)/10:Math.round(real!=null?real:(sek||0)),ts:Date.now(),...(grid?{siatka:grid}:{}),...(rap?{raport:rap}:{}),...(ucieta?{ucieta:true}:{})});
+  touch(n);renderTools();renderList();if(!$('#sheetBg').hidden)(sheetRe||sheetRec)(ucieta?'Zapisano, ale nagranie jest ucięte: w pliku jest '+f1(real)+' s dźwięku z '+fmtSek(sek)+'.'+micTxt+' Usuń je i nagraj jeszcze raz.':'Zapisano.'+(rap?' Flow: '+raportTxt(rap)+'.':'')+micTxt)}
 
 /* ---- karta słowa, ostatnie szukania ---- */
 function recents(){try{return JSON.parse(ls('nt-rec')||'[]')}catch(e){return[]}}
