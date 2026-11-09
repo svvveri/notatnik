@@ -243,6 +243,7 @@ label.lfull{display:flex;gap:8px;align-items:center;margin:4px 0 10px;color:var(
 #labBtns{position:absolute;inset:0;pointer-events:none;z-index:2}
 .lmic{position:absolute;left:calc(100% - 36px);width:30px;height:30px;border-radius:50%;pointer-events:auto;color:var(--acc);border:1px solid var(--line);background:var(--bg);display:grid;place-items:center}
 .lmic:active{background:var(--acc-fill);color:var(--on-acc)}
+.mbar{display:flex;align-items:center;gap:10px;margin:8px 0 2px}.mtr{flex:1;height:12px;border-radius:6px;background:var(--chip);position:relative;overflow:hidden}.mtr::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 calc(25% - 2px),var(--bg) calc(25% - 2px) 25%)}.mtr b{display:block;height:100%;width:0;background:var(--acc-fill)}.mbar.cnt .mtr b{background:var(--faint)}.mlb{min-width:104px;font-size:13px;color:var(--dim);text-align:right;font-variant-numeric:tabular-nums}
 .partTxt{max-height:26vh;overflow-y:auto;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px 0;font-size:16px;line-height:1.5}
 .seg button{min-width:44px}
 .rec{border:1px solid var(--line);border-radius:12px;padding:8px 10px 6px;margin-bottom:8px}
@@ -1446,16 +1447,24 @@ function metUnlock(){try{if(navigator.audioSession)navigator.audioSession.type='
     w(0,'RIFF');b.setUint32(4,36+n*2,true);w(8,'WAVEfmt ');b.setUint32(16,16,true);b.setUint16(20,1,true);b.setUint16(22,1,true);b.setUint32(24,8000,true);b.setUint32(28,16000,true);b.setUint16(32,2,true);b.setUint16(34,16,true);w(36,'data');b.setUint32(40,n*2,true);
     const a=new Audio(URL.createObjectURL(new Blob([b],{type:'audio/wav'})));a.loop=true;a.setAttribute('playsinline','');MET.sil=a}
     const pr=MET.sil.play();if(pr&&pr.catch)pr.catch(()=>{})}catch(e){}}
-function metStart(bpm,onBeat){metStop();const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return false;
+function metStart(bpm,onBeat,cnt){metStop();const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return false;
   if(!onBeat)metUnlock();
   try{if(MET.ctx&&MET.ctx.state==='closed')MET.ctx=null;MET.ctx=MET.ctx||new AC();if(MET.ctx.resume)MET.ctx.resume()}catch(e){return false}
-  MET.bpm=bpm;MET.i=0;MET.next=MET.ctx.currentTime+.08;
-  MET.id=setInterval(()=>{while(MET.next<MET.ctx.currentTime+.15){metClick(MET.next,MET.i%4===0);const bi=MET.i;
+  MET.bpm=bpm;MET.i=0;MET.cnt=cnt||0;MET.next=MET.ctx.currentTime+.08;MET.t0=MET.next;
+  MET.id=setInterval(()=>{while(MET.next<MET.ctx.currentTime+.15){metClick(MET.next,((MET.i-MET.cnt)%4+4)%4===0);const bi=MET.i;
     if(onBeat)setTimeout(()=>onBeat(bi),Math.max(0,(MET.next-MET.ctx.currentTime)*1000));MET.next+=60/MET.bpm*metSpd();MET.i++}},25);return true}
 /* szybkość metronomu: 1 = zgodnie z BPM, 2 = dwa razy wolniej (klik co 2 uderzenia) */
 function metSpd(){return ls('nt-metx')==='2'?2:1}
 function metSpdRow(){const f=metSpd();return `<div class="row"><span>Szybkość metronomu</span><div class="seg" id="mSp"><button data-s="1" class="${f===1?'on':''}">normalnie</button><button data-s="2" class="${f===2?'on':''}">2× wolniej</button></div></div>`}
 function metSpdBind(restart){$('#mSp').querySelectorAll('button').forEach(b=>b.onclick=()=>{ls('nt-metx',b.dataset.s);$('#mSp').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));if(MET.id&&restart)restart()})}
+/* pasek wersu: 4 kliknięcia metronomu = jeden wers (przy „2× wolniej” to 2 takty BPM). Jedynka (akcent) wypada po odliczaniu; samo odliczanie ma szary kolor. Pozycja liczona z zegara audio, nie z timera. */
+let barRaf=0;
+const barHtml=()=>'<div class="mbar" id="mBar"><div class="mtr"><b></b></div><span class="mlb"></span></div>';
+function barIdle(){const el=$('#mBar');if(el){el.classList.remove('cnt');el.querySelector('b').style.width='0';el.querySelector('.mlb').textContent=''}}
+function barRun(){cancelAnimationFrame(barRaf);const step=()=>{const el=$('#mBar');if(!el)return;if(!MET.id||!MET.ctx){barIdle();return}
+  const k=Math.max(0,(MET.ctx.currentTime-MET.t0)/(60/MET.bpm*metSpd())),bi=Math.floor(k),inC=bi<MET.cnt,r=(((k-MET.cnt)%4)+4)%4;
+  el.classList.toggle('cnt',inC);el.querySelector('b').style.width=(r/4*100)+'%';el.querySelector('.mlb').textContent=(inC?'odliczanie ':'')+(Math.floor(r)+1)+'/4';
+  barRaf=requestAnimationFrame(step)};step()}
 function metStop(){if(MET.id){clearInterval(MET.id);MET.id=null}try{if(MET.sil)MET.sil.pause()}catch(e){}}
 function placeLabBtns(secs){const box=$('#labBtns');if(!box)return;const ch=$('#mirror').children;
   box.innerHTML=secs.filter(x=>!x.implicit).map(x=>{const el=ch[x.idx];if(!el)return'';
@@ -1470,14 +1479,15 @@ function sheetPart(idx,name,msg){const n=T.get(cur);if(!n)return;sheetRe=m=>shee
   ${metSpdRow()}
   <div class="row"><span>Odliczanie (uderzeń)</span><div class="seg" id="pCnt">${[0,2,4].map(c=>`<button data-c="${c}" class="${cnt===c?'on':''}">${c||'brak'}</button>`).join('')}</div></div>
   <div class="partTxt">${lines.length?lines.map(l=>`<div>${esc(l)||'&nbsp;'}</div>`).join(''):'<div class="hint">Ta część nie ma jeszcze tekstu.</div>'}</div>
-  <div class="hint" id="recMsg">${esc(msg||(bpm?'Metronom może wyciekać do mikrofonu, więc lepiej w słuchawkach. Jeśli bit leci z innego urządzenia, wyłącz metronom.':'Bez tempa metronom nie zagra. Ustaw je wyżej.'))}</div>
+  <div class="hint" id="recMsg">${esc(msg||(bpm?'Metronom z głośnika nagra się razem z głosem i o to chodzi: po nagraniu będzie wiadomo, kiedy wchodzisz względem taktu. Jeśli bit leci z innego urządzenia, wyłącz metronom.':'Bez tempa metronom nie zagra. Ustaw je wyżej.'))}</div>
+  ${barHtml()}
   <div class="shBtns"><button id="recGo">● Nagraj</button><button id="pTest">▶ Metronom</button></div>
   ${takes.length?`<div id="recList">`+takes.map(r=>`<div class="rec"><div class="recT"><b>${esc(r.nazwa)}</b><span>${new Date(r.ts).toLocaleDateString('pl-PL',{day:'numeric',month:'numeric'})}${r.sek?' · '+fmtSek(r.sek):''}</span><button class="rdel" data-id="${esc(r.id)}">Usuń</button></div><div class="aud" data-id="${esc(r.id)}"><button class="pill play" type="button">▶ Odtwórz</button><span class="dur"></span></div></div>`).join('')+'</div>':''}`);
   $('#x').onclick=closeSheet;bindAudio();metSpdBind(()=>metStart(bpm));
   $('#pBpm').onclick=()=>{closeSheet();sheetBpm(()=>sheetPart(idx,name))};
   $('#pMet').onclick=()=>{const v=ls('nt-met')==='0';ls('nt-met',v?'1':'0');$('#pMet').classList.toggle('on',v);$('#pMet').setAttribute('aria-checked',v)};
   $('#pCnt').querySelectorAll('button').forEach(b=>b.onclick=()=>{ls('nt-cnt',b.dataset.c);$('#pCnt').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b))});
-  $('#pTest').onclick=()=>{if(MET.id){metStop();$('#pTest').textContent='▶ Metronom'}else if(!bpm)recNote('Najpierw ustaw tempo.');else if(metStart(bpm))$('#pTest').textContent='■ Stop'};
+  $('#pTest').onclick=()=>{if(MET.id){metStop();$('#pTest').textContent='▶ Metronom'}else if(!bpm)recNote('Najpierw ustaw tempo.');else if(metStart(bpm)){$('#pTest').textContent='■ Stop';barRun()}};
   $('#recGo').onclick=()=>recToggle({name,bpm,met:ls('nt-met')!=='0',cnt:+(ls('nt-cnt')||'4')});
   $('#sheet').querySelectorAll('.rdel').forEach(b=>bindDel(b,n))}
 function bindDel(b,n){b.onclick=async()=>{
@@ -1501,21 +1511,22 @@ async function recToggle(opt){opt=opt||{};
   if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)||typeof MediaRecorder==='undefined'){recNote('Nagrywanie w tej przeglądarce nie działa. Nagraj w Dyktafonie i dotknij „Dodaj plik”.');return}
   let stream;try{stream=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){recNote('Ta strona nie ma dostępu do mikrofonu. Nagraj w Dyktafonie i dotknij „Dodaj plik”.');return}
   const mt=['audio/mp4','audio/webm;codecs=opus','audio/webm'].find(m=>MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(m));
-  const mr=new MediaRecorder(stream,mt?{mimeType:mt}:undefined),chunks=[];let t0=0,tick=null,started=false;recS.rec=mr;
+  const mr=new MediaRecorder(stream,mt?{mimeType:mt}:undefined),chunks=[];let t0=0,tick=null,started=false,tS=0,grid=null;recS.rec=mr;
   mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
   const b=()=>$('#recGo');
-  const begin=()=>{if(started)return;started=true;if(mr.state==='inactive')mr.start();t0=Date.now();if(b()){b().textContent='■ Stop 0:00';b().classList.add('live')}
-    tick=setInterval(()=>{if(b())b().textContent='■ Stop '+fmtSek((Date.now()-t0)/1000)},500)};
+  const begin=()=>new Promise(res=>{if(started){res();return}started=true;const fb=setTimeout(res,500);mr.onstart=()=>{tS=performance.now();clearTimeout(fb);res()};if(mr.state==='inactive')mr.start();t0=Date.now();if(b()){b().textContent='■ Stop 0:00';b().classList.add('live')}
+    tick=setInterval(()=>{if(b())b().textContent='■ Stop '+fmtSek((Date.now()-t0)/1000)},500)});
   mr.onstop=async()=>{clearInterval(tick);metStop();stream.getTracks().forEach(t=>t.stop());recS.rec=null;if(b()){b().textContent='● Nagraj';b().classList.remove('live')}
     if(!started||!chunks.length){recNote('Anulowano.');return}
-    await saveAudio(new Blob(chunks,{type:mr.mimeType||mt||'audio/webm'}),(Date.now()-t0)/1000,opt.name?opt.name+' · '+(((T.get(cur).nagrania||[]).filter(r=>r.czesc===opt.name).length+1)):undefined,opt.name)};
+    await saveAudio(new Blob(chunks,{type:mr.mimeType||mt||'audio/webm'}),(Date.now()-t0)/1000,opt.name?opt.name+' · '+(((T.get(cur).nagrania||[]).filter(r=>r.czesc===opt.name).length+1)):undefined,opt.name,grid)};
   const cnt=opt.bpm?(opt.cnt||0):0;
   if(opt.bpm&&(opt.met||cnt>0)){
-    if(b()){b().textContent='■ Stop (odliczanie)';b().classList.add('live')}
-    const ok=metStart(opt.bpm,bi=>{if(bi===cnt){begin();if(!opt.met)metStop()}});
-    if(!ok)begin()}
+    /* nagrywamy od PIERWSZEGO kliknięcia (razem z odliczaniem), żeby w nagraniu było widać, czy wchodzisz przed jedynką, czy po. Siatka: off = sekundy od początku nagrania do pierwszego kliknięcia (przybliżenie; analiza doprecyzuje je z kliknięć słyszalnych w nagraniu) */
+    await begin();const tM=performance.now();
+    const ok=metStart(opt.bpm,bi=>{if(bi===cnt&&!opt.met)metStop()},cnt);
+    if(ok){grid={bpm:opt.bpm,spd:metSpd(),cnt,off:Math.round((tM-tS)/10)/100+.08};barRun()}}
   else begin()}
-async function saveAudio(blob,sek,nm,czesc){const n=T.get(cur);if(!n)return;
+async function saveAudio(blob,sek,nm,czesc,grid){const n=T.get(cur);if(!n)return;
   let as=null;try{as=await claude.use('assets')}catch(e){}
   if(!as){recNote('Wgrywanie nagrań działa tylko dla właściciela notatnika.');return}
   recNote('Zapisuję nagranie…');let up=null,err=null;
@@ -1523,7 +1534,7 @@ async function saveAudio(blob,sek,nm,czesc){const n=T.get(cur);if(!n)return;
     if(e&&e.code==='unsupported_type'){const ty=blob.type||'';const t=/webm|ogg|opus/i.test(ty)?'video/webm':'video/mp4';
       try{up=await as.upload(new Blob([blob],{type:t}));err=null}catch(e2){err=e2}}}
   if(!up){recNote('Nie udało się zapisać nagrania ('+(err&&err.code||'błąd')+').');return}
-  n.nagrania=n.nagrania||[];n.nagrania.push({id:up.id,url:up.url,nazwa:nm||('Nagranie '+(n.nagrania.length+1)),czesc:czesc||null,sek:Math.round(sek||0),ts:Date.now()});
+  n.nagrania=n.nagrania||[];n.nagrania.push({id:up.id,url:up.url,nazwa:nm||('Nagranie '+(n.nagrania.length+1)),czesc:czesc||null,sek:Math.round(sek||0),ts:Date.now(),...(grid?{siatka:grid}:{})});
   touch(n);renderTools();renderList();if(!$('#sheetBg').hidden)(sheetRe||sheetRec)('Zapisano.')}
 
 /* ---- karta słowa, ostatnie szukania ---- */
