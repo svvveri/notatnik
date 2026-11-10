@@ -160,14 +160,11 @@
   async function makeSession() {
     if (!G.ort) await loadScript(ORT + 'ort.min.js');
     G.ort.env.wasm.wasmPaths = ORT; G.ort.env.wasm.simd = true; G.ort.env.wasm.numThreads = 1;
-    let bytes = await modelBytes(), sess = null, err = null;
-    /* najpierw praca w osobnym wątku onnxruntime (interfejs się nie zacina), przy błędzie w głównym */
-    for (const proxy of [true, false]) {
-      try { G.ort.env.wasm.proxy = proxy; sess = await G.ort.InferenceSession.create(bytes, {executionProviders: ['wasm'], graphOptimizationLevel: 'all'}); err = null; break; }
-      catch (e) { err = e; }
-    }
+    /* bez trybu proxy (osobny wątek onnxruntime): sprawdzony na iPhonie na stronie ctc-test.html; interfejs stoi na czas liczenia okna (ok. 40 s na 30 s nagrania) */
+    G.ort.env.wasm.proxy = false;
+    let bytes = await modelBytes();
+    const sess = await G.ort.InferenceSession.create(bytes, {executionProviders: ['wasm'], graphOptimizationLevel: 'all'});
     bytes = null;
-    if (!sess) throw err || new Error('nie utworzono sesji');
     return sess;
   }
   /* dopasowanie: x, sr = zdekodowane nagranie (mono), words = słowa tekstu po kolei; prog(etap, ułamek); zwraca {words, score, T, ms} */
