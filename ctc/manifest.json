@@ -1,0 +1,39 @@
+{
+ "model": "int8mm.onnx",
+ "parts": [
+  {
+   "name": "part-00",
+   "size": 46000000
+  },
+  {
+   "name": "part-01",
+   "size": 46000000
+  },
+  {
+   "name": "part-02",
+   "size": 46000000
+  },
+  {
+   "name": "part-03",
+   "size": 46000000
+  },
+  {
+   "name": "part-04",
+   "size": 46000000
+  },
+  {
+   "name": "part-05",
+   "size": 46000000
+  },
+  {
+   "name": "part-06",
+   "size": 46000000
+  },
+  {
+   "name": "part-07",
+   "size": 33203229
+  }
+ ],
+ "total": 355203229,
+ "sha256": "17160535d5886591885ea87c7777123e6551b843daa43d4ae967b0f1bcc1ae99"
+}
