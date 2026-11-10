@@ -1158,7 +1158,7 @@ function drawPomysly(q){const box=$('#rres');const w=q.trim();
 /* ---- zewnętrzne źródła: poezja z Wolnych Lektur (domena publiczna), konteksty z Wikipedii ---- */
 let WLP=null;const CTX=new Map();
 function loadWL(){if(!WLP)WLP=Promise.all([gzTxt('lin/wl.txt'),gzTxt('lin/wl_meta.txt')]).then(([a,b])=>{
-  const meta=new Map();b.split('\n').forEach(x=>{const p=x.split('\t');meta.set(p[0],{a:p[1]||'',t:p[2]||''})});
+  const meta=new Map();b.split('\n').forEach(x=>{const p=x.split('\t');meta.set(p[0],{a:p[1]||'',t:p[2]||'',u:p[3]||''})});
   const L=[];a.split('\n').forEach(x=>{const i=x.indexOf('\t');if(i<0)return;const t=x.slice(i+1),n=t.toLowerCase().replace(/[^a-ząćęłńóśźż]+/g,' ').trim(),ws=n.split(' ');L.push({p:x.slice(0,i),t,n:' '+n+' ',lw:ws[ws.length-1]})});
   return {L,meta}}).catch(()=>{WLP=null;return null});return WLP}
 function wlSearch(W,k,qlast,q){const qvs=qvOf(q||qlast),has=[],rh=[],cls=new Map();
@@ -1226,7 +1226,7 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
     const tail=t=>lfull?t:t.split(/\s+/).slice(-3).join(' ');
     const ln=a=>a.map(x=>`<div class="ln" data-id="${esc(x.n.id)}"><div>${hl(tail(x.l),qw)}</div><span>${esc(x.n.tytul||'Bez tytułu')}</span></div>`).join('');
     if(lastR.WL===undefined){lastR.WL=null;const L0=lastR;loadWL().then(W=>{L0.WL=W?wlSearch(W,k,qw,q):false;if(lastR===L0&&rmode==='lin')drawRymy()})}
-    const lw=a=>a.map(x=>`<div class="ln ro" data-u="${esc('https://www.google.com/search?q='+encodeURIComponent('"'+x.t.replace(/[„”"]/g,'').trim()+'" '+[x.m.a,x.m.t===x.m.a?'':x.m.t].filter(Boolean).join(' ')))}"><div>${hl(tail(x.t),qw)}</div><span>${esc(x.m.a)}${x.m.a&&x.m.t&&x.m.t!==x.m.a?', ':''}${esc(x.m.t===x.m.a?'':x.m.t)}</span></div>`).join('');
+    const lw=a=>a.map(x=>`<div class="ln ro" data-u="${x.m.u?esc('https://wolnelektury.pl/katalog/'+x.m.u+'/'):esc('https://www.google.com/search?q='+encodeURIComponent('"'+x.t.replace(/[„”"]/g,'').trim()+'" '+[x.m.a,x.m.t===x.m.a?'':x.m.t].filter(Boolean).join(' ')))}"><div>${hl(tail(x.t),qw)}</div><span>${esc(x.m.a)}${x.m.a&&x.m.t&&x.m.t!==x.m.a?', ':''}${esc(x.m.t===x.m.a?'':x.m.t)}</span></div>`).join('');
     const W=lastR.WL,wlN=a=>W&&W[a]?W[a].length:0;
     const sec2=(t,arr,body)=>arr&&arr.length?`<div class="rsec"><h3>${t}<span>${arr.length}</span></h3>${body}</div>`:'';
     const has=lsub==='has';
