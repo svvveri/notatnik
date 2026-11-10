@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Test CTC na telefonie</title>
+<style>
+:root{--bg:#fff;--fg:#1c1c1e;--dim:#6b6b70;--acc:#e6b800;--line:#d8d8dc}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1c1e;--fg:#f2f2f7;--dim:#98989f;--line:#3a3a3c}}
+body{margin:0;padding:18px 16px 60px;background:var(--bg);color:var(--fg);font:16px/1.45 -apple-system,system-ui,sans-serif;max-width:640px;margin:0 auto}
+h1{font-size:22px;margin:6px 0 4px}p{color:var(--dim);margin:6px 0 14px}
+button{font:600 17px/1 inherit;padding:14px 20px;border-radius:12px;border:0;background:var(--acc);color:#1c1c1e;margin:4px 8px 4px 0}
+button:disabled{opacity:.45}
+pre{white-space:pre-wrap;word-break:break-word;border:1px solid var(--line);border-radius:10px;padding:12px;font:13px/1.5 ui-monospace,Menlo,monospace}
+#bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:10px 0}#bar i{display:block;height:100%;width:0;background:var(--acc)}
+.warn{color:#c0392b}
+</style></head><body>
+<h1>Test CTC na telefonie</h1>
+<p>Sprawdza tylko, czy model do dopasowania tekstu do dźwięku (355 MB) mieści się w pamięci tego telefonu i ile trwa liczenie. Używa syntetycznego szumu technicznego, nie Twoich nagrań. Pobiera ok. 355 MB: włącz Wi-Fi. Nie blokuj ekranu i nie przełączaj apek do końca testu.</p>
+<div id="prev" class="warn"></div>
+<button id="go">Start testu</button><button id="cp" disabled>Kopiuj wynik</button>
+<div id="bar"><i id="barI"></i></div>
+<pre id="log">Gotowe do startu.</pre>
+<script>
+const BASE='https://raw.githubusercontent.com/svvveri/notatnik/model/ctc/';
+const ORT='https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/';
+const $=s=>document.querySelector(s);let T0=0,LOG='';
+const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(_){return null}};
+const log=t=>{const s=((performance.now()-T0)/1000).toFixed(1).padStart(6)+' s  '+t;LOG+=s+'\n';$('#log').textContent=LOG;console.log(s)};
+const step=n=>{ls('ctc-step',n+' @ '+new Date().toISOString());log('→ '+n)};
+const pv=ls('ctc-state'),ps=ls('ctc-step');
+if(pv==='run')$('#prev').textContent='Poprzedni test przerwał się bez wyniku, ostatni krok: '+ps+'. To zwykle znaczy, że przeglądarka zabiła kartę z braku pamięci.';
+function loadScript(src){return new Promise((ok,err)=>{const s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=()=>err(new Error('nie wczytano '+src));document.head.appendChild(s)})}
+async function getModel(){
+  step('manifest');const man=await (await fetch(BASE+'manifest.json',{cache:'no-cache'})).json();
+  const buf=new Uint8Array(man.total);let off=0,cache=null;
+  try{cache=await caches.open('ctc-model-v1')}catch(_){}
+  for(let i=0;i<man.parts.length;i++){
+    const p=man.parts[i];step('pobieram '+(i+1)+'/'+man.parts.length+' ('+(p.size/1e6).toFixed(0)+' MB)');
+    let r=cache&&await cache.match(BASE+p.name),hit=!!r;
+    if(!r){r=await fetch(BASE+p.name);if(!r.ok)throw new Error('HTTP '+r.status+' '+p.name);if(cache){try{await cache.put(BASE+p.name,r.clone())}catch(e){log('cache: '+e.message)}}}
+    const ab=new Uint8Array(await r.arrayBuffer());if(ab.length!==p.size)throw new Error('zły rozmiar '+p.name+': '+ab.length);
+    buf.set(ab,off);off+=ab.length;$('#barI').style.width=((i+1)/man.parts.length*100)+'%';log('część '+(i+1)+(hit?' z cache':' pobrana'))}
+  return buf}
+async function run(){
+  $('#go').disabled=true;$('#cp').disabled=true;LOG='';T0=performance.now();ls('ctc-state','run');
+  const res={ua:navigator.userAgent,hw:navigator.hardwareConcurrency,mem:navigator.deviceMemory||null,isolated:self.crossOriginIsolated};
+  log('telefon: '+res.ua.slice(0,90)+' | rdzeni '+res.hw+' | izolacja '+res.isolated);
+  try{
+    step('biblioteka onnxruntime-web');await loadScript(ORT+'ort.min.js');ort.env.wasm.wasmPaths=ORT;ort.env.wasm.numThreads=self.crossOriginIsolated?Math.min(4,res.hw||2):1;ort.env.wasm.simd=true;
+    let t=performance.now();let model=await getModel();res.downloadS=(performance.now()-t)/1000;log('model w pamięci: '+(model.length/1e6).toFixed(0)+' MB, '+res.downloadS.toFixed(1)+' s');
+    step('tworzę sesję (najbardziej pamięciożerny krok)');t=performance.now();
+    const sess=await ort.InferenceSession.create(model,{executionProviders:['wasm'],graphOptimizationLevel:'all'});model=null;
+    res.sessionS=(performance.now()-t)/1000;log('sesja gotowa: '+res.sessionS.toFixed(1)+' s');
+    const N=34*16000,inp=new Float32Array(N);let x=12345;for(let i=0;i<N;i++){x=(x*1103515245+12345)&0x7fffffff;inp[i]=((x/0x7fffffff)-.5)*0.02}
+    for(let k=1;k<=2;k++){step('liczenie okna 34 s, przebieg '+k);t=performance.now();
+      const out=await sess.run({input_values:new ort.Tensor('float32',inp,[1,N])});const s=(performance.now()-t)/1000;res['run'+k+'S']=s;
+      log('przebieg '+k+': '+s.toFixed(1)+' s, kształt '+out.logits.dims.join('x'))}
+    ls('ctc-state','ok');step('KONIEC: działa');res.ok=true;
+  }catch(e){ls('ctc-state','err');res.ok=false;res.err=String(e&&e.message||e);log('BŁĄD: '+res.err)}
+  LOG+='\nWYNIK '+JSON.stringify(res)+'\n';$('#log').textContent=LOG;$('#go').disabled=false;$('#cp').disabled=false;
+}
+$('#go').onclick=run;$('#cp').onclick=async()=>{try{await navigator.clipboard.writeText(LOG);$('#cp').textContent='Skopiowane'}catch(_){const r=document.createRange();r.selectNode($('#log'));getSelection().removeAllRanges();getSelection().addRange(r)}};
+</script></body></html>
