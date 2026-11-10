@@ -378,6 +378,7 @@ label.lfull{display:flex;gap:8px;align-items:center;margin:4px 0 10px;color:var(
 <button id="bugBtn" type="button" aria-label="Zgłoś problem" title="Zgłoś problem">!</button>
 <script src="config.js"></script>
 <script src="drive.js"></script>
+<script src="ctc.js"></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
 (function(){
@@ -1639,7 +1640,50 @@ function flowFazaAuto(vo,W0t,W,BT){const half=W/BT/2,n=vo.length;let best=-1,bm=
       sc+=(1-sa/Math.max(1,a1-a0))*(sb/Math.max(1,b1-b0));c++}
     sc=c?sc/c:0;if(sc>best){sec=best;best=sc;bm=m}else if(sc>sec)sec=sc}
   return best>=.25&&best>=1.3*sec?bm:0}
+/* ---- DOKŁADNA ANALIZA (CTC, nt-v101) ----
+   Model rozpoznawania mowy dopasowuje znany tekst do nagrania (ctc.js): każda litera dostaje czas, więc początek sylaby to czas jej pierwszej litery (np. „ro” z „rośnie” wypada dokładnie na jedynce, wcześniej szacowało to garby głośności).
+   CTC dostaje tylko tyle linijek, ile stara analiza uznała za nagrane: tekst części bywa dwa razy dłuższy niż nagranie, a dopasowanie MUSI zmieścić cały tekst, więc nadmiar spłaszczał wersy (Moi ludzie Refren · 3: po 3. wersie odstępy spadały z 2,5 s do ułamków sekundy). Wersy, których CTC nie rozpoznaje (pewność liter < 0,03 albo wers krótszy niż 40% okna), liczy dalej stara analiza.
+   Faza okna i przypisanie wersów do okien biorą się z czasów wersów z CTC (najmniejsza suma odległości do początków okien); przy kolizji (dwa wersy w jednym oknie) cała analiza CTC jest pomijana i zostaje stara. */
+function ctcSylStarts(w,k){let vs=[];try{vs=vowSyl(w)}catch(_){}
+  if(vs.length===k)return vs.map(x=>x.s);const L=w.length,o=[];for(let i=0;i<k;i++)o.push(Math.round(i*L/k));return o}
+async function ctcLines(x,sr,syl,nUse,prog){
+  const words=[],ref=[];syl.slice(0,nUse).forEach((ln,i)=>{if(!ln||typeof ln!=='object'||ln.ph||!ln.n)return;ln.wd.forEach((d,wi)=>{words.push(d.w);ref.push([i,wi])})});
+  if(words.length<6)return null;
+  const al=await window.NT_CTC.align(x,sr,words,prog),per={};
+  al.words.forEach((w,k)=>{const [i,wi]=ref[k];(per[i]=per[i]||[])[wi]=w});
+  const list=[],byLi={};
+  for(const i of Object.keys(per).map(Number)){
+    const ln=syl[i];if(per[i].length!==ln.wd.length||per[i].some(w=>!w))continue;
+    const sy=[],ps=[];let ok=true;
+    ln.wd.forEach((d,wi)=>{const cw=per[i][wi],st=ctcSylStarts(d.w,d.sy.length);
+      st.forEach(a=>{const L=cw.letters.find(l=>l.oi>=a)||cw.letters[cw.letters.length-1];sy.push(L.t)});cw.letters.forEach(l=>ps.push(l.p))});
+    if(sy.length!==ln.n)continue;
+    for(let j=1;j<sy.length;j++)if(sy[j]<sy[j-1]+.02)sy[j]=sy[j-1]+.02;
+    const cf=ps.reduce((a,b)=>a+b,0)/ps.length,first=per[i][0],last=per[i][per[i].length-1];
+    const o={li:i,sy,st:sy[0],en:last.e,dur:last.e-first.t,cf};list.push(o);byLi[i]=o}
+  return {list,byLi,ms:al.ms}}
+/* które wersy CTC uznajemy za rozpoznane (ok) i faza okna w całych uderzeniach */
+function flowCtcOk(CT,W){CT.list.forEach(l=>{l.ok=l.cf>=.03&&l.dur>=.4*W&&l.sy.length>=2});return CT.list.filter(l=>l.ok)}
+function flowCtcFaza(CT,W0t,W,BT){const L=flowCtcOk(CT,W);if(L.length<3)return null;const nb=Math.round(W/BT),half=nb/2;let best=1e9,bp=0;
+  for(let m=Math.ceil(-half+1);m<=Math.floor(half);m++){let c=0;for(const l of L){const u=(l.st-W0t)/BT-m;c+=Math.abs(u-Math.round(u/nb)*nb)}c/=L.length;if(c<best-1e-9||(Math.abs(c-best)<1e-9&&Math.abs(m)<Math.abs(bp))){best=c;bp=m}}
+  return bp}
+/* który wers w którym oknie: rozpoznany wers → najbliższe okno; nierozpoznany → następne po poprzednim; konflikt albo wyjście poza nagranie → null */
+function flowCtcLI(CT,W0,W,nWin){const LI=new Array(nWin).fill(-1);let pk=-1;
+  for(const l of CT.list.slice().sort((a,b)=>a.li-b.li)){let k=l.ok?Math.round((l.st-W0)/W):pk+1;if(k<0||k>=nWin||k<=pk)return null;LI[k]=l.li;pk=k}
+  return LI}
+let CTCERR='';
+const ctcOn=()=>!!window.NT_CTC&&ls('nt-ctc')!=='off';
+const CTCTXT={przygotowanie:'Przygotowuję dźwięk…',model:'Ładuję model…',liczenie:'Liczę dopasowanie',dopasowanie:'Dopasowuję…'};
+/* czy model jest gotowy; przy pierwszym użyciu pyta o jednorazowe pobranie (355 MB); explicit = użytkownik sam kazał przeliczyć */
+async function ctcReady(note,explicit){
+  if(!window.NT_CTC)return false;
+  try{if(await window.NT_CTC.cached())return true}catch(_){}
+  if(ls('nt-ctc')==='off'&&!explicit)return false;
+  if(!confirm('Dokładna analiza flow działa na modelu rozpoznawania mowy: jednorazowe pobranie 355 MB (najlepiej przez Wi-Fi). Pobrać teraz?')){ls('nt-ctc','off');return false}
+  try{await window.NT_CTC.download((i,n)=>note&&note('Pobieram model '+i+'/'+n+'…'));ls('nt-ctc','on');return true}
+  catch(e){CTCERR='pobranie: '+(e&&e.message||e);return false}}
 function flowAnalizaRaz(x,sr,g,syl){
+  const CT=g.ctc||null;let usedC=0;
   syl=(syl||[]).map(s=>typeof s==='number'?{n:s,el:0,tx:''}:s);
   const ci=60/g.bpm*(g.spd||1),W=4*ci,dur=x.length/sr,H=Math.round(sr*.01),nF=Math.floor(x.length/H)-3,cnt=g.cnt||0;
   if(nF<50||!syl.length)return null;
@@ -1676,7 +1720,7 @@ function flowAnalizaRaz(x,sr,g,syl){
     th=Math.max(rf-12,lfl+8);let lw=0,lk=0;for(let k=Math.max(k0+2,ks+1);k<=lim;k++){if(ck[k])continue;if(lo[k]<th){if(!lw)lk=k;if(++lw>=6)return Math.max(t+.03,lk*.01)}else lw=0}return tn};
   P.forEach((p,i)=>{const nx=i<P.length-1?P[i+1].t:p.t+1.5;p.en=endOf(p.t,nx,p.k);p.gap=i<P.length-1?nx-p.en:9});
   /* 4. wersy: k-ty niepusty wers części = k-te okno po odliczaniu */
-  const BT=60/g.bpm,W0t=off+cnt*ci,phB=g.ph==null?flowFazaAuto(vo,W0t,W,BT):Math.round(g.ph),phS=phB*BT,W0=W0t+phS,PRE=1.4*BT,v=[],nW=[],INN=[];
+  const BT=60/g.bpm,W0t=off+cnt*ci,ctcPh=(CT&&g.ph==null)?flowCtcFaza(CT,W0t,W,BT):null,phB=g.ph==null?(ctcPh!=null?ctcPh:flowFazaAuto(vo,W0t,W,BT)):Math.round(g.ph),phS=phB*BT,W0=W0t+phS,PRE=1.4*BT,v=[],nW=[],INN=[];
   /* okna liczymy do końca nagrania, także poza tekstem: okno bez tekstu z głosem = bełkot (wers do napisania), bez głosu = pauza */
   const nMed=(()=>{const a=syl.map(z=>z.n).filter(z=>z>0).sort((a,b)=>a-b);return a.length?a[Math.floor(a.length/2)]:8})();
   for(let k=0;;k++){if(W0+k*W>dur-.3)break;nW.push(k)}
@@ -1691,6 +1735,7 @@ function flowAnalizaRaz(x,sr,g,syl){
     if(k<NK&&i<NL){const z=syl[i],ca=c+(z.ph?0:sil[k]?6:.3*Math.abs(cK[k]-z.n)/Math.max(4,z.n));if(ca<DP[i+1][k+1]){DP[i+1][k+1]=ca;BK[i+1][k+1]=2}}}
   let bi=0;for(let i=0;i<=NL;i++)if(DP[i][NK]<DP[bi][NK]-1e-9||(Math.abs(DP[i][NK]-DP[bi][NK])<1e-9&&i>bi))bi=i;
   const LI=new Array(NK).fill(-1);for(let i=bi,k=NK;k>0;){if(BK[i][k]===2){LI[k-1]=i-1;i--;k--}else k--}
+  let ctcUse=false;if(ctcPh!=null){const LC=flowCtcLI(CT,W0,W,NK);if(LC){ctcUse=true;for(let k=0;k<NK;k++)LI[k]=LC[k]}}
   const SY=j=>{const i=LI[j];if(i<0)return {n:nMed,el:0,tx:'',wd:[],brak:1};const z=syl[i];return z.ph?{...z,n:nMed,brak:1,li:i}:{...z,li:i}};
   /* granice między wersami: kandydaci to luki między sylabami blisko końca okna; wygrywa ta, przy której liczba sylab poprzedniego wersu najlepiej zgadza się z tekstem, najlepiej po prawdziwej pauzie (rapper może wejść trochę przed jedynką albo przeciągnąć koniec) */
   const bnd=[Math.min(W0-.3,W0t-PRE)];for(let k=1;k<=nW.length;k++){const b0=W0+k*W;let bb=b0-.15;
@@ -1709,12 +1754,15 @@ function flowAnalizaRaz(x,sr,g,syl){
     const rec={syl:tot,sb:n,wej:w>=-.4?Math.round(w*100)/100:null,sek:Math.round(sek*100)/100,sS:null,tx:sy.tx||'',...bk};
     /* sylaby tego wersu */
     let K=P.filter(p=>p.t>=bnd[k]&&p.t<bnd[k+1]);const limB=bnd[k+1]<1e8?bnd[k+1]:ws+W+1.5;let lim=limB;
+    const cl=ctcUse&&sy.li!=null?CT.byLi[sy.li]:null,useC=!!(cl&&cl.ok&&cl.sy.length===n&&n>=2);
+    if(useC){K=cl.sy.map(t=>({t,k:Math.floor(t/.01),pr:99,gap:9}));usedC++} /* czasy sylab z CTC zamiast garbów głośności */
     /* wers krótki (wyraźnie krótszy niż reszta części albo zakończony „…”), a w nagraniu dużo więcej sylab: tekst to początek, reszta to bełkot w miejscu brakujących słów.
        Punkt podziału: n, n+1 albo n+2 szczytów na tekst (1–2 mogą być drganiem w trzymanej samogłosce); wygrywa najsłabsze odrzucenie i największa luka na granicy */
     let Bm=null;const short=n>=1&&(n<=.6*nMed||/(\.\.\.|…)\s*$/.test(sy.tx||''));
     if(short&&K.length>=n+3){const io=[];for(let i=1;i<K.length;i++)io.push(K[i].t-K[i-1].t);io.sort((a,b)=>a-b);const mi=Math.max(.08,io[Math.floor(io.length/2)]);let bs2=n,bc=1e9;
       for(let s2=n;s2<=Math.min(n+2,K.length-3);s2++){const dr=K.slice(0,s2).map(p=>p.pr).sort((a,b)=>a-b).slice(0,s2-n).reduce((a,b)=>a+b,0),c=dr-2*(K[s2].t-K[s2-1].t)/mi;if(c<bc){bc=c;bs2=s2}}
       Bm=K.slice(bs2);K=K.slice(0,bs2);lim=Bm[0].t}
+    else if(useC&&short){const ex=P.filter(p=>p.t>cl.sy[n-1]+.3&&p.t<limB);if(ex.length>=3){Bm=ex;lim=Bm[0].t}} /* wers krótki, a po nim bełkot: garby za ostatnią sylabą tekstu */
     const m=K.length;
     if(n>=2&&m>=1){
       let dS=0;const Lf=[],spans=[];let sp0=0;(sy.wd||[]).forEach(d=>{d.sy.forEach((z,i)=>Lf.push(d.ls===i));if(d.ls>=0)spans.push({a:sp0,n:d.sy.length,ls:d.ls});sp0+=d.sy.length});rec._sp=spans;
@@ -1741,7 +1789,7 @@ function flowAnalizaRaz(x,sr,g,syl){
       /* jednostkę długości sylaby (U) liczymy raz dla całego nagrania po pętli: mediana zwykłych sylab ze WSZYSTKICH wersów, bez wyrazów z „UUU” w pisowni. Wcześniej była to mediana jednego wersu, więc to samo „LUUU” dawało raz +1, raz +4 */
       const inSp=new Set();(rec._sp||[]).forEach(w=>{for(let i=w.a;i<w.a+w.n;i++)inSp.add(i)});
       ev.forEach((e,i)=>{if(i<ev.length-1&&!e.pa&&!e.est&&!inSp.has(i))INN.push(e.dd)});
-      const q=Math.round(100*(1-Math.min(1,(dS+ev.filter(e=>e.est).length)/Math.max(1,n))));
+      const q=useC?Math.round(Math.min(100,60+40*cl.cf/.6)):Math.round(100*(1-Math.min(1,(dS+ev.filter(e=>e.est).length)/Math.max(1,n))));
       rec.t=ev.map(e=>Math.round((e.t-ws)*100));if(q>=70&&ev[0].t-ws>-(.8+Math.abs(phS)))rec.wej=Math.round((ev[0].t-ws)*100)/100; /* wejście z pierwszej sylaby: przy zwartym flow głos nie milknie między wersami, więc start „ciągu głosu” go nie pokaże; przedtakt (np. „moi” przed jedynką) daje wartość ujemną */
       rec.d=ev.map(e=>Math.max(3,Math.round(e.dd*100)));rec.q=q;
       const es=[];ev.forEach((e,i)=>{if(e.est)es.push(i)});if(es.length)rec.es=es;
@@ -1770,7 +1818,7 @@ function flowAnalizaRaz(x,sr,g,syl){
   v.forEach(q=>{delete q._ev;delete q._ws;delete q._n;delete q._bm;delete q._sp;delete q._sek;if(q.pk)q.pkS=Math.max(1,Math.round(q.pk/U))});
   /* cisza na końcu to miejsce, gdzie skończyło się nagrywanie, a nie brakujący wers */
   while(v.length&&v[v.length-1].pz)v.pop();
-  const R_=flowWynik(v,W,off);if(R_){R_.faza=phB;if(g.ph==null)R_.fa=1}return R_}
+  const R_=flowWynik(v,W,off);if(R_){R_.faza=phB;if(g.ph==null)R_.fa=1;if(usedC){R_.ver=6;R_.ctc=1}}return R_}
 function flowWynik(v,W,off){const ok=v.filter(q=>q.sS!=null),wj=v.filter(q=>q.wej!=null).map(q=>q.wej).sort((a,b)=>a-b);
   if(!ok.length)return null;
   return {ver:5,v,okno:Math.round(W*100)/100,sylS:Math.round(ok.reduce((a,q)=>a+q.sS,0)/ok.length*10)/10,sylOkno:(()=>{const t=v.filter(q=>!q.brak);return t.length?Math.round(t.reduce((a,q)=>a+q.syl,0)/t.length*10)/10:0})(),wej:wj.length?wj[Math.floor(wj.length/2)]:null,off:Math.round(off*100)/100}}
@@ -1781,7 +1829,7 @@ function flowAnaliza1(x,sr,g,syl){
   if(R.length<3||R.some(r=>r.v.length!==b0.v.length||r.v.some((q,k)=>q.li!==b0.v[k].li||!!q.brak!==!!b0.v[k].brak)))return b0;
   const ex=q=>(q.x||[]).reduce((a,z)=>a+z[1],0);
   const v=b0.v.map((_,k)=>{const c=R.map(r=>r.v[k]).sort((a,b)=>ex(a)-ex(b)||(b.q||0)-(a.q||0));return c[Math.floor((c.length-1)/2)]});
-  const o_=flowWynik(v,b0.okno,b0.off);if(o_){o_.faza=b0.faza;if(b0.fa)o_.fa=1}return o_}
+  const o_=flowWynik(v,b0.okno,b0.off);if(o_){o_.faza=b0.faza;if(b0.fa)o_.fa=1;if(b0.ctc){o_.ctc=1;o_.ver=6}}return o_}
 async function dekoduj(blob){const OC=window.OfflineAudioContext||window.webkitOfflineAudioContext;if(!OC)return null;
   const buf=await new OC(1,1,44100).decodeAudioData(await blob.arrayBuffer()),x=new Float32Array(buf.length);
   for(let k=0;k<buf.numberOfChannels;k++){const d=buf.getChannelData(k);for(let i=0;i<x.length;i++)x[i]+=d[i]/buf.numberOfChannels}
@@ -1798,13 +1846,20 @@ function flowAnaliza(x,sr,g,syl){
   if(alt){try{const b=flowAnaliza1(x,sr,alt,syl);if(b&&flowOknoWynik(b)>flowOknoWynik(a)+8){best=b;bg=alt;ba=1}}catch(e){}}
   best.bity=4*(bg.spd===2?2:1);if(ba)best.auto=1;return best}
 /* zwraca {dur: prawdziwa długość dźwięku w pliku, rap: raport flow albo null}; dur służy też do wykrycia ucietych nagrań (iOS potrafi urwać mikrofon) */
-async function flowZBloba(blob,grid,syl){const dk=await dekoduj(blob);if(!dk)return null;
-  return {dur:dk.dur,rap:(grid&&syl&&syl.length)?flowAnaliza(dk.x,dk.sr,grid,syl):null}}
+async function flowZBloba(blob,grid,syl,note,explicit){const dk=await dekoduj(blob);if(!dk)return null;
+  let rap=(grid&&syl&&syl.length)?flowAnaliza(dk.x,dk.sr,grid,syl):null;CTCERR='';
+  /* dokładna analiza (CTC): tylko dla nagrań, w których stara analiza coś znalazła; jej błąd nigdy nie psuje wyniku starej */
+  if(rap&&ctcOn()&&(rap.v||[]).some(q=>q.li!=null)){
+    try{if(await ctcReady(note,explicit)){
+      const nRec=Math.max(...rap.v.map(q=>q.li==null?-1:q.li))+1,ct=await ctcLines(dk.x,dk.sr,syl,nRec,(e,f)=>note&&note((CTCTXT[e]||e)+(e==='liczenie'?' '+Math.round(f*100)+'%':'')+'…'));
+      if(ct&&ct.list.length){const r2=flowAnaliza(dk.x,dk.sr,{...grid,ctc:ct},syl);if(r2&&r2.ctc)rap=r2;else CTCERR='nie użyto: za mało rozpoznanych wersów'}}}
+    catch(e){CTCERR=String(e&&e.message||e)}}
+  return {dur:dk.dur,rap,ctcErr:CTCERR}}
 const f1=v=>String(Math.round(v*10)/10).replace('.',','),f2=v=>String(Math.round(v*100)/100).replace('.',',');
 function raportTxt(p){if(!p)return '';const w=p.wej==null?'':p.wej>=0?' · wejście '+f2(p.wej)+(p.faza?' s po początku okna':' s po jedynce'):' · wejście '+f2(-p.wej)+(p.faza?' s przed początkiem okna':' s przed jedynką');
   const ex=(p.v||[]).reduce((a,q)=>a+((q.q>=70&&q.x)?q.x.length:0),0);
   const nr=(q,k)=>q.li!=null?q.li+1:k+1,bl=(p.v||[]).map((q,k)=>q.b?nr(q,k):0).filter(Boolean),pz=(p.v||[]).map((q,k)=>q.pz||q.pk?nr(q,k):0).filter(Boolean);
-  return f1(p.sylS)+' sylaby/s'+w+' · ok. '+Math.round(p.sylOkno)+' sylab na wers (okno '+(p.bity?p.bity+' uderzeń, ':'')+f2(p.okno)+' s'+(p.auto?', dobrane automatycznie':'')+(p.faza?', początek okna '+(p.faza>0?'+':'')+p.faza+(Math.abs(p.faza)===1?' uderzenie':' uderzenia')+' (auto)':'')+')'+(ex?' · przeciągnięć: '+ex:'')+(bl.length?' · bełkot w wersie '+bl.join(', '):'')+(pz.length?' · pauza w wersie '+pz.join(', '):'')}
+  return (p.ctc?'dokładna analiza (CTC) · ':'')+f1(p.sylS)+' sylaby/s'+w+' · ok. '+Math.round(p.sylOkno)+' sylab na wers (okno '+(p.bity?p.bity+' uderzeń, ':'')+f2(p.okno)+' s'+(p.auto?', dobrane automatycznie':'')+(p.faza?', początek okna '+(p.faza>0?'+':'')+p.faza+(Math.abs(p.faza)===1?' uderzenie':' uderzenia')+' (auto)':'')+')'+(ex?' · przeciągnięć: '+ex:'')+(bl.length?' · bełkot w wersie '+bl.join(', '):'')+(pz.length?' · pauza w wersie '+pz.join(', '):'')}
 /* ---- pomiary flow'u w reszcie aplikacji ----
    flowPomiary: wersy (po tekście) z zaufanym pomiarem sylab z nagrań BIEŻĄCEJ notatki; nowsze nagranie nadpisuje starsze. Dzięki temu licznik sylab zna prawdziwe przeciągnięcia.
    flowProfil: odcisk palca Veri ze wszystkich nagrań ver:2 (maks. 12 najnowszych). flowZakres: ile sylab mieści wers przy danym tempie. */
@@ -1914,18 +1969,18 @@ function flowDlaWersu(idx){const n=T.get(cur);if(!n)return '';
   else if(!r&&n.bpm){const t=4*60/n.bpm*metSpd();out+=`Tempo: ${n.bpm} BPM${metSpd()===2?' (metronom 2× wolniej)':''}, jeden wers trwa ok. ${f2(t)} s, czyli komfortowo mieści ${Math.round(t*4.5)}–${Math.round(t*6)} sylab. Cel długości z reguł niżej ma pierwszeństwo.\n`}
   return out}
 /* ---- nagrania głosowe ---- */
-const flowBtn=r=>r.siatka&&!r.ucieta&&(!r.raport||(r.raport.ver||1)<5)?`<button class="pill rflow" type="button" data-id="${esc(r.id)}">${r.raport?((r.raport.ver||1)>=3?'Przelicz flow (faza okna wersów)':(r.raport.ver||1)>=2?'Przelicz flow (nowa miara przeciągnięć)':'Przelicz flow (nowa analiza sylab)'):'Przelicz flow'}</button>`:'';
+const flowBtn=r=>r.siatka&&!r.ucieta&&(!r.raport||(r.raport.ver||1)<5||((r.raport.ver||1)<6&&ctcOn()))?`<button class="pill rflow" type="button" data-id="${esc(r.id)}">${r.raport?((r.raport.ver||1)>=5?'Przelicz flow (dokładna analiza, model CTC)':(r.raport.ver||1)>=3?'Przelicz flow (faza okna wersów)':(r.raport.ver||1)>=2?'Przelicz flow (nowa miara przeciągnięć)':'Przelicz flow (nowa analiza sylab)'):'Przelicz flow'}</button>`:'';
 /* przelicza nagranie z zapisanego pliku (faza okna zawsze automatyczna) */
 async function flowRecalc(r,back,btn){const n=T.get(cur);if(!n)return;
   if(btn){btn.textContent='Liczę…';btn.disabled=true}
   try{const L=$('#body').value.split('\n');let idx=-1;for(let i=0;i<L.length;i++)if(isLabel(L[i])&&labName(L[i])===r.czesc){idx=i;break}
     if(idx<0){back('Nie znalazłam części „'+(r.czesc||'?')+'” w tekście, więc nie wiem, które wersy przeliczyć.');return}
     const syl=flowLinie(partLines(idx));
-    const url=await window.NT.blobUrl(r.id),blob=await (await fetch(url)).blob(),fz=await flowZBloba(blob,r.siatka,syl);
+    const url=await window.NT.blobUrl(r.id),blob=await (await fetch(url)).blob(),fz=await flowZBloba(blob,r.siatka,syl,t=>{if(btn)btn.textContent=t},true);
     if(!fz){back('Ta przeglądarka nie potrafi odczytać nagrania.');return}
     if(r.sek&&fz.dur<r.sek*.6){r.ucieta=true;r.sek=Math.round(fz.dur*10)/10;touch(n);back('Nagranie jest ucięte: w pliku jest '+f1(fz.dur)+' s dźwięku. Nagraj jeszcze raz.');return}
     if(!fz.rap){back('Nie udało się wykryć głosu w nagraniu.');return}
-    r.raport=fz.rap;touch(n);back('Flow: '+raportTxt(fz.rap)+'.')}
+    r.raport=fz.rap;touch(n);back('Flow: '+raportTxt(fz.rap)+'.'+(fz.ctcErr?' (Dokładna analiza pominięta: '+fz.ctcErr+'.)':''))}
   catch(e){back('Nie udało się przeliczyć ('+(e&&e.message||'błąd')+').')}}
 function bindFlow(){const back=m=>(sheetRe||sheetRec)(m),find=b=>{const n=T.get(cur);return n&&(n.nagrania||[]).find(x=>x.id===b.dataset.id)};
   document.querySelectorAll('#sheet .rflow').forEach(b=>b.onclick=()=>{const r=find(b);if(r)flowRecalc(r,back,b)})}
@@ -2004,7 +2059,7 @@ async function saveAudio(blob,sek,nm,czesc,grid,syl,mic){const n=T.get(cur);if(!
   let as=null;try{as=await claude.use('assets')}catch(e){}
   if(!as){recNote('Wgrywanie nagrań działa tylko dla właściciela notatnika.');return}
   recNote('Zapisuję nagranie…');let up=null,err=null,rap=null;
-  let real=null;try{const fz=await flowZBloba(blob,grid,syl);if(fz){real=fz.dur;rap=fz.rap}}catch(e){}
+  let real=null;try{const fz=await flowZBloba(blob,grid,syl,t=>recNote(t));if(fz){real=fz.dur;rap=fz.rap}}catch(e){}
   const ucieta=real!=null&&sek>3&&real<sek*.6;if(ucieta)rap=null;
   const micTxt=mic&&(mic.mute!=null||mic.end!=null)?' System '+(mic.end!=null?'przerwał':'wyciszył')+' mikrofon po '+f1(mic.end!=null?mic.end:mic.mute)+' s.':'';
   try{up=await as.upload(blob)}catch(e){err=e;
