@@ -187,7 +187,7 @@ html{touch-action:pan-x pan-y}#scroll{touch-action:pan-y}
 #selwrap{position:sticky;top:44px;height:0;z-index:4}
 #selbar{position:absolute;left:0;right:0;top:0;z-index:4;display:flex;align-items:center;gap:8px;padding-top:7px;padding-bottom:7px;background:var(--bg);border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
 #selbar[hidden]{display:none}#selw{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;color:var(--fg)}
-.ln.ro{cursor:default}.ln{display:flex;gap:12px;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer;line-height:1.35}.ln div{flex:1;min-width:0}.ln span{flex:none;max-width:36%;font-size:12.5px;color:var(--dim);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ln b{font-weight:700;color:var(--acc)}
+.ln.ro{cursor:pointer}.ln{display:flex;gap:12px;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer;line-height:1.35}.ln div{flex:1;min-width:0}.ln span{flex:none;max-width:36%;font-size:12.5px;color:var(--dim);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ln b{font-weight:700;color:var(--acc)}
 .rsec{margin:0 0 22px}.rsec h3{margin:6px 0 4px;font:700 19px/1.2 var(--font-d)}.rsec h3 span{font:400 13px var(--font);color:var(--dim);margin-left:8px}
 #ow{margin:2px 0 12px;padding:10px 12px;border-radius:12px;background:var(--chip)}#ow .owr{display:flex;gap:10px;align-items:baseline}#ow .owo{font-weight:600}#ow .dim{color:var(--dim);font-weight:400}#ow #owT{margin-left:auto;font-variant-numeric:tabular-nums;font-size:20px}#ow .owb{display:flex;gap:8px;margin:8px 0}#ow .owb button{padding:6px 14px;border-radius:999px;border:1px solid var(--line);color:var(--acc)}#ow .owb .pri{background:var(--acc);color:#fff;border-color:var(--acc)}#ow .owh{font-size:13px;color:var(--dim)}
 code.sch{white-space:pre;letter-spacing:.12em;font-weight:600}
@@ -317,7 +317,6 @@ label.lfull{display:flex;gap:8px;align-items:center;margin:4px 0 10px;color:var(
     </header>
     <div id="notes" class="gut"><div class="state" id="loading">Wczytuję teksty…</div></div>
     <button id="fab" aria-label="Nowy tekst" title="Nowy tekst (⌘N)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.4 2.6a2 2 0 0 1 2.9 2.9L12 14.8l-3.8.9.9-3.8z"/></svg></button>
-<button id="bugBtn" type="button" aria-label="Zgłoś problem" title="Zgłoś problem">!</button>
   </section>
 
   <section class="pane" id="editPane">
@@ -376,6 +375,7 @@ label.lfull{display:flex;gap:8px;align-items:center;margin:4px 0 10px;color:var(
 <input type="file" id="recFile" accept="audio/*,video/mp4,.m4a,.mp3,.wav,.aac,.caf,.webm,.ogg" multiple hidden>
 <div id="sheetBg" hidden><div id="sheet" role="dialog" aria-modal="true"></div></div>
 
+<button id="bugBtn" type="button" aria-label="Zgłoś problem" title="Zgłoś problem">!</button>
 <script src="config.js"></script>
 <script src="drive.js"></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -1211,7 +1211,7 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
     if(!byq)body=grp(items,sk);
     else{const top=items.filter(c=>c.q>=3),rest=[2,1,0].map(q=>[q,items.filter(c=>c.q===q)]).filter(x=>x[1].length);
       body=(top.length?grp(top,sk+'t'):'<div class="hint">Brak pełnych rymów. Poniżej bliższe i dalsze.</div>')+
-        rest.map(([q,arr],i)=>`<details class="rq" ${!top.length&&i===0?'open':''}><summary>${QT[q].split(':')[0]}<span>${arr.length}</span></summary><div class="hint">${QT[q].split(': ')[1]||''}</div>${grp(arr,sk+'q'+q)}</details>`).join('')}
+        rest.map(([q,arr],i)=>`<details class="rq" ${(q===2||(!top.length&&i===0))?'open':''}><summary>${QT[q].split(':')[0]}<span>${arr.length}</span></summary><div class="hint">${QT[q].split(': ')[1]||''}</div>${grp(arr,sk+'q'+q)}</details>`).join('')}
     return `<div class="rsec"><h3>${title}<span>${items.length}${items.length>=400?'+':''} wyników</span></h3>${desc?`<div class="hint">${desc}</div>`:''}${body}</div>`};
   let html='';
   if(rmode==='all'){$('#rsyl').innerHTML='';
@@ -1226,7 +1226,7 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
     const tail=t=>lfull?t:t.split(/\s+/).slice(-3).join(' ');
     const ln=a=>a.map(x=>`<div class="ln" data-id="${esc(x.n.id)}"><div>${hl(tail(x.l),qw)}</div><span>${esc(x.n.tytul||'Bez tytułu')}</span></div>`).join('');
     if(lastR.WL===undefined){lastR.WL=null;const L0=lastR;loadWL().then(W=>{L0.WL=W?wlSearch(W,k,qw,q):false;if(lastR===L0&&rmode==='lin')drawRymy()})}
-    const lw=a=>a.map(x=>`<div class="ln ro"><div>${hl(tail(x.t),qw)}</div><span>${esc(x.m.a)}${x.m.a&&x.m.t&&x.m.t!==x.m.a?', ':''}${esc(x.m.t===x.m.a?'':x.m.t)}</span></div>`).join('');
+    const lw=a=>a.map(x=>`<div class="ln ro" data-u="${esc('https://www.google.com/search?q='+encodeURIComponent('"'+x.t.replace(/[„”"]/g,'').trim()+'" '+[x.m.a,x.m.t===x.m.a?'':x.m.t].filter(Boolean).join(' ')))}"><div>${hl(tail(x.t),qw)}</div><span>${esc(x.m.a)}${x.m.a&&x.m.t&&x.m.t!==x.m.a?', ':''}${esc(x.m.t===x.m.a?'':x.m.t)}</span></div>`).join('');
     const W=lastR.WL,wlN=a=>W&&W[a]?W[a].length:0;
     const sec2=(t,arr,body)=>arr&&arr.length?`<div class="rsec"><h3>${t}<span>${arr.length}</span></h3>${body}</div>`:'';
     const has=lsub==='has';
@@ -1251,7 +1251,7 @@ function drawRymy(){if(!lastR)return;const {q,k,R,loadErr}=lastR;
   $('#rres').innerHTML=html;
   $('#rres').querySelectorAll('.rc').forEach(b=>b.onclick=()=>{if(b.dataset.x){rExp.add(b.dataset.x);drawRymy();return}wordCard(b.dataset.p,!!b.dataset.sg)});
   $('#rres').querySelectorAll('#lsub button').forEach(b=>b.onclick=()=>{lsub=b.dataset.s;ls('nt-lsub',lsub);drawRymy()});const lf=$('#lfull');if(lf)lf.onchange=()=>{lfull=lf.checked;ls('nt-lfull',lfull?'1':'0');drawRymy()};
-  $('#rres').querySelectorAll('.ln').forEach(b=>b.onclick=()=>{openNote(b.dataset.id);showTab('text')});
+  $('#rres').querySelectorAll('.ln').forEach(b=>b.onclick=()=>{if(b.dataset.u){window.open(b.dataset.u,'_blank','noopener');return}openNote(b.dataset.id);showTab('text')});
   $('#rres').querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{const e=document.getElementById(b.dataset.go);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})})}
 /* ---- Warsztat: środki stylistyczne i rymy w Twoim tekście (wiedza z artykułów agrochowski.pl, streszczona własnymi słowami) ---- */
 const SRODKI={
@@ -1522,9 +1522,9 @@ function sheetMore(){const n=T.get(cur);if(!n)return;
   $('#impBtn').onclick=()=>$('#impFile').click();$('#syncBtn').onclick=()=>{window.NT.syncNow();$('#exMsg').textContent='Synchronizuję…'};
   $('#delBtn').onclick=()=>{closeSheet();pytajUsun()}}
 
-/* GŁOŚNY ODSŁUCH (nt-v95). Nagrania robione bez przetwarzania mikrofonu (nt-v92: bez AGC, żeby iOS nie ściszał metronomu) są ciche: na głosówkach Veri średnio −35…−41 dBFS RMS, szczyt −21 dBFS (stare nagranie z AGC: −24/−2,5). Odsłuch idzie więc przez łańcuch: wzmocnienie wstępne do szczytu (percentyl 99,5) ok. −6 dBFS, kompresor (próg −30 dB, 4:1), wzmocnienie 4 dB, limiter (próg −4 dB, 20:1). Pomiar offline na 5 jego nagraniach: RMS −41…−38 → ok. −11…−9 dBFS, szczyt poniżej 0. Plik nie jest zmieniany. Na iOS Web Audio milknie przy wyciszonym dzwonku, więc przed budową łańcucha idzie metUnlock() (sesja „playback” + cicha pętla, jak przy metronomie). Przełącznik w menu nagrywania (nt-loud), gdy coś nie gra: wyłączony odsłuch gra plik wprost. */
+/* GŁOŚNY ODSŁUCH (nt-v95). Nagrania robione bez przetwarzania mikrofonu (nt-v92: bez AGC, żeby iOS nie ściszał metronomu) są ciche: na głosówkach Veri średnio −35…−41 dBFS RMS, szczyt −21 dBFS (stare nagranie z AGC: −24/−2,5). Odsłuch idzie więc przez łańcuch: wzmocnienie wstępne do szczytu (percentyl 99,5) ok. −6 dBFS, kompresor (próg −30 dB, 4:1), wzmocnienie 4 dB, limiter (próg −4 dB, 20:1). Pomiar offline na 5 jego nagraniach: RMS −41…−38 → ok. −11…−9 dBFS, szczyt poniżej 0. Plik nie jest zmieniany. Na iOS Web Audio milknie przy wyciszonym dzwonku, więc przed budową łańcucha idzie metUnlock() (sesja „playback” + cicha pętla, jak przy metronomie). Od nt-v98 bez przełącznika (zawsze włączony); gdy łańcuch się nie zbuduje, odsłuch gra plik wprost. */
 const LOUD={ctx:null,g:new Map()};
-const loudOn=()=>ls('nt-loud')!=='0';
+const loudOn=()=>true; /* nt-v98: na życzenie Veri bez przełącznika, odsłuch zawsze głośny */
 function loudNodes(c,pre){const g=c.createGain(),cp=c.createDynamicsCompressor(),mk=c.createGain(),lm=c.createDynamicsCompressor();
   g.gain.value=pre;cp.threshold.value=-30;cp.knee.value=20;cp.ratio.value=4;cp.attack.value=.003;cp.release.value=.15;mk.gain.value=Math.pow(10,4/20);
   lm.threshold.value=-4;lm.knee.value=0;lm.ratio.value=20;lm.attack.value=.001;lm.release.value=.08;
@@ -1538,8 +1538,6 @@ async function loudChain(a,id,url){const AC=window.AudioContext||window.webkitAu
   try{metUnlock();const pre=await loudGain(id,url);
     if(!LOUD.ctx||LOUD.ctx.state==='closed')LOUD.ctx=new AC();const c=LOUD.ctx;if(c.resume)await c.resume();if(c.state!=='running')return false;
     const n=loudNodes(c,pre),s=c.createMediaElementSource(a);s.connect(n.in);n.out.connect(c.destination);return true}catch(e){return false}}
-const loudRow=()=>`<div class="row"><span>Głośny odsłuch nagrań</span><button class="sw ${loudOn()?'on':''}" id="pLoud" role="switch" aria-checked="${loudOn()}" aria-label="Głośny odsłuch nagrań"></button></div>`;
-function loudBind(){const b=$('#pLoud');if(b)b.onclick=()=>{const v=!loudOn();ls('nt-loud',v?'1':'0');b.classList.toggle('on',v);b.setAttribute('aria-checked',v)}}
 let curAud=null;
 function bindAudio(){document.querySelectorAll('#sheet .aud').forEach(box=>{const b=box.querySelector('.play'),d=box.querySelector('.dur');
   b.onclick=async()=>{
@@ -1597,14 +1595,13 @@ function sheetPart(idx,name,msg){const n=T.get(cur);if(!n)return;sheetRe=m=>shee
   <div class="row"><span>Tempo</span><button class="pill ${bpm?'set':''}" id="pBpm" type="button">${bpm?`<b>${bpm}</b> BPM · zmień`:'Ustaw tempo'}</button></div>
   <div class="row"><span>Metronom</span><button class="sw ${met?'on':''}" id="pMet" role="switch" aria-checked="${met}" aria-label="Metronom"></button></div>
   ${metSpdRow()}
-  ${loudRow()}
   <div class="row"><span>Odliczanie (uderzeń)</span><div class="seg" id="pCnt">${[0,2,4,8].map(c=>`<button data-c="${c}" class="${cnt===c?'on':''}">${c||'brak'}</button>`).join('')}</div></div>
   <div class="partTxt">${lines.length?lines.map(l=>`<div>${esc(l)||'&nbsp;'}</div>`).join(''):'<div class="hint">Ta część nie ma jeszcze tekstu.</div>'}</div>
   <div class="hint" id="recMsg">${esc(msg||(bpm?'Metronom z głośnika nagra się razem z głosem i o to chodzi: po nagraniu będzie wiadomo, kiedy wchodzisz względem taktu. Jeśli bit leci z innego urządzenia, wyłącz metronom.':'Bez tempa metronom nie zagra. Ustaw je wyżej.'))}</div>
   ${barHtml()}
   <div class="shBtns"><button id="recGo">● Nagraj</button><button id="pTest">▶ Metronom</button></div>
   ${takes.length?`<div id="recList">`+takes.slice().reverse().map(r=>`<div class="rec"><div class="recT"><b>${esc(r.nazwa)}</b><span>${new Date(r.ts).toLocaleDateString('pl-PL',{day:'numeric',month:'numeric'})}${r.sek?' · '+fmtSek(r.sek):''}</span><button class="rdel" data-id="${esc(r.id)}">Usuń</button></div><div class="aud" data-id="${esc(r.id)}"><button class="pill play" type="button">▶ Odtwórz</button><span class="dur"></span></div>${r.raport?`<div class="hint">${esc(raportTxt(r.raport))}</div>`:''}${flowMapDet(r)}${r.ucieta?`<div class="hint">Ucięte nagranie: w pliku jest tylko ${String(r.sek).replace('.',',')} s dźwięku. Nagraj jeszcze raz.</div>`:''}${flowBtn(r)}</div>`).join('')+'</div>':''}`);
-  $('#x').onclick=closeSheet;bindAudio();bindFlow();loudBind();metSpdBind(()=>metStart(bpm));
+  $('#x').onclick=closeSheet;bindAudio();bindFlow();metSpdBind(()=>metStart(bpm));
   $('#pBpm').onclick=()=>{closeSheet();sheetBpm(()=>sheetPart(idx,name))};
   $('#pMet').onclick=()=>{const v=ls('nt-met')==='0';ls('nt-met',v?'1':'0');$('#pMet').classList.toggle('on',v);$('#pMet').setAttribute('aria-checked',v)};
   $('#pCnt').querySelectorAll('button').forEach(b=>b.onclick=()=>{ls('nt-cnt',b.dataset.c);$('#pCnt').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b))});
@@ -1939,9 +1936,8 @@ function sheetRec(msg){const n=T.get(cur);if(!n)return;sheetRe=sheetRec;const li
   openSheet(`<div class="shHead"><h3>Nagrania</h3><button class="x" id="x" aria-label="Zamknij">×</button></div>
   <div id="recList">${list.length?list.slice().reverse().map(r=>`<div class="rec"><div class="recT"><b>${esc(r.nazwa)}</b><span>${new Date(r.ts).toLocaleDateString('pl-PL',{day:'numeric',month:'numeric'})}${r.sek?' · '+fmtSek(r.sek):''}</span><button class="rdel" data-id="${esc(r.id)}" aria-label="Usuń nagranie">Usuń</button></div><div class="aud" data-id="${esc(r.id)}"><button class="pill play" type="button">▶ Odtwórz</button><span class="dur"></span></div>${r.raport?`<div class="hint">${esc(raportTxt(r.raport))}</div>`:''}${flowMapDet(r)}${r.ucieta?`<div class="hint">Ucięte nagranie: w pliku jest tylko ${String(r.sek).replace('.',',')} s dźwięku. Nagraj jeszcze raz.</div>`:''}${flowBtn(r)}</div>`).join(''):'<p class="hint">Brak nagrań. Nagraj pomysł głosem albo dodaj plik z Dyktafonu.</p>'}</div>
   <div class="hint" id="recMsg">${esc(msg||'')}</div>
-  ${loudRow()}
   <div class="shBtns"><button id="recGo">● Nagraj</button><button id="recAdd">Dodaj plik</button></div>`);
-  $('#x').onclick=closeSheet;$('#recGo').onclick=recToggle;$('#recAdd').onclick=()=>$('#recFile').click();bindAudio();bindFlow();loudBind();
+  $('#x').onclick=closeSheet;$('#recGo').onclick=recToggle;$('#recAdd').onclick=()=>$('#recFile').click();bindAudio();bindFlow();
   $('#sheet').querySelectorAll('.rdel').forEach(b=>bindDel(b,n))}
 async function recToggle(opt){opt=opt||{};
   if(recS.rec){recS.rec.stop();return}
